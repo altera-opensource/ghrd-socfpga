@@ -1,0 +1,10 @@
+OCRAM 0xFFE00000 0x20000
+{
+    APP_CODE +0 ABSOLUTE
+    {
+        * (+RO, +RW, +ZI)
+    }
+
+    ARM_LIB_STACKHEAP    +0 ALIGN 64 EMPTY 0x4000 {}
+    EL3_STACKS       +0 ALIGN 64 EMPTY 0x1000 {}
+}

@@ -1,0 +1,15 @@
+#
+# Copyright Altera 2013
+# All Rights Reserved
+# File: altera_avalon_pio_led.ds
+#
+
+# Turn LEDS OFF
+define altera_avalon_pio_leds_off
+   set var $Peripherals::$altera_avalon_pio_led_pio_s1::$altera_avalon_pio_led_pio_s1_DATA = 0xffffffff
+end
+
+# Turn LEDS ON
+define altera_avalon_pio_leds_on
+   set var $Peripherals::$altera_avalon_pio_led_pio_s1::$altera_avalon_pio_led_pio_s1_DATA = 0x0
+end

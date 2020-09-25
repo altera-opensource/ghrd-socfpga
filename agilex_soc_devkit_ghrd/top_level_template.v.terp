@@ -1,0 +1,889 @@
+//****************************************************************************
+//
+// SPDX-License-Identifier: MIT-0
+// Copyright(c) 2019-2020 Intel Corporation.
+//
+//****************************************************************************
+// This is a generated system top level RTL file. 
+
+@@if {$hps_emif_ecc_en == 1} {
+@@   incr hps_emif_width 8
+@@   set hps_ddr_w $hps_emif_width
+@@   set hps_ddr_dm_w [expr $hps_emif_width/8]
+@@   set hps_ddr_dqs_w [expr $hps_emif_width/8]
+@@} else {
+@@   set hps_ddr_w $hps_emif_width
+@@   set hps_ddr_dm_w [expr $hps_emif_width/8]
+@@   set hps_ddr_dqs_w [expr $hps_emif_width/8]
+@@}
+
+@@if {$fpga_emif_ecc_en == 1} {
+@@   incr fpga_emif_width 8
+@@   set fpga_ddr_w $fpga_emif_width
+@@   set fpga_ddr_dm_w [expr $fpga_emif_width/8]
+@@   set fpga_ddr_dqs_w [expr $fpga_emif_width/8]
+@@} else {
+@@   set fpga_ddr_w $fpga_emif_width
+@@   set fpga_ddr_dm_w [expr $fpga_emif_width/8]
+@@   set fpga_ddr_dqs_w [expr $fpga_emif_width/8]
+@@}
+
+module ${top_name} (
+//Additional refclk_bti to preserve Etile XCVR
+input    wire          refclk_bti,
+// Clock and Reset
+@@if {$h2f_user0_clk_en == 0} {
+input    wire [1-1:0]  fpga_clk_100,
+@@}
+@@if {$fpga_peripheral_en == 1} {
+output   wire [$fpga_led_pio_width-1:0]  fpga_led_pio,
+input    wire [$fpga_dipsw_pio_width-1:0]  fpga_dipsw_pio,
+input    wire [$fpga_button_pio_width-1:0]  fpga_button_pio,
+@@}
+@@if {$fpga_pcie == 1} {
+input    wire           pcie_hip_refclk0_clk,
+input    wire           pcie_hip_refclk1_clk,
+//input    wire [$pcie_count-1:0]      pcie_hip_serial_rx_in,  
+//output   wire [$pcie_count-1:0]      pcie_hip_serial_tx_out,
+input    wire [16-1:0]      pcie_hip_serial_rx_p_in,  
+input    wire [16-1:0]      pcie_hip_serial_rx_n_in,  
+output   wire [16-1:0]      pcie_hip_serial_tx_p_out,
+output   wire [16-1:0]      pcie_hip_serial_tx_n_out,
+input    wire           pcie_hip_npor_pin_perst,
+@@if {$board == "mUDV2"} {
+//mUDV2
+output   wire           u10_gpio_perst_remote,      //FM_PCIE_ROOTPORT_IO_N
+output   wire           u10_gpio_perst_local,       //FM6_CPU_RESET_N
+@@} else {
+//devkit
+output   wire           fpga_gpio0,       //fpga_pcie_perstn to MAX10
+@@}
+@@}
+//HPS
+@@if {$hps_en == 1} {
+@@if {$hps_emif_en == 1} {
+// HPS EMIF
+@@if {$hps_emif_type == "ddr4"} {
+output   wire [0:0]    emif_hps_mem_mem_ck,
+output   wire [0:0]    emif_hps_mem_mem_ck_n,
+output   wire [16:0]   emif_hps_mem_mem_a,
+output   wire [0:0]    emif_hps_mem_mem_act_n,
+output   wire [1:0]    emif_hps_mem_mem_ba,
+output   wire [$hps_emif_bank_gp_width-1:0]    emif_hps_mem_mem_bg,
+output   wire [0:0]    emif_hps_mem_mem_cke,
+output   wire [0:0]    emif_hps_mem_mem_cs_n,
+output   wire [0:0]    emif_hps_mem_mem_odt,
+output   wire [0:0]    emif_hps_mem_mem_reset_n,
+output   wire [0:0]    emif_hps_mem_mem_par,
+input    wire [0:0]    emif_hps_mem_mem_alert_n,
+input    wire          emif_hps_oct_oct_rzqin,
+input    wire          emif_hps_pll_ref_clk,
+inout    wire [$hps_ddr_dm_w-1:0]   emif_hps_mem_mem_dbi_n,
+inout    wire [$hps_ddr_w-1:0]   emif_hps_mem_mem_dq,
+inout    wire [$hps_ddr_dqs_w-1:0]   emif_hps_mem_mem_dqs,
+inout    wire [$hps_ddr_dqs_w-1:0]   emif_hps_mem_mem_dqs_n,
+@@}
+@@}
+@@if {$hps_jtag_en == 1} {
+input    wire        hps_jtag_tck,
+input    wire        hps_jtag_tms,
+output   wire        hps_jtag_tdo,
+input    wire        hps_jtag_tdi,
+@@}
+@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_en == 1 || $hps_sdmmc4b_q4_en == 1 || $hps_sdmmc8b_q4_en == 1} {
+output   wire        hps_sdmmc_CCLK, 
+inout    wire        hps_sdmmc_CMD,          
+inout    wire        hps_sdmmc_D0,          
+inout    wire        hps_sdmmc_D1,          
+inout    wire        hps_sdmmc_D2,        
+inout    wire        hps_sdmmc_D3,        
+@@}
+@@if {$hps_sdmmc8b_q1_en == 1 || $hps_sdmmc8b_q4_en == 1} {
+inout    wire        hps_sdmmc_D4,          
+inout    wire        hps_sdmmc_D5,          
+inout    wire        hps_sdmmc_D6,        
+inout    wire        hps_sdmmc_D7,  
+@@}
+@@if {$hps_usb0_en == 1} {
+inout    wire        hps_usb0_DATA0,         
+inout    wire        hps_usb0_DATA1,      
+inout    wire        hps_usb0_DATA2,        
+inout    wire        hps_usb0_DATA3,       
+inout    wire        hps_usb0_DATA4,        
+inout    wire        hps_usb0_DATA5,      
+inout    wire        hps_usb0_DATA6,      
+inout    wire        hps_usb0_DATA7,         
+input    wire        hps_usb0_CLK,         
+output   wire        hps_usb0_STP,       
+input    wire        hps_usb0_DIR,        
+input    wire        hps_usb0_NXT, 
+@@}
+@@if {$hps_usb1_en == 1} {
+inout    wire        hps_usb1_DATA0,         
+inout    wire        hps_usb1_DATA1,      
+inout    wire        hps_usb1_DATA2,        
+inout    wire        hps_usb1_DATA3,       
+inout    wire        hps_usb1_DATA4,        
+inout    wire        hps_usb1_DATA5,      
+inout    wire        hps_usb1_DATA6,      
+inout    wire        hps_usb1_DATA7,         
+input    wire        hps_usb1_CLK,         
+output   wire        hps_usb1_STP,       
+input    wire        hps_usb1_DIR,        
+input    wire        hps_usb1_NXT, 
+@@}
+@@if {$hps_emac0_rmii_en == 1 || $hps_emac0_rgmii_en == 1} {
+output   wire        hps_emac0_TX_CLK,       //TODO: may need to change RMII TX CLK to be input instead, check
+input    wire        hps_emac0_RX_CLK,      
+output   wire        hps_emac0_TX_CTL,
+input    wire        hps_emac0_RX_CTL,      
+output   wire        hps_emac0_TXD0,       
+output   wire        hps_emac0_TXD1,
+input    wire        hps_emac0_RXD0,     
+input    wire        hps_emac0_RXD1,                
+@@}
+@@if {$hps_emac0_rgmii_en == 1} {
+output   wire        hps_emac0_TXD2,        
+output   wire        hps_emac0_TXD3,
+input    wire        hps_emac0_RXD2,        
+input    wire        hps_emac0_RXD3, 
+@@}
+@@if {$hps_mdio0_q1_en == 1 || $hps_mdio0_q3_en == 1 || $hps_mdio0_q4_en == 1} {
+inout    wire        hps_emac0_MDIO,         
+output   wire        hps_emac0_MDC,
+@@}
+@@if {$hps_emac1_rmii_en == 1 || $hps_emac1_rgmii_en == 1} {
+output   wire        hps_emac1_TX_CLK,       
+input    wire        hps_emac1_RX_CLK,      
+output   wire        hps_emac1_TX_CTL,
+input    wire        hps_emac1_RX_CTL,      
+output   wire        hps_emac1_TXD0,       
+output   wire        hps_emac1_TXD1,
+input    wire        hps_emac1_RXD0,     
+input    wire        hps_emac1_RXD1,   
+@@}
+@@if {$hps_emac1_rgmii_en == 1} {
+output   wire        hps_emac1_TXD2,        
+output   wire        hps_emac1_TXD3,
+input    wire        hps_emac1_RXD2,        
+input    wire        hps_emac1_RXD3,
+@@}
+@@if {$hps_mdio1_q1_en == 1 || $hps_mdio1_q4_en == 1} {
+inout    wire        hps_emac1_MDIO,         
+output   wire        hps_emac1_MDC,
+@@}
+@@if {$hps_emac2_rmii_en == 1 || $hps_emac2_rgmii_en == 1} {
+output   wire        hps_emac2_TX_CLK,       
+input    wire        hps_emac2_RX_CLK,      
+output   wire        hps_emac2_TX_CTL,
+input    wire        hps_emac2_RX_CTL,      
+output   wire        hps_emac2_TXD0,       
+output   wire        hps_emac2_TXD1,
+input    wire        hps_emac2_RXD0,     
+input    wire        hps_emac2_RXD1, 
+@@}
+@@if {$hps_emac2_rgmii_en == 1} {
+output   wire        hps_emac2_TXD2,        
+output   wire        hps_emac2_TXD3,
+input    wire        hps_emac2_RXD2,        
+input    wire        hps_emac2_RXD3,
+@@}
+@@if {$hps_mdio2_q1_en == 1 || $hps_mdio2_q3_en == 1} {
+inout    wire        hps_emac2_MDIO,         
+output   wire        hps_emac2_MDC,
+@@}
+@@if {$hps_spim0_q1_en == 1 || $hps_spim0_q4_en == 1} {
+output   wire        hps_spim0_CLK,
+output   wire        hps_spim0_MOSI,
+input    wire        hps_spim0_MISO,
+output   wire        hps_spim0_SS0_N,
+@@}
+@@if {$hps_spim0_2ss_en == 1} {
+output   wire        hps_spim0_SS1_N,
+@@}
+@@if {$hps_spim1_q1_en == 1 || $hps_spim1_q2_en == 1 || $hps_spim1_q3_en == 1} {
+output   wire        hps_spim1_CLK,
+output   wire        hps_spim1_MOSI,
+input    wire        hps_spim1_MISO,
+output   wire        hps_spim1_SS0_N,
+@@}
+@@if {$hps_spim1_2ss_en == 1} {
+output   wire        hps_spim1_SS1_N,
+@@}
+@@if {$hps_spis0_q1_en == 1 || $hps_spis0_q2_en == 1 || $hps_spis0_q3_en == 1} {
+input    wire        hps_spis0_CLK,
+input    wire        hps_spis0_MOSI,
+output   wire        hps_spis0_MISO,
+input    wire        hps_spis0_SS0_N,
+@@}
+@@if {$hps_spis1_q1_en == 1 || $hps_spis1_q3_en == 1 || $hps_spis1_q4_en == 1} {
+input    wire        hps_spis1_CLK,
+input    wire        hps_spis1_MOSI,
+output   wire        hps_spis1_MISO,
+input    wire        hps_spis1_SS0_N,
+@@}
+@@if {$hps_uart0_q1_en == 1 || $hps_uart0_q2_en == 1 || $hps_uart0_q3_en == 1} {
+input    wire        hps_uart0_RX,       
+output   wire        hps_uart0_TX, 
+@@}
+@@if {$hps_uart0_fc_en == 1} {
+input    wire        hps_uart0_CTS_N,       
+output   wire        hps_uart0_RTS_N, 
+@@}
+@@if {$hps_uart1_q1_en == 1 || $hps_uart1_q3_en == 1 || $hps_uart1_q4_en == 1} {
+input    wire        hps_uart1_RX,       
+output   wire        hps_uart1_TX, 
+@@}
+@@if {$hps_uart1_fc_en == 1} {
+input    wire        hps_uart1_CTS_N,       
+output   wire        hps_uart1_RTS_N, 
+@@}
+@@if {$hps_i2c0_q1_en == 1 || $hps_i2c0_q2_en == 1 || $hps_i2c0_q3_en == 1} {
+inout    wire        hps_i2c0_SDA,        
+inout    wire        hps_i2c0_SCL, 
+@@}
+@@if {$hps_i2c1_q1_en == 1 || $hps_i2c1_q2_en == 1 || $hps_i2c1_q3_en == 1 || $hps_i2c1_q4_en == 1} {
+inout    wire        hps_i2c1_SDA,        
+inout    wire        hps_i2c1_SCL, 
+@@}
+@@if {$hps_i2c_emac0_q1_en == 1 || $hps_i2c_emac0_q3_en == 1 || $hps_i2c_emac0_q4_en == 1} {
+inout    wire        hps_i2c_emac0_SDA,        
+inout    wire        hps_i2c_emac0_SCL,  
+@@}
+@@if {$hps_i2c_emac1_q1_en == 1 || $hps_i2c_emac1_q4_en == 1} {
+inout    wire        hps_i2c_emac1_SDA,        
+inout    wire        hps_i2c_emac1_SCL,  
+@@}
+@@if {$hps_i2c_emac2_q1_en == 1 || $hps_i2c_emac2_q3_en == 1 || $hps_i2c_emac2_q4_en == 1} {
+inout    wire        hps_i2c_emac2_SDA,        
+inout    wire        hps_i2c_emac2_SCL,  
+@@}
+@@if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
+output   wire        hps_nand_ALE,
+output   wire        hps_nand_CE_N,
+output   wire        hps_nand_CLE,
+output   wire        hps_nand_RE_N,
+input    wire        hps_nand_RB,
+output   wire        hps_nand_WP_N,
+output   wire        hps_nand_WE_N,
+inout    wire        hps_nand_ADQ0,
+inout    wire        hps_nand_ADQ1,
+inout    wire        hps_nand_ADQ2,
+inout    wire        hps_nand_ADQ3,
+inout    wire        hps_nand_ADQ4,
+inout    wire        hps_nand_ADQ5,
+inout    wire        hps_nand_ADQ6,
+inout    wire        hps_nand_ADQ7,
+@@}
+@@if {$hps_nand_16b_en == 1} {
+inout    wire        hps_nand_ADQ8,
+inout    wire        hps_nand_ADQ9,
+inout    wire        hps_nand_ADQ10,
+inout    wire        hps_nand_ADQ11,
+inout    wire        hps_nand_ADQ12,
+inout    wire        hps_nand_ADQ13,
+inout    wire        hps_nand_ADQ14,
+inout    wire        hps_nand_ADQ15,
+@@}
+@@if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1} {
+output   wire        hps_trace_CLK, 
+output   wire        hps_trace_D0, 
+output   wire        hps_trace_D1, 
+output   wire        hps_trace_D2, 
+output   wire        hps_trace_D3,
+@@}
+@@if {$hps_trace_8b_en == 1 || $hps_trace_12b_en ==1 || $hps_trace_16b_en ==1} {
+output   wire        hps_trace_D4,
+output   wire        hps_trace_D5, 
+output   wire        hps_trace_D6, 
+output   wire        hps_trace_D7, 
+@@}
+@@if {$hps_trace_12b_en == 1 || $hps_trace_16b_en ==1} {
+output   wire        hps_trace_D8,
+output   wire        hps_trace_D9, 
+output   wire        hps_trace_D10, 
+output   wire        hps_trace_D11, 
+@@}
+@@if {$hps_trace_16b_en == 1} {
+output   wire        hps_trace_D12,
+output   wire        hps_trace_D13, 
+output   wire        hps_trace_D14, 
+output   wire        hps_trace_D15, 
+@@}
+@@if {$hps_gpio0_en == 1} {
+@@  foreach io_num $hps_gpio0_list {
+inout    wire        hps_gpio0_io${io_num},
+@@  }
+@@}
+@@if {$hps_gpio1_en == 1} {
+@@  foreach io_num $hps_gpio1_list {
+inout    wire        hps_gpio1_io${io_num},
+@@  }
+@@}
+@@if {$hps_pll_out_en == 1} {
+output   wire        hps_pll0_clk,
+output   wire        hps_pll1_clk,
+output   wire        hps_pll2_clk,
+output   wire        hps_pll3_clk,
+@@}
+@@if {$ftrace_en == 1} {
+output   wire [$ftrace_output_width-1:0]   ftrace_data,
+output   wire        ftrace_clk,
+@@}
+@@}
+@@if {$hps_en == 1} {
+@@if {$hps_io_off == 0} {
+input    wire        hps_ref_clk,
+@@}
+@@}
+input    wire [1-1:0]   fpga_reset_n
+);
+
+wire         system_clk_100;
+wire         system_clk_100_internal;
+@@if {$clk_gate_en == 1} {
+wire         system_clk_100_gated;
+@@}
+wire         ninit_done;
+@@if {$jtag_ocm_en == 1} {
+wire         src_reset_n;
+@@}
+wire         system_reset_n;
+@@if {$fpga_emif_en == 1} {
+wire         emif_usr_reset_n;
+wire         fpga_emif_status_local_cal_success;
+wire         fpga_emif_status_local_cal_fail;
+wire         fpga_emif_local_reset_status_local_reset_done;
+wire         fpga_emif_local_reset_req_local_reset_req;
+@@}
+@@if {$hps_en == 1} {
+wire         h2f_reset;
+@@  if {$h2f_user0_clk_en ==1} {
+wire         h2f_user_clk_clk;
+@@  }
+
+
+@@if {$jtag_ocm_en == 0} {
+assign system_reset_n = ~h2f_reset & ~ninit_done;
+@@} else {
+assign system_reset_n = fpga_reset_n & src_reset_n & ~h2f_reset & ~ninit_done;
+@@}
+@@} else {
+assign system_reset_n = fpga_reset_n & src_reset_n & ~ninit_done;
+@@}
+
+@@  if {$h2f_user0_clk_en  == 1} {
+assign system_clk_100   = h2f_user_clk_clk;
+@@  } else {
+assign system_clk_100   = fpga_clk_100;
+@@  }
+
+@@  if {$clk_gate_en == 1} {
+assign system_clk_100_internal  = system_clk_100_gated;
+@@  } else {
+assign system_clk_100_internal  = system_clk_100;
+@@  }
+
+@@  if {$fpga_peripheral_en ==1} {
+wire [3:0]     fpga_debounced_buttons;
+wire [$fpga_led_pio_width-2:0]     fpga_led_internal;
+wire           heartbeat_led;
+reg  [22:0]    heartbeat_count;
+assign fpga_led_pio = {heartbeat_led,fpga_led_internal};
+assign heartbeat_led = ~heartbeat_count[22];
+@@  } 
+
+@@if {$hps_en == 1} {
+@@  if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+wire [31:0]    f2h_irq1_irq;
+@@  }
+@@  if {$gpio_loopback_en ==1} {
+wire [31:0]    h2f_gp_loopback;
+@@  }
+
+@@if {$pr_enable == 1} {
+@@  for {set m 0} {$m<$pr_region_count} {incr m} {
+wire        pr_handshake_start_req_ack_loopback_wire_${m};
+wire        pr_handshake_stop_req_ack_loopback_wire_${m};
+@@}
+@@if {$freeze_ack_dly_enable == 1} {
+@@  for {set m 0} {$m<$pr_region_count} {incr m} {
+wire        pr_handshake_start_req_ack_loopback_wire_delay_ver_${m};
+wire        pr_handshake_stop_req_ack_loopback_wire_delay_ver_${m};
+wire        freeze_wire_${m};     
+wire        illegal_request_wire_${m}; 
+@@}
+wire [31:0]    start_ack_delay_cnt;
+wire [31:0]    stop_ack_delay_cnt;
+@@}  
+@@}
+
+@@if {$hps_stm_en == 1} {
+wire [43:0]    stm_hw_events;
+
+@@if {$fpga_peripheral_en == 1 & $cross_trigger_en == 1} {
+assign stm_hw_events    = {{32{1'b0}}, heartbeat_led, fpga_led_internal, fpga_dipsw_pio, fpga_debounced_buttons};
+@@} else {
+assign stm_hw_events    = 44'b0;
+@@  }
+@@}
+
+@@if {$fpga_pcie == 1} {
+wire [31:0] gp_output;
+wire [31:0] gp_input;
+wire        pcie_nreset_status_merge;
+wire [3:0]  pcie_app_reset_status_n;
+
+@@  for {set x 0} {$x < 4} {incr x} {
+wire        pcie_p${x}_link_req_rst_n;
+@@}
+
+@@if {$board == "mUDV2"} {
+assign u10_gpio_perst_remote = ~gp_output[1];
+assign u10_gpio_perst_local = ~gp_output[0];
+@@} else {
+// assign fpga_gpio0 = ~gp_output[0];
+assign fpga_gpio0 = 1'b1;
+@@}
+
+assign pcie_nreset_status_merge = |pcie_app_reset_status_n;
+@@}
+
+@@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+assign f2h_irq1_irq    = {32'b0};
+@@}
+@@}
+
+//Temporary disable src_reset_n
+@@if {$jtag_ocm_en == 1} {
+assign src_reset_n = 1'b1;
+@@}
+
+// Qsys Top module
+${qsys_name} soc_inst (
+@@if {$jtag_ocm_en == 1} {
+//.src_prb_rst_sources_source             (src_reset_n),
+@@}
+@@if {($h2f_user0_clk_en == 1 && $hps_en == 1)} {
+.h2f_user_clk_clk                       (h2f_user_clk_clk), 
+@@}
+.clk_100_clk                            (system_clk_100_internal),
+.ninit_done_ninit_done                  (ninit_done),
+@@if {$clk_gate_en == 1} {
+.clkctrl_input_ena                      (~ninit_done),
+.clkctrl_input_inclk                    (system_clk_100),
+.clkctrl_output_outclk                  (system_clk_100_gated),
+@@}
+@@if {$fpga_peripheral_en == 1} {
+.led_pio_external_connection_in_port    (fpga_led_internal),                    
+.led_pio_external_connection_out_port   (fpga_led_internal),
+.dipsw_pio_external_connection_export   (fpga_dipsw_pio), 
+.button_pio_external_connection_export  (fpga_debounced_buttons), 
+@@}
+@@if {$fpga_pcie == 1} {  
+.pcie_hip_refclk0_clk                   (pcie_hip_refclk0_clk),
+.pcie_hip_refclk1_clk                   (pcie_hip_refclk1_clk),
+@@  for {set j 0} {$j<16} {incr j} { 
+.pcie_hip_serial_rx_n_in${j}            (pcie_hip_serial_rx_n_in[${j}]),                                
+.pcie_hip_serial_rx_p_in${j}            (pcie_hip_serial_rx_p_in[${j}]),                                
+.pcie_hip_serial_tx_n_out${j}           (pcie_hip_serial_tx_n_out[${j}]), 
+.pcie_hip_serial_tx_p_out${j}           (pcie_hip_serial_tx_p_out[${j}]), 
+@@}
+.pcie_hip_perst_pin_perst               (pcie_hip_npor_pin_perst),
+.pcie_ninit_done_ninit_done             (ninit_done),
+.pcie_nreset_status_merge_reset_n       (pcie_nreset_status_merge),
+@@  for {set x 0} {$x < 4} {incr x} {
+.pcie_p${x}_pld_warm_rst_rdy_pld_warm_rst_rdy   (pcie_p${x}_link_req_rst_n),
+.pcie_p${x}_link_req_rst_n_link_req_rst_n       (pcie_p${x}_link_req_rst_n),
+.pcie_p${x}_app_reset_status_n_reset_n          (pcie_app_reset_status_n[$x]),
+@@}
+@@}
+@@if {$hps_en == 1} {     
+@@if {$hps_stm_en == 1} {
+.agilex_hps_f2h_stm_hw_events_stm_hwevents (stm_hw_events),     
+//Terminate the CS_JTAG.
+.agilex_hps_h2f_cs_ntrst                   (1'b1),  
+.agilex_hps_h2f_cs_tck                     (1'b1),    
+.agilex_hps_h2f_cs_tdi                     (1'b1),    
+.agilex_hps_h2f_cs_tdo                     (),    
+.agilex_hps_h2f_cs_tdoen                   (),  
+.agilex_hps_h2f_cs_tms                     (1'b1),    
+@@}
+@@if {$hps_emif_en == 1} {
+@@if {$hps_emif_type == "ddr4"} {
+.emif_hps_pll_ref_clk_clk               (emif_hps_pll_ref_clk),   
+.emif_hps_mem_mem_ck                    (emif_hps_mem_mem_ck),   
+.emif_hps_mem_mem_ck_n                  (emif_hps_mem_mem_ck_n),  
+.emif_hps_mem_mem_a                     (emif_hps_mem_mem_a),       
+.emif_hps_mem_mem_act_n                 (emif_hps_mem_mem_act_n),   
+.emif_hps_mem_mem_ba                    (emif_hps_mem_mem_ba),      
+.emif_hps_mem_mem_bg                    (emif_hps_mem_mem_bg),      
+.emif_hps_mem_mem_cke                   (emif_hps_mem_mem_cke),    
+.emif_hps_mem_mem_cs_n                  (emif_hps_mem_mem_cs_n),    
+.emif_hps_mem_mem_odt                   (emif_hps_mem_mem_odt),     
+.emif_hps_mem_mem_reset_n               (emif_hps_mem_mem_reset_n),
+.emif_hps_mem_mem_par                   (emif_hps_mem_mem_par),          
+.emif_hps_mem_mem_alert_n               (emif_hps_mem_mem_alert_n),    
+.emif_hps_mem_mem_dqs                   (emif_hps_mem_mem_dqs),       
+.emif_hps_mem_mem_dqs_n                 (emif_hps_mem_mem_dqs_n),     
+.emif_hps_mem_mem_dq                    (emif_hps_mem_mem_dq), 
+.emif_hps_mem_mem_dbi_n                 (emif_hps_mem_mem_dbi_n), 
+.emif_hps_oct_oct_rzqin                 (emif_hps_oct_oct_rzqin), 
+@@}
+@@}
+@@if {$hps_jtag_en == 1} {
+.hps_io_jtag_tck                 (hps_jtag_tck),                
+.hps_io_jtag_tms                 (hps_jtag_tms),                
+.hps_io_jtag_tdo                 (hps_jtag_tdo),                 
+.hps_io_jtag_tdi                 (hps_jtag_tdi),    
+@@}
+@@if {$hps_emac0_rmii_en == 1 || $hps_emac0_rgmii_en == 1} {
+.hps_io_EMAC0_TX_CLK       (hps_emac0_TX_CLK),     
+.hps_io_EMAC0_RX_CLK       (hps_emac0_RX_CLK),     
+.hps_io_EMAC0_TX_CTL       (hps_emac0_TX_CTL),    
+.hps_io_EMAC0_RX_CTL       (hps_emac0_RX_CTL),    
+.hps_io_EMAC0_TXD0         (hps_emac0_TXD0),     
+.hps_io_EMAC0_TXD1         (hps_emac0_TXD1),
+.hps_io_EMAC0_RXD0         (hps_emac0_RXD0),       
+.hps_io_EMAC0_RXD1         (hps_emac0_RXD1),        
+@@}
+@@if {$hps_emac0_rgmii_en == 1} {
+.hps_io_EMAC0_TXD2         (hps_emac0_TXD2),      
+.hps_io_EMAC0_TXD3         (hps_emac0_TXD3),   
+.hps_io_EMAC0_RXD2         (hps_emac0_RXD2),        
+.hps_io_EMAC0_RXD3         (hps_emac0_RXD3),
+@@}
+@@if {$hps_mdio0_q1_en == 1 || $hps_mdio0_q3_en == 1 || $hps_mdio0_q4_en == 1} {
+.hps_io_EMAC0_MDIO         (hps_emac0_MDIO),       
+.hps_io_EMAC0_MDC          (hps_emac0_MDC), 
+@@}
+@@if {$hps_emac1_rmii_en == 1 || $hps_emac1_rgmii_en == 1} {
+.hps_io_EMAC1_TX_CLK       (hps_emac1_TX_CLK),     
+.hps_io_EMAC1_RX_CLK       (hps_emac1_RX_CLK),     
+.hps_io_EMAC1_TX_CTL       (hps_emac1_TX_CTL),    
+.hps_io_EMAC1_RX_CTL       (hps_emac1_RX_CTL),    
+.hps_io_EMAC1_TXD0         (hps_emac1_TXD0),     
+.hps_io_EMAC1_TXD1         (hps_emac1_TXD1),
+.hps_io_EMAC1_RXD0         (hps_emac1_RXD0),       
+.hps_io_EMAC1_RXD1         (hps_emac1_RXD1),        
+@@}
+@@if {$hps_emac1_rgmii_en == 1} {    
+.hps_io_EMAC1_TXD2         (hps_emac1_TXD2),      
+.hps_io_EMAC1_TXD3         (hps_emac1_TXD3),   
+.hps_io_EMAC1_RXD2         (hps_emac1_RXD2),        
+.hps_io_EMAC1_RXD3         (hps_emac1_RXD3),
+@@}
+@@if {$hps_mdio1_q1_en == 1 || $hps_mdio1_q4_en == 1} {
+.hps_io_EMAC1_MDIO         (hps_emac1_MDIO),       
+.hps_io_EMAC1_MDC          (hps_emac1_MDC), 
+@@}
+@@if {$hps_emac2_rmii_en == 1 || $hps_emac2_rgmii_en == 1} {
+.hps_io_EMAC2_TX_CLK       (hps_emac2_TX_CLK),      
+.hps_io_EMAC2_RX_CLK       (hps_emac2_RX_CLK),  
+.hps_io_EMAC2_TX_CTL       (hps_emac2_TX_CTL),     
+.hps_io_EMAC2_RX_CTL       (hps_emac2_RX_CTL),  
+.hps_io_EMAC2_TXD0         (hps_emac2_TXD0),        
+.hps_io_EMAC2_TXD1         (hps_emac2_TXD1),  
+.hps_io_EMAC2_RXD0         (hps_emac2_RXD0),   
+.hps_io_EMAC2_RXD1         (hps_emac2_RXD1),     
+@@}
+@@if {$hps_emac2_rgmii_en == 1} {
+.hps_io_EMAC2_TXD2         (hps_emac2_TXD2),      
+.hps_io_EMAC2_TXD3         (hps_emac2_TXD3),  
+.hps_io_EMAC2_RXD2         (hps_emac2_RXD2),     
+.hps_io_EMAC2_RXD3         (hps_emac2_RXD3),   
+@@}
+@@if {$hps_mdio2_q1_en == 1 || $hps_mdio2_q3_en == 1} {
+.hps_io_EMAC2_MDIO         (hps_emac2_MDIO),  
+.hps_io_EMAC2_MDC          (hps_emac2_MDC),  
+@@}
+@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_en == 1 || $hps_sdmmc4b_q4_en == 1 || $hps_sdmmc8b_q4_en == 1} {
+.hps_io_SDMMC_CCLK         (hps_sdmmc_CCLK),   
+.hps_io_SDMMC_CMD          (hps_sdmmc_CMD), 
+.hps_io_SDMMC_D0           (hps_sdmmc_D0),          
+.hps_io_SDMMC_D1           (hps_sdmmc_D1),          
+.hps_io_SDMMC_D2           (hps_sdmmc_D2),         
+.hps_io_SDMMC_D3           (hps_sdmmc_D3),        
+@@}
+@@if {$hps_sdmmc8b_q1_en == 1 || $hps_sdmmc8b_q4_en == 1} {
+.hps_io_SDMMC_D4           (hps_sdmmc_D4),          
+.hps_io_SDMMC_D5           (hps_sdmmc_D5),          
+.hps_io_SDMMC_D6           (hps_sdmmc_D6),         
+.hps_io_SDMMC_D7           (hps_sdmmc_D7),
+@@}
+@@if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
+.hps_io_NAND_ALE           (hps_nand_ALE),
+.hps_io_NAND_CE_N          (hps_nand_CE_N),
+.hps_io_NAND_CLE           (hps_nand_CLE),
+.hps_io_NAND_RE_N          (hps_nand_RE_N),
+.hps_io_NAND_RB            (hps_nand_RB),
+.hps_io_NAND_WP_N          (hps_nand_WP_N),
+.hps_io_NAND_WE_N          (hps_nand_WE_N),
+.hps_io_NAND_ADQ0          (hps_nand_ADQ0),
+.hps_io_NAND_ADQ1          (hps_nand_ADQ1),
+.hps_io_NAND_ADQ2          (hps_nand_ADQ2),
+.hps_io_NAND_ADQ3          (hps_nand_ADQ3),
+.hps_io_NAND_ADQ4          (hps_nand_ADQ4),
+.hps_io_NAND_ADQ5          (hps_nand_ADQ5),
+.hps_io_NAND_ADQ6          (hps_nand_ADQ6),
+.hps_io_NAND_ADQ7          (hps_nand_ADQ7),
+@@}
+@@if {$hps_nand_16b_en == 1} {
+.hps_io_NAND_ADQ8          (hps_nand_ADQ8),
+.hps_io_NAND_ADQ9          (hps_nand_ADQ9),
+.hps_io_NAND_ADQ10         (hps_nand_ADQ10),
+.hps_io_NAND_ADQ11         (hps_nand_ADQ11),
+.hps_io_NAND_ADQ12         (hps_nand_ADQ12),
+.hps_io_NAND_ADQ13         (hps_nand_ADQ13),
+.hps_io_NAND_ADQ14         (hps_nand_ADQ14),
+.hps_io_NAND_ADQ15         (hps_nand_ADQ15),
+@@}
+@@if {$hps_i2c0_q1_en == 1 || $hps_i2c0_q2_en == 1 || $hps_i2c0_q3_en == 1} {
+.hps_io_I2C0_SDA           (hps_i2c0_SDA),     
+.hps_io_I2C0_SCL           (hps_i2c0_SCL),
+@@}
+@@if {$hps_i2c1_q1_en == 1 || $hps_i2c1_q2_en == 1 || $hps_i2c1_q3_en == 1 || $hps_i2c1_q4_en == 1} {
+.hps_io_I2C1_SDA           (hps_i2c1_SDA),     
+.hps_io_I2C1_SCL           (hps_i2c1_SCL),
+@@}
+@@if {$hps_i2c_emac0_q1_en == 1 || $hps_i2c_emac0_q3_en == 1 || $hps_i2c_emac0_q4_en == 1} {
+.hps_io_I2CEMAC0_SDA       (hps_i2c_emac0_SDA),       
+.hps_io_I2CEMAC0_SCL       (hps_i2c_emac0_SCL),                  
+@@}
+@@if {$hps_i2c_emac1_q1_en == 1 || $hps_i2c_emac1_q4_en == 1} {
+.hps_io_I2CEMAC1_SDA       (hps_i2c_emac1_SDA),       
+.hps_io_I2CEMAC1_SCL       (hps_i2c_emac1_SCL),                  
+@@}
+@@if {$hps_i2c_emac2_q1_en == 1 || $hps_i2c_emac2_q3_en == 1 || $hps_i2c_emac2_q4_en == 1} {
+.hps_io_I2CEMAC2_SDA       (hps_i2c_emac2_SDA),       
+.hps_io_I2CEMAC2_SCL       (hps_i2c_emac2_SCL),                  
+@@}
+@@if {$hps_uart0_q1_en == 1 || $hps_uart0_q2_en == 1 || $hps_uart0_q3_en == 1} {
+.hps_io_UART0_RX           (hps_uart0_RX),          
+.hps_io_UART0_TX           (hps_uart0_TX), 
+@@}                                 
+@@if {$hps_uart0_fc_en == 1} {
+.hps_io_UART0_CTS_N        (hps_uart0_CTS_N),  
+.hps_io_UART0_RTS_N        (hps_uart0_RTS_N),  
+@@}
+@@if {$hps_uart1_q1_en == 1 || $hps_uart1_q3_en == 1 || $hps_uart1_q4_en == 1} {
+.hps_io_UART1_RX           (hps_uart1_RX),          
+.hps_io_UART1_TX           (hps_uart1_TX), 
+@@}
+@@if {$hps_uart1_fc_en == 1} {
+.hps_io_UART1_CTS_N        (hps_uart1_CTS_N),  
+.hps_io_UART1_RTS_N        (hps_uart1_RTS_N),  
+@@}
+@@if {$hps_spim0_q1_en == 1 || $hps_spim0_q4_en == 1 } {
+.hps_io_SPIM0_CLK          (hps_spim0_CLK),
+.hps_io_SPIM0_MOSI         (hps_spim0_MOSI),
+.hps_io_SPIM0_MISO         (hps_spim0_MISO), 
+.hps_io_SPIM0_SS0_N        (hps_spim0_SS0_N),
+@@}
+@@if {$hps_spim0_2ss_en == 1} {
+.hps_io_SPIM0_SS1_N        (hps_spim0_SS1_N),
+@@}
+@@if {$hps_spim1_q1_en == 1 || $hps_spim1_q2_en == 1 || $hps_spim1_q3_en == 1} {
+.hps_io_SPIM1_CLK          (hps_spim1_CLK),
+.hps_io_SPIM1_MOSI         (hps_spim1_MOSI),
+.hps_io_SPIM1_MISO         (hps_spim1_MISO), 
+.hps_io_SPIM1_SS0_N        (hps_spim1_SS0_N),
+@@}
+@@if {$hps_spim1_2ss_en == 1} {
+.hps_io_SPIM1_SS1_N        (hps_spim1_SS1_N),
+@@}
+@@if {$hps_spis0_q1_en == 1 || $hps_spis0_q2_en == 1 || $hps_spis0_q3_en == 1} {
+.hps_io_SPIS0_CLK          (hps_spis0_CLK),
+.hps_io_SPIS0_MOSI         (hps_spis0_MOSI),
+.hps_io_SPIS0_MISO         (hps_spis0_MISO),
+.hps_io_SPIS0_SS0_N        (hps_spis0_SS0_N),
+@@}
+@@if {$hps_spis1_q1_en == 1 || $hps_spis1_q3_en == 1 || $hps_spis1_q4_en == 1} {
+.hps_io_SPIS1_CLK          (hps_spis1_CLK),
+.hps_io_SPIS1_MOSI         (hps_spis1_MOSI),
+.hps_io_SPIS1_MISO         (hps_spis1_MISO),
+.hps_io_SPIS1_SS0_N        (hps_spis1_SS0_N),
+@@}                                  
+@@if {$hps_usb0_en == 1} {
+.hps_io_USB0_CLK           (hps_usb0_CLK), 
+.hps_io_USB0_STP           (hps_usb0_STP), 
+.hps_io_USB0_DIR           (hps_usb0_DIR),
+.hps_io_USB0_NXT           (hps_usb0_NXT),
+.hps_io_USB0_DATA0         (hps_usb0_DATA0),
+.hps_io_USB0_DATA1         (hps_usb0_DATA1), 
+.hps_io_USB0_DATA2         (hps_usb0_DATA2), 
+.hps_io_USB0_DATA3         (hps_usb0_DATA3), 
+.hps_io_USB0_DATA4         (hps_usb0_DATA4), 
+.hps_io_USB0_DATA5         (hps_usb0_DATA5),
+.hps_io_USB0_DATA6         (hps_usb0_DATA6), 
+.hps_io_USB0_DATA7         (hps_usb0_DATA7),
+@@}
+@@if {$hps_usb1_en == 1} {
+.hps_io_USB1_CLK           (hps_usb1_CLK), 
+.hps_io_USB1_STP           (hps_usb1_STP), 
+.hps_io_USB1_DIR           (hps_usb1_DIR),
+.hps_io_USB1_NXT           (hps_usb1_NXT),
+.hps_io_USB1_DATA0         (hps_usb1_DATA0),
+.hps_io_USB1_DATA1         (hps_usb1_DATA1), 
+.hps_io_USB1_DATA2         (hps_usb1_DATA2), 
+.hps_io_USB1_DATA3         (hps_usb1_DATA3), 
+.hps_io_USB1_DATA4         (hps_usb1_DATA4), 
+.hps_io_USB1_DATA5         (hps_usb1_DATA5),
+.hps_io_USB1_DATA6         (hps_usb1_DATA6), 
+.hps_io_USB1_DATA7         (hps_usb1_DATA7),
+@@}
+@@if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1} {
+.hps_io_TRACE_CLK          (hps_trace_CLK),  
+.hps_io_TRACE_D0           (hps_trace_D0),  
+.hps_io_TRACE_D1           (hps_trace_D1),  
+.hps_io_TRACE_D2           (hps_trace_D2),  
+.hps_io_TRACE_D3           (hps_trace_D3),  
+@@}
+@@if {$hps_trace_8b_en == 1 || $hps_trace_12b_en ==1 || $hps_trace_16b_en ==1} {
+.hps_io_TRACE_D4           (hps_trace_D4),  
+.hps_io_TRACE_D5           (hps_trace_D5),  
+.hps_io_TRACE_D6           (hps_trace_D6),  
+.hps_io_TRACE_D7           (hps_trace_D7),  
+@@}
+@@if {$hps_trace_12b_en ==1 || $hps_trace_16b_en ==1} {
+.hps_io_TRACE_D8           (hps_trace_D8),  
+.hps_io_TRACE_D9           (hps_trace_D9),  
+.hps_io_TRACE_D10          (hps_trace_D10),  
+.hps_io_TRACE_D11          (hps_trace_D11), 
+@@}
+@@if {$hps_trace_16b_en ==1} {
+.hps_io_TRACE_D12          (hps_trace_D12),  
+.hps_io_TRACE_D13          (hps_trace_D13),  
+.hps_io_TRACE_D14          (hps_trace_D14),  
+.hps_io_TRACE_D15          (hps_trace_D15), 
+@@}
+@@if {$hps_gpio0_en == 1} {
+@@  foreach io_num $hps_gpio0_list {
+.hps_io_gpio0_io${io_num}           (hps_gpio0_io${io_num}),
+@@  }
+@@}
+@@if {$hps_gpio1_en == 1} {
+@@  foreach io_num $hps_gpio1_list {
+@@# TODO: temporary name gpio1 to gpio0 to give way for compilation while case:458398 fix
+.hps_io_gpio1_io${io_num}           (hps_gpio1_io${io_num}),
+@@  }
+@@}
+@@if {$gpio_loopback_en ==1} {
+.agilex_hps_h2f_gp_gp_in                   (h2f_gp_loopback),
+.agilex_hps_h2f_gp_gp_out                  (h2f_gp_loopback),
+@@}
+@@if {$hps_pll_out_en == 1} {
+.hps_io_hps_io_cm_pll0                  (hps_pll0_clk),
+.hps_io_hps_io_cm_pll1                  (hps_pll1_clk),
+.hps_io_hps_io_cm_pll2                  (hps_pll2_clk),
+.hps_io_hps_io_cm_pll3                  (hps_pll3_clk),
+@@}
+@@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+.f2h_irq1_irq                           (f2h_irq1_irq),
+@@}
+@@if {$ftrace_en == 1} {
+.ext_trace_f2h_clk_in_clk_ctl           (1'b1),     // use HPS internal debug trace clock to drive TRACE interface
+.ext_trace_f2h_clk_in_clk               (1'b0),
+.ext_trace_trace_clk_out_clk            (ftrace_clk),
+.ext_trace_trace_data_out_export        (ftrace_data),
+@@}
+@@if {$hps_io_off == 0} {
+.hps_io_hps_osc_clk                     (hps_ref_clk),
+@@}
+@@if {$pr_enable == 1} {
+@@if {$freeze_ack_dly_enable == 1} {
+.start_ack_pio_external_connection_export  (start_ack_delay_cnt),
+.stop_ack_pio_external_connection_export   (stop_ack_delay_cnt), 
+@@  for {set m 0} {$m<$pr_region_count} {incr m} {
+.frz_ctrl_${m}_pr_handshake_start_req      (pr_handshake_start_req_ack_loopback_wire_${m}),
+.frz_ctrl_${m}_pr_handshake_start_ack      (pr_handshake_start_req_ack_loopback_wire_delay_ver_${m}), 
+.frz_ctrl_${m}_pr_handshake_stop_req       (pr_handshake_stop_req_ack_loopback_wire_${m}),
+.frz_ctrl_${m}_pr_handshake_stop_ack       (pr_handshake_stop_req_ack_loopback_wire_delay_ver_${m}),
+.frz_bdg_${m}_freeze_conduit_freeze        (freeze_wire_${m}),           
+.frz_bdg_${m}_freeze_conduit_illegal_request    (illegal_request_wire_${m}),  
+.frz_ctrl_${m}_bridge_freeze0_freeze            (freeze_wire_${m}),         
+.frz_ctrl_${m}_bridge_freeze0_illegal_request   (illegal_request_wire_${m}),  
+@@}
+@@} else {
+@@  for {set m 0} {$m<$pr_region_count} {incr m} {
+.frz_ctrl_${m}_pr_handshake_start_req      (pr_handshake_start_req_ack_loopback_wire_${m}),
+.frz_ctrl_${m}_pr_handshake_start_ack      (pr_handshake_start_req_ack_loopback_wire_${m}), 
+.frz_ctrl_${m}_pr_handshake_stop_req       (pr_handshake_stop_req_ack_loopback_wire_${m}),
+.frz_ctrl_${m}_pr_handshake_stop_ack       (pr_handshake_stop_req_ack_loopback_wire_${m}),
+@@}
+@@}
+@@}
+.h2f_reset_reset                        (h2f_reset),
+@@}
+@@if {$fpga_emif_en == 1} {
+.fpga_emif_local_reset_req_local_reset_req     (1'b0),
+.fpga_emif_local_reset_status_local_reset_done (fpga_emif_local_reset_status_local_reset_done),
+.fpga_emif_mem_mem_ck                   (fpga_emif_mem_mem_ck),                      
+.fpga_emif_mem_mem_ck_n                 (fpga_emif_mem_mem_ck_n),                      
+.fpga_emif_mem_mem_a                    (fpga_emif_mem_mem_a),                        
+.fpga_emif_mem_mem_act_n                (fpga_emif_mem_mem_act_n),                      
+.fpga_emif_mem_mem_ba                   (fpga_emif_mem_mem_ba),                      
+.fpga_emif_mem_mem_bg                   (fpga_emif_mem_mem_bg),                         
+.fpga_emif_mem_mem_cke                  (fpga_emif_mem_mem_cke),                       
+.fpga_emif_mem_mem_cs_n                 (fpga_emif_mem_mem_cs_n),                      
+.fpga_emif_mem_mem_odt                  (fpga_emif_mem_mem_odt),                       
+.fpga_emif_mem_mem_reset_n              (fpga_emif_mem_mem_reset_n),                     
+.fpga_emif_mem_mem_par                  (fpga_emif_mem_mem_par),                         
+.fpga_emif_mem_mem_alert_n              (fpga_emif_mem_mem_alert_n),                    
+.fpga_emif_mem_mem_dqs                  (fpga_emif_mem_mem_dqs),                       
+.fpga_emif_mem_mem_dqs_n                (fpga_emif_mem_mem_dqs_n),                   
+.fpga_emif_mem_mem_dq                   (fpga_emif_mem_mem_dq),                  
+.fpga_emif_mem_mem_dbi_n                (fpga_emif_mem_mem_dbi_n),                     
+.fpga_emif_oct_oct_rzqin                (fpga_emif_oct_oct_rzqin),                     
+.fpga_emif_pll_ref_clk_clk              (fpga_emif_pll_ref_clk_clk),                   
+.fpga_emif_status_local_cal_success     (fpga_emif_status_local_cal_success),         
+.fpga_emif_status_local_cal_fail        (fpga_emif_status_local_cal_fail),          
+.emif_usr_reset_n_reset_n               (emif_usr_reset_n),
+@@}
+.reset_reset_n                          (system_reset_n)
+);  
+
+@@if {$fpga_peripheral_en == 1} {
+// Debounce logic to clean out glitches within 1ms
+debounce debounce_inst (
+.clk          (system_clk_100_internal),
+.reset_n      (system_reset_n),  
+.data_in      (fpga_button_pio),
+.data_out     (fpga_debounced_buttons)
+);
+defparam debounce_inst.WIDTH = 4;
+defparam debounce_inst.POLARITY = "LOW";
+defparam debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
+defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
+@@}
+
+@@if {$fpga_peripheral_en ==1} {
+always @(posedge system_clk_100_internal or negedge system_reset_n) begin
+  if (~system_reset_n)
+    heartbeat_count <= 23'd0;
+  else
+    heartbeat_count <= heartbeat_count + 23'd1;
+end
+@@}
+
+@@if {$pr_enable == 1 && $freeze_ack_dly_enable == 1} {
+@@  for {set m 0} {$m<$pr_region_count} {incr m} {
+ack_delay_logic start_ack_delay_logic_${m}_inst (
+.clk                                  (system_clk_100_internal),
+.reset                                (hps_fpga_reset), 
+.delay_ack_pio                        (start_ack_delay_cnt),  
+.ack_in                               (pr_handshake_start_req_ack_loopback_wire_${m}),
+.ack_delay_out                        (pr_handshake_start_req_ack_loopback_wire_delay_ver_${m})
+);
+
+ack_delay_logic stop_ack_delay_logic_${m}_inst (
+.clk                                  (system_clk_100_internal),
+.reset                                (hps_fpga_reset), 
+.delay_ack_pio                        (stop_ack_delay_cnt),  
+.ack_in                               (pr_handshake_stop_req_ack_loopback_wire_${m}),
+.ack_delay_out                        (pr_handshake_stop_req_ack_loopback_wire_delay_ver_${m})
+); 
+@@}
+@@}
+
+endmodule

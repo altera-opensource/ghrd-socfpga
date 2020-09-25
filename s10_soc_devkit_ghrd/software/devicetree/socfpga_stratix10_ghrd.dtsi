@@ -1,0 +1,72 @@
+/*
+* Add this piece of dtsi fragment as #include "socfpga_stratis10_ghrd.dtsi"
+* in the file socfpga_stratix10_socdk.dts. Compile it in the kernel along with
+* socfpga_stratix10.dtsi.
+*/
+
+/{
+	soc {
+
+		led_pio: gpio@1080 {
+				compatible = "altr,pio-1.0";
+				reg = <0xf9001080 0x8>;
+				altr,gpio-bank-width = <4>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resetvalue = <0>;
+		};
+
+		button_pio: gpio@1060 {
+				compatible = "altr,pio-1.0";
+				reg = <0xf9001060 0x10>;
+				altr,gpio-bank-width = <4>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resetvalue = <0>;
+		};
+
+		dipsw_pio: gpio@1070 {
+				compatible = "altr,pio-1.0";
+				reg = <0xf9001070 0x10>;
+				altr,gpio-bank-width = <4>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resetvalue = <0>;
+		};
+
+		trigger_pio: gpio@1040 {
+				compatible = "altr,pio-1.0";
+				reg = <0xf9001040 0x20>;
+				altr,gpio-bank-width = <4>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resetvalue = <0>;
+		};
+
+		soc_leds: leds {
+			compatible = "gpio-leds";
+
+			led_fpga0: fpga0 {
+					label = "fpga_led0";
+					gpios = <&led_pio 0 0>;
+			}; //end fpga0 (led_fpga0)
+
+			led_fpga1: fpga1 {
+					label = "fpga_led1";
+					gpios = <&led_pio 1 0>;
+			}; //end fpga1 (led_fpga1)
+
+			led_fpga2: fpga2 {
+					label = "fpga_led2";
+					gpios = <&led_pio 2 0>;
+			}; //end fpga2 (led_fpga2)
+
+			led_fpga3: fpga3 {
+					label = "fpga_led3";
+					gpios = <&led_pio 3 0>;
+			}; //end fpga3 (led_fpga3)
+		};
+	};
+};
+
+

@@ -1,0 +1,978 @@
+//****************************************************************************
+//
+// SPDX-License-Identifier: MIT-0
+// Copyright(c) 2013-2020 Intel Corporation.
+//
+//****************************************************************************
+// This is a generated system top level RTL file. 
+
+@@if {$HPS_SDRAM_ECC_ENABLE == 1} {
+@@   set HPS_DDR_W 40
+@@   set HPS_DDR_DM_W 5
+@@   set HPS_DDR_DQS_W 5
+@@} else {
+@@   set HPS_DDR_W 32
+@@   set HPS_DDR_DM_W 4
+@@   set HPS_DDR_DQS_W 4
+@@}
+@@set F2H_IRQ_REMAIN [expr 32-$SGMII_COUNT]
+@@
+@@if {$FTRACE_ENABLE == 1 } {
+@@   set ETRACE_ENABLE 0
+@@} elseif {$SGMII_ENABLE == 1 && $BOARD_REV == "A"} {
+@@   set ETRACE_ENABLE 0
+@@} else {
+@@   set ETRACE_ENABLE 1
+@@}
+@@
+@@# guard for SGMII_COUNT if BOARD_REV == "A"
+@@if {$BOARD_REV == "A"} {
+@@   set SGMII_COUNT 1
+@@}
+@@
+module ${SYS_TOP_NAME} (
+  // FPGA peripherals ports
+  input  wire [3:0]    fpga_dipsw_pio,                   
+  output wire [3:0]    fpga_led_pio,                     
+  input  wire [3:0]    fpga_button_pio,  
+  // HPS memory controller ports
+@@if {$HPS_SDRAM_DEVICE == "D9RPL"} {
+  // DDR3 dual ranks -1866 device
+  output wire [14:0]   hps_memory_mem_a,                           
+  output wire [2:0]    hps_memory_mem_ba,                          
+  output wire          hps_memory_mem_ck,                          
+  output wire          hps_memory_mem_ck_n,                        
+  output wire [1:0]    hps_memory_mem_cke,                         
+  output wire [1:0]    hps_memory_mem_cs_n,                        
+  output wire          hps_memory_mem_ras_n,                       
+  output wire          hps_memory_mem_cas_n,                       
+  output wire          hps_memory_mem_we_n,                        
+  output wire          hps_memory_mem_reset_n,                     
+  inout  wire [$HPS_DDR_W-1:0] hps_memory_mem_dq,                          
+  inout  wire [$HPS_DDR_DQS_W-1:0]  hps_memory_mem_dqs,                         
+  inout  wire [$HPS_DDR_DQS_W-1:0]  hps_memory_mem_dqs_n,                       
+  output wire [1:0]    hps_memory_mem_odt,                         
+  output wire [$HPS_DDR_DM_W-1:0]  hps_memory_mem_dm,                          
+  input  wire          hps_memory_oct_rzqin,     
+  input  wire          emif_ref_clk,  
+@@} elseif {$HPS_SDRAM_DEVICE == "D9PZN"} {
+  // DDR3 single rank -2133 device
+  output wire [14:0]   hps_memory_mem_a,                           
+  output wire [2:0]    hps_memory_mem_ba,                          
+  output wire          hps_memory_mem_ck,                          
+  output wire          hps_memory_mem_ck_n,                        
+  output wire          hps_memory_mem_cke,                         
+  output wire          hps_memory_mem_cs_n,                        
+  output wire          hps_memory_mem_ras_n,                       
+  output wire          hps_memory_mem_cas_n,                       
+  output wire          hps_memory_mem_we_n,                        
+  output wire          hps_memory_mem_reset_n,                     
+  inout  wire [$HPS_DDR_W-1:0] hps_memory_mem_dq,                          
+  inout  wire [$HPS_DDR_DQS_W-1:0]  hps_memory_mem_dqs,                         
+  inout  wire [$HPS_DDR_DQS_W-1:0]  hps_memory_mem_dqs_n,                       
+  output wire          hps_memory_mem_odt,                         
+  output wire [$HPS_DDR_DM_W-1:0]  hps_memory_mem_dm,                          
+  input  wire          hps_memory_oct_rzqin,     
+  input  wire          emif_ref_clk,  
+@@} elseif {$HPS_SDRAM_DEVICE == "D9RGX"} {
+  // DDR4 single rank -2133 device
+  output wire          hps_memory_mem_act_n,
+  output wire          hps_memory_mem_bg,
+  output wire          hps_memory_mem_par,
+  input  wire          hps_memory_mem_alert_n,
+  inout  wire [$HPS_DDR_DM_W-1:0]  hps_memory_mem_dbi_n,
+  output wire [16:0]   hps_memory_mem_a,                           
+  output wire [1:0]    hps_memory_mem_ba,
+  output wire          hps_memory_mem_ck,                          
+  output wire          hps_memory_mem_ck_n,                        
+  output wire          hps_memory_mem_cke,                         
+  output wire          hps_memory_mem_cs_n,                                            
+  output wire          hps_memory_mem_reset_n,                     
+  inout  wire [$HPS_DDR_W-1:0] hps_memory_mem_dq,                          
+  inout  wire [$HPS_DDR_DQS_W-1:0]  hps_memory_mem_dqs,                         
+  inout  wire [$HPS_DDR_DQS_W-1:0]  hps_memory_mem_dqs_n,                       
+  output wire          hps_memory_mem_odt,                                          
+  input  wire          hps_memory_oct_rzqin,     
+  input  wire          emif_ref_clk,  
+@@} else {
+  // No SDRAM selected in design_config.tcl
+@@}
+  // HPS peripherals
+  output wire          hps_emac0_TX_CLK,   
+  output wire          hps_emac0_TXD0,     
+  output wire          hps_emac0_TXD1,     
+  output wire          hps_emac0_TXD2,     
+  output wire          hps_emac0_TXD3,     
+  input  wire          hps_emac0_RXD0,     
+  inout  wire          hps_emac0_MDIO,     
+  output wire          hps_emac0_MDC,      
+  input  wire          hps_emac0_RX_CTL,   
+  output wire          hps_emac0_TX_CTL,   
+  input  wire          hps_emac0_RX_CLK,   
+  input  wire          hps_emac0_RXD1,     
+  input  wire          hps_emac0_RXD2,     
+  input  wire          hps_emac0_RXD3, 
+  inout  wire          hps_usb0_D0,        
+  inout  wire          hps_usb0_D1,        
+  inout  wire          hps_usb0_D2,        
+  inout  wire          hps_usb0_D3,        
+  inout  wire          hps_usb0_D4,        
+  inout  wire          hps_usb0_D5,        
+  inout  wire          hps_usb0_D6,        
+  inout  wire          hps_usb0_D7,        
+  input  wire          hps_usb0_CLK,       
+  output wire          hps_usb0_STP,       
+  input  wire          hps_usb0_DIR,       
+  input  wire          hps_usb0_NXT,   
+  output wire          hps_spim1_CLK,
+  output wire          hps_spim1_MOSI,
+  input  wire          hps_spim1_MISO,
+  output wire          hps_spim1_SS0_N,
+  output wire          hps_spim1_SS1_N,
+  input  wire          hps_uart1_RX,       
+  output wire          hps_uart1_TX,       
+  inout  wire          hps_i2c1_SDA,       
+  inout  wire          hps_i2c1_SCL,       
+@@if {$BOOT_SOURCE == "SDMMC"} {  
+  inout  wire          hps_sdio_CMD,
+  output wire          hps_sdio_CLK,
+  inout  wire          hps_sdio_D0,
+  inout  wire          hps_sdio_D1,
+  inout  wire          hps_sdio_D2,
+  inout  wire          hps_sdio_D3,
+  inout  wire          hps_sdio_D4,
+  inout  wire          hps_sdio_D5,
+  inout  wire          hps_sdio_D6,
+  inout  wire          hps_sdio_D7,
+@@} elseif {$BOOT_SOURCE == "QSPI"} {
+  inout  wire          hps_qspi_IO0,          
+  inout  wire          hps_qspi_IO1,          
+  inout  wire          hps_qspi_IO2_WPN,      
+  inout  wire          hps_qspi_IO3_HOLD,     
+  output wire          hps_qspi_CLK,          
+  output wire          hps_qspi_SS0,  
+@@} elseif {$BOOT_SOURCE == "NAND"} {
+  output wire          hps_nand_ALE, 
+  output wire          hps_nand_CE_N,
+  output wire          hps_nand_CLE, 
+  output wire          hps_nand_RE_N,
+  input  wire          hps_nand_RB,  
+  inout  wire          hps_nand_ADQ0,
+  inout  wire          hps_nand_ADQ1,
+  inout  wire          hps_nand_ADQ2,
+  inout  wire          hps_nand_ADQ3,
+  inout  wire          hps_nand_ADQ4,
+  inout  wire          hps_nand_ADQ5,
+  inout  wire          hps_nand_ADQ6,
+  inout  wire          hps_nand_ADQ7,
+  output wire          hps_nand_WE_N,
+@@} else {
+  // Boot source is neither SDMMC, QSPI nor NAND as per design_config
+@@}
+@@if {$ETRACE_ENABLE == 1} {
+  output wire          hps_trace_CLK,      
+  output wire          hps_trace_D0,       
+  output wire          hps_trace_D1,       
+  output wire          hps_trace_D2,       
+  output wire          hps_trace_D3,         
+@@}
+@@if {$SGMII_ENABLE == 1 && $BOARD_REV == "A"} {
+  inout  wire          hps_gpio_GPIO05,
+@@} else {
+  inout  wire          hps_gpio_GPIO14,    
+  inout  wire          hps_gpio_GPIO05,
+  inout  wire          hps_gpio_GPIO16,    
+  inout  wire          hps_gpio_GPIO17, 
+@@}
+  // Other HPS-FPGA peripherals
+@@if {$SGMII_ENABLE == 1} {  
+@@  for {set y 1} {$y<=$SGMII_COUNT} {incr y} {
+  output wire          emac${y}_fpga_mdc,
+  inout  wire          emac${y}_fpga_mdio,                                 
+  input  wire          emac${y}_sgmii_rxp,                                 
+  output wire          emac${y}_sgmii_txp,                                 
+  input  wire          sgmii${y}_phy_irq_n,
+  output wire          sgmii${y}_phy_reset_n,
+@@  }
+@@}
+@@if {$DISP_PORT_ENABLE == 1} { 
+  input wire  dp_refclk,
+  input wire  TX_HPD,
+  output wire dp_on,
+  inout wire  DP_AUX_CH_P,
+  inout wire  DP_AUX_CH_N,
+  output wire [3:0] tx_serial_data,
+@@}
+@@if {$PCIE_ENABLE == 1} {
+  input		 wire	      pcie_refclk_100,
+  input	    wire 		  rx_in0,
+  input	    wire 		  rx_in1,
+  input	    wire 		  rx_in2,
+  input	    wire 		  rx_in3,
+  output	wire 		  tx_out0,
+  output	wire 		  tx_out1,
+  output	wire 		  tx_out2,
+  output	wire 		  tx_out3,
+  @@if {$PCIE_COUNT == 8} {
+  input	    wire 		  rx_in4,
+  input	    wire 		  rx_in5,
+  input	    wire 		  rx_in6,
+  input	    wire 		  rx_in7,  
+  output	wire 		  tx_out4,
+  output	wire 		  tx_out5,
+  output	wire 		  tx_out6,
+  output	wire 		  tx_out7, 
+  @@}
+  input	    wire 		  hps_pcie_a10_hip_avmm_0_npor_pin_perst,
+  //output    wire		  pcie_perstn_out,
+@@} 
+@@if {$FTRACE_ENABLE == 1} {
+  output wire [15:0]   ftrace_data,
+  output wire          ftrace_clk,
+@@}
+  // FPGA clock and reset
+@@if {$SGMII_ENABLE == 1} {  
+  input  wire          pcs_clk_125,
+@@}
+  input  wire          fpga_clk_100,
+  input  wire          fpga_reset_n  
+);
+
+// internal wires and registers declaration
+  wire [3:0]  fpga_debounced_buttons;
+  wire [3:0]  fpga_led_internal;
+  wire [27:0] stm_hw_events;
+  wire        hps_fpga_reset;
+  wire [2:0]  hps_reset_req;
+  wire        hps_cold_reset;
+  wire        hps_warm_reset;
+  wire        hps_debug_reset;
+@@if {$PARTIAL_RECONFIGURATION == 1} {
+  wire 		  pr_handshake_start_req_ack_loopback_wire;
+  wire 		  pr_handshake_stop_req_ack_loopback_wire;
+  @@if {$FREEZE_ACK_DELAY_ENABLE == 1} {
+  wire 		  pr_handshake_start_req_ack_loopback_wire_delay_ver;
+  wire 		  pr_handshake_stop_req_ack_loopback_wire_delay_ver;
+  wire [31:0] start_ack_delay_cnt;
+  wire [31:0] stop_ack_delay_cnt;
+  wire [31:0] freeze_ack_delay_cnt; 
+  wire 		  freeze_wire;     
+  wire 		  freeze_ack_wire;  
+  wire   	  freeze_ack_wire_delay_ver; 
+  wire 		  illegal_request_wire; 
+  
+ack_delay_logic freeze_ack_delay_logic_inst (
+  .clk                                  (fpga_clk_100),
+  .reset                                (hps_fpga_reset), 
+  .delay_ack_pio                        (freeze_ack_delay_cnt),  
+  .ack_in                               (freeze_ack_wire),
+  .ack_delay_out                        (freeze_ack_wire_delay_ver)
+);
+
+ack_delay_logic start_ack_delay_logic_inst (
+  .clk                                  (fpga_clk_100),
+  .reset                                (hps_fpga_reset), 
+  .delay_ack_pio                        (start_ack_delay_cnt),  
+  .ack_in                               (pr_handshake_start_req_ack_loopback_wire),
+  .ack_delay_out                        (pr_handshake_start_req_ack_loopback_wire_delay_ver)
+);
+
+ack_delay_logic stop_ack_delay_logic_inst (
+  .clk                                  (fpga_clk_100),
+  .reset                                (hps_fpga_reset), 
+  .delay_ack_pio                        (stop_ack_delay_cnt),  
+  .ack_in                               (pr_handshake_stop_req_ack_loopback_wire),
+  .ack_delay_out                        (pr_handshake_stop_req_ack_loopback_wire_delay_ver)
+);
+@@}  
+@@}
+@@if {$SGMII_ENABLE == 1} {
+  wire [31:0] f2h_interrupt;      
+@@if {$BOARD_REV == "A"} {
+  wire        i2c1_io_internal_sda_i;
+  wire        i2c1_io_internal_sda_oe;
+  wire        i2c1_io_internal_scl_i;
+  wire        i2c1_io_internal_scl_oe;
+@@}
+@@}
+@@if {$DISP_PORT_ENABLE == 1} { 
+wire clk_270 = dp_refclk;
+wire clk_cal_50;
+wire clk_16;
+wire clk_vid;
+assign dp_on = 1'b1;
+
+// ----------------------------------------------
+// Video Test Pattern Generator and mixer helpers
+// ----------------------------------------------
+wire [23:0] tpg_outd;
+wire tpg_de;
+wire tpg_h;
+wire tpg_v;
+reg tpg_v_1;
+
+// VIP CVO bug fix
+//always @ (tpg_h or tpg_v)
+//  if (tpg_h)
+//    tpg_v_1 <= tpg_v;
+
+// ----------------------
+// DisplayPort subsystem
+// ----------------------
+
+// wire [171:0] from_gxb_rx;
+wire [4:0] from_gxb_tx;
+// wire [0:0] from_rx_reconfig;
+wire from_tx_reconfig;
+// wire [20:0] to_gxb_rx;
+wire [159:0] to_gxb_tx;
+// wire [8:0] to_rx_reconfig;
+wire [25:0] to_tx_reconfig;
+// wire rx0_stream_out_valid;
+wire [7:0] tpg_pio;
+wire dp_tx_aux_aux_in;
+wire dp_tx_aux_aux_out;
+wire dp_tx_aux_aux_oe;
+
+// -------------------------------
+// XCVR FPLL
+// -------------------------------
+wire tx_pll_locked;
+wire tx_pll_powerdown;
+wire [5:0] tx_bonding_clocks;
+wire tx_pll_cal_busy;
+
+// -------------------------------
+// XCVR reconfiguration and reset
+// -------------------------------
+
+wire tx_gxb_reconfig_write;
+wire tx_gxb_reconfig_read;
+wire [11:0] tx_gxb_reconfig_address;
+wire [31:0] tx_gxb_reconfig_writedata;
+wire [31:0] tx_gxb_reconfig_readdata;
+wire tx_gxb_reconfig_waitrequest;
+
+wire tx_pll_reconfig_write;
+wire tx_pll_reconfig_read;
+wire [9:0] tx_pll_reconfig_address;
+wire [31:0] tx_pll_reconfig_writedata;
+wire [31:0] tx_pll_reconfig_readdata;
+wire tx_pll_reconfig_waitrequest;
+
+wire tx_xcvr_reset;
+wire rx_cal_busy;
+wire tx_cal_busy;
+
+// assign tx_pll_reconfig_write = 1'b0;
+// assign tx_pll_reconfig_read = 1'b0;
+// assign tx_pll_reconfig_address = 10'd0;
+// assign tx_pll_reconfig_writedata = 32'd0;
+
+wire [3:0] tx_analogreset;
+wire [3:0] tx_digitalreset;
+wire [3:0] gxb_tx_cal_busy;
+wire [3:0] tx_ready;
+wire [3:0] res_tx_cal_busy;
+wire [3:0] tx_analogreset_ack;
+wire [3:0] tx_coreclkin;
+
+assign rx_cal_busy = 1'b0;
+assign tx_cal_busy = ~&tx_ready;
+assign res_tx_cal_busy[0] = gxb_tx_cal_busy[0] | tx_pll_cal_busy;
+assign res_tx_cal_busy[1] = gxb_tx_cal_busy[1] | tx_pll_cal_busy;
+assign res_tx_cal_busy[2] = gxb_tx_cal_busy[2] | tx_pll_cal_busy;
+assign res_tx_cal_busy[3] = gxb_tx_cal_busy[3] | tx_pll_cal_busy;
+assign  from_gxb_tx[0] = tx_pll_locked;
+assign tx_coreclkin = {from_gxb_tx[1],from_gxb_tx[1],from_gxb_tx[1],from_gxb_tx[1]};
+@@}
+
+@@if {$PCIE_ENABLE == 1} {
+wire	pcie_npor_npor;
+wire coreclk_fanout_clk;
+wire coreclk_fanout_reset_n;
+wire [4:0]	hps_pcie_a10_hip_avmm_hip_pipe_sim_ltssmstate;
+wire [4:0] hps_pcie_a10_hip_avmm_hip_status_ltssmstate;
+@@}
+
+// connection of internal logics
+  assign fpga_led_pio     = fpga_led_internal;
+  assign stm_hw_events    = {{16{1'b0}}, fpga_dipsw_pio, fpga_led_internal, fpga_debounced_buttons};
+@@if {$SGMII_ENABLE == 1} {
+@@  for {set y 1} {$y<=$SGMII_COUNT} {incr y} {
+  assign emac${y}_fpga_mdio    = sgmii_${y}_emac_mdio_gmii_mdo_o_e ? sgmii_${y}_emac_mdio_gmii_mdo_o : 1'bz;
+  assign sgmii${y}_phy_reset_n = ~hps_fpga_reset;
+  assign f2h_interrupt[$y-1] = ~sgmii${y}_phy_irq_n;
+  @@  }
+  assign f2h_interrupt[31:32-$F2H_IRQ_REMAIN] = {$F2H_IRQ_REMAIN{1'b0}};
+@@}
+@@if {$PCIE_ENABLE == 1} {
+  assign pcie_npor_npor = ~hps_fpga_reset & hps_pcie_a10_hip_avmm_0_npor_pin_perst & fpga_reset_n;
+ 
+  //registers
+  reg         L0_led;        // link status ltssm=0xf
+  reg         alive_led;     // heart beat 
+  reg  [1:0]  linkwidth_led; // link width, 1=x1, 2=x4, skipped x2 and ignored x8
+  reg  [25:0] alive_cnt;
+  
+  
+  // connection of internal logics
+  assign pcie_perstn_out = 1'b1;
+//  assign fpga_led_pio = {L0_led, alive_led, linkwidth_led[1], ~fpga_led_internal};
+  //assign sync_pcie_por_n = ~sync_pcie_por; potentailly redundant signal
+  
+  // logic for LED display derivation
+  always @(posedge coreclk_fanout_clk or negedge coreclk_fanout_reset_n) begin // pcie_refclk_clk to be modified with coreclk_out from PCIe IP later
+    if (!coreclk_fanout_reset_n) begin
+      L0_led        <= 1'b0;      
+      alive_led     <= 1'b0;   
+      linkwidth_led <= 2'h0;
+      alive_cnt     <= 26'd0;
+      end
+    else begin
+      L0_led        <= ~(hps_pcie_a10_hip_avmm_hip_status_ltssmstate[3:0] == 4'hf);
+      alive_led     <= alive_cnt[25];   
+      linkwidth_led <= {alive_cnt[24],alive_cnt[21]}; // tentatively assign linkwidth_led as flashing display as PCIe HIP has yet exposed the tl_cfg_sts signal
+      alive_cnt     <= alive_cnt + 1;   
+      end
+    end
+@@}
+
+// SoC sub-system module
+${QSYS_NAME} soc_inst (
+  .f2h_stm_hw_events_stm_hwevents                (stm_hw_events),                   
+  .pio_dipsw_external_connection_export          (fpga_dipsw_pio),    
+  .pio_led_external_connection_in_port           (fpga_led_internal),
+  .pio_led_external_connection_out_port          (fpga_led_internal),                   
+  .pio_button_external_connection_export         (fpga_debounced_buttons),    
+  .hps_io_hps_io_phery_emac0_TX_CLK              (hps_emac0_TX_CLK), 
+  .hps_io_hps_io_phery_emac0_TXD0                (hps_emac0_TXD0),   
+  .hps_io_hps_io_phery_emac0_TXD1                (hps_emac0_TXD1),   
+  .hps_io_hps_io_phery_emac0_TXD2                (hps_emac0_TXD2),   
+  .hps_io_hps_io_phery_emac0_TXD3                (hps_emac0_TXD3),   
+  .hps_io_hps_io_phery_emac0_MDIO                (hps_emac0_MDIO),   
+  .hps_io_hps_io_phery_emac0_MDC                 (hps_emac0_MDC),    
+  .hps_io_hps_io_phery_emac0_RX_CTL              (hps_emac0_RX_CTL), 
+  .hps_io_hps_io_phery_emac0_TX_CTL              (hps_emac0_TX_CTL), 
+  .hps_io_hps_io_phery_emac0_RX_CLK              (hps_emac0_RX_CLK), 
+  .hps_io_hps_io_phery_emac0_RXD0                (hps_emac0_RXD0),   
+  .hps_io_hps_io_phery_emac0_RXD1                (hps_emac0_RXD1),   
+  .hps_io_hps_io_phery_emac0_RXD2                (hps_emac0_RXD2),   
+  .hps_io_hps_io_phery_emac0_RXD3                (hps_emac0_RXD3),
+  .hps_io_hps_io_phery_usb0_DATA0                (hps_usb0_D0),      
+  .hps_io_hps_io_phery_usb0_DATA1                (hps_usb0_D1),      
+  .hps_io_hps_io_phery_usb0_DATA2                (hps_usb0_D2),      
+  .hps_io_hps_io_phery_usb0_DATA3                (hps_usb0_D3),      
+  .hps_io_hps_io_phery_usb0_DATA4                (hps_usb0_D4),      
+  .hps_io_hps_io_phery_usb0_DATA5                (hps_usb0_D5),      
+  .hps_io_hps_io_phery_usb0_DATA6                (hps_usb0_D6),      
+  .hps_io_hps_io_phery_usb0_DATA7                (hps_usb0_D7),      
+  .hps_io_hps_io_phery_usb0_CLK                  (hps_usb0_CLK),     
+  .hps_io_hps_io_phery_usb0_STP                  (hps_usb0_STP),     
+  .hps_io_hps_io_phery_usb0_DIR                  (hps_usb0_DIR),     
+  .hps_io_hps_io_phery_usb0_NXT                  (hps_usb0_NXT),   
+  .hps_io_hps_io_phery_spim1_CLK                 (hps_spim1_CLK),
+  .hps_io_hps_io_phery_spim1_MOSI                (hps_spim1_MOSI),
+  .hps_io_hps_io_phery_spim1_MISO                (hps_spim1_MISO),
+  .hps_io_hps_io_phery_spim1_SS0_N               (hps_spim1_SS0_N),
+  .hps_io_hps_io_phery_spim1_SS1_N               (hps_spim1_SS1_N),
+  .hps_io_hps_io_phery_uart1_RX                  (hps_uart1_RX),     
+  .hps_io_hps_io_phery_uart1_TX                  (hps_uart1_TX),  
+@@if {$BOOT_SOURCE == "SDMMC"} {
+  .hps_io_hps_io_phery_sdmmc_CMD                 (hps_sdio_CMD),     
+  .hps_io_hps_io_phery_sdmmc_D0                  (hps_sdio_D0),      
+  .hps_io_hps_io_phery_sdmmc_D1                  (hps_sdio_D1),      
+  .hps_io_hps_io_phery_sdmmc_D2                  (hps_sdio_D2),      
+  .hps_io_hps_io_phery_sdmmc_D3                  (hps_sdio_D3),      
+  .hps_io_hps_io_phery_sdmmc_D4                  (hps_sdio_D4),
+  .hps_io_hps_io_phery_sdmmc_D5                  (hps_sdio_D5),
+  .hps_io_hps_io_phery_sdmmc_D6                  (hps_sdio_D6),
+  .hps_io_hps_io_phery_sdmmc_D7                  (hps_sdio_D7),
+  .hps_io_hps_io_phery_sdmmc_CCLK                (hps_sdio_CLK),   
+@@} elseif {$BOOT_SOURCE == "QSPI"} {
+  .hps_io_hps_io_phery_qspi_IO0                  (hps_qspi_IO0),      
+  .hps_io_hps_io_phery_qspi_IO1                  (hps_qspi_IO1),      
+  .hps_io_hps_io_phery_qspi_IO2_WPN              (hps_qspi_IO2_WPN),  
+  .hps_io_hps_io_phery_qspi_IO3_HOLD             (hps_qspi_IO3_HOLD), 
+  .hps_io_hps_io_phery_qspi_CLK                  (hps_qspi_CLK),      
+  .hps_io_hps_io_phery_qspi_SS0                  (hps_qspi_SS0), 
+@@} elseif {$BOOT_SOURCE == "NAND"} {
+  .hps_io_hps_io_phery_nand_ALE                  (hps_nand_ALE), 
+  .hps_io_hps_io_phery_nand_CE_N                 (hps_nand_CE_N),
+  .hps_io_hps_io_phery_nand_CLE                  (hps_nand_CLE), 
+  .hps_io_hps_io_phery_nand_RE_N                 (hps_nand_RE_N),
+  .hps_io_hps_io_phery_nand_RB                   (hps_nand_RB),  
+  .hps_io_hps_io_phery_nand_ADQ0                 (hps_nand_ADQ0),
+  .hps_io_hps_io_phery_nand_ADQ1                 (hps_nand_ADQ1),
+  .hps_io_hps_io_phery_nand_ADQ2                 (hps_nand_ADQ2),
+  .hps_io_hps_io_phery_nand_ADQ3                 (hps_nand_ADQ3),
+  .hps_io_hps_io_phery_nand_ADQ4                 (hps_nand_ADQ4),
+  .hps_io_hps_io_phery_nand_ADQ5                 (hps_nand_ADQ5),
+  .hps_io_hps_io_phery_nand_ADQ6                 (hps_nand_ADQ6),
+  .hps_io_hps_io_phery_nand_ADQ7                 (hps_nand_ADQ7),
+  .hps_io_hps_io_phery_nand_WE_N                 (hps_nand_WE_N),
+@@} else {
+@@ # Likely FPGA boot is selected
+@@}
+@@if {$ETRACE_ENABLE == 1} {
+  .hps_io_hps_io_phery_trace_CLK                 (hps_trace_CLK),
+  .hps_io_hps_io_phery_trace_D0                  (hps_trace_D0),
+  .hps_io_hps_io_phery_trace_D1                  (hps_trace_D1),
+  .hps_io_hps_io_phery_trace_D2                  (hps_trace_D2),
+  .hps_io_hps_io_phery_trace_D3                  (hps_trace_D3),
+@@}
+  .hps_io_hps_io_gpio_gpio1_io5                  (hps_gpio_GPIO05),  
+@@if {$SGMII_ENABLE == 1 && $BOARD_REV == "A"} {
+  .i2c1_scl_buff_din_export                      (1'b0),                           
+  .i2c1_scl_buff_dout_export                     (i2c1_io_internal_scl_i),  
+  .i2c1_scl_buff_oe_export                       (i2c1_io_internal_scl_oe),    
+  .i2c1_scl_buff_pad_io_export                   (hps_i2c1_SCL),
+  .i2c1_sda_buff_din_export                      (1'b0),   
+  .i2c1_sda_buff_dout_export                     (i2c1_io_internal_sda_i),  
+  .i2c1_sda_buff_oe_export                       (i2c1_io_internal_sda_oe),    
+  .i2c1_sda_buff_pad_io_export                   (hps_i2c1_SDA), 
+  .arria10_hps_0_i2c1_sda_i                      (i2c1_io_internal_sda_i),
+  .arria10_hps_0_i2c1_sda_oe                     (i2c1_io_internal_sda_oe),
+  .arria10_hps_0_i2c1_scl_in_clk                 (i2c1_io_internal_scl_i),
+  .arria10_hps_0_i2c1_clk_clk                    (i2c1_io_internal_scl_oe),
+@@} else {
+  .hps_io_hps_io_gpio_gpio1_io14                 (hps_gpio_GPIO14),
+  .hps_io_hps_io_gpio_gpio1_io16                 (hps_gpio_GPIO16),
+  .hps_io_hps_io_gpio_gpio1_io17                 (hps_gpio_GPIO17),
+  .hps_io_hps_io_phery_i2c1_SDA                  (hps_i2c1_SDA),
+  .hps_io_hps_io_phery_i2c1_SCL                  (hps_i2c1_SCL),  
+@@}
+@@if {$HPS_SDRAM_DEVICE == "D9RPL" || $HPS_SDRAM_DEVICE == "D9PZN"} {
+  .emif_a10_hps_0_mem_conduit_end_mem_ck         (hps_memory_mem_ck),     
+  .emif_a10_hps_0_mem_conduit_end_mem_ck_n       (hps_memory_mem_ck_n),   
+  .emif_a10_hps_0_mem_conduit_end_mem_a          (hps_memory_mem_a),      
+  .emif_a10_hps_0_mem_conduit_end_mem_ba         (hps_memory_mem_ba),     
+  .emif_a10_hps_0_mem_conduit_end_mem_cke        (hps_memory_mem_cke),    
+  .emif_a10_hps_0_mem_conduit_end_mem_cs_n       (hps_memory_mem_cs_n),   
+  .emif_a10_hps_0_mem_conduit_end_mem_odt        (hps_memory_mem_odt),    
+  .emif_a10_hps_0_mem_conduit_end_mem_reset_n    (hps_memory_mem_reset_n),
+  .emif_a10_hps_0_mem_conduit_end_mem_we_n       (hps_memory_mem_we_n),   
+  .emif_a10_hps_0_mem_conduit_end_mem_ras_n      (hps_memory_mem_ras_n),  
+  .emif_a10_hps_0_mem_conduit_end_mem_cas_n      (hps_memory_mem_cas_n),  
+  .emif_a10_hps_0_mem_conduit_end_mem_dqs        (hps_memory_mem_dqs),    
+  .emif_a10_hps_0_mem_conduit_end_mem_dqs_n      (hps_memory_mem_dqs_n),  
+  .emif_a10_hps_0_mem_conduit_end_mem_dq         (hps_memory_mem_dq),     
+  .emif_a10_hps_0_mem_conduit_end_mem_dm         (hps_memory_mem_dm),     
+  .emif_a10_hps_0_oct_conduit_end_oct_rzqin      (hps_memory_oct_rzqin), 
+  .emif_a10_hps_0_pll_ref_clk_clock_sink_clk     (emif_ref_clk),
+@@} elseif {$HPS_SDRAM_DEVICE == "D9RGX"} {
+  .emif_a10_hps_0_mem_conduit_end_mem_ck         (hps_memory_mem_ck),     
+  .emif_a10_hps_0_mem_conduit_end_mem_ck_n       (hps_memory_mem_ck_n),   
+  .emif_a10_hps_0_mem_conduit_end_mem_a          (hps_memory_mem_a),      
+  .emif_a10_hps_0_mem_conduit_end_mem_act_n      (hps_memory_mem_act_n),
+  .emif_a10_hps_0_mem_conduit_end_mem_ba         (hps_memory_mem_ba), 
+  .emif_a10_hps_0_mem_conduit_end_mem_bg         (hps_memory_mem_bg),
+  .emif_a10_hps_0_mem_conduit_end_mem_cke        (hps_memory_mem_cke),    
+  .emif_a10_hps_0_mem_conduit_end_mem_cs_n       (hps_memory_mem_cs_n),   
+  .emif_a10_hps_0_mem_conduit_end_mem_odt        (hps_memory_mem_odt),    
+  .emif_a10_hps_0_mem_conduit_end_mem_reset_n    (hps_memory_mem_reset_n),
+  .emif_a10_hps_0_mem_conduit_end_mem_par        (hps_memory_mem_par), 
+  .emif_a10_hps_0_mem_conduit_end_mem_alert_n    (hps_memory_mem_alert_n), 
+  .emif_a10_hps_0_mem_conduit_end_mem_dqs        (hps_memory_mem_dqs),    
+  .emif_a10_hps_0_mem_conduit_end_mem_dqs_n      (hps_memory_mem_dqs_n),  
+  .emif_a10_hps_0_mem_conduit_end_mem_dq         (hps_memory_mem_dq), 
+  .emif_a10_hps_0_mem_conduit_end_mem_dbi_n      (hps_memory_mem_dbi_n), 
+  .emif_a10_hps_0_oct_conduit_end_oct_rzqin      (hps_memory_oct_rzqin), 
+  .emif_a10_hps_0_pll_ref_clk_clock_sink_clk     (emif_ref_clk),
+@@} else {
+  // No EMIF ports instantiated as no SDRAM selected in design_config.tcl
+@@}
+@@if {$FTRACE_ENABLE == 1} {
+  .trace_wrapper_0_f2h_clk_in_clk_ctl            (1'b1),     // use HPS internal debug trace clock to drive TRACE interface
+  .trace_wrapper_0_f2h_clk_in_clk                (1'b0),
+  .trace_wrapper_0_trace_clk_out_clk             (ftrace_clk),
+  .trace_wrapper_0_trace_data_out_export         (ftrace_data),
+@@}
+@@if {$SGMII_ENABLE == 1} {
+@@  for {set y 1} {$y<=$SGMII_COUNT} {incr y} {
+  .emac${y}_md_clk_clk                              (emac${y}_fpga_mdc),
+  .sgmii_${y}_emac_mdio_gmii_mdi_i                  (emac${y}_fpga_mdio),                      
+  .sgmii_${y}_emac_mdio_gmii_mdo_o                  (sgmii_${y}_emac_mdio_gmii_mdo_o),                      
+  .sgmii_${y}_emac_mdio_gmii_mdo_o_e                (sgmii_${y}_emac_mdio_gmii_mdo_o_e),                    
+  .sgmii_${y}_emac_ptp_ptp_aux_ts_trig_i            (1'b0),                
+  .sgmii_${y}_emac_ptp_ptp_pps_o                    (),                        
+  .sgmii_${y}_tse_rx_is_lockedtoref_rx_is_lockedtoref (),   
+  .sgmii_${y}_tse_rx_set_locktodata_rx_set_locktodata (1'b0),   
+  .sgmii_${y}_tse_rx_set_locktoref_rx_set_locktoref (1'b0),     
+  .sgmii_${y}_tse_serdes_control_connection_export  (),      
+  .sgmii_${y}_tse_serial_connection_rxp             (emac${y}_sgmii_rxp),                 
+  .sgmii_${y}_tse_serial_connection_txp             (emac${y}_sgmii_txp),                 
+  .sgmii_${y}_tse_sgmii_status_connection_set_10    (),        
+  .sgmii_${y}_tse_sgmii_status_connection_set_1000  (),      // to be connect to LED for link status
+  .sgmii_${y}_tse_sgmii_status_connection_set_100   (),       
+  .sgmii_${y}_tse_sgmii_status_connection_hd_ena    (),        
+  .sgmii_${y}_tse_status_led_connection_crs         (),             
+  .sgmii_${y}_tse_status_led_connection_link        (),       // link status LED   
+  .sgmii_${y}_tse_status_led_connection_panel_link  (),      
+  .sgmii_${y}_tse_status_led_connection_col         (),             
+  .sgmii_${y}_tse_status_led_connection_an          (),              
+  .sgmii_${y}_tse_status_led_connection_char_err    (),        
+  .sgmii_${y}_tse_status_led_connection_disp_err    (),        
+  .sgmii_${y}_xcvr_reset_control_0_pll_select_pll_select (), // set to 0 when not using multiple PLL
+  .sgmii_${y}_xcvr_reset_control_0_rx_ready_rx_ready(),    
+  .sgmii_${y}_xcvr_reset_control_0_tx_ready_tx_ready(), 
+@@  }
+  .f2h_irq_irq                                      (f2h_interrupt),
+  .ref_clk_125_clk                                  (pcs_clk_125),
+@@}
+
+@@if {$DISP_PORT_ENABLE == 1} {
+  .display_port_video_pll_locked_export       		   (video_pll_locked),                                      
+  .display_port_video_pll_outclk0_clk          		   (clk_vid),                                        
+  .display_port_video_pll_outclk1_clk          		   (clk_16),                                     
+  .display_port_video_pll_outclk2_clk          		   (clk_cal_50),
+  .display_port_clk_vip_clk            (clk_vid),
+  .display_port_clk_16_clk                 (clk_16),
+  .display_port_bitec_dp_0_clk_cal_clk     (clk_cal_50),
+  .display_port_bitec_dp_0_tx_aux_aux_in       			(dp_tx_aux_aux_in),
+  .display_port_bitec_dp_0_tx_aux_aux_out      			(dp_tx_aux_aux_out),
+  .display_port_bitec_dp_0_tx_aux_aux_oe       			(dp_tx_aux_aux_oe),  
+  .display_port_bitec_dp_0_tx_aux_hpd          (TX_HPD),
+  
+  .display_port_bitec_dp_0_tx_parallel_data              (to_gxb_tx),
+  .display_port_bitec_dp_0_tx_std_clkout            (from_gxb_tx[4:1]),
+  .display_port_bitec_dp_0_tx_pll_locked            (from_gxb_tx[0]),
+  .display_port_bitec_dp_0_tx_analog_reconfig_analog_reconfig_busy  (from_tx_reconfig),
+  .display_port_bitec_dp_0_tx_analog_reconfig_vod (to_tx_reconfig[17:10]),
+  .display_port_bitec_dp_0_tx_analog_reconfig_emp (to_tx_reconfig[25:18]),
+  .display_port_bitec_dp_0_tx_reconfig_link_rate_8bits (to_tx_reconfig[9:2]),
+  .display_port_bitec_dp_0_tx_analog_reconfig_analog_reconfig_ack (1'b1),
+  .display_port_bitec_dp_0_tx_analog_reconfig_analog_reconfig_req (to_tx_reconfig[0]),                            
+  .display_port_bitec_dp_0_tx_reconfig_reconfig_req (to_tx_reconfig[1]),                         
+  .display_port_bitec_dp_0_tx_reconfig_reconfig_ack (1'b1),                         
+  .display_port_bitec_dp_0_tx_reconfig_reconfig_busy (from_tx_reconfig),  
+  
+  .display_port_bitec_dp_0_tx0_video_in_1_clk      (clk_vid),
+  .display_port_bitec_dp_0_tx0_video_in_data     (tpg_outd),
+  .display_port_bitec_dp_0_tx0_video_in_v_sync    (~tpg_v), 
+  .display_port_bitec_dp_0_tx0_video_in_h_sync    (~tpg_h),   
+  .display_port_bitec_dp_0_tx0_video_in_de       (tpg_de),
+
+  .display_port_pio_0_external_connection_export   (),
+
+  //.display_port_oc_i2c_master_0_conduit_start_scl_pad_io (),
+  //.display_port_oc_i2c_master_0_conduit_start_sda_pad_io (),
+  
+  .display_port_cvo_clocked_video_vid_clk        (clk_vid),
+  .display_port_cvo_clocked_video_vid_data       (tpg_outd),
+  .display_port_cvo_clocked_video_vid_datavalid  (tpg_de),
+  .display_port_cvo_clocked_video_vid_v_sync     (tpg_v),
+  .display_port_cvo_clocked_video_vid_h_sync     (tpg_h),
+  .display_port_bitec_dp_0_tx_ss_ready			 (),                                            
+  .display_port_bitec_dp_0_tx_ss_valid			 (1'b0),                                           
+  .display_port_bitec_dp_0_tx_ss_data			 (128'b0),                                             
+  .display_port_bitec_dp_0_tx_ss_startofpacket	 (1'b0),                                   
+  .display_port_bitec_dp_0_tx_ss_endofpacket	 (1'b0),                                     
+  .display_port_bitec_dp_0_tx_ss_clk_clk	   	 (),
+  @@if {$ADD_FRAME_BUFFER == 0 && $PARTIAL_RECONFIGURATION == 0} {
+  .display_port_vesa_tpg_export                  (tpg_pio[2:0]),
+  .display_port_tpg_pio_export                   (tpg_pio), 	
+  @@}
+  .display_port_xcvr_fpll_a10_0_mcgb_rst_mcgb_rst (hps_fpga_reset),                           
+  .display_port_xcvr_fpll_a10_0_pll_cal_busy_pll_cal_busy (tx_pll_cal_busy),                      
+  .display_port_xcvr_fpll_a10_0_pll_locked_pll_locked (tx_pll_locked),                         
+  .display_port_xcvr_fpll_a10_0_pll_refclk0_clk (clk_270),                                
+  .display_port_xcvr_fpll_a10_0_reconfig_avmm0_write (tx_pll_reconfig_write),                          
+  .display_port_xcvr_fpll_a10_0_reconfig_avmm0_read (tx_pll_reconfig_read),                            
+  .display_port_xcvr_fpll_a10_0_reconfig_avmm0_address (tx_pll_reconfig_address),                     
+  .display_port_xcvr_fpll_a10_0_reconfig_avmm0_writedata (tx_pll_reconfig_writedata),                      
+  .display_port_xcvr_fpll_a10_0_reconfig_avmm0_readdata (tx_pll_reconfig_readdata),                      
+  .display_port_xcvr_fpll_a10_0_reconfig_avmm0_waitrequest (tx_pll_reconfig_waitrequest),                
+  .display_port_xcvr_fpll_a10_0_tx_serial_clk_clk (),                            
+
+  .display_port_xcvr_native_a10_0_reconfig_avmm_ch0_write	(tx_gxb_reconfig_write),                        
+  .display_port_xcvr_native_a10_0_reconfig_avmm_ch0_read	(tx_gxb_reconfig_read),                         
+  .display_port_xcvr_native_a10_0_reconfig_avmm_ch0_address	(tx_gxb_reconfig_address),                      
+  .display_port_xcvr_native_a10_0_reconfig_avmm_ch0_writedata	(tx_gxb_reconfig_writedata),                     
+  .display_port_xcvr_native_a10_0_reconfig_avmm_ch0_readdata	(tx_gxb_reconfig_waitrequest),                     
+  .display_port_xcvr_native_a10_0_reconfig_avmm_ch0_waitrequest	(),             
+  .display_port_xcvr_native_a10_0_tx_analogreset_ch0_tx_analogreset (tx_analogreset[0]),            
+  .display_port_xcvr_native_a10_0_tx_analogreset_ch1_tx_analogreset (tx_analogreset[1]),              
+  .display_port_xcvr_native_a10_0_tx_analogreset_ch2_tx_analogreset (tx_analogreset[2]),              
+  .display_port_xcvr_native_a10_0_tx_analogreset_ch3_tx_analogreset (tx_analogreset[3]), 
+  .display_port_xcvr_native_a10_0_tx_analogreset_ack_ch0_tx_analogreset_ack (tx_analogreset_ack[0]),       
+  .display_port_xcvr_native_a10_0_tx_analogreset_ack_ch1_tx_analogreset_ack (tx_analogreset_ack[1]),      
+  .display_port_xcvr_native_a10_0_tx_analogreset_ack_ch2_tx_analogreset_ack (tx_analogreset_ack[2]),        
+  .display_port_xcvr_native_a10_0_tx_analogreset_ack_ch3_tx_analogreset_ack (tx_analogreset_ack[3]),   
+  .display_port_xcvr_native_a10_0_tx_cal_busy_ch0_tx_cal_busy (gxb_tx_cal_busy[0]),                     
+  .display_port_xcvr_native_a10_0_tx_cal_busy_ch1_tx_cal_busy (gxb_tx_cal_busy[1]),                    
+  .display_port_xcvr_native_a10_0_tx_cal_busy_ch2_tx_cal_busy (gxb_tx_cal_busy[2]),                    
+  .display_port_xcvr_native_a10_0_tx_cal_busy_ch3_tx_cal_busy (gxb_tx_cal_busy[3]),              
+  .display_port_xcvr_native_a10_0_tx_clkout_ch0_clk	(from_gxb_tx[1]),                               
+  .display_port_xcvr_native_a10_0_tx_clkout_ch1_clk	(from_gxb_tx[2]),                               
+  .display_port_xcvr_native_a10_0_tx_clkout_ch2_clk	(from_gxb_tx[3]),                              
+  .display_port_xcvr_native_a10_0_tx_clkout_ch3_clk	(from_gxb_tx[4]),                             
+  .display_port_xcvr_native_a10_0_tx_coreclkin_ch0_clk (tx_coreclkin[0]),                           
+  .display_port_xcvr_native_a10_0_tx_coreclkin_ch1_clk (tx_coreclkin[1]),                           
+  .display_port_xcvr_native_a10_0_tx_coreclkin_ch2_clk (tx_coreclkin[2]),                           
+  .display_port_xcvr_native_a10_0_tx_coreclkin_ch3_clk (tx_coreclkin[3]),                          
+  .display_port_xcvr_native_a10_0_tx_digitalreset_ch0_tx_digitalreset (tx_digitalreset[0]),             
+  .display_port_xcvr_native_a10_0_tx_digitalreset_ch1_tx_digitalreset (tx_digitalreset[1]),            
+  .display_port_xcvr_native_a10_0_tx_digitalreset_ch2_tx_digitalreset (tx_digitalreset[2]),             
+  .display_port_xcvr_native_a10_0_tx_digitalreset_ch3_tx_digitalreset (tx_digitalreset[3]),             
+  .display_port_xcvr_native_a10_0_tx_parallel_data_ch0_tx_parallel_data	(to_gxb_tx[39:0]),          
+  .display_port_xcvr_native_a10_0_tx_parallel_data_ch1_tx_parallel_data	(to_gxb_tx[79:40]),           
+  .display_port_xcvr_native_a10_0_tx_parallel_data_ch2_tx_parallel_data	(to_gxb_tx[119:80]),         
+  .display_port_xcvr_native_a10_0_tx_parallel_data_ch3_tx_parallel_data	(to_gxb_tx[159:120]),        
+  .display_port_xcvr_native_a10_0_tx_polinv_ch0_tx_polinv	(1'b0),                       
+  .display_port_xcvr_native_a10_0_tx_polinv_ch1_tx_polinv	(1'b0),                        
+  .display_port_xcvr_native_a10_0_tx_polinv_ch2_tx_polinv	(1'b0),                        
+  .display_port_xcvr_native_a10_0_tx_polinv_ch3_tx_polinv	(1'b0),                       
+  .display_port_xcvr_native_a10_0_tx_serial_data_ch0_tx_serial_data (tx_serial_data[0]),             
+  .display_port_xcvr_native_a10_0_tx_serial_data_ch1_tx_serial_data (tx_serial_data[1]),              
+  .display_port_xcvr_native_a10_0_tx_serial_data_ch2_tx_serial_data (tx_serial_data[2]),              
+  .display_port_xcvr_native_a10_0_tx_serial_data_ch3_tx_serial_data (tx_serial_data[3]),             
+  .display_port_xcvr_native_a10_0_unused_tx_parallel_data_unused_tx_parallel_data (),
+
+  .display_port_xcvr_reset_control_0_pll_locked_pll_locked (tx_pll_locked),                   
+  .display_port_xcvr_reset_control_0_pll_select_pll_select	(1'b0),                   
+  .display_port_xcvr_reset_control_0_reset_reset (tx_xcvr_reset | hps_fpga_reset),    
+  .display_port_xcvr_reset_control_0_tx_analogreset_tx_analogreset (tx_analogreset),                
+  .display_port_xcvr_reset_control_0_tx_cal_busy_tx_cal_busy (res_tx_cal_busy),                    
+  .display_port_xcvr_reset_control_0_tx_digitalreset_tx_digitalreset (tx_digitalreset),              
+  .display_port_xcvr_reset_control_0_tx_ready_tx_ready (tx_ready),                           
+  @@}
+
+@@if {$PCIE_ENABLE == 1} {  
+   //PCIe
+  .pcie_0_pcie_a10_hip_avmm_refclk_clk (pcie_refclk_100),
+  .pcie_0_coreclk_fanout_clk_clk	(coreclk_fanout_clk),                   
+  .pcie_0_coreclk_fanout_clk_reset_reset_n	(coreclk_fanout_reset_n), 
+  //.iopll_0_refclk_clk	(coreclk_fanout_clk),
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_sim_pipe_pclk_in	(1'b0),    
+  @@if {$GEN_ENABLE == 3} {  
+  .pcie_0_pcie_a10_hip_avmm_hip_ctrl_test_in        ( 32'h00000100 ),
+  @@} else {
+  .pcie_0_pcie_a10_hip_avmm_hip_ctrl_test_in        ( 32'h0 ),
+  @@}
+  .pcie_0_pcie_a10_hip_avmm_hip_ctrl_simu_mode_pipe ( 0 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_phystatus0	(1'b0),                 
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_phystatus1	(1'b0),                 
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_phystatus2	(1'b0),                 
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_phystatus3	(1'b0),  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdata0	(32'b0),                   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdata1	(32'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdata2	(32'b0),                    
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdata3	(32'b0),                            
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdatak0	(4'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdatak1	(4'b0),                   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdatak2	(4'b0),                   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdatak3	(4'b0),                                    
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxelecidle0	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxelecidle1	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxelecidle2	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxelecidle3	(1'b0),                              
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxstatus0	(3'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxstatus1	(3'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxstatus2	(3'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxstatus3	(3'b0),                               
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxvalid0	(1'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxvalid1	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxvalid2	(1'b0),                 
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxvalid3	(1'b0),                                    
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdataskip0	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdataskip1	(1'b0),              
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdataskip2	(1'b0),               
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdataskip3	(1'b0),                       
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxblkst0	(1'b0),                   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxblkst1	(1'b0),            
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxblkst2	(1'b0),                   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxblkst3	(1'b0),
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxsynchd0	(2'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxsynchd1	(2'b0),                 
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxsynchd2	(2'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxsynchd3	(2'b0),                                 
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_rx_in0       ( rx_in0 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_rx_in1       ( rx_in1 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_rx_in2       ( rx_in2 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_rx_in3       ( rx_in3 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_tx_out0      ( tx_out0 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_tx_out1      ( tx_out1 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_tx_out2      ( tx_out2 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_tx_out3      ( tx_out3 ), 
+  @@if {$PCIE_COUNT == 8} {  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_phystatus4	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_phystatus5	(1'b0),              
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_phystatus6	(1'b0),               
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_phystatus7	(1'b0),  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdata4	(32'b0),                    
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdata5	(32'b0),                    
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdata6	(32'b0),                    
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdata7	(32'b0),
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdatak4	(4'b0),                   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdatak5	(4'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdatak6	(4'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdatak7	(4'b0),
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxelecidle4	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxelecidle5	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxelecidle6	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxelecidle7	(1'b0),  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxstatus4	(3'b0),                 
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxstatus5	(3'b0),                 
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxstatus6	(3'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxstatus7	(3'b0),    
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxvalid4	(1'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxvalid5	(1'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxvalid6	(1'b0),                   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxvalid7	(1'b0),
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdataskip4	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdataskip5	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdataskip6	(1'b0),                
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxdataskip7	(1'b0),    
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxblkst4	(1'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxblkst5	(1'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxblkst6	(1'b0),                   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxblkst7	(1'b0),   
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxsynchd4	(2'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxsynchd5	(2'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxsynchd6	(2'b0),                  
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_rxsynchd7	(2'b0), 
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_rx_in4    ( rx_in4 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_rx_in5    ( rx_in5 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_rx_in6    ( rx_in6 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_rx_in7    ( rx_in7 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_tx_out4   ( tx_out4 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_tx_out5   ( tx_out5 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_tx_out6   ( tx_out6 ),
+  .pcie_0_pcie_a10_hip_avmm_hip_serial_tx_out7   ( tx_out7 ), 
+   @@} 
+  .pcie_0_pcie_a10_hip_avmm_hip_pipe_sim_ltssmstate	(hps_pcie_a10_hip_avmm_hip_pipe_sim_ltssmstate),
+  .pcie_0_pcie_a10_hip_avmm_hip_status_ltssmstate	(hps_pcie_a10_hip_avmm_hip_status_ltssmstate),
+  .pcie_0_pcie_a10_hip_avmm_npor_npor	(pcie_npor_npor),
+  .pcie_0_pcie_a10_hip_avmm_npor_pin_perst	(hps_pcie_a10_hip_avmm_0_npor_pin_perst),
+@@}
+@@if {$PARTIAL_RECONFIGURATION == 1} {
+  @@if {$FREEZE_ACK_DELAY_ENABLE == 1} {
+  .freeze_controller_0_pr_handshake_start_req	 (pr_handshake_start_req_ack_loopback_wire),
+  .freeze_controller_0_pr_handshake_start_ack	 (pr_handshake_start_req_ack_loopback_wire_delay_ver), 
+  .freeze_controller_0_pr_handshake_stop_req	    (pr_handshake_stop_req_ack_loopback_wire),
+  .freeze_controller_0_pr_handshake_stop_ack	    (pr_handshake_stop_req_ack_loopback_wire_delay_ver),
+  .start_ack_pio_external_connection_export  (start_ack_delay_cnt),
+  .stop_ack_pio_external_connection_export   (stop_ack_delay_cnt), 
+  .freeze_ack_pio_external_connection_export (freeze_ack_delay_cnt), 
+  .freeze_bridge_0_freeze_conduit_freeze 			 (freeze_wire),           
+  .freeze_bridge_0_freeze_conduit_freeze_ack 		 (freeze_ack_wire),    
+  .freeze_bridge_0_freeze_conduit_illegal_request  (illegal_request_wire),  
+  .freeze_controller_0_freeze_conduit0_freeze 		 (freeze_wire),         
+  .freeze_controller_0_freeze_conduit0_freeze_ack 	 (freeze_ack_wire_delay_ver),    
+  .freeze_controller_0_freeze_conduit0_illegal_request (illegal_request_wire),  
+  @@} else {
+  .freeze_controller_0_pr_handshake_start_req	 (pr_handshake_start_req_ack_loopback_wire),
+  .freeze_controller_0_pr_handshake_start_ack	 (pr_handshake_start_req_ack_loopback_wire), 
+  .freeze_controller_0_pr_handshake_stop_req	 (pr_handshake_stop_req_ack_loopback_wire),
+  .freeze_controller_0_pr_handshake_stop_ack	 (pr_handshake_stop_req_ack_loopback_wire),
+  @@}
+@@}
+  .clk_100_clk                                   (fpga_clk_100),
+  .reset_reset_n                                 (fpga_reset_n),
+  .hps_fpga_reset_reset                          (hps_fpga_reset),
+  .issp_hps_resets_source                        (hps_reset_req),
+  .f2h_cold_reset_req_reset_n                    (~hps_cold_reset),
+  .f2h_warm_reset_req_reset_n                    (~hps_warm_reset),
+  .f2h_debug_reset_req_reset_n                   (~hps_debug_reset)
+);  
+
+@@if {$DISP_PORT_ENABLE == 1} {
+bitec_reconfig_alt_a10 bitec_reconfig_alt_a10_i
+(
+  .clk                    (clk_100),
+  .reset                  (hps_fpga_reset),
+  .tx_analogreset_ack     (&tx_analogreset_ack),
+  
+  .rx_link_rate           (8'd0),
+  .rx_link_rate_strobe    (1'b0),
+  .rx_xcvr_busy           (),
+
+  .tx_link_rate           (to_tx_reconfig[9:2]),
+  .tx_vod                 (to_tx_reconfig[17:10]),
+  .tx_emp                 (to_tx_reconfig[25:18]),
+  .tx_link_rate_strobe    (1'b0),
+  .tx_vodemp_strobe       (1'b0),
+  .tx_xcvr_busy           (from_tx_reconfig),
+  .tx_xcvr_reset          (tx_xcvr_reset),
+
+  .tx_mgmt_chnum             (tx_gxb_reconfig_address[11:10]),
+  .tx_mgmt_address           (tx_gxb_reconfig_address[9:0]),
+  .tx_mgmt_writedata         (tx_gxb_reconfig_writedata),
+  .tx_mgmt_readdata          (tx_gxb_reconfig_readdata),
+  .tx_mgmt_write             (tx_gxb_reconfig_write),
+  .tx_mgmt_read              (tx_gxb_reconfig_read),
+  .tx_mgmt_waitrequest       (tx_gxb_reconfig_waitrequest),
+
+  .txpll_mgmt_address       (tx_pll_reconfig_address),
+  .txpll_mgmt_writedata     (tx_pll_reconfig_writedata),
+  .txpll_mgmt_readdata      (tx_pll_reconfig_readdata),
+  .txpll_mgmt_write         (tx_pll_reconfig_write),
+  .txpll_mgmt_read          (tx_pll_reconfig_read),
+  .txpll_mgmt_waitrequest   (tx_pll_reconfig_waitrequest),  
+  
+  .rx_cal_busy            (rx_cal_busy),
+  .tx_cal_busy            (tx_cal_busy)
+);
+  defparam  bitec_reconfig_alt_a10_i.RX_LANES = 0;
+  defparam  bitec_reconfig_alt_a10_i.TX_LANES = 4;
+  defparam  bitec_reconfig_alt_a10_i.TX_RATES_NUM = 3;
+  defparam  bitec_reconfig_alt_a10_i.RX_RATES_NUM = 0;
+
+  
+// Instantiate the AUX buffers
+
+buslvds buslvds_i (
+	.doutp(dp_tx_aux_aux_out),
+	.oe(dp_tx_aux_aux_oe),
+	.din(dp_tx_aux_aux_in),
+	.p(DP_AUX_CH_P),
+	.n(DP_AUX_CH_N)
+);
+
+@@}
+// Debounce logic to clean out glitches within 1ms
+debounce debounce_inst (
+  .clk                                  (fpga_clk_100),
+  .reset_n                              (~hps_fpga_reset),  
+  .data_in                              (fpga_button_pio),
+  .data_out                             (fpga_debounced_buttons)
+);
+  defparam debounce_inst.WIDTH = 4;
+  defparam debounce_inst.POLARITY = "LOW";
+  defparam debounce_inst.TIMEOUT = 100000;              // at 100Mhz this is a debounce time of 1ms
+  defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
+ 
+
+altera_edge_detector pulse_cold_reset (
+  .clk       (fpga_clk_100),
+  .rst_n     (~hps_fpga_reset),
+  .signal_in (hps_reset_req[0]),
+  .pulse_out (hps_cold_reset)
+);
+  defparam pulse_cold_reset.PULSE_EXT = 6;
+  defparam pulse_cold_reset.EDGE_TYPE = 1;
+  defparam pulse_cold_reset.IGNORE_RST_WHILE_BUSY = 1;
+
+altera_edge_detector pulse_warm_reset (
+  .clk       (fpga_clk_100),
+  .rst_n     (~hps_fpga_reset),
+  .signal_in (hps_reset_req[1]),
+  .pulse_out (hps_warm_reset)
+);
+  defparam pulse_warm_reset.PULSE_EXT = 2;
+  defparam pulse_warm_reset.EDGE_TYPE = 1;
+  defparam pulse_warm_reset.IGNORE_RST_WHILE_BUSY = 1;
+
+altera_edge_detector pulse_debug_reset (
+  .clk       (fpga_clk_100),
+  .rst_n     (~hps_fpga_reset),
+  .signal_in (hps_reset_req[2]),
+  .pulse_out (hps_debug_reset)
+);
+  defparam pulse_debug_reset.PULSE_EXT = 32;
+  defparam pulse_debug_reset.EDGE_TYPE = 1;
+  defparam pulse_debug_reset.IGNORE_RST_WHILE_BUSY = 1;
+  
+
+endmodule
