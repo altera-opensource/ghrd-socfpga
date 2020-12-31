@@ -244,10 +244,10 @@ add_component_param "altera_xcvr_fpll_s10_htile pll_sampling_clk
                      {set_altera_xcvr_fpll_s10_calibration_en} {1}
                      {set_auto_reference_clock_frequency} {100.0}
                      {set_bw_sel} {medium}
-                     {set_enable_fractional} {1}
+                     {set_enable_fractional} {0}
                      {set_fref_clock_frequency} {125.0}
                      {set_hip_cal_en} {0}
-                     {set_output_clock_frequency} {153.846153846}
+                     {set_output_clock_frequency} {153.8461538462}
                      {set_power_mode} {1_0V}
                      {set_primary_use} {0}
                      {set_x1_core_clock} {1}
@@ -266,7 +266,7 @@ add_component_param "altera_xcvr_fpll_s10_htile pll_tod_sync_sampling_clock
                      {set_altera_xcvr_fpll_s10_calibration_en} {1}
                      {set_auto_reference_clock_frequency} {100.0}
                      {set_bw_sel} {medium}
-                     {set_enable_fractional} {1}
+                     {set_enable_fractional} {0}
                      {set_fref_clock_frequency} {125.0}
                      {set_hip_cal_en} {0}
                      {set_output_clock_frequency} {80.0}
