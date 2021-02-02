@@ -125,6 +125,9 @@ ENABLE_HPS_EMIF_ECC ?= 0
 ENABLE_WATCHDOG_RST ?= 1
 # Supported watchdog reset action: cold, warm, remote_update
 WATCHDOG_RST_ACTION ?= cold
+# Enable Partial Reconfiguration: 0, 1
+# Not applicable to FM6 RevA (AGFB014R24A3E3VR0)
+ENABLE_PARTIAL_RECONFIGURATION ?= 1
 
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
 QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
@@ -226,10 +229,14 @@ endif
 
 ####
 # Quartus Partial Reconfiguration
-ENABLE_PARTIAL_RECONFIGURATION ?= 0
 ENABLE_PARTIAL_RECONFIGURATION_TESTING ?= 0
 
 ifeq ($(ENABLE_PARTIAL_RECONFIGURATION),1)
+ifneq ($(shell echo $(QUARTUS_DEVICE) | grep -E "AGFB014R24A.*VR0"),)
+$(warning WARNING: Partial Reconfiguraion is not supported on FM6 REVA. ENABLE_PARTIAL_RECONFIGURATION force to 0)
+ENABLE_PARTIAL_RECONFIGURATION = 0
+endif
+
 QUARTUS_TCL_ARGS += pr_enable $(ENABLE_PARTIAL_RECONFIGURATION) 
 QSYS_TCL_CMDS += set pr_enable $(ENABLE_PARTIAL_RECONFIGURATION);
 QSYS_TCL_CMDS += set freeze_ack_dly_enable $(ENABLE_PARTIAL_RECONFIGURATION_TESTING);
