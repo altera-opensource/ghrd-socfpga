@@ -46,7 +46,7 @@ add_component_param "altera_avalon_mm_bridge rx_dma_csr
                     MAX_BURST_SIZE 1
                     MAX_PENDING_RESPONSES 1
                     "                           
-add_component_param "altera_msgdma_prefetcher_mod rx_dma_prefetcher
+add_component_param "altera_msgdma_prefetcher rx_dma_prefetcher
                     IP_FILE_PATH ip/$subsys_name/rx_dma_prefetcher.ip 
                     DATA_WIDTH {32}
                     ENABLE_READ_BURST {1}
@@ -55,6 +55,7 @@ add_component_param "altera_msgdma_prefetcher_mod rx_dma_prefetcher
                     GUI_DESCRIPTOR_FIFO_DEPTH {128}
                     GUI_MAX_READ_BURST_COUNT {16}
                     USE_FIX_ADDRESS_WIDTH {1}
+                    GUI_TIMESTAMP_WRITEBACK {1}
                     "               
 
 add_component_param "modular_sgdma_dispatcher rx_dma_dispatcher

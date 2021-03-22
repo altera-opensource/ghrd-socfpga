@@ -176,3 +176,5 @@ set_false_path -from * -to {*|mge_10gbe_tod_start_sync_ctrl_pio|altera_avalon_pi
 set_false_path -from * -to {*|mge_10gbe_tod_start_sync_ctrl_pio|altera_avalon_pio_inst|readdata[*]}
 
 set_false_path -from {soc_inst|*axi_bridge_for_acp_128_inst|csr_*} -to {soc_inst|s10_hps|altera_stratix10_hps_inst|*}
+
+set_false_path -from {soc_inst|src_prb_rst|*|sync_src_1_bit[2]} -to {*|altera_xcvr_reset_control_s10_inst|alt_xcvr_resync_reset|resync_chains[0].synchronizer_nocut|dreg[1]}
