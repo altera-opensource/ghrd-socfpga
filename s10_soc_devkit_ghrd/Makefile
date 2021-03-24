@@ -605,8 +605,9 @@ quartus_add_post_mge_10GbE_1588_sdc: $(QSYS_FILE_TOP)
 endif
 
 #####################
+SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_debug.S software/hps_debug/Makefile software/hps_debug/scatter.scat
 
-software/hps_debug/hps_debug.ihex: $(wildcard software/hps_debug/*)
+software/hps_debug/hps_debug.ihex: $(SPL_DEBUG_GEN_HEX_DEPS)
 	$(MAKE) -C software/hps_debug
 
 $(QUARTUS_SOF_WITH_HPS_DEBUG): $(QUARTUS_SOF) software/hps_debug/hps_debug.ihex
