@@ -83,7 +83,7 @@ endif
 
 ####
 # Dependency
-INTEL_CUSTOM_IP_TARBALL = "intel_custom_ip_20201103_222341.tar.gz"
+INTEL_CUSTOM_IP_TARBALL = "intel_custom_ip_20210323_04233.tar.gz"
 INTEL_CUSTOM_IP_LINK = "https://releases.rocketboards.org/release/intel_custom_ip/$(INTEL_CUSTOM_IP_TARBALL)"
 
 # Family and Device
