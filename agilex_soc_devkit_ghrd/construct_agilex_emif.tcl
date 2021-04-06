@@ -99,7 +99,7 @@ if {$hps_emif_mem_part == "custom"} {
                                DIAG_DDR4_EXPORT_SEQ_AVALON_SLAVE $hps_emif_export_seq_avalon_slave
                                DIAG_ENABLE_JTAG_UART $hps_emif_jtag_uart_en
                                DIAG_SOFT_NIOS_MODE SOFT_NIOS_MODE_DISABLED
-                               DIAG_HMC_HRC OFF"
+                               "
 #                               DIAG_EXTRA_CONFIGS $hps_emif_extra_configs
 
       # ------ Connections --------------------------------- #
@@ -163,7 +163,7 @@ if {$hps_emif_mem_part == "custom"} {
                                DIAG_DDR4_EXPORT_SEQ_AVALON_SLAVE $hps_emif_export_seq_avalon_slave
                                DIAG_ENABLE_JTAG_UART $hps_emif_jtag_uart_en
                                DIAG_SOFT_NIOS_MODE $hps_emif_diag_soft_nios_mode
-                               DIAG_HMC_HRC $hps_emif_diag_hmc_hrc"
+                               "
 #                               DIAG_EXTRA_CONFIGS $hps_emif_extra_configs
 
       # ------ Connections --------------------------------- #

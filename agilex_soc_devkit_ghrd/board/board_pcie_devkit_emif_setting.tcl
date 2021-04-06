@@ -70,26 +70,25 @@
                                     DIAG_DDR4_EXPORT_SEQ_AVALON_SLAVE CAL_DEBUG_EXPORT_MODE_DISABLED
                                     DIAG_ENABLE_JTAG_UART false
                                     DIAG_SOFT_NIOS_MODE SOFT_NIOS_MODE_DISABLED
-                                    DIAG_HMC_HRC OFF
-									PHY_DDR4_USER_AC_SLEW_RATE_ENUM SLEW_RATE_FM_MEDIUM
-									PHY_DDR4_USER_CK_SLEW_RATE_ENUM SLEW_RATE_FM_MEDIUM
-									MEM_DDR4_SPEEDBIN_ENUM DDR4_SPEEDBIN_2933
-									MEM_DDR4_TIS_PS 62
-									MEM_DDR4_TIS_AC_MV 90
-									MEM_DDR4_TIH_PS 87
-									MEM_DDR4_TIH_DC_MV 65
-									MEM_DDR4_VDIVW_TOTAL 130
-									MEM_DDR4_TDQSQ_UI 0.14
-									MEM_DDR4_TQH_UI 0.74
-									MEM_DDR4_TDQSCK_PS 175
-									MEM_DDR4_TRCD_NS 14.16
-									MEM_DDR4_TRP_NS 14.16
-									MEM_DDR4_TRRD_S_CYC 4
-									MEM_DDR4_TRRD_L_CYC 6
-									MEM_DDR4_TFAW_NS 21.0
-									MEM_DDR4_TWTR_S_CYC 3
-									MEM_DDR4_TWTR_L_CYC 9
-									DIAG_EXPORT_PLL_LOCKED 1"
+                                    PHY_DDR4_USER_AC_SLEW_RATE_ENUM SLEW_RATE_FM_MEDIUM
+                                    PHY_DDR4_USER_CK_SLEW_RATE_ENUM SLEW_RATE_FM_MEDIUM
+                                    MEM_DDR4_SPEEDBIN_ENUM DDR4_SPEEDBIN_2933
+                                    MEM_DDR4_TIS_PS 62
+                                    MEM_DDR4_TIS_AC_MV 90
+                                    MEM_DDR4_TIH_PS 87
+                                    MEM_DDR4_TIH_DC_MV 65
+                                    MEM_DDR4_VDIVW_TOTAL 130
+                                    MEM_DDR4_TDQSQ_UI 0.14
+                                    MEM_DDR4_TQH_UI 0.74
+                                    MEM_DDR4_TDQSCK_PS 175
+                                    MEM_DDR4_TRCD_NS 14.16
+                                    MEM_DDR4_TRP_NS 14.16
+                                    MEM_DDR4_TRRD_S_CYC 4
+                                    MEM_DDR4_TRRD_L_CYC 6
+                                    MEM_DDR4_TFAW_NS 21.0
+                                    MEM_DDR4_TWTR_S_CYC 3
+                                    MEM_DDR4_TWTR_L_CYC 9
+                                    DIAG_EXPORT_PLL_LOCKED 1"
 									
 #          set_component_param     "emif_hps DIAG_EXTRA_CONFIGS SEQ_DBG_SKIP_STEPS_ADD=6750208,SEQ_GLOBAL_SKIP_STEPS_ADD=8"
         }

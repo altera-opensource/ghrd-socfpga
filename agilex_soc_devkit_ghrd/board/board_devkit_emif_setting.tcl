@@ -69,8 +69,7 @@
                                     PHY_DDR4_MEM_CLK_FREQ_MHZ $hps_emif_mem_clk_freq_mhz
                                     DIAG_DDR4_EXPORT_SEQ_AVALON_SLAVE CAL_DEBUG_EXPORT_MODE_DISABLED
                                     DIAG_ENABLE_JTAG_UART false
-                                    DIAG_SOFT_NIOS_MODE SOFT_NIOS_MODE_DISABLED
-                                    DIAG_HMC_HRC OFF"
+                                    DIAG_SOFT_NIOS_MODE SOFT_NIOS_MODE_DISABLED"
 #          set_component_param     "emif_hps DIAG_EXTRA_CONFIGS SEQ_DBG_SKIP_STEPS_ADD=6750208,SEQ_GLOBAL_SKIP_STEPS_ADD=8"
         }
   

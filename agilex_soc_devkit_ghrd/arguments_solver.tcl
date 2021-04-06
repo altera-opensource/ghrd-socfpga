@@ -460,12 +460,6 @@ if { ![ info exists hps_emif_diag_soft_nios_mode ] } {
  puts "-- Accepted parameter \$hps_emif_diag_soft_nios_mode = $hps_emif_diag_soft_nios_mode"
 }
 
-if { ![ info exists hps_emif_diag_hmc_hrc ] } {
- set hps_emif_diag_hmc_hrc $HPS_EMIF_DIAG_HMC_HRC
-} else {
- puts "-- Accepted parameter \$hps_emif_diag_hmc_hrc = $hps_emif_diag_hmc_hrc"
-}
-
 ## ----------------
 ## FPGA EMIF
 ## ----------------
