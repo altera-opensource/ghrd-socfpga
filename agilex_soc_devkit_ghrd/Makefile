@@ -62,7 +62,11 @@ HAVE_QUARTUS := 1
 endif
 
 ifneq ($(shell $(WHICH) armclang 2>/dev/null),)
-HAVE_ARMCLANG := 1
+HAVE_C_COMPILER := 1
+else ifneq ($(shell $(WHICH) aarch64-none-linux-gnu-gcc 2>/dev/null),)
+HAVE_C_COMPILER := 1
+else ifneq ($(shell $(WHICH) aarch64-linux-gnu-gcc 2>/dev/null),)
+HAVE_C_COMPILER := 1
 endif
 
 ifeq ($(HAVE_QUARTUS),1)
@@ -508,7 +512,7 @@ BATCH_TARGETS += sof
 .PHONY: sof
 sof: $(QUARTUS_SOF)
 
-ifeq ($(HAVE_ARMCLANG),1)
+ifeq ($(HAVE_C_COMPILER),1)
 sof:  $(QUARTUS_SOF_WITH_HPS_DEBUG)
 endif
 
@@ -575,7 +579,7 @@ endif
 
 
 #####################
-SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_debug.S software/hps_debug/Makefile software/hps_debug/scatter.scat
+SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_debug.S software/hps_debug/Makefile software/hps_debug/Makefile_ARMCLANG.inc software/hps_debug/Makefile_GCC.inc software/hps_debug/scatter.scat
 
 software/hps_debug/hps_debug.ihex: $(SPL_DEBUG_GEN_HEX_DEPS)
 	$(MAKE) -C software/hps_debug
