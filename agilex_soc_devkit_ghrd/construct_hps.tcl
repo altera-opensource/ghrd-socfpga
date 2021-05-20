@@ -573,15 +573,18 @@ if {$hps_f2s_irq_en == 1} {
       }
    } else {
       if {$fpga_peripheral_en == 1} {
-         connect "agilex_hps.f2h_irq0      periph.button_pio_irq
-                  agilex_hps.f2h_irq0      periph.dipsw_pio_irq"
-         set_connection_parameter_value agilex_hps.f2h_irq0/periph.button_pio_irq irqNumber {1}
-         set_connection_parameter_value agilex_hps.f2h_irq0/periph.dipsw_pio_irq irqNumber {0}
-         
-         connect "periph.ILC_irq       periph.button_pio_irq
-                  periph.ILC_irq       periph.dipsw_pio_irq"
-         set_connection_parameter_value periph.ILC_irq/periph.button_pio_irq irqNumber {1}
-         set_connection_parameter_value periph.ILC_irq/periph.dipsw_pio_irq irqNumber {0}
+         if {$fpga_button_pio_width >0} {
+            connect "agilex_hps.f2h_irq0      periph.button_pio_irq"
+            set_connection_parameter_value agilex_hps.f2h_irq0/periph.button_pio_irq irqNumber {1}
+            connect "periph.ILC_irq       periph.button_pio_irq"
+            set_connection_parameter_value periph.ILC_irq/periph.button_pio_irq irqNumber {1}
+         }
+         if {$fpga_dipsw_pio_width >0} {
+            connect "agilex_hps.f2h_irq0      periph.dipsw_pio_irq"
+            set_connection_parameter_value agilex_hps.f2h_irq0/periph.dipsw_pio_irq irqNumber {0}
+            connect "periph.ILC_irq       periph.dipsw_pio_irq"
+            set_connection_parameter_value periph.ILC_irq/periph.dipsw_pio_irq irqNumber {0}
+         }
       }
       
       if {$fpga_pcie == 1} {

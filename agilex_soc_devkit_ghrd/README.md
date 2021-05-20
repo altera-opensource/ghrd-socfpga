@@ -20,6 +20,7 @@ This repository hosts build scripts for AGILEX GHRD.
 * Intel Custom IP will be download automatically from rocketboard.org by the Makefile. The download link will be updated to the Makefile for the latest version.
 * Supported Board
   - Intel Agilex F-Series Transceiver-SoC Development Kit
+  - Intel Agilex F-Series FPGA Development Kit 
 * armclang
   - This is required for compiling HPS Wipe Firmware (software/hps_debug/hps_debug.ihex) for *_hps_debug.sof generation
 
@@ -63,13 +64,15 @@ The GHRD is built with Makefile. Here are the supported Make Targets:
 Here are the list of custom settings support in Makefile. 
 - `QUARTUS_DEVICE`      : Device OPN
   - AGFB014R24A3E3VR0 (Default)
-- `BOARD_PWRMGT`        : Board Power management option for Agilex F-Series Transceiver-SoC Development Kit Only.
+- `BOARD_TYPE`          : Board Type
+  - "devkit" -> F-Series SoC Devkit (Default), "pcie_devkit" (F-Series FPGA Devkit)
+- `BOARD_PWRMGT`        : Board Power management option for Agilex F-Series Transceiver-SoC Development Kit and Agilex F-Series FPGA Development Kit .
   - "linear", "enpirion" (Default)
 - `BOOTS_FIRST`         : System initialization mode.
   - "fpga", "hps" (Default)
 - `HPS_JTAG_MODE`       : HPS JTAG mode.
   - "combined" (Default), "separate"
-- `DAUGHTER_CARD`       : Daughter Card Option
+- `DAUGHTER_CARD`       : Daughter Card Option (Not available for F-Series FPGA Devkit)
   - "devkit_dc1" -> OOBE (Default), "devkit_dc3" -> NAND
 - `HPS_EMIF_EN`         : Enable HPS EMIF.
   - 0, 1 (Default)

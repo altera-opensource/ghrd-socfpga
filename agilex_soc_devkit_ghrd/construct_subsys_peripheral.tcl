@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2020 Intel Corporation.
+# Copyright(c) 2019-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -37,7 +37,7 @@ add_component_param "altera_reset_bridge periph_rst_in
                     USE_RESET_REQUEST 0
                     "
 
-
+if {$fpga_button_pio_width >0} {
 add_component_param "altera_avalon_pio button_pio 
                     IP_FILE_PATH ip/$sub_qsys_periph/button_pio.ip 
                     bitClearingEdgeCapReg 1
@@ -48,7 +48,9 @@ add_component_param "altera_avalon_pio button_pio
                     irqType EDGE
                     width $fpga_button_pio_width
                     "
+}
 
+if {$fpga_dipsw_pio_width >0} {
 add_component_param "altera_avalon_pio dipsw_pio 
                     IP_FILE_PATH ip/$sub_qsys_periph/dipsw_pio.ip 
                     bitClearingEdgeCapReg 1
@@ -59,7 +61,9 @@ add_component_param "altera_avalon_pio dipsw_pio
                     irqType EDGE
                     width $fpga_dipsw_pio_width
                     "
+}
 
+if {$fpga_led_pio_width >0} {
 set led_resetValue [expr {2^$fpga_led_pio_width -1 }]
 add_component_param "altera_avalon_pio led_pio 
                     IP_FILE_PATH ip/$sub_qsys_periph/led_pio.ip 
@@ -67,6 +71,7 @@ add_component_param "altera_avalon_pio led_pio
                     width [expr {$fpga_led_pio_width -1}]
                     resetValue $led_resetValue
 "
+}
 
 add_component_param "interrupt_latency_counter ILC 
                     IP_FILE_PATH ip/$sub_qsys_periph/ILC.ip 
@@ -101,29 +106,36 @@ add_component_param "altera_avalon_mm_bridge pb_cpu_0
 connect_map "   pb_cpu_0.m0 ILC.avalon_slave 0x0100
 "
 
-connect_map "   pb_cpu_0.m0 led_pio.s1 0x0080
-"
+if {$fpga_led_pio_width >0} {
+connect_map "   pb_cpu_0.m0 led_pio.s1 0x0080"
+}
 
-connect_map "   pb_cpu_0.m0 dipsw_pio.s1 0x0070
-"
+if {$fpga_dipsw_pio_width >0} {
+connect_map "   pb_cpu_0.m0 dipsw_pio.s1 0x0070"
+}
 
-connect_map "   pb_cpu_0.m0 button_pio.s1 0x0060
-"
-
+if {$fpga_button_pio_width >0} {
+connect_map "   pb_cpu_0.m0 button_pio.s1 0x0060"
+}
 
 connect "   periph_clk.out_clk pb_cpu_0.clk
             periph_clk.out_clk periph_rst_in.clk
             periph_clk.out_clk ILC.clk
-            periph_clk.out_clk led_pio.clk
-            periph_clk.out_clk dipsw_pio.clk
-            periph_clk.out_clk button_pio.clk
 "
-
+if {$fpga_led_pio_width >0} {
+connect "   periph_clk.out_clk      led_pio.clk
+            periph_rst_in.out_reset led_pio.reset"
+}
+if {$fpga_dipsw_pio_width >0} {
+connect "   periph_clk.out_clk      dipsw_pio.clk
+            periph_rst_in.out_reset dipsw_pio.reset"
+}
+if {$fpga_button_pio_width >0} {
+connect "   periph_clk.out_clk      button_pio.clk
+            periph_rst_in.out_reset button_pio.reset"
+}
 
 connect "   periph_rst_in.out_reset pb_cpu_0.reset
-            periph_rst_in.out_reset led_pio.reset
-            periph_rst_in.out_reset dipsw_pio.reset
-            periph_rst_in.out_reset button_pio.reset
             periph_rst_in.out_reset ILC.reset_n
 "
 
@@ -131,12 +143,19 @@ connect "   periph_rst_in.out_reset pb_cpu_0.reset
 
 export periph_rst_in in_reset reset
 export periph_clk in_clk clk
+
+if {$fpga_button_pio_width >0} {
 export button_pio external_connection button_pio_external_connection
 export button_pio irq button_pio_irq
+}
+if {$fpga_dipsw_pio_width >0} {
 export dipsw_pio external_connection dipsw_pio_external_connection
 export dipsw_pio irq dipsw_pio_irq
+}
 export ILC irq ILC_irq
+if {$fpga_led_pio_width >0} {
 export led_pio external_connection led_pio_external_connection
+}
 export pb_cpu_0 s0 pb_cpu_0_s0
 
 # interconnect requirements

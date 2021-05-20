@@ -36,9 +36,15 @@ input    wire          refclk_bti,
 input    wire [1-1:0]  fpga_clk_100,
 @@}
 @@if {$fpga_peripheral_en == 1} {
+@@if {$fpga_led_pio_width > 0} {
 output   wire [$fpga_led_pio_width-1:0]  fpga_led_pio,
+@@}
+@@if {$fpga_dipsw_pio_width > 0} {
 input    wire [$fpga_dipsw_pio_width-1:0]  fpga_dipsw_pio,
+@@}
+@@if {$fpga_button_pio_width > 0} {
 input    wire [$fpga_button_pio_width-1:0]  fpga_button_pio,
+@@}
 @@}
 @@if {$fpga_pcie == 1} {
 input    wire           pcie_hip_refclk0_clk,
@@ -385,12 +391,16 @@ assign system_clk_100_internal  = system_clk_100;
 @@  }
 
 @@  if {$fpga_peripheral_en ==1} {
-wire [3:0]     fpga_debounced_buttons;
+@@  if {$fpga_button_pio_width > 0} {
+wire [$fpga_button_pio_width-1:0]     fpga_debounced_buttons;
+@@  }
+@@  if {$fpga_led_pio_width > 0} {
 wire [$fpga_led_pio_width-2:0]     fpga_led_internal;
 wire           heartbeat_led;
 reg  [22:0]    heartbeat_count;
 assign fpga_led_pio = {heartbeat_led,fpga_led_internal};
 assign heartbeat_led = ~heartbeat_count[22];
+@@  }
 @@  } 
 
 @@if {$hps_en == 1} {
@@ -421,8 +431,24 @@ wire [31:0]    stop_ack_delay_cnt;
 @@if {$hps_stm_en == 1} {
 wire [43:0]    stm_hw_events;
 
-@@if {$fpga_peripheral_en == 1 & $cross_trigger_en == 1} {
-assign stm_hw_events    = {{32{1'b0}}, heartbeat_led, fpga_led_internal, fpga_dipsw_pio, fpga_debounced_buttons};
+@@if {$fpga_peripheral_en == 1 && $cross_trigger_en == 0} {
+@@ set stm_hw_events_option ""
+@@ set stm_hw_events_option_bitcount 0
+@@ if {$fpga_led_pio_width > 0} {
+@@	append stm_hw_events_option ", heartbeat_led, fpga_led_internal"
+@@	incr stm_hw_events_option_bitcount $fpga_led_pio_width
+@@ }
+@@ if {$fpga_dipsw_pio_width != 0} {
+@@	append stm_hw_events_option ", fpga_dipsw_pio"
+@@	incr stm_hw_events_option_bitcount $fpga_dipsw_pio_width
+@@ }
+@@ if {$fpga_button_pio_width != 0} {
+@@	append stm_hw_events_option ", fpga_debounced_buttons"
+@@	incr stm_hw_events_option_bitcount $fpga_button_pio_width
+@@ }
+@@# calculate remaining bit to set '0'
+@@ set stm_hw_events_option_bitcount [expr {32 - $stm_hw_events_option_bitcount}] 
+assign stm_hw_events    = {{${stm_hw_events_option_bitcount}{1'b0}}${stm_hw_events_option}};
 @@} else {
 assign stm_hw_events    = 44'b0;
 @@  }
@@ -475,10 +501,16 @@ ${qsys_name} soc_inst (
 .clkctrl_output_outclk                  (system_clk_100_gated),
 @@}
 @@if {$fpga_peripheral_en == 1} {
-.led_pio_external_connection_in_port    (fpga_led_internal),                    
+@@ if {$fpga_led_pio_width != 0} {
+.led_pio_external_connection_in_port    (fpga_led_internal),
 .led_pio_external_connection_out_port   (fpga_led_internal),
-.dipsw_pio_external_connection_export   (fpga_dipsw_pio), 
-.button_pio_external_connection_export  (fpga_debounced_buttons), 
+@@}
+@@ if {$fpga_dipsw_pio_width != 0} {                
+.dipsw_pio_external_connection_export   (fpga_dipsw_pio),
+@@}
+@@ if {$fpga_button_pio_width != 0} {  
+.button_pio_external_connection_export  (fpga_debounced_buttons),
+@@}
 @@}
 @@if {$fpga_pcie == 1} {  
 .pcie_hip_refclk0_clk                   (pcie_hip_refclk0_clk),
@@ -844,6 +876,7 @@ ${qsys_name} soc_inst (
 );  
 
 @@if {$fpga_peripheral_en == 1} {
+@@ if {$fpga_button_pio_width != 0} {  
 // Debounce logic to clean out glitches within 1ms
 debounce debounce_inst (
 .clk          (system_clk_100_internal),
@@ -857,13 +890,14 @@ defparam debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a deb
 defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
 @@}
 
-@@if {$fpga_peripheral_en ==1} {
+@@  if {$fpga_led_pio_width > 0} {
 always @(posedge system_clk_100_internal or negedge system_reset_n) begin
   if (~system_reset_n)
     heartbeat_count <= 23'd0;
   else
     heartbeat_count <= heartbeat_count + 23'd1;
 end
+@@}
 @@}
 
 @@if {$pr_enable == 1 && $freeze_ack_dly_enable == 1} {

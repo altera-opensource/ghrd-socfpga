@@ -108,11 +108,16 @@ QUARTUS_DEVICE_FAMILY := Agilex
 QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
 #QUARTUS_DEVICE ?= AGFB014R24A2E2VR1
 
+# Valid BOARD_TYPE: devkit, pcie_devkit
 BOARD_TYPE ?= devkit
 # Board Power Management. Support board devkit is supported: linear, enpirion
 BOARD_PWRMGT ?= enpirion
-# Valid DAUGTHER_CARD Values: none, devkit_dc1, devkit_dc3, devkit_dc4
+# Valid DAUGTHER_CARD Values: none, devkit_dc1, devkit_dc3, devkit_dc4, pcie_devkit
+ifeq ($(BOARD_TYPE), pcie_devkit)
+DAUGHTER_CARD = pcie_devkit
+else
 DAUGHTER_CARD ?= devkit_dc1
+endif
 # System initilization mode: fpga, hps
 BOOTS_FIRST ?= hps
 # HPS JTAG MODE: combined, separate

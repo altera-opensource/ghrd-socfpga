@@ -378,9 +378,15 @@ export clkctrl_0 clkctrl_output clkctrl_output
 }
 
 if {$fpga_peripheral_en == 1} {
+if {$fpga_button_pio_width >0} {
 export periph button_pio_external_connection button_pio_external_connection
+}
+if {$fpga_dipsw_pio_width >0} {
 export periph dipsw_pio_external_connection dipsw_pio_external_connection
+}
+if {$fpga_led_pio_width >0} {
 export periph led_pio_external_connection led_pio_external_connection
+}
 }
 
 # PCIe subsystem

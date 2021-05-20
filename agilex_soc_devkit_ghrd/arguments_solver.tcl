@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2020 Intel Corporation.
+# Copyright(c) 2019-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -203,11 +203,11 @@ if { ![ info exists fpga_peripheral_en ] } {
 if { $fpga_peripheral_en == 1} {
     if {[ info exists isPeriph_pins_available ] } {
         if { $isPeriph_pins_available == 0} {
-            set $fpga_peripheral_en 0
+            set fpga_peripheral_en 0
             puts "-- Turn OFF fpga_peripheral_en because \"isPeriph_pins_available\" is disable"
         }
     } else {
-        set $fpga_peripheral_en 0
+        set fpga_peripheral_en 0
         puts "-- Turn OFF fpga_peripheral_en because \"isPeriph_pins_available\" is not available"
     }
 }
@@ -694,11 +694,11 @@ if { ![ info exists fpga_pcie ] } {
 if { $fpga_pcie == 1} {
     if {[ info exists isPCIE_pins_available ] } {
         if { $isPCIE_pins_available == 0} {
-            set $fpga_pcie 0
+            set fpga_pcie 0
             puts "-- Turn OFF fpga_pcie because \"isPCIE_pins_available\" is disable"
         }
     } else {
-        set $fpga_pcie 0
+        set fpga_pcie 0
         puts "-- Turn OFF fpga_pcie because \"isPCIE_pins_available\" is not available"
     }
 }
