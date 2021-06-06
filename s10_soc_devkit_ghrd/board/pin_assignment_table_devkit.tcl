@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2017-2020 Intel Corporation.
+# Copyright(c) 2017-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -113,6 +113,20 @@ dict set pin_assignment_table fpga_button_pio io_standard "1.8 V"
 dict set pin_assignment_table fpga_button_pio direction input
 dict set pin_assignment_table fpga_button_pio width_in_bits 4
 dict set pin_assignment_table fpga_button_pio qsys_exported_port "button_pio_external_connection_export"
+
+if {$fpga_i2c_en == 1} {
+dict set pin_assignment_table fpga_i2c_scl location BC25
+dict set pin_assignment_table fpga_i2c_scl io_standard "1.8 V"
+dict set pin_assignment_table fpga_i2c_scl direction input
+dict set pin_assignment_table fpga_i2c_scl width_in_bits 1
+dict set pin_assignment_table fpga_i2c_scl qsys_exported_port "fpga_i2c_scl"
+
+dict set pin_assignment_table fpga_i2c_sda location BC26
+dict set pin_assignment_table fpga_i2c_sda io_standard "1.8 V"
+dict set pin_assignment_table fpga_i2c_sda direction input
+dict set pin_assignment_table fpga_i2c_sda width_in_bits 1
+dict set pin_assignment_table fpga_i2c_sda qsys_exported_port "fpga_i2c_sda"
+}
 
 if {$fpga_pcie == 1} {
 #rebuild list that follow the pcie_count

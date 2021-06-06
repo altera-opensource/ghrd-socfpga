@@ -1,7 +1,7 @@
 //****************************************************************************
 //
 // SPDX-License-Identifier: MIT-0
-// Copyright(c) 2017-2020 Intel Corporation.
+// Copyright(c) 2017-2021 Intel Corporation.
 //
 //****************************************************************************
 // This is a generated system top level RTL file. 
@@ -399,6 +399,10 @@ output wire          hps_pll3_clk,
 output wire [$ftrace_output_width-1:0]   ftrace_data,
 output wire          ftrace_clk,
 @@}
+@@if {$fpga_i2c_en == 1} {
+inout  wire          fpga_i2c_sda,
+inout  wire          fpga_i2c_scl,
+@@}
 @@if {$hps_mge_en == 1} {
 input  wire          enet_refclk,
 @@ for {set x 1} {$x<=$sgmii_count} {incr x} {
@@ -494,6 +498,14 @@ assign system_reset_n = src_reset_n & ~h2f_reset & ~ninit_done;
 @@  }
 @@} else {
 assign system_reset_n = fpga_reset_n & src_reset_n & ~ninit_done;
+@@}
+
+@@if {$fpga_i2c_en == 1} {
+wire fpga_i2c_scl_oe;
+wire fpga_i2c_sda_oe;
+
+assign fpga_i2c_scl = (fpga_i2c_scl_oe == 1'b1) ? 1'b0 : 1'bz;
+assign fpga_i2c_sda = (fpga_i2c_sda_oe == 1'b1) ? 1'b0 : 1'bz;
 @@}
 
 @@if {$hps_mge_en == 1} {
@@ -1086,6 +1098,12 @@ ${qsys_name} soc_inst (
 .ext_trace_f2h_clk_in_clk               (1'b0),
 .ext_trace_trace_clk_out_clk            (ftrace_clk),
 .ext_trace_trace_data_out_export        (ftrace_data),
+@@}
+@@if {$fpga_i2c_en == 1} {
+.fpga_i2c_scl_in_clk                    (fpga_i2c_scl),
+.fpga_i2c_clk_clk                       (fpga_i2c_scl_oe),
+.fpga_i2c_sda_i                         (fpga_i2c_sda),
+.fpga_i2c_sda_oe                        (fpga_i2c_sda_oe),
 @@}
 @@if {$hps_mge_en == 1} {
 .enet_refclk_clk                           (enet_refclk),

@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2017-2020 Intel Corporation.
+# Copyright(c) 2017-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -145,6 +145,7 @@ set param(s2f_usb0_irq_en)        $s2f_usb0_irq_en
 set param(s2f_usb1_irq_en)        $s2f_usb1_irq_en
 set param(hps_peri_irq_loopback_en) $hps_peri_irq_loopback_en
 set param(gpio_loopback_en)       $gpio_loopback_en
+set param(fpga_i2c_en)            $fpga_i2c_en
 set param(board)                  $board
 set param(ftrace_en)              $ftrace_en
 set param(ftrace_output_width)    $ftrace_output_width

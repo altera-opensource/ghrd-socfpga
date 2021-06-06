@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2017-2020 Intel Corporation.
+# Copyright(c) 2017-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -44,6 +44,7 @@
 #   h2f_f2sdram1_loopback_en    : 1 or 0
 #   h2f_f2sdram2_loopback_en    : 1 or 0
 #   gpio_loopback_en            : 1 or 0
+#   fpga_i2c_en                 : 1 or 0
 #   hps_peri_irq_loopback_en    : 1 or 0
 #   cross_trigger_en            : 1 or 0
 #   hps_stm_en                  : 1 or 0
@@ -291,6 +292,12 @@ if { ![ info exists gpio_loopback_en ] } {
  puts "-- Accepted parameter \$gpio_loopback_en = $gpio_loopback_en"
 }
 
+if { ![ info exists fpga_i2c_en ] } {
+   set fpga_i2c_en $FPGA_I2C_EN
+} else {
+   puts "-- Accepted parameter \$fpga_i2c_en = $fpga_i2c_en"
+}
+
 if { ![ info exists daughter_card ] } {
  set daughter_card $DAUGHTER_CARD
 } else {
@@ -516,6 +523,10 @@ source ./s10_hps_parameter_solver.tcl
 source ./s10_hps_io48_delay_chain_solver.tcl
 
 #Parameter Overriding
+if { $fpga_i2c_en == 1 && $hps_mge_10gbe_1588_en == 1 } {
+  error "Error GHRD argument solver" "FPGA_I2C_EN and HPS_MGE_10GBE_1588_EN cannot be enable at the same time"
+}
+
 if { $hps_mge_10gbe_1588_en == 1 || $fpga_pcie == 1} {
    puts "Overriding f2h_addr_width to 33"
    set f2h_addr_width 33

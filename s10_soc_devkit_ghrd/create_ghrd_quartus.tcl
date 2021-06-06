@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2017-2020 Intel Corporation.
+# Copyright(c) 2017-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -78,7 +78,11 @@ set_global_assignment -name DISABLE_REGISTER_POWERUP_INITIALIZATION ON
 set_global_assignment -name HPS_DAP_NO_CERTIFICATE on
  
 if {$board == "devkit"} {
-	set_global_assignment -name DEVICE_INITIALIZATION_CLOCK OSC_CLK_1_125MHZ
+    set_global_assignment -name DEVICE_INITIALIZATION_CLOCK OSC_CLK_1_125MHZ
+}
+
+if {$fpga_i2c_en == 1} {
+    set_global_assignment -name SDC_FILE fpga_i2c.sdc
 }
 
 if {$fpga_pcie == 1} {
@@ -286,6 +290,15 @@ dict with info {
     set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to fpga_led_pio 
     set_instance_assignment -name SLEW_RATE 0 -to fpga_led_pio 
 
+    if {$fpga_i2c_en == 1} {
+        set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to fpga_i2c_sda
+        set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to fpga_i2c_scl
+        set_instance_assignment -name AUTO_OPEN_DRAIN_PINS ON -to fpga_i2c_sda
+        set_instance_assignment -name AUTO_OPEN_DRAIN_PINS ON -to fpga_i2c_scl
+        set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to fpga_i2c_sda
+        set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to fpga_i2c_scl
+    }
+    
     if {$fpga_pcie == 1} {
         set_instance_assignment -name USE_AS_3V_GPIO ON -to mux_io_1v8_20 
         set_location_assignment PIN_AH17 -to mux_io_1v8_20

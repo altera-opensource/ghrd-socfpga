@@ -1,7 +1,7 @@
 ################################################
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2017-2020 Intel Corporation.
+# Copyright(c) 2017-2021 Intel Corporation.
 #
 ################################################
 #
@@ -133,6 +133,8 @@ HPS_ENABLE_10GbE ?= 0
 ENABLE_PCIE ?= 0
 # Enable Partial Reconfiguration Design.
 ENABLE_PARTIAL_RECONFIGURATION ?= 0
+# Enable FPGA I2C.
+ENABLE_FPGA_I2C ?= 1
 
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
 QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
@@ -237,6 +239,17 @@ QSYS_TCL_CMDS += set freeze_ack_dly_enable $(ENABLE_PARTIAL_RECONFIGURATION_TEST
 QUARTUS_PARTITIONS += pr_partition_0
 
 endif # ENABLE_PARTIAL_RECONFIGURATION == 1
+
+####
+# FPGA I2C
+ifeq ($(ENABLE_FPGA_I2C),1)
+ifeq ($(HPS_ENABLE_10GbE),1)
+$(error Error: ENABLE_FPGA_I2C and HPS_ENABLE_10GbE cannot be enable at the same time)
+endif
+QUARTUS_TCL_ARGS += fpga_i2c_en 1 
+QSYS_TCL_CMDS += set fpga_i2c_en 1;
+endif
+
 #### 
 
 ifneq ($(DAUGHTER_CARD),)

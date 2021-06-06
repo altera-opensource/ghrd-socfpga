@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2017-2020 Intel Corporation.
+# Copyright(c) 2017-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -294,6 +294,26 @@ puts "MGE I2C1 enable"
 error "Error: Conflict HPS i2c settings. None of I2C available"
 }
 
+}
+
+if {$fpga_i2c_en == 1} {
+if {$hps_i2c0_q1_en == 0 && $hps_i2c0_q2_en == 0 && $hps_i2c0_q3_en == 0} {
+set_component_param "s10_hps    
+                    I2C0_PinMuxing FPGA
+                    I2C0_Mode default
+                    "
+set fpga_i2c_no 0
+puts "fpga i2C0 enable"
+} elseif {$hps_i2c1_q1_en == 0 && $hps_i2c1_q2_en == 0 && $hps_i2c1_q3_en == 0 && $hps_i2c1_q4_en == 0} {
+set_component_param "s10_hps    
+                    I2C1_PinMuxing FPGA
+                    I2C1_Mode default
+                    "
+set fpga_i2c_no 1
+puts "fpga I2C1 enable"
+} else {
+error "Error: Conflict HPS i2c settings. None of I2C available"
+}
 }
 
 if {$gpio_loopback_en == 1 || $fpga_pcie == 1} {
@@ -673,6 +693,12 @@ export clk_h2f_user_clk out_clk h2f_user_clk
 
 if {$gpio_loopback_en == 1 || $fpga_pcie == 1} {
 export s10_hps h2f_gp s10_hps_h2f_gp
+}
+
+if {$fpga_i2c_en == 1} {
+export s10_hps i2c${fpga_i2c_no}_scl_in   fpga_i2c_scl_in
+export s10_hps i2c${fpga_i2c_no}_clk      fpga_i2c_clk
+export s10_hps i2c${fpga_i2c_no}          fpga_i2c
 }
 
 if {$ftrace_en == 1} {

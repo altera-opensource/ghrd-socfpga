@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2017-2020 Intel Corporation.
+# Copyright(c) 2017-2021 Intel Corporation.
 #
 #****************************************************************************
 # USAGE OF THIS FILE 
@@ -109,6 +109,7 @@ set H2F_F2SDRAM0_LOOPBACK_EN 0
 set H2F_F2SDRAM1_LOOPBACK_EN 0
 set H2F_F2SDRAM2_LOOPBACK_EN 0
 set GPIO_LOOPBACK_EN 0
+set FPGA_I2C_EN 0
 set F2H_ADDR_WIDTH 32
 set H2F_ADDR_WIDTH 32
 set LWH2F_ADDR_WIDTH 21
