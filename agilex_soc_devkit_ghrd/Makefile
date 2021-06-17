@@ -93,6 +93,43 @@ INTEL_CUSTOM_IP_LINK = "https://releases.rocketboards.org/release/intel_custom_i
 # Family and Device
 # QUARTUS_DEVICE to Board Revision Mapping
 
+####
+# User Settings
+# Valid BOARD_TYPE: devkit, pcie_devkit
+BOARD_TYPE ?= devkit
+#Loading board configuration
+include board/board_$(BOARD_TYPE)_make_config.inc
+
+# System initilization mode: fpga, hps
+BOOTS_FIRST ?= hps
+
+# HPS JTAG MODE: combined, separate
+HPS_JTAG_MODE ?= combined
+
+# Board Revision: A0, A1
+BOARD_REV ?= A1
+
+# H2F F2H Loopback Enable: 0, 1
+LOOPBACK_EN ?= 0
+
+# HPS EMIF Enabled: 0, 1
+HPS_EMIF_EN ?= 1
+
+# HPS EMIF ECC is not support for REVA Agilex
+ENABLE_HPS_EMIF_ECC ?= 0
+
+# Enable Watchdog Reset: 0, 1
+ENABLE_WATCHDOG_RST ?= 1
+
+# Supported watchdog reset action: cold, warm, remote_update
+WATCHDOG_RST_ACTION ?= cold
+
+# Enable Partial Reconfiguration: 0, 1
+# Not applicable to FM6 RevA (AGFB014R24A3E3VR0)
+ENABLE_PARTIAL_RECONFIGURATION ?= 1
+
+####
+# Default Assignment (Do not modify)
 QUARTUS_DEVICE_FAMILY := Agilex
 # Prelimenary Device
 #FM68 (cypress) 
@@ -108,8 +145,6 @@ QUARTUS_DEVICE_FAMILY := Agilex
 QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
 #QUARTUS_DEVICE ?= AGFB014R24A2E2VR1
 
-# Valid BOARD_TYPE: devkit, pcie_devkit
-BOARD_TYPE ?= devkit
 # Board Power Management. Support board devkit is supported: linear, enpirion
 BOARD_PWRMGT ?= enpirion
 # Valid DAUGTHER_CARD Values: none, devkit_dc1, devkit_dc3, devkit_dc4, pcie_devkit

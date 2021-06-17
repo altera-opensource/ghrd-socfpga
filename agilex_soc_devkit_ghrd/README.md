@@ -61,20 +61,30 @@ The GHRD is built with Makefile. Here are the supported Make Targets:
    - Note: The "software/hps_debug/hps_debug.ihex" will have dependency of armclang. If armclang is not available, the generation of *_hps_debug.sof will be skipped.
 
 ## GHRD Customization in Makefile
-Here are the list of custom settings support in Makefile. 
-- `QUARTUS_DEVICE`      : Device OPN
-  - AGFB014R24A3E3VR0 (Default)
-- `BOARD_TYPE`          : Board Type
-  - "devkit" -> F-Series SoC Devkit (Default), "pcie_devkit" (F-Series FPGA Devkit)
-- `BOARD_PWRMGT`        : Board Power management option for Agilex F-Series Transceiver-SoC Development Kit and Agilex F-Series FPGA Development Kit .
-  - "linear", "enpirion" (Default)
-- `BOOTS_FIRST`         : System initialization mode.
-  - "fpga", "hps" (Default)
-- `HPS_JTAG_MODE`       : HPS JTAG mode.
-  - "combined" (Default), "separate"
-- `DAUGHTER_CARD`       : Daughter Card Option (Not available for F-Series FPGA Devkit)
-  - "devkit_dc1" -> OOBE (Default), "devkit_dc3" -> NAND
-- `HPS_EMIF_EN`         : Enable HPS EMIF.
-  - 0, 1 (Default)
-- `ENABLE_HPS_EMIF_ECC` : Enable HPS EMIF ECC. REVA Agilex doesn't support ECC Enable.
-  - 0 (Default), 1
+Here are the list of custom settings support in Makefile.
+
+1. General Settings (Under section: "User Settings")
+
+   - File: ./Makefile
+   - `BOARD_TYPE`          : Board Type
+     - "devkit" -> F-Series SoC Devkit (Default), "pcie_devkit" (F-Series FPGA Devkit)
+   - `BOOTS_FIRST`         : System initialization mode.
+     - "fpga", "hps" (Default)
+   - `HPS_JTAG_MODE`       : HPS JTAG mode.
+     - "combined" (Default), "separate"
+   - `DAUGHTER_CARD`       : Daughter Card Option (Not available for F-Series FPGA Devkit)
+     - "devkit_dc1" -> OOBE (Default), "devkit_dc3" -> NAND
+   - `ENABLE_HPS_EMIF_ECC` : Enable HPS EMIF ECC. REVA Agilex doesn't support ECC Enable.
+     - 0 (Default), 1
+
+2. Board Related Settings
+   - board "devkit" (F-Series SoC Devkit)
+     - File: ./board/board_devkit_make_config.inc
+     - `QUARTUS_DEVICE`      : Device OPN
+       - AGFB014R24A3E3VR0 (Default)
+     - `BOARD_PWRMGT`        : Board Power management option for Agilex F-Series Transceiver-SoC Development Kit and Agilex F-Series FPGA Development Kit.
+       - "linear", "enpirion" (Default)
+   - Board Related Settings - board "pcie_devkit" (F-Series FPGA Devkit)
+     - File: ./board/board_pcie_devkit_make_config.inc
+     - `QUARTUS_DEVICE`      : Device OPN
+       - AGFB014R24A3E3VR0 (Default)
