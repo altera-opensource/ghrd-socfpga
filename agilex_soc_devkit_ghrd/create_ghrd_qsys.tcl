@@ -63,6 +63,11 @@ reload_ip_catalog
 }
 }
 
+if {$hps_sgmii_en == 1} {
+source ./construct_subsys_sgmii.tcl
+reload_ip_catalog
+}
+
 create_system $qsys_name
 
 set_project_property DEVICE_FAMILY $device_family
@@ -213,6 +218,18 @@ add_component_param "alt_pr pr_ip
 
 }
 
+if {$hps_sgmii_en == 1} {
+add_component_param "altera_clock_bridge clk_125
+                    IP_FILE_PATH ip/$qsys_name/clk_125.ip 
+                    EXPLICIT_CLOCK_RATE 125000000 
+                    NUM_CLOCK_OUTPUTS 1
+                    "
+
+for {set m $hps_sgmii_emac_start_node} {$m<=$hps_sgmii_emac_end_node} {incr m} {
+add_instance subsys_sgmii_emac${m} subsys_sgmii
+}
+}
+
 if {$hps_en == 1} {
 #setup HPS and HPS EMIF
 source ./construct_hps.tcl
@@ -263,6 +280,15 @@ connect_map "   jtg_mst.fpga_m_master   sysid.control_slave 0x0"
 
 if {$fpga_peripheral_en == 1} {
 connect_map "   jtg_mst.fpga_m_master   periph.pb_cpu_0_s0 0x1000"
+}
+
+if {$hps_sgmii_en == 1} {
+if {$hps_sgmii_emac1_en == 1} {
+connect_map "   jtg_mst.fpga_m_master   subsys_sgmii_emac1.csr 0x3000"
+}
+if {$hps_sgmii_emac2_en == 1} {
+connect_map "   jtg_mst.fpga_m_master   subsys_sgmii_emac2.csr 0x4000"
+}
 }
 }
 
@@ -362,6 +388,24 @@ connect     "clk_100.out_clk     start_ack_pio.clk
 }
 }
 
+if {$hps_sgmii_en == 1} {
+connect     "clk_100.out_clk                       agilex_hps.emac_ptp_ref_clock
+            "
+
+for {set m $hps_sgmii_emac_start_node} {$m<=$hps_sgmii_emac_end_node} {incr m} {
+connect     "clk_100.out_clk                       subsys_sgmii_emac${m}.csr_clk
+             clk_125.out_clk                       subsys_sgmii_emac${m}.clk_125
+             rst_in.out_reset                      subsys_sgmii_emac${m}.rst_in
+             agilex_hps.emac${m}_gtx_clk           subsys_sgmii_emac${m}.emac_gtx_clk
+             subsys_sgmii_emac${m}.emac_rx_clk_in  agilex_hps.emac${m}_rx_clk_in
+             subsys_sgmii_emac${m}.emac_tx_clk_in  agilex_hps.emac${m}_tx_clk_in
+             agilex_hps.emac${m}_rx_reset          subsys_sgmii_emac${m}.emac_rx_reset
+             agilex_hps.emac${m}_tx_reset          subsys_sgmii_emac${m}.emac_tx_reset
+	     agilex_hps.emac${m}                   subsys_sgmii_emac${m}.splitter_emac
+            "
+}
+}
+
 ####################################
 #                exported interfaces
 
@@ -425,6 +469,25 @@ for {set k 0} {$k<$pr_region_count} {incr k} {
 export frz_bdg_${k}     freeze_conduit    frz_bdg_${k}_freeze_conduit
 export frz_ctrl_${k}    bridge_freeze0    frz_ctrl_${k}_bridge_freeze0
 }
+}
+}
+
+# SGMII
+if {$hps_sgmii_en == 1} {
+export clk_125               in_clk                     clk_125
+for {set m $hps_sgmii_emac_start_node} {$m<=$hps_sgmii_emac_end_node} {incr m} {
+export agilex_hps emac${m}_md_clk emac${m}_mdc
+
+export subsys_sgmii_emac${m} sgmii_status               emac${m}_sgmii_status
+export subsys_sgmii_emac${m} status_led                 emac${m}_status_led
+export subsys_sgmii_emac${m} serdes_control             emac${m}_serdes_control
+export subsys_sgmii_emac${m} lvds_tx_pll_locked         emac${m}_lvds_tx_pll_locked
+export subsys_sgmii_emac${m} sgmii_debug_status_pio     emac${m}_sgmii_debug_status_pio
+
+export subsys_sgmii_emac${m} serial_connection          emac${m}_serial
+
+export subsys_sgmii_emac${m} mdio                       emac${m}_mdio
+export subsys_sgmii_emac${m} ptp                        emac${m}_ptp
 }
 }
 

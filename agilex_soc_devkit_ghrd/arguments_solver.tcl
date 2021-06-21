@@ -98,6 +98,8 @@
 # pcie_gen                          : 3
 # pcie_count                        : 4
 # pcie_hptxs                        : 1 or 0
+# hps_sgmii_emac1_en                : 1 or 0
+# hps_sgmii_emac2_en                : 1 or 0
 #
 # Each argument made available for configuration has a default value in design_config.tcl file
 # The value can be passed in through Makefile.
@@ -789,6 +791,40 @@ if { ![ info exists pr_region_name ] } {
   set pr_region_name $PR_REGION_NAME
 } else {
   puts "-- Accepted parameter \$pr_region_name = $pr_region_name"
+}
+
+## ----------------
+## SGMII (HPS EMAC + TSE PHY (SGMII))
+## ----------------
+if { ![ info exists hps_sgmii_emac1_en ] } {
+  set hps_sgmii_emac1_en $SGMII_EMAC1_ENABLE
+} else {
+  puts "-- Accepted parameter \$hps_sgmii_emac1_en = $hps_sgmii_emac1_en"
+}
+
+if { ![ info exists hps_sgmii_emac2_en ] } {
+  set hps_sgmii_emac2_en $SGMII_EMAC2_ENABLE
+} else {
+  puts "-- Accepted parameter \$hps_sgmii_emac2_en = $hps_sgmii_emac2_en"
+}
+# derive argument for operation of script
+if {$hps_sgmii_emac1_en == 1 || $hps_sgmii_emac2_en == 1} {
+    set hps_sgmii_en 1
+    
+if {$hps_sgmii_emac1_en == 1} {
+  set hps_sgmii_emac_start_node 1
+} else {
+  set hps_sgmii_emac_start_node 2
+}
+if {$hps_sgmii_emac2_en == 1} {
+  set hps_sgmii_emac_end_node 2
+} else {
+  set hps_sgmii_emac_end_node 1
+}
+} else {
+    set hps_sgmii_en 0
+    set hps_sgmii_emac_start_node 0
+    set hps_sgmii_emac_end_node 0
 }
 
 # Default option

@@ -19,3 +19,7 @@ QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
 
 # Valid DAUGTHER_CARD Values: none, devkit_dc1, devkit_dc3, devkit_dc4
 DAUGHTER_CARD ?= devkit_dc1
+
+# HPS SGMII Enablement
+HPS_ENABLE_SGMII ?= 0
+

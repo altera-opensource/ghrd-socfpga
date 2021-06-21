@@ -172,6 +172,8 @@ WATCHDOG_RST_ACTION ?= cold
 # Enable Partial Reconfiguration: 0, 1
 # Not applicable to FM6 RevA (AGFB014R24A3E3VR0)
 ENABLE_PARTIAL_RECONFIGURATION ?= 1
+# Enable SGMII (HPS EMAC + TSE PHY)
+HPS_ENABLE_SGMII ?= 1
 
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
 QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
@@ -291,6 +293,22 @@ QUARTUS_PARTITIONS += pr_partition_0
 endif # ENABLE_PARTIAL_RECONFIGURATION == 1
 #### 
 
+####
+# Enable SGMII (HPS EMAC + TSE PHY)
+HPS_SGMII_EMAC1_EN ?= 1
+HPS_SGMII_EMAC2_EN ?= 0
+
+ifeq ($(HPS_ENABLE_SGMII),1)
+ifneq ($(shell echo $(QUARTUS_DEVICE) | grep -E "AGFB014R24A.*VR0"),)
+$(warning WARNING: HPS SGMII is not supported on FM6 REVA. HPS_ENABLE_SGMII force to 0)
+HPS_SGMII_EMAC1_EN = 0
+HPS_SGMII_EMAC2_EN = 0
+endif
+
+QUARTUS_TCL_ARGS += hps_sgmii_emac1_en $(HPS_SGMII_EMAC1_EN) hps_sgmii_emac2_en $(HPS_SGMII_EMAC2_EN)
+QSYS_TCL_CMDS += set hps_sgmii_emac1_en $(HPS_SGMII_EMAC1_EN); set hps_sgmii_emac2_en $(HPS_SGMII_EMAC2_EN);
+endif
+#### 
 
 ifneq ($(DAUGHTER_CARD),)
 QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)
@@ -582,7 +600,7 @@ SCRUB_CLEAN_FILES += $(QUARTUS_BASE_QDB)
 qdb: $(QUARTUS_BASE_QDB)
 
 $(QUARTUS_BASE_QDB): $(QUARTUS_STAMP)
-	quartus_cdb $(QUARTUS_QPF) -c $(QUARTUS_BASE_REVISION) --export_partition root_partition --snapshot final --preserve_sdc --file $@
+	quartus_cdb $(QUARTUS_QPF) -c $(QUARTUS_BASE_REVISION) --export_partition root_partition --snapshot final --file $@
 
 QSYS_SUBSYS_PR := pr_r0_per
 QUARTUS_PR_REVISION := alternate_persona
@@ -617,6 +635,13 @@ $(QUARTUS_OUTPUT_DIR)/$(QUARTUS_BASE_REVISION).$(PARTITION_NAME).pmsf: $(QUARTUS
 
 endif
 
+#####################
+# SGMII 1GbE Constraint
+ifeq ($(HPS_ENABLE_SGMII),1)
+.PHONY: quartus_add_post_sgmii_sdc
+quartus_add_post_sgmii_sdc: $(QSYS_FILE_TOP)
+	$(SET_QSYS_GENERATE_ENV) quartus_sh --script=add_sdc_post_qsys.tcl -projectname $(QUARTUS_BASE) -hps_enable_sgmii $(HPS_ENABLE_SGMII)
+endif
 
 #####################
 SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_debug.S software/hps_debug/Makefile software/hps_debug/Makefile_ARMCLANG.inc software/hps_debug/Makefile_GCC.inc software/hps_debug/scatter.scat
@@ -682,6 +707,9 @@ ifneq ($(QSYS_QSYS_GEN),)
 qsys_generate_qsys: $(QSYS_QSYS_GEN) $(QSYS_GEN_QSYS_DEPS) $(INTEL_CUSTOM_IP_DIR_TARGET)
 	@$(RM) $(QSYS_FILE_TOP)
 	qsys-script $(QSYS_ARGS) --script=$< $(QSYS_TCL_ARGS)
+ifeq ($(HPS_ENABLE_SGMII),1)
+	$(MAKE) quartus_add_post_sgmii_sdc
+endif
 	$(stamp_target)
 else
 qsys_generate_qsys:

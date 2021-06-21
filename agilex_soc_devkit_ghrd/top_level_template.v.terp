@@ -1,7 +1,7 @@
 //****************************************************************************
 //
 // SPDX-License-Identifier: MIT-0
-// Copyright(c) 2019-2020 Intel Corporation.
+// Copyright(c) 2019-2021 Intel Corporation.
 //
 //****************************************************************************
 // This is a generated system top level RTL file. 
@@ -63,6 +63,19 @@ output   wire           u10_gpio_perst_local,       //FM6_CPU_RESET_N
 @@} else {
 //devkit
 output   wire           fpga_gpio0,       //fpga_pcie_perstn to MAX10
+@@}
+@@}
+@@if {$hps_sgmii_en == 1} {
+input  wire          enet_refclk,
+@@  for {set m $hps_sgmii_emac_start_node} {$m<=$hps_sgmii_emac_end_node} {incr m} {
+inout  wire          emac${m}_mdio,
+output wire          emac${m}_mdc,
+input  wire          emac${m}_sgmii_rxp,
+input  wire          emac${m}_sgmii_rxn,
+output wire          emac${m}_sgmii_txp,
+output wire          emac${m}_sgmii_txn,
+input  wire          emac${m}_phy_irq_n,
+output wire          emac${m}_phy_rst_n,
 @@}
 @@}
 //HPS
@@ -475,8 +488,52 @@ assign fpga_gpio0 = 1'b1;
 assign pcie_nreset_status_merge = |pcie_app_reset_status_n;
 @@}
 
+@@if {$hps_sgmii_en == 1} {
+@@  for {set m $hps_sgmii_emac_start_node} {$m<=$hps_sgmii_emac_end_node} {incr m} {
+wire        emac${m}_sgmii_status_set_10;
+wire        emac${m}_sgmii_status_set_1000;
+wire        emac${m}_sgmii_status_set_100;
+wire        emac${m}_sgmii_status_hd_ena;
+wire        emac${m}_status_led_crs;
+wire        emac${m}_status_led_link;
+wire        emac${m}_status_led_panel_link;
+wire        emac${m}_status_led_col;
+wire        emac${m}_status_led_an;
+wire        emac${m}_status_led_char_err;
+wire        emac${m}_status_led_disp_err;
+wire        emac${m}_serdes_control_export;
+wire        emac${m}_lvds_tx_pll_locked_export;
+wire [12:0] emac${m}_sgmii_debug_status_pio;
+wire        emac${m}_mdio_gmii_mdi_i;
+wire        emac${m}_mdio_gmii_mdo_o;
+wire        emac${m}_mdio_gmii_mdo_o_e;
+
+assign emac${m}_sgmii_debug_status_pio   = {emac${m}_lvds_tx_pll_locked_export,
+    emac${m}_serdes_control_export, emac${m}_status_led_disp_err,
+    emac${m}_status_led_char_err, emac${m}_status_led_an,
+    emac${m}_status_led_col, emac${m}_status_led_panel_link,
+    emac${m}_status_led_link, emac${m}_status_led_crs,
+    emac${m}_sgmii_status_hd_ena, emac${m}_sgmii_status_set_100,
+    emac${m}_sgmii_status_set_1000, emac${m}_sgmii_status_set_10};
+
+assign emac${m}_mdio = ~emac${m}_mdio_gmii_mdo_o_e ? emac${m}_mdio_gmii_mdo_o : 1'bz;
+assign emac${m}_mdio_gmii_mdi_i = emac${m}_mdio;
+
+assign emac${m}_phy_rst_n = system_reset_n;
+@@}
+@@}
+
 @@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+
+@@if {$hps_sgmii_emac1_en == 1 && $hps_sgmii_emac2_en == 1} {
+assign f2h_irq1_irq    = {30'b0, ~emac2_phy_irq_n, ~emac1_phy_irq_n};
+@@} elseif {$hps_sgmii_emac1_en == 1} {
+assign f2h_irq1_irq    = {31'b0, ~emac1_phy_irq_n};
+@@} elseif {$hps_sgmii_emac2_en == 1} {
+assign f2h_irq1_irq    = {30'b0, ~emac2_phy_irq_n, 1'b0};
+@@} else {
 assign f2h_irq1_irq    = {32'b0};
+@@}
 @@}
 @@}
 
@@ -843,6 +900,37 @@ ${qsys_name} soc_inst (
 .frz_ctrl_${m}_pr_handshake_stop_req       (pr_handshake_stop_req_ack_loopback_wire_${m}),
 .frz_ctrl_${m}_pr_handshake_stop_ack       (pr_handshake_stop_req_ack_loopback_wire_${m}),
 @@}
+@@}
+@@}
+@@if {$hps_sgmii_en == 1} {
+.clk_125_clk                               (enet_refclk),
+@@  for {set m $hps_sgmii_emac_start_node} {$m<=$hps_sgmii_emac_end_node} {incr m} {
+.emac${m}_sgmii_status_set_10              (emac${m}_sgmii_status_set_10),
+.emac${m}_sgmii_status_set_1000            (emac${m}_sgmii_status_set_1000),
+.emac${m}_sgmii_status_set_100             (emac${m}_sgmii_status_set_100),
+.emac${m}_sgmii_status_hd_ena              (emac${m}_sgmii_status_hd_ena),
+.emac${m}_status_led_crs                   (emac${m}_status_led_crs),
+.emac${m}_status_led_link                  (emac${m}_status_led_link),
+.emac${m}_status_led_panel_link            (emac${m}_status_led_panel_link),
+.emac${m}_status_led_col                   (emac${m}_status_led_col),
+.emac${m}_status_led_an                    (emac${m}_status_led_an),
+.emac${m}_status_led_char_err              (emac${m}_status_led_char_err),
+.emac${m}_status_led_disp_err              (emac${m}_status_led_disp_err),
+.emac${m}_serdes_control_export            (emac${m}_serdes_control_export),
+.emac${m}_lvds_tx_pll_locked_export        (emac${m}_lvds_tx_pll_locked_export),
+.emac${m}_sgmii_debug_status_pio_export    (emac${m}_sgmii_debug_status_pio),
+.emac${m}_serial_rxp_0                     (emac${m}_sgmii_rxp),
+.emac${m}_serial_rxn_0                     (emac${m}_sgmii_rxn),
+.emac${m}_serial_txp_0                     (emac${m}_sgmii_txp),
+.emac${m}_serial_txn_0                     (emac${m}_sgmii_txn),
+.emac${m}_mdio_gmii_mdi_i                  (emac${m}_mdio_gmii_mdi_i),
+.emac${m}_mdio_gmii_mdo_o                  (emac${m}_mdio_gmii_mdo_o),
+.emac${m}_mdio_gmii_mdo_o_e                (emac${m}_mdio_gmii_mdo_o_e),
+.emac${m}_mdc_clk                          (emac${m}_mdc),
+.emac${m}_ptp_ptp_aux_ts_trig_i            (1'b0),
+.emac${m}_ptp_ptp_pps_o                    (),
+.emac${m}_ptp_ptp_tstmp_data               (),
+.emac${m}_ptp_ptp_tstmp_en                 (),
 @@}
 @@}
 .h2f_reset_reset                        (h2f_reset),

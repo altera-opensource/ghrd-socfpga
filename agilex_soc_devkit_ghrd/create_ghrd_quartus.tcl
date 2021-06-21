@@ -51,6 +51,8 @@ set_global_assignment -name DISABLE_REGISTER_POWERUP_INITIALIZATION ON
 #HSDES 14010012832: Turn off debug certificate
 set_global_assignment -name HPS_DAP_NO_CERTIFICATE on
 
+set_global_assignment -name ENABLE_INTERMEDIATE_SNAPSHOTS ON
+
 if {$fpga_pcie == 1} {
     set_global_assignment -name SDC_FILE fpga_pcie.sdc
     set_global_assignment -name OPTIMIZATION_MODE "AGGRESSIVE PERFORMANCE"
@@ -62,6 +64,14 @@ set_global_assignment -name SDC_FILE fpga_pr.sdc
 set_global_assignment -name ROUTER_TIMING_OPTIMIZATION_LEVEL MAXIMUM
 set_global_assignment -name OPTIMIZATION_MODE "HIGH PERFORMANCE EFFORT"
 set_global_assignment -name OPTIMIZATION_TECHNIQUE SPEED
+}
+
+if {$pr_enable == 1} {
+set_global_assignment -name FAST_PRESERVE AUTO
+}
+
+if {$hps_sgmii_en == 1} {
+set_global_assignment -name OPTIMIZATION_MODE "SUPERIOR PERFORMANCE"
 }
 
 # enabling signaltap

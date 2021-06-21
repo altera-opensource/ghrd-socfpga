@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2020 Intel Corporation.
+# Copyright(c) 2019-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -146,6 +146,22 @@ set pcie_perst_iostandard "1.8 V"
 set fpga_gpio0_pin "V45"
 
 
+## SGMII Related IOs
+if {$board_pwrmgt == "linear"} {
+set enet_refclk_pin "CG24"
+} else {
+set enet_refclk_pin "CN22"
+}
+set emac_sgmii_rxp_pin "CH21"
+set emac_sgmii_rxn_pin "CF21"
+set emac_sgmii_txp_pin "CG22"
+set emac_sgmii_txn_pin "CE22"
+set emac_mdio_pin "CE46"
+set emac_mdc_pin "CL50"
+set emac_phy_rst_n_pin "CL56"
+set emac_phy_irq_n_pin "CN56"
+
+
 ## Preparing the dictionary for IOs PIN configuration
 dict set pin_assignment_table fpga_clk_100 location $fpga_clk_100_pin_list
 dict set pin_assignment_table fpga_clk_100 io_standard $fpga_clk_100_iostandard
@@ -239,6 +255,121 @@ dict set pin_assignment_table fpga_gpio0 io_standard "1.2 V"
 dict set pin_assignment_table fpga_gpio0 direction output
 dict set pin_assignment_table fpga_gpio0 width_in_bits 1
 dict set pin_assignment_table fpga_gpio0 slewrate "1"
+}
+
+if {$hps_sgmii_en == 1} {
+## For devkit, it has only one SGMII. The separation of EMAC1 and EMAC2 purely 
+#  for script testing. The assigned pins are the same on both EMAC1 and EMAC2 setup.
+#  That means, only one of it can be enable at a time.
+if {$hps_sgmii_emac1_en == 1 && $hps_sgmii_emac2_en == 1} {
+	error "Error: For devkit, either EMAC1 or EMAC2 can active at a time as only one SGMMI available on board"
+}
+
+
+dict set pin_assignment_table enet_refclk location $enet_refclk_pin
+dict set pin_assignment_table enet_refclk io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table enet_refclk direction input
+dict set pin_assignment_table enet_refclk width_in_bits 1
+dict set pin_assignment_table enet_refclk qsys_exported_port "enet_refclk"
+
+if {$hps_sgmii_emac1_en == 1} {
+dict set pin_assignment_table emac1_sgmii_rxp location $emac_sgmii_rxp_pin
+dict set pin_assignment_table emac1_sgmii_rxp io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table emac1_sgmii_rxp direction input
+dict set pin_assignment_table emac1_sgmii_rxp width_in_bits 1
+dict set pin_assignment_table emac1_sgmii_rxp qsys_exported_port "emac1_sgmii_rxp"
+
+dict set pin_assignment_table emac1_sgmii_rxn location $emac_sgmii_rxn_pin
+dict set pin_assignment_table emac1_sgmii_rxn io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table emac1_sgmii_rxn direction input
+dict set pin_assignment_table emac1_sgmii_rxn width_in_bits 1
+dict set pin_assignment_table emac1_sgmii_rxn qsys_exported_port "emac1_sgmii_rxn"
+
+dict set pin_assignment_table emac1_sgmii_txp location $emac_sgmii_txp_pin
+dict set pin_assignment_table emac1_sgmii_txp io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table emac1_sgmii_txp direction input
+dict set pin_assignment_table emac1_sgmii_txp width_in_bits 1
+dict set pin_assignment_table emac1_sgmii_txp qsys_exported_port "emac1_sgmii_txp"
+
+dict set pin_assignment_table emac1_sgmii_txn location $emac_sgmii_txn_pin
+dict set pin_assignment_table emac1_sgmii_txn io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table emac1_sgmii_txn direction input
+dict set pin_assignment_table emac1_sgmii_txn width_in_bits 1
+dict set pin_assignment_table emac1_sgmii_txn qsys_exported_port "emac1_sgmii_txn"
+
+dict set pin_assignment_table emac1_mdc location $emac_mdc_pin
+dict set pin_assignment_table emac1_mdc io_standard "1.2 V"
+dict set pin_assignment_table emac1_mdc direction output
+dict set pin_assignment_table emac1_mdc width_in_bits 1
+dict set pin_assignment_table emac1_mdc qsys_exported_port "emac1_mdc"
+
+dict set pin_assignment_table emac1_mdio location $emac_mdio_pin
+dict set pin_assignment_table emac1_mdio io_standard "1.2 V"
+dict set pin_assignment_table emac1_mdio direction inout
+dict set pin_assignment_table emac1_mdio width_in_bits 1
+dict set pin_assignment_table emac1_mdio qsys_exported_port "emac1_mdio"
+
+dict set pin_assignment_table emac1_phy_irq_n location $emac_phy_irq_n_pin
+dict set pin_assignment_table emac1_phy_irq_n io_standard "1.2 V"
+dict set pin_assignment_table emac1_phy_irq_n direction output
+dict set pin_assignment_table emac1_phy_irq_n width_in_bits 1
+dict set pin_assignment_table emac1_phy_irq_n qsys_exported_port "emac1_phy_irq_n"
+
+dict set pin_assignment_table emac1_phy_rst_n location $emac_phy_rst_n_pin
+dict set pin_assignment_table emac1_phy_rst_n io_standard "1.2 V"
+dict set pin_assignment_table emac1_phy_rst_n direction inout
+dict set pin_assignment_table emac1_phy_rst_n width_in_bits 1
+dict set pin_assignment_table emac1_phy_rst_n qsys_exported_port "emac1_phy_rst_n"
+}
+if {$hps_sgmii_emac2_en == 1} {
+dict set pin_assignment_table emac2_sgmii_rxp location $emac_sgmii_rxp_pin
+dict set pin_assignment_table emac2_sgmii_rxp io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table emac2_sgmii_rxp direction input
+dict set pin_assignment_table emac2_sgmii_rxp width_in_bits 1
+dict set pin_assignment_table emac2_sgmii_rxp qsys_exported_port "emac2_sgmii_rxp"
+
+dict set pin_assignment_table emac2_sgmii_rxn location $emac_sgmii_rxn_pin
+dict set pin_assignment_table emac2_sgmii_rxn io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table emac2_sgmii_rxn direction input
+dict set pin_assignment_table emac2_sgmii_rxn width_in_bits 1
+dict set pin_assignment_table emac2_sgmii_rxn qsys_exported_port "emac2_sgmii_rxn"
+
+dict set pin_assignment_table emac2_sgmii_txp location $emac_sgmii_txp_pin
+dict set pin_assignment_table emac2_sgmii_txp io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table emac2_sgmii_txp direction input
+dict set pin_assignment_table emac2_sgmii_txp width_in_bits 1
+dict set pin_assignment_table emac2_sgmii_txp qsys_exported_port "emac2_sgmii_txp"
+
+dict set pin_assignment_table emac2_sgmii_txn location $emac_sgmii_txn_pin
+dict set pin_assignment_table emac2_sgmii_txn io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table emac2_sgmii_txn direction input
+dict set pin_assignment_table emac2_sgmii_txn width_in_bits 1
+dict set pin_assignment_table emac2_sgmii_txn qsys_exported_port "emac2_sgmii_txn"
+
+dict set pin_assignment_table emac2_mdc location $emac_mdc_pin
+dict set pin_assignment_table emac2_mdc io_standard "1.2 V"
+dict set pin_assignment_table emac2_mdc direction output
+dict set pin_assignment_table emac2_mdc width_in_bits 1
+dict set pin_assignment_table emac2_mdc qsys_exported_port "emac2_mdc"
+
+dict set pin_assignment_table emac2_mdio location $emac_mdio_pin
+dict set pin_assignment_table emac2_mdio io_standard "1.2 V"
+dict set pin_assignment_table emac2_mdio direction inout
+dict set pin_assignment_table emac2_mdio width_in_bits 1
+dict set pin_assignment_table emac2_mdio qsys_exported_port "emac2_mdio"
+
+dict set pin_assignment_table emac2_phy_irq_n location $emac_phy_irq_n_pin
+dict set pin_assignment_table emac2_phy_irq_n io_standard "1.2 V"
+dict set pin_assignment_table emac2_phy_irq_n direction output
+dict set pin_assignment_table emac2_phy_irq_n width_in_bits 1
+dict set pin_assignment_table emac2_phy_irq_n qsys_exported_port "emac2_phy_irq_n"
+
+dict set pin_assignment_table emac2_phy_rst_n location $emac_phy_rst_n_pin
+dict set pin_assignment_table emac2_phy_rst_n io_standard "1.2 V"
+dict set pin_assignment_table emac2_phy_rst_n direction inout
+dict set pin_assignment_table emac2_phy_rst_n width_in_bits 1
+dict set pin_assignment_table emac2_phy_rst_n qsys_exported_port "emac2_phy_rst_n"
+}
 }
 
 puts "Number of ports: [dict size $pin_assignment_table]"

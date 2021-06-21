@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2020 Intel Corporation.
+# Copyright(c) 2019-2021 Intel Corporation.
 #
 #****************************************************************************
 # USAGE OF THIS FILE 
@@ -217,3 +217,10 @@ set PR_HEIGHT 75
 
 #option for partion region naming
 set PR_REGION_NAME "pr_region"
+
+## ----------------
+## SGMII (HPS EMAC + TSE PHY (SGMII))
+## ----------------
+# setting to enable SGMII Ethernet port(s) in HPS, SGMII Enet
+set SGMII_EMAC1_ENABLE 0
+set SGMII_EMAC2_ENABLE 0

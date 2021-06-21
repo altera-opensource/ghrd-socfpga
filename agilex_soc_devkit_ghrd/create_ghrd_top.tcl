@@ -170,6 +170,11 @@ set param(jtag_ocm_en)                  $jtag_ocm_en
 set param(pr_enable)                    $pr_enable
 set param(pr_region_count)              $pr_region_count
 set param(freeze_ack_dly_enable)        $freeze_ack_dly_enable
+set param(hps_sgmii_emac1_en)           $hps_sgmii_emac1_en
+set param(hps_sgmii_emac2_en)           $hps_sgmii_emac2_en
+set param(hps_sgmii_en)                 $hps_sgmii_en
+set param(hps_sgmii_emac_start_node)    $hps_sgmii_emac_start_node
+set param(hps_sgmii_emac_end_node)      $hps_sgmii_emac_end_node
 
 set content [altera_terp $template param]
 set fo [open "./${top_name}.v" "w"] 

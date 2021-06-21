@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2020 Intel Corporation.
+# Copyright(c) 2019-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -257,6 +257,22 @@ if {$hps_i2c_emac2_q1_en == 1 || $hps_i2c_emac2_q3_en == 1 || $hps_i2c_emac2_q4_
                         "
 }
 
+if {$hps_sgmii_emac1_en == 1} {
+set_component_param "agilex_hps
+                     EMAC1_PinMuxing FPGA
+                     EMAC1_Mode RGMII_with_MDIO 
+                     FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_EMAC1_GTX_CLK 125
+                     "
+}
+
+if {$hps_sgmii_emac2_en == 1} {
+set_component_param "agilex_hps
+                     EMAC2_PinMuxing FPGA
+                     EMAC2_Mode RGMII_with_MDIO 
+                     FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_EMAC2_GTX_CLK 125
+                     "
+}
+
 if {$gpio_loopback_en == 1 || ($h2f_f2h_loopback_acp_adapter_en == 1 & $h2f_f2h_loopback_en == 1) || $fpga_pcie == 1} {
    set_component_param "agilex_hps   
                         GP_Enable 1
@@ -457,6 +473,15 @@ if {$lwh2f_width > 0} {
          connect_map "agilex_hps.h2f_lw_axi_master     start_ack_pio.s1     0x1800
                       agilex_hps.h2f_lw_axi_master     stop_ack_pio.s1      0x1810
                      "
+      }
+   }
+   
+   if {$hps_sgmii_en == 1} {
+      if {$hps_sgmii_emac1_en == 1} {
+         connect_map "   agilex_hps.h2f_lw_axi_master   subsys_sgmii_emac1.csr 0x3000"
+      }
+      if {$hps_sgmii_emac2_en == 1} {
+         connect_map "   agilex_hps.h2f_lw_axi_master   subsys_sgmii_emac1.csr 0x4000"
       }
    }
    
