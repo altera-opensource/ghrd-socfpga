@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2014-2020 Intel Corporation.
+# Copyright(c) 2014-2021 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -344,6 +344,8 @@ set hps_ddr 1
 set hps_ddr 2
 } elseif {$hps_sdram == "D9TNZ"} {
 set hps_ddr 3
+} elseif {$hps_sdram == "D9WFH"} {
+set hps_ddr 4
 }
 
 if {$fast_trace == 1 } {
@@ -691,7 +693,7 @@ add_instance_param "altera_arria10_hps a10_hps
                     F2H_DBG_RST_Enable 1    
                     F2H_WARM_RST_Enable 1   
                     F2H_COLD_RST_Enable 1"
-if {$hps_sdram == "D9RPL" || $hps_sdram == "D9PZN" || $hps_sdram == "D9RGX" || $hps_sdram == "D9TNZ"} {
+if {$hps_sdram == "D9RPL" || $hps_sdram == "D9PZN" || $hps_sdram == "D9RGX" || $hps_sdram == "D9TNZ" || $hps_sdram == "D9WFH"} {
 set_instance_param "a10_hps 
                     EMIF_CONDUIT_Enable 1"
 } else {
@@ -1321,9 +1323,9 @@ add_component_param "altera_emif_a10_hps emif_hps
                     PHY_DDR4_DEFAULT_IO 0   
                     PHY_DDR4_USER_DATA_IN_MODE_ENUM IN_OCT_60_CAL   
                     PHY_DDR4_MEM_CLK_FREQ_MHZ 1066.667  
-                    MEM_DDR4_TCL 16 
-                    MEM_DDR4_WTCL 11    
-                    MEM_DDR4_ROW_ADDR_WIDTH 17"
+                    MEM_DDR4_TCL 20
+                    MEM_DDR4_WTCL 16
+                    MEM_DDR4_ROW_ADDR_WIDTH 15"
 set_validation_property AUTOMATIC_VALIDATION false
 if {$early_io_release == 1} {
 set_component_param "emif_hps
@@ -1332,19 +1334,19 @@ set_component_param "emif_hps
 set_component_param "emif_hps
                     MEM_DDR4_SPEEDBIN_ENUM DDR4_SPEEDBIN_2666
                     MEM_DDR4_BANK_GROUP_WIDTH 1
-                    MEM_DDR4_TIS_PS 50
+                    MEM_DDR4_TIS_PS 55
                     MEM_DDR4_TIH_PS 75
-                    MEM_DDR4_TDIVW_TOTAL_UI 0.23
-                    MEM_DDR4_VDIVW_TOTAL 110
-                    MEM_DDR4_TDQSQ_UI 0.19
-                    MEM_DDR4_TQH_UI 0.71
-                    MEM_DDR4_TDQSCK_PS 160
-                    MEM_DDR4_TQSH_CYC 0.46
-                    MEM_DDR4_TMRD_CK_CYC 10
-                    MEM_DDR4_TRCD_NS 12.5
-                    MEM_DDR4_TRP_NS 12.5
-                    MEM_DDR4_TWTR_L_CYC 8
-                    MEM_DDR4_TWTR_S_CYC 3
+                    MEM_DDR4_TDIVW_TOTAL_UI 0.22
+                    MEM_DDR4_VDIVW_TOTAL 120
+                    MEM_DDR4_TDQSQ_UI 0.18
+                    MEM_DDR4_TQH_UI 0.74
+                    MEM_DDR4_TDQSCK_PS 170
+                    MEM_DDR4_TQSH_CYC 0.4
+                    MEM_DDR4_TMRD_CK_CYC 8
+                    MEM_DDR4_TRCD_NS 13.5
+                    MEM_DDR4_TRP_NS 13.5
+                    MEM_DDR4_TWTR_L_CYC 10
+                    MEM_DDR4_TWTR_S_CYC 4
                     MEM_DDR4_TRRD_L_CYC 7
                     MEM_DDR4_TRRD_S_CYC 6
                     PHY_DDR4_USER_AC_IO_STD_ENUM IO_STD_SSTL_12
@@ -1359,6 +1361,76 @@ set_component_param "emif_hps
 set_component_param "emif_hps
                     MEM_DDR4_TRFC_NS 350.0
                     MEM_DDR4_TFAW_NS 30.0"
+set_validation_property AUTOMATIC_VALIDATION true
+} elseif {$hps_sdram == "D9WFH"} {
+# DDR4 single rank -2666
+add_component_param "altera_emif_a10_hps emif_hps
+                     IP_FILE_PATH ip/$qsys_name/emif_hps.ip
+                    PROTOCOL_ENUM PROTOCOL_DDR4
+                    MEM_DDR4_DQ_WIDTH $hps_sdram_width
+                    MEM_DDR4_ALERT_N_PLACEMENT_ENUM DDR4_ALERT_N_PLACEMENT_DATA_LANES
+                    MEM_DDR4_ALERT_N_DQS_GROUP 3
+                    DIAG_DDR4_SKIP_CA_LEVEL 1
+                    MEM_DDR4_RTT_NOM_ENUM DDR4_RTT_NOM_RZQ_6
+                    PHY_DDR4_USER_REF_CLK_FREQ_MHZ 133.333
+                    PHY_DDR4_DEFAULT_REF_CLK_FREQ 0
+                    CTRL_DDR4_ECC_EN $hps_sdram_ecc
+                    CTRL_DDR4_ECC_AUTO_CORRECTION_EN $hps_sdram_ecc
+                    CTRL_DDR4_MMR_EN $hps_sdram_ecc
+                    PHY_DDR4_DEFAULT_IO 0
+                    PHY_DDR4_USER_DATA_IN_MODE_ENUM IN_OCT_60_CAL
+                    PHY_DDR4_MEM_CLK_FREQ_MHZ 1066.667
+                    MEM_DDR4_TCL 20
+                    MEM_DDR4_WTCL 16
+                    MEM_DDR4_ROW_ADDR_WIDTH 15"
+set_validation_property AUTOMATIC_VALIDATION false
+if {$early_io_release == 1} {
+set_component_param "emif_hps
+                    PHY_DDR4_HPS_ENABLE_EARLY_RELEASE 1"
+}
+set_component_param "emif_hps
+                    MEM_DDR4_SPEEDBIN_ENUM DDR4_SPEEDBIN_2666
+                    MEM_DDR4_BANK_GROUP_WIDTH 1
+                    MEM_DDR4_TIS_PS 55
+                    MEM_DDR4_TIH_PS 80
+                    MEM_DDR4_TDIVW_TOTAL_UI 0.22
+                    MEM_DDR4_VDIVW_TOTAL 120
+                    MEM_DDR4_TDQSQ_UI 0.18
+                    MEM_DDR4_TQH_UI 0.74
+                    MEM_DDR4_TDVWP_UI 0.72
+                    MEM_DDR4_TDQSCK_PS 170
+                    MEM_DDR4_TDQSS_CYC 0.27
+                    MEM_DDR4_TQSH_CYC 0.4
+                    MEM_DDR4_TDSH_CYC 0.18
+                    MEM_DDR4_TDSS_CYC 0.18
+                    MEM_DDR4_TWLS_CYC 0.13
+                    MEM_DDR4_TWLH_CYC 0.13
+                    MEM_DDR4_TINIT_US 500
+                    MEM_DDR4_TMRD_CK_CYC 8
+                    MEM_DDR4_TRAS_NS 32
+                    MEM_DDR4_TRCD_NS 14.25
+                    MEM_DDR4_TRP_NS 14.25
+                    MEM_DDR4_TWR_NS 15
+                    MEM_DDR4_TRRD_S_CYC 7
+                    MEM_DDR4_TRRD_L_CYC 8
+                    MEM_DDR4_TFAW_NS 30.0
+                    MEM_DDR4_TCCD_S_CYC 4
+                    MEM_DDR4_TCCD_L_CYC 6
+                    MEM_DDR4_TWTR_S_CYC 3
+                    MEM_DDR4_TWTR_L_CYC 9
+                    PHY_DDR4_USER_AC_IO_STD_ENUM IO_STD_SSTL_12
+                    PHY_DDR4_USER_CK_IO_STD_ENUM IO_STD_SSTL_12
+                    PHY_DDR4_USER_DATA_IO_STD_ENUM IO_STD_POD_12
+                    PHY_DDR4_USER_AC_MODE_ENUM OUT_OCT_40_CAL
+                    PHY_DDR4_USER_CK_MODE_ENUM OUT_OCT_40_CAL
+                    PHY_DDR4_USER_DATA_OUT_MODE_ENUM OUT_OCT_34_CAL
+                    PHY_DDR4_USER_PLL_REF_CLK_IO_STD_ENUM IO_STD_LVDS
+                    PHY_DDR4_USER_RZQ_IO_STD_ENUM IO_STD_CMOS_12"
+## The density-dependent refresh parameter has to be reduced to match 8Gbit density. Without it, accesses to memory conducted will fail deterministically.
+set_component_param "emif_hps
+                    MEM_DDR4_TRFC_NS 350.0
+                    MEM_DDR4_TREFI_US 7.8
+                    "
 set_validation_property AUTOMATIC_VALIDATION true
 } else {
 # No valid SDRAM device selected
@@ -2048,7 +2120,7 @@ add_connection clk_100.out_clk dipsw_pio.clk
 
 add_connection clk_100.out_clk ILC.clk 
 
-if {$hps_sdram == "D9RPL" || $hps_sdram == "D9PZN" || $hps_sdram == "D9RGX" || $hps_sdram == "D9TNZ"} {
+if {$hps_sdram == "D9RPL" || $hps_sdram == "D9PZN" || $hps_sdram == "D9RGX" || $hps_sdram == "D9TNZ" || $hps_sdram == "D9WFH"} {
 add_connection a10_hps.emif emif_hps.hps_emif_conduit_end 
 set_connection_parameter_value a10_hps.emif/emif_hps.hps_emif_conduit_end endPort {}
 set_connection_parameter_value a10_hps.emif/emif_hps.hps_emif_conduit_end endPortLSB {0}
@@ -2127,7 +2199,7 @@ add_connection a10_hps.h2f_reset ocm_0.reset1
 
 add_connection a10_hps.h2f_reset ILC.reset_n 
 
-if {$hps_sdram == "D9RPL" || $hps_sdram == "D9PZN" || $hps_sdram == "D9RGX" || $hps_sdram == "D9TNZ"} {
+if {$hps_sdram == "D9RPL" || $hps_sdram == "D9PZN" || $hps_sdram == "D9RGX" || $hps_sdram == "D9TNZ" || $hps_sdram == "D9WFH"} {
 add_connection rst_in.out_reset emif_hps.global_reset_reset_sink 
 }
 
@@ -2843,7 +2915,7 @@ add_interface qspi_pll_locked conduit end
 set_interface_property qspi_pll_locked EXPORT_OF qspi_pll.locked
 } else {
 # HPS Processor
-if {$hps_sdram == "D9RPL" || $hps_sdram == "D9PZN" || $hps_sdram == "D9RGX" || $hps_sdram == "D9TNZ"} {
+if {$hps_sdram == "D9RPL" || $hps_sdram == "D9PZN" || $hps_sdram == "D9RGX" || $hps_sdram == "D9TNZ" || $hps_sdram == "D9WFH"} {
 add_interface emif_a10_hps_0_mem_conduit_end conduit end
 set_interface_property emif_a10_hps_0_mem_conduit_end EXPORT_OF emif_hps.mem_conduit_end
 add_interface emif_a10_hps_0_oct_conduit_end conduit end

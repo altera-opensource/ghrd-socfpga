@@ -1,7 +1,7 @@
 //****************************************************************************
 //
 // SPDX-License-Identifier: MIT-0
-// Copyright(c) 2015-2020 Intel Corporation.
+// Copyright(c) 2015-2021 Intel Corporation.
 //
 //****************************************************************************
 // This is a generated system top level RTL file. 
@@ -90,7 +90,7 @@ output wire          hps_memory_mem_odt,
 output wire [$HPS_DDR_DM_W-1:0]  hps_memory_mem_dm,                          
 input  wire          hps_memory_oct_rzqin,     
 input  wire          emif_ref_clk,  
-@@} elseif {$HPS_SDRAM_DEVICE == "D9RGX"} {
+@@} elseif {$HPS_SDRAM_DEVICE == "D9RGX" || $HPS_SDRAM_DEVICE == "D9TNZ" || $HPS_SDRAM_DEVICE == "D9WFH"} {
 // DDR4 single rank -2133 device
 output wire          hps_memory_mem_act_n,
 output wire          hps_memory_mem_bg,
@@ -597,7 +597,7 @@ ${QSYS_NAME} soc_inst (
 .emif_a10_hps_0_mem_conduit_end_mem_dm         (hps_memory_mem_dm),     
 .emif_a10_hps_0_oct_conduit_end_oct_rzqin      (hps_memory_oct_rzqin), 
 .emif_a10_hps_0_pll_ref_clk_clock_sink_clk     (emif_ref_clk),
-@@} elseif {$HPS_SDRAM_DEVICE == "D9RGX"} {
+@@} elseif {$HPS_SDRAM_DEVICE == "D9RGX" || $HPS_SDRAM_DEVICE == "D9TNZ" || $HPS_SDRAM_DEVICE == "D9WFH"} {
 .emif_a10_hps_0_mem_conduit_end_mem_ck         (hps_memory_mem_ck),     
 .emif_a10_hps_0_mem_conduit_end_mem_ck_n       (hps_memory_mem_ck_n),   
 .emif_a10_hps_0_mem_conduit_end_mem_a          (hps_memory_mem_a),      

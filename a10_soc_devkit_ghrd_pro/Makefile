@@ -1,7 +1,7 @@
 ################################################
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2014-2020 Intel Corporation.
+# Copyright(c) 2014-2021 Intel Corporation.
 #
 ################################################
 #
@@ -109,8 +109,10 @@ endif
 #   D9RPL = "MT41K512M16TNA-107" DDR3 Dual Ranks at 800MHz,
 #   D9PZN = "MT41J256M16HA-093" DDR3 Single Rank at 1066MHz,
 #   D9RGX = "MT40A256M16HA-093E:A" DDR4 Single Rank at 1066MHzx
+#   D9TNZ = "MT40A512M16JY-075E:B" DDR4 Single Rank at 1066MHzx
+#   D9WFH = "MT40A512M16LY-075:E" DDR4 Single Rank at 1066MHzx
 
-HPS_SDRAM_SETTING ?= D9RGX
+HPS_SDRAM_SETTING ?= D9WFH
 ifneq ($(HPS_SDRAM_SETTING),)
 QUARTUS_TCL_ARGS += hps_sdram $(HPS_SDRAM_SETTING)
 QSYS_TCL_CMDS += set hps_sdram $(HPS_SDRAM_SETTING);
