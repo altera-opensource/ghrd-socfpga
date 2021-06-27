@@ -145,7 +145,7 @@ add_instance periph subsys_periph
 if {$h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1} {
 add_component_param "agilex_axi_bridge_for_acp_128 acp_bridge_128_0
                      IP_FILE_PATH ip/$qsys_name/acp_bridge_128_0.ip 
-                     GPIO_EN 1
+                     CSR_EN 1
                      "
 }
 
@@ -305,6 +305,9 @@ connect "agilex_hps.h2f_user1_clock  acp_bridge_128_0.clock"
 connect "clk_100.out_clk         acp_bridge_128_0.clock"
 }
 connect "rst_in.out_reset        acp_bridge_128_0.reset"
+
+connect "clk_100.out_clk         acp_bridge_128_0.csr_clock"
+connect "rst_in.out_reset        acp_bridge_128_0.csr_reset"
 }
 
 if {$hps_emif_en == 1 && $fpga_emif_en == 1} {

@@ -273,7 +273,7 @@ set_component_param "agilex_hps
                      "
 }
 
-if {$gpio_loopback_en == 1 || ($h2f_f2h_loopback_acp_adapter_en == 1 & $h2f_f2h_loopback_en == 1) || $fpga_pcie == 1} {
+if {$gpio_loopback_en == 1 || $fpga_pcie == 1} {
    set_component_param "agilex_hps   
                         GP_Enable 1
                         "
@@ -445,8 +445,6 @@ if {$h2f_width > 0} {
       } else {
          connect_map "agilex_hps.h2f_axi_master  acp_bridge_128_0.s0  0x0
                       acp_bridge_128_0.m0    agilex_hps.f2h_axi_slave 0x0"
-                  
-         connect "agilex_hps.h2f_gp acp_bridge_128_0.gpio"
       }
    } elseif {$h2f_width > 0 && $jtag_ocm_en == 1} {
       connect_map "agilex_hps.h2f_axi_master ocm.s1 0x0"
@@ -454,6 +452,11 @@ if {$h2f_width > 0} {
 }
 
 if {$lwh2f_width > 0} {
+   if {$h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1} {
+      connect_map "agilex_hps.h2f_lw_axi_master     acp_bridge_128_0.csr   0x210"
+      connect_map "jtg_mst.fpga_m_master            acp_bridge_128_0.csr   0x210"
+   }
+
    if {$fpga_pcie == 1} {
       connect_map "agilex_hps.h2f_lw_axi_master     pcie_0.pb_lwh2f_pcie       0x00040000"
       connect_map "jtg_mst.fpga_m_master        pcie_0.pb_lwh2f_pcie       0x00040000"
