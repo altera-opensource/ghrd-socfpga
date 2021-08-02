@@ -53,7 +53,7 @@
 #   hps_pll_source_export       : 1 or 0
 #   watchdog_rst_en             : 1 or 0
 #   watchdog_rst_act            : 0, 1 or 2
-#   daughter_card               : Daughter card selection, either "devkit_dc1", "devkit_dc2", "devkit_dc3", "devkit_dc4", "pe_dc1", "pe_dc2", "pe_dc6", "pe_dc9", "pe_dc10", "pe_dc11", "pe_dc12", "pe_dc13", "pe_nand", "pe_sdmmc"
+#   daughter_card               : Daughter card selection, either "devkit_dc_oobe", "devkit_dc_nand", "devkit_dc_emmc"
 #   board                       : pe or devkit or atso12 or ashfield
 #   fpga_peripheral_en          : 1 or 0
 #   fpga_pcie                   : 1 or 0

@@ -153,7 +153,7 @@ inout  wire [$hps_ddr_dqs_w-1:0]  emif_hps_mem_mem_dqs,
 inout  wire [$hps_ddr_dqs_w-1:0]  emif_hps_mem_mem_dqs_n,
 @@}
 @@}
-@@if {$daughter_card == "devkit_dc4" || $daughter_card == "devkit_dc2" || $daughter_card == "devkit_dc1"} {
+@@if {$daughter_card == "devkit_dc4" || $daughter_card == "devkit_dc2" || $daughter_card == "devkit_dc_oobe"} {
 input  wire          hps_jtag_tck,
 input  wire          hps_jtag_tms,
 output wire          hps_jtag_tdo,
@@ -840,7 +840,7 @@ ${qsys_name} soc_inst (
 .emif_hps_oct_oct_rzqin                 (emif_hps_oct_oct_rzqin), 
 @@}
 @@}
-@@if {$daughter_card == "devkit_dc4" || $daughter_card == "devkit_dc2" || $daughter_card == "devkit_dc1"} {
+@@if {$daughter_card == "devkit_dc4" || $daughter_card == "devkit_dc2" || $daughter_card == "devkit_dc_oobe"} {
 .hps_io_hps_io_jtag_tck                 (hps_jtag_tck),                
 .hps_io_hps_io_jtag_tms                 (hps_jtag_tms),                
 .hps_io_hps_io_jtag_tdo                 (hps_jtag_tdo),                 

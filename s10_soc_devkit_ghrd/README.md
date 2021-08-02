@@ -74,7 +74,7 @@ Here are the list of custom settings support in Makefile.
 - `BOARD_REV`                       : Board Rev. "A1" is the latest Devkit.
   - "A0", "A1" (Default)
 - `DAUGHTER_CARD`                   : Daughter Card Option
-  - "devkit_dc1" -> OOBE (Default), "devkit_dc3" -> NAND
+  - "devkit_dc_oobe" (Default), "devkit_dc_nand", "devkit_dc_emmc"
 - `ENABLE_HPS_EMIF_ECC`             : Enable HPS EMIF ECC.
   - 0, 1 (Default)
                       

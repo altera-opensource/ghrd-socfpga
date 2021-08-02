@@ -107,9 +107,8 @@ QUARTUS_DEVICE ?= 1SX280LU2F50E2VG
 # QUARTUS_DEVICE ?= 1SX280HU1F50E2VG
 
 BOARD_TYPE ?= devkit
-# Valid DAUGTHER_CARD Values: devkit_dc1, devkit_dc3, devkit_dc4, pe_dc1, pe_dc2, pe_dc6,
-#  pe_dc9,, pe_dc10, pe_dc11, pe_dc12, pe_dc13, pe_nand, pe_sdmm
-DAUGHTER_CARD ?= devkit_dc1
+# Publicly Available DC: devkit_dc_oobe, devkit_dc_nand, devkit_dc_emmc
+DAUGHTER_CARD ?= devkit_dc_oobe
 # System initilization mode: fpga, hps
 BOOTS_FIRST ?= hps
 # HPS JTAG MODE: combined, separate

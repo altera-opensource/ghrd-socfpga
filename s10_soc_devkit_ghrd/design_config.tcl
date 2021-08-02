@@ -29,8 +29,8 @@ set BOARD_REV "A1"
 # Option to disable c2p on initial revB unit
 set C2P_EARLY_REVB_OFF 0
 
-#  IO48 DAUGHTER_CARD, available options such as "devkit_dc1", "devkit_dc2", "devkit_dc3", "devkit_dc4"
-set DAUGHTER_CARD "devkit_dc1"
+#  IO48 DAUGHTER_CARD, available options such as "devkit_dc_oobe", "devkit_dc_nand", "devkit_dc_emmc"
+set DAUGHTER_CARD "devkit_dc_oobe"
 
 # setting to enable clock gating for NINIT_DONE
 set CLK_GATE_EN 0

@@ -335,7 +335,7 @@ source ./pin_assign_s10_emif.tcl
 
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_ref_clk
 
-if {($board == "devkit" || $board == "atso12" || $board == "ashfield" || $board == "klamath") && $daughter_card != "devkit_dc3"} {
+if {$daughter_card == "devkit_dc4" || $daughter_card == "devkit_dc2" || $daughter_card == "devkit_dc_oobe"} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_jtag_tck
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_jtag_tms
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_jtag_tdo
