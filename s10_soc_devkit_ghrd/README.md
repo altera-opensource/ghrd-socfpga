@@ -71,8 +71,6 @@ Here are the list of custom settings support in Makefile.
   - "fpga", "hps" (Default)
 - `HPS_JTAG_MODE`                   : HPS JTAG mode.
   - "combined" (Default), "separate"
-- `BOARD_REV`                       : Board Rev. "A1" is the latest Devkit.
-  - "A0", "A1" (Default)
 - `DAUGHTER_CARD`                   : Daughter Card Option
   - "devkit_dc_oobe" (Default), "devkit_dc_nand", "devkit_dc_emmc"
 - `ENABLE_HPS_EMIF_ECC`             : Enable HPS EMIF ECC.

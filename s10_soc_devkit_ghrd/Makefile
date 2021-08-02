@@ -113,8 +113,6 @@ DAUGHTER_CARD ?= devkit_dc_oobe
 BOOTS_FIRST ?= hps
 # HPS JTAG MODE: combined, separate
 HPS_JTAG_MODE ?= combined
-# Board Revision: A0, A1
-BOARD_REV ?= A1
 # Enable HPS EMIF ECC: 0, 1
 ENABLE_HPS_EMIF_ECC ?= 1
 # Enable Watchdog Reset: 0, 1
@@ -160,11 +158,6 @@ endif
 
 QUARTUS_TCL_ARGS += hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC)
 QSYS_TCL_CMDS += set hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC);
-
-ifneq ($(BOARD_REV),)
-QUARTUS_TCL_ARGS += board_rev $(BOARD_REV)
-QSYS_TCL_CMDS += set board_rev $(BOARD_REV);
-endif
 
 # Valid BOOTS_FIRST Values: fpga or hps
 ifneq ($(BOOTS_FIRST),)
