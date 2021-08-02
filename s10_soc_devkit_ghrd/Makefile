@@ -358,12 +358,10 @@ $(INTEL_CUSTOM_IP_DIR_PRESENT):
 $(INTEL_CUSTOM_IP_DIR_ABSENT):
 	@echo "Folder $(INTEL_CUSTOM_IP_DIR) does not exist."
 	@echo "Proceed to copy for link $(INTEL_CUSTOM_IP_LINK)"
-	#if `wget $ -O $(INTEL_CUSTOM_IP_TARBALL) --tries=5 $(INTEL_CUSTOM_IP_LINK)`; then echo "Success"; else echo "Failed" && exit 1; fi
+#if `wget $ -O $(INTEL_CUSTOM_IP_TARBALL) --tries=5 $(INTEL_CUSTOM_IP_LINK)`; then echo "Success"; else echo "Failed" && exit 1; fi
 	if `curl $ -o $(INTEL_CUSTOM_IP_TARBALL) -m 90 $(INTEL_CUSTOM_IP_LINK)`; then echo "Success"; else echo "Failed to download $(INTEL_CUSTOM_IP_TARBALL)" && exit 1; fi
-	#Temporary using CP.
-	#cp -f /p/psg/swip/w/khawkhai/git/ghrd_custom_ip/$(INTEL_CUSTOM_IP_TARBALL) .
-	echo "$(INTEL_CUSTOM_IP_TARBALL) copied"
-	#Untar $(INTEL_CUSTOM_IP_TARBALL) 
+	@echo "$(INTEL_CUSTOM_IP_TARBALL) copied"
+#Untar $(INTEL_CUSTOM_IP_TARBALL) 
 	tar -xzf $(INTEL_CUSTOM_IP_TARBALL)
 
 ################################################
