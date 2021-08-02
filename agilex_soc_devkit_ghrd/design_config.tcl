@@ -40,8 +40,8 @@ set CONFIG_SCHEME "ACTIVE SERIAL X4"
 # Configuration clock source
 set DEVICE_INITIALIZATION_CLOCK "INIT_INTOSC"
 
-#  IO48 DAUGHTER_CARD, available options such as "devkit_dc1", "devkit_dc2", "devkit_dc3", "devkit_dc4", "hps_dc8", "hps_dc9", "hps_dc10", "hps_dc13"
-set DAUGHTER_CARD "devkit_dc1"
+#  IO48 DAUGHTER_CARD, available options such as "devkit_dc_oobe", "devkit_dc_nand", "devkit_dc_emmc"
+set DAUGHTER_CARD "devkit_dc_oobe"
 
 set FPGA_PERIPHERAL_EN 1
 

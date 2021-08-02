@@ -73,7 +73,7 @@ Here are the list of custom settings support in Makefile.
    - `HPS_JTAG_MODE`       : HPS JTAG mode.
      - "combined" (Default), "separate"
    - `DAUGHTER_CARD`       : Daughter Card Option (Not available for F-Series FPGA Devkit)
-     - "devkit_dc1" -> OOBE (Default), "devkit_dc3" -> NAND
+     - "devkit_dc_oobe", "devkit_dc_nand", "devkit_dc_emmc"
    - `ENABLE_HPS_EMIF_ECC` : Enable HPS EMIF ECC. REVA Agilex doesn't support ECC Enable.
      - 0 (Default), 1
 

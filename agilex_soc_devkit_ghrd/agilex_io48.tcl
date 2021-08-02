@@ -9,7 +9,7 @@
 #
 #****************************************************************************
 
-if {$daughter_card == "devkit_dc1"} {
+if {$daughter_card == "devkit_dc_oobe"} {
 set hps_usb0_en 1
 set hps_emac0_rgmii_en 1
 set hps_uart0_q3_en 1
@@ -37,7 +37,7 @@ set hps_jtag_en 1
 set hps_gpio1_en 1
 set hps_gpio1_list "5"
 
-} elseif {$daughter_card == "devkit_dc3"} {
+} elseif {$daughter_card == "devkit_dc_nand"} {
 set hps_nand_q12_en 1
 set hps_nand_16b_en 1
 set hps_cm_q 2
@@ -66,7 +66,7 @@ set hps_gpio0_list "8 9"
 set hps_gpio1_en 1
 set hps_gpio1_list "4 5 12 13"
 
-} elseif {$daughter_card == "devkit_dc5"} {
+} elseif {$daughter_card == "devkit_dc_emmc"} {
 set hps_sdmmc8b_q1_en 1
 set hps_cm_q 2
 set hps_cm_io 4

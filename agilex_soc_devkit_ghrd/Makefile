@@ -147,11 +147,11 @@ QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
 
 # Board Power Management. Support board devkit is supported: linear, enpirion
 BOARD_PWRMGT ?= enpirion
-# Valid DAUGTHER_CARD Values: none, devkit_dc1, devkit_dc3, devkit_dc4, pcie_devkit
+# Publicly Available DC: devkit_dc_oobe, devkit_dc_nand, devkit_dc_emmc
 ifeq ($(BOARD_TYPE), pcie_devkit)
 DAUGHTER_CARD = pcie_devkit
 else
-DAUGHTER_CARD ?= devkit_dc1
+DAUGHTER_CARD ?= devkit_dc_oobe
 endif
 # System initilization mode: fpga, hps
 BOOTS_FIRST ?= hps

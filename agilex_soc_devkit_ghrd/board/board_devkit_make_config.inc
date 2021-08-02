@@ -17,8 +17,8 @@ BOARD_PWRMGT ?= enpirion
 QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
 #QUARTUS_DEVICE ?= AGFB014R24A2E2VR1
 
-# Valid DAUGTHER_CARD Values: none, devkit_dc1, devkit_dc3, devkit_dc4
-DAUGHTER_CARD ?= devkit_dc1
+# Publicly Available DC: devkit_dc_oobe, devkit_dc_nand, devkit_dc_emmc
+DAUGHTER_CARD ?= devkit_dc_oobe
 
 # HPS SGMII Enablement
 HPS_ENABLE_SGMII ?= 0
