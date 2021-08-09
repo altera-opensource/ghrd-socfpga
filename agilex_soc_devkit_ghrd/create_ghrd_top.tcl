@@ -25,15 +25,6 @@ foreach {key val} $::argv {
 }
 source ./arguments_solver.tcl
 
-# path to the TERP template
-set template_path "top_level_template.v.terp" 
-# file handle for template
-set template_fh [open $template_path] 
-# template contents
-set template   [read $template_fh] 
-# we are done with the file so we should close it
-close $template_fh 
-
 # construct parameters value used in / affect terp file
 set param(top_name)                     $top_name
 set param(qsys_name)                    $qsys_name
@@ -176,8 +167,36 @@ set param(hps_sgmii_en)                 $hps_sgmii_en
 set param(hps_sgmii_emac_start_node)    $hps_sgmii_emac_start_node
 set param(hps_sgmii_emac_end_node)      $hps_sgmii_emac_end_node
 
+##-------------------------##
+# TOP RTL WRAPPER
+##-------------------------##
+
+# path to the TERP template
+set template_path "top_level_template.v.terp" 
+# file handle for template
+set template_fh [open $template_path] 
+# template contents
+set template   [read $template_fh] 
+# we are done with the file so we should close it
+close $template_fh 
 set content [altera_terp $template param]
 set fo [open "./${top_name}.v" "w"] 
+puts $fo $content
+close $fo
+
+##-------------------------##
+# TOP SDC WRAPPER
+##-------------------------##
+# path to the TERP template
+set template_path "top_level_sdc_template.sdc.terp" 
+# file handle for template
+set template_fh [open $template_path] 
+# template contents
+set template   [read $template_fh] 
+# we are done with the file so we should close it
+close $template_fh 
+set content [altera_terp $template param]
+set fo [open "./ghrd_timing.sdc" "w"] 
 puts $fo $content
 close $fo
 

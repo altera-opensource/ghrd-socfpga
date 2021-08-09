@@ -212,6 +212,11 @@ endif
 QUARTUS_TCL_ARGS += hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC)
 QSYS_TCL_CMDS += set hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC);
 
+ifneq ($(HPS_EMIF_REF_CLK_FREQ_MHZ),)
+QUARTUS_TCL_ARGS += hps_emif_ref_clk_freq_mhz $(HPS_EMIF_REF_CLK_FREQ_MHZ)
+QSYS_TCL_CMDS += set hps_emif_ref_clk_freq_mhz $(HPS_EMIF_REF_CLK_FREQ_MHZ);
+endif
+
 ifneq ($(LOOPBACK_EN),)
 QUARTUS_TCL_ARGS += h2f_f2h_loopback_en $(LOOPBACK_EN)
 QSYS_TCL_CMDS += set h2f_f2h_loopback_en $(LOOPBACK_EN);
@@ -303,6 +308,7 @@ ifneq ($(shell echo $(QUARTUS_DEVICE) | grep -E "AGFB014R24A.*VR0"),)
 $(warning WARNING: HPS SGMII is not supported on FM6 REVA. HPS_ENABLE_SGMII force to 0)
 HPS_SGMII_EMAC1_EN = 0
 HPS_SGMII_EMAC2_EN = 0
+HPS_ENABLE_SGMII = 0
 endif
 
 QUARTUS_TCL_ARGS += hps_sgmii_emac1_en $(HPS_SGMII_EMAC1_EN) hps_sgmii_emac2_en $(HPS_SGMII_EMAC2_EN)

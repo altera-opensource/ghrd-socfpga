@@ -53,7 +53,7 @@
                                     PHY_DDR4_CONFIG_ENUM CONFIG_PHY_AND_HARD_CTRL
                                     PHY_DDR4_USER_PING_PONG_EN false
                                     PHY_DDR4_DEFAULT_REF_CLK_FREQ false
-                                    PHY_DDR4_USER_REF_CLK_FREQ_MHZ 33.333
+                                    PHY_DDR4_USER_REF_CLK_FREQ_MHZ $hps_emif_ref_clk_freq_mhz
                                     CTRL_DDR4_ECC_EN 0
                                     CTRL_DDR4_ECC_AUTO_CORRECTION_EN 0
                                     PHY_DDR4_DEFAULT_IO false
