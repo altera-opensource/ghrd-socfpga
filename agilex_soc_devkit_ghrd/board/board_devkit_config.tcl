@@ -59,7 +59,8 @@ proc config_pwrmgt {} {
 		set_global_assignment -name PWRMGT_SLAVE_DEVICE6_ADDRESS 00
 		set_global_assignment -name PWRMGT_SLAVE_DEVICE7_ADDRESS 00
 		set_global_assignment -name PWRMGT_PAGE_COMMAND_ENABLE ON
-		set_global_assignment -name PWRMGT_VOLTAGE_OUTPUT_FORMAT "AUTO DISCOVERY"
+		set_global_assignment -name PWRMGT_VOLTAGE_OUTPUT_FORMAT "LINEAR FORMAT"
+		set_global_assignment -name PWRMGT_LINEAR_FORMAT_N "-12"
 		set_global_assignment -name PWRMGT_TRANSLATED_VOLTAGE_VALUE_UNIT VOLTS
 	} else {
 		# Enpirion
