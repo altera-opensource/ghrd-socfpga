@@ -260,6 +260,17 @@ set_instance_assignment -name CORE_ONLY_PLACE_REGION ON -to soc_inst|pr_region_$
 }
 }
 
+if {$board == "devkit" && $daughter_card == "devkit_dc_oobe"} {
+set_global_assignment -name STRATIX_JTAG_USER_CODE 0
+set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
+} elseif {$board == "devkit" && $daughter_card == "devkit_dc_nand"} {
+set_global_assignment -name STRATIX_JTAG_USER_CODE 1
+set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
+} elseif {$board == "devkit" && $daughter_card == "devkit_dc_emmc"} {
+set_global_assignment -name STRATIX_JTAG_USER_CODE 2
+set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
+}
+
 # fpga pin assignments
 if {$board == "devkit" || $board == "atso12" || $board == "ashfield" || $board == "klamath"} {
 dict for {pin info} $pin_assignment_table {
