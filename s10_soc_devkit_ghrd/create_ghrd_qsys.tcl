@@ -194,6 +194,17 @@ add_component_param "altera_avalon_pio mge_rcfg_pio
                "
 }
 
+if {$acp_adapter_en == 1} {
+    if {$f2h_width > 0} {
+    add_component_param "s10_axi_bridge_for_acp_128 axi_bridge_for_acp_0
+                    IP_FILE_PATH ip/$qsys_name/axi_bridge_for_acp_0.ip
+                    CSR_EN $acp_adapter_csr_en
+                    GPIO_EN $acp_adapter_gpio_en
+                    ADDR_WIDTH $f2h_addr_width
+                    "
+    }
+}
+
 if {$hps_mge_10gbe_1588_en == 1} {
 add_component_param "altera_clock_bridge mge_10gbe_clk_156p25
                      IP_FILE_PATH ip/$subsys_10gbe_name/mge_10gbe_clk_156p25.ip 
@@ -229,18 +240,27 @@ add_component_param "altera_avalon_mm_bridge mge_csr
                      MAX_BURST_SIZE 1
                      MAX_PENDING_RESPONSES 1
                      "
-                
-add_component_param "s10_axi_bridge_for_acp_128 axi_bridge_for_acp_0
-                     IP_FILE_PATH ip/$subsys_10gbe_name/axi_bridge_for_acp_0.ip 
-                     CSR_EN 1
-                     ADDR_WIDTH 33
-                     "
 
 add_instance mge_10gbe_1588_dma  subsys_mge_10gbe_1588_dma
 add_instance mge_10gbe_1588_ctrl subsys_mge_10gbe_1588_ctrl
 
-
-
+add_component_param "altera_avalon_mm_bridge mge_dma_mm_bridge
+                     IP_FILE_PATH ip/$subsys_10gbe_name/mge_dma_mm_bridge.ip
+                     ADDRESS_UNITS {SYMBOLS}
+                     ADDRESS_WIDTH {33}
+                     DATA_WIDTH {128}
+                     LINEWRAPBURSTS {0}
+                     MAX_BURST_SIZE {64}
+                     MAX_PENDING_RESPONSES {4}
+                     MAX_PENDING_WRITES {4}
+                     PIPELINE_COMMAND {1}
+                     PIPELINE_RESPONSE {1}
+                     SYMBOL_WIDTH {8}
+                     SYNC_RESET {0}
+                     USE_AUTO_ADDRESS_WIDTH {0}
+                     USE_RESPONSE {1}
+                     USE_WRITERESPONSE {1}
+                     "
 }
         
 # instantiate PCIe subsystem
@@ -263,14 +283,6 @@ add_component_param "altera_avalon_pio pcie_link_stat_pio
                generateIRQ 0
                width 14
                "
-               
-if {$pcie_f2h == 1} {               
-add_component_param "s10_axi_bridge_for_acp_128 axi_bridge_for_acp_0
-                    IP_FILE_PATH ip/$qsys_name/axi_bridge_for_acp_0.ip 
-                    CSR_EN 1
-                    ADDR_WIDTH 33
-                    "
-}
 }
 
 # instantiate PR subsystem
@@ -377,17 +389,34 @@ set_connection_parameter_value periph.ILC_irq/periph.button_pio_irq irqNumber {1
 set_connection_parameter_value periph.ILC_irq/periph.dipsw_pio_irq irqNumber {0}
 }
 
+if {$acp_adapter_en == 1} {
+    if {$f2h_width > 0} {
+        connect "rst_in.out_reset                   axi_bridge_for_acp_0.reset
+                 clk_100.out_clk                    axi_bridge_for_acp_0.csr_clock
+                 rst_in.out_reset                   axi_bridge_for_acp_0.csr_reset"
+        if {$fpga_pcie == 1} {
+            connect "pcie_0.coreclkout_out          axi_bridge_for_acp_0.clock"
+        } elseif {$hps_mge_10gbe_1588_en == 1} {
+            connect "mge_10gbe_clk_156p25.out_clk   axi_bridge_for_acp_0.clock"
+        }
+
+        connect_map "jtg_mst.fpga_m_master          axi_bridge_for_acp_0.csr 0x210
+                     s10_hps.h2f_lw_axi_master      axi_bridge_for_acp_0.csr 0x210
+                    "
+    }
+}
+
 # PCIe subsystem
 if {$fpga_pcie == 1} {
-connect "clk_100.out_clk      pcie_0.clk
+connect "clk_100.out_clk           pcie_0.clk
          pcie_0.nreset_status_out  ocm.reset1
-         rst_in.out_reset       pcie_rst_bg.in_reset
-         pcie_0.coreclkout_out  pcie_rst_bg.clk
-         s10_hps.f2h_irq0       pcie_0.msi2gic_interrupt
-         s10_hps.f2h_irq0       pcie_0.pcie_hip_cra_irq
-         pcie_rst_bg.out_reset  pcie_0.reset
-       clk_100.out_clk        pcie_link_stat_pio.clk
-       rst_in.out_reset       pcie_link_stat_pio.reset
+         rst_in.out_reset          pcie_rst_bg.in_reset
+         pcie_0.coreclkout_out     pcie_rst_bg.clk
+         s10_hps.f2h_irq0          pcie_0.msi2gic_interrupt
+         s10_hps.f2h_irq0          pcie_0.pcie_hip_cra_irq
+         pcie_rst_bg.out_reset     pcie_0.reset
+         clk_100.out_clk           pcie_link_stat_pio.clk
+         rst_in.out_reset          pcie_link_stat_pio.reset
        "
 
 set_connection_parameter_value s10_hps.f2h_irq0/pcie_0.msi2gic_interrupt irqNumber {2}
@@ -409,17 +438,10 @@ connect_map "jtg_mst.fpga_m_master pcie_0.txs 0x10000000"
 }
 
 if {$pcie_f2h == 1} {
-connect "pcie_0.coreclkout_out   axi_bridge_for_acp_0.clock
-       rst_in.out_reset          axi_bridge_for_acp_0.reset
-       clk_100.out_clk           axi_bridge_for_acp_0.csr_clock
-       rst_in.out_reset          axi_bridge_for_acp_0.csr_reset
-       pcie_0.nreset_status_out  axi_bridge_for_acp_0.reset
-       "
+connect "pcie_0.nreset_status_out  axi_bridge_for_acp_0.reset"
        
 connect_map "pcie_0.ext_expanded_master            axi_bridge_for_acp_0.s0 0x0
-             pcie_0.ext_expanded_master_upper2GB   axi_bridge_for_acp_0.s0 0x0
-             jtg_mst.fpga_m_master                 axi_bridge_for_acp_0.csr 0x210
-             s10_hps.h2f_lw_axi_master             axi_bridge_for_acp_0.csr 0x210"
+             pcie_0.ext_expanded_master_upper2GB   axi_bridge_for_acp_0.s0 0x0"
 }
 }
 
@@ -433,17 +455,18 @@ connect    "rst_in.out_reset     hps_mge.reset_125m
             "
 
 for {set x 1} {$x<=$sgmii_count} {incr x} {
-connect     "hps_mge.emac${x} s10_hps.emac${x}
-             s10_hps.emac${x}_gtx_clk hps_mge.emac${x}_gtx_clk
-             hps_mge.emac${x}_rx_clk_in s10_hps.emac${x}_rx_clk_in
-             s10_hps.emac${x}_rx_reset hps_mge.emac${x}_rx_reset
-             hps_mge.emac${x}_tx_clk_in s10_hps.emac${x}_tx_clk_in
-             s10_hps.emac${x}_tx_reset hps_mge.emac${x}_tx_reset
+set selected_mac [lindex ${hps_mge_mac} [expr {${x}-1}]]
+connect     "hps_mge.emac${x} s10_hps.emac${selected_mac}
+             s10_hps.emac${selected_mac}_gtx_clk hps_mge.emac${x}_gtx_clk
+             hps_mge.emac${x}_rx_clk_in s10_hps.emac${selected_mac}_rx_clk_in
+             s10_hps.emac${selected_mac}_rx_reset hps_mge.emac${x}_rx_reset
+             hps_mge.emac${x}_tx_clk_in s10_hps.emac${selected_mac}_tx_clk_in
+             s10_hps.emac${selected_mac}_tx_reset hps_mge.emac${x}_tx_reset
              "
 }
 
-connect_map "jtg_mst.fpga_m_master     hps_mge.pb_s   0x10000
-             s10_hps.h2f_lw_axi_master hps_mge.pb_s   0x10000
+connect_map "jtg_mst.fpga_m_master     hps_mge.pb_s   0x3000
+             s10_hps.h2f_lw_axi_master hps_mge.pb_s   0x3000
              jtg_mst.fpga_m_master     mge_led_pio.s1 0x100
              s10_hps.h2f_lw_axi_master mge_led_pio.s1 0x100
              jtg_mst.fpga_m_master     mge_rcfg_pio.s1 0x110
@@ -460,10 +483,8 @@ connect "mge_refclk_csr.out_clk                 mge_refclk_csr_out.in_clk
          rst_in.out_reset                       mge_reset_csr_out.in_reset
          mge_refclk_csr.out_clk                 mge_csr.clk
          rst_in.out_reset                       mge_csr.reset
-         mge_10gbe_clk_156p25.out_clk           axi_bridge_for_acp_0.clock
-         rst_in.out_reset                       axi_bridge_for_acp_0.reset
-         mge_refclk_csr.out_clk                 axi_bridge_for_acp_0.csr_clock
-         rst_in.out_reset                       axi_bridge_for_acp_0.csr_reset    
+         mge_10gbe_clk_156p25.out_clk           mge_dma_mm_bridge.clk
+         rst_in.out_reset                       mge_dma_mm_bridge.reset
          "
          
 connect "mge_10gbe_clk_156p25.out_clk           mge_10gbe_1588_dma.clk
@@ -474,23 +495,21 @@ connect "mge_10gbe_clk_156p25.out_clk           mge_10gbe_1588_dma.clk
 
 connect_map "jtg_mst.fpga_m_master     mge_csr.s0              0x20000
              s10_hps.h2f_lw_axi_master mge_csr.s0              0x20000
-             
-             jtg_mst.fpga_m_master      axi_bridge_for_acp_0.csr 0x210
-             s10_hps.h2f_lw_axi_master  axi_bridge_for_acp_0.csr 0x210
              "
 
 connect_map "jtg_mst.fpga_m_master        mge_10gbe_1588_ctrl.csr    0x300
              s10_hps.h2f_lw_axi_master    mge_10gbe_1588_ctrl.csr    0x300
-             jtg_mst.fpga_m_master        mge_10gbe_1588_dma.csr     0x400
-             s10_hps.h2f_lw_axi_master    mge_10gbe_1588_dma.csr     0x400
+             jtg_mst.fpga_m_master        mge_10gbe_1588_dma.csr     0x2000
+             s10_hps.h2f_lw_axi_master    mge_10gbe_1588_dma.csr     0x2000
              "
 for {set x 1} {$x<=$hps_mge_10gbe_1588_count} {incr x} {
-connect_map "mge_10gbe_1588_dma.tx_dma_ch${x}_prefetcher_read_master     axi_bridge_for_acp_0.s0 0x0000
-             mge_10gbe_1588_dma.tx_dma_ch${x}_prefetcher_write_master    axi_bridge_for_acp_0.s0 0x0000
-             mge_10gbe_1588_dma.tx_dma_ch${x}_read_master                axi_bridge_for_acp_0.s0 0x0000
-             mge_10gbe_1588_dma.rx_dma_ch${x}_prefetcher_read_master     axi_bridge_for_acp_0.s0 0x0000
-             mge_10gbe_1588_dma.rx_dma_ch${x}_prefetcher_write_master    axi_bridge_for_acp_0.s0 0x0000
-             mge_10gbe_1588_dma.rx_dma_ch${x}_write_master               axi_bridge_for_acp_0.s0 0x0000
+connect_map "mge_10gbe_1588_dma.tx_dma_ch${x}_prefetcher_read_master     mge_dma_mm_bridge.s0    0x0000
+             mge_10gbe_1588_dma.tx_dma_ch${x}_prefetcher_write_master    mge_dma_mm_bridge.s0    0x0000
+             mge_10gbe_1588_dma.tx_dma_ch${x}_read_master                mge_dma_mm_bridge.s0    0x0000
+             mge_10gbe_1588_dma.rx_dma_ch${x}_prefetcher_read_master     mge_dma_mm_bridge.s0    0x0000
+             mge_10gbe_1588_dma.rx_dma_ch${x}_prefetcher_write_master    mge_dma_mm_bridge.s0    0x0000
+             mge_10gbe_1588_dma.rx_dma_ch${x}_write_master               mge_dma_mm_bridge.s0    0x0000
+             mge_dma_mm_bridge.m0                                        axi_bridge_for_acp_0.s0 0x0000
              "
 }
 }
@@ -521,11 +540,11 @@ connect     "clk_100.out_clk     pr_region_${k}.clk
              rst_in.out_reset frz_ctrl_${k}.reset
             "
             
-set frz_ctrl_int [expr 2+$k]
+set frz_ctrl_int [expr 11+$k]
 connect     "periph.ILC_irq      frz_ctrl_${k}.interrupt_sender
              s10_hps.f2h_irq0    frz_ctrl_${k}.interrupt_sender
             "
-set_connection_parameter_value periph.ILC_irq/frz_ctrl_${k}.interrupt_sender irqNumber $frz_ctrl_int
+#set_connection_parameter_value periph.ILC_irq/frz_ctrl_${k}.interrupt_sender irqNumber $frz_ctrl_int
 set_connection_parameter_value s10_hps.f2h_irq0/frz_ctrl_${k}.interrupt_sender irqNumber $frz_ctrl_int
 }
 
@@ -576,7 +595,8 @@ export hps_mge       enet_iopll_locked    enet_iopll_locked
 export hps_mge       mge_rcfg_status      mge_rcfg_status
 
 for {set x 1} {$x<=$sgmii_count} {incr x} {
-export s10_hps emac${x}_md_clk emac${x}_mdc
+set selected_mac [lindex ${hps_mge_mac} [expr {${x}-1}]]
+export s10_hps emac${selected_mac}_md_clk emac${x}_mdc
 
 export hps_mge emac${x}_mdio                 emac${x}_mdio
 export hps_mge emac${x}_ptp                  emac${x}_ptp

@@ -102,7 +102,7 @@ add_component_param "altera_avalon_pio mge_10gbe_tod_start_sync_ctrl_pio
                      captureEdge 1
                      direction InOut
                      edgeType RISING
-                     generateIRQ 1
+                     generateIRQ 0
                      resetValue 0x0
                      width $hps_mge_10gbe_1588_count
                      "

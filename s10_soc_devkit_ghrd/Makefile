@@ -120,18 +120,16 @@ ENABLE_WATCHDOG_RST ?= 1
 # Supported watchdog reset action: cold, warm, remote_update
 WATCHDOG_RST_ACTION ?= cold
 
-## Enable only one of the below at a time. Work in progress to enable them at once.
-#
 # Enable SGMII (1GbE, 100MbE, 10MbE) design (HPS EMAC + 1G/2.5G/5G/10G Multi-Rate Ethernet PHY Intel FPGA IP).
-HPS_ENABLE_SGMII ?= 0
+HPS_ENABLE_SGMII ?= 1
 # Enable 10GbE 1588 Design. (Low Latency Ethernet 10G MAC Intel FPGA IP + 1G/2.5G/5G/10G Multi-Rate Ethernet PHY Intel FPGA IP). PTPv2 2-Step enabled.
 HPS_ENABLE_10GbE ?= 0
 # Enable PCIE Design.
-ENABLE_PCIE ?= 0
+ENABLE_PCIE ?= 1
 # Enable Partial Reconfiguration Design.
-ENABLE_PARTIAL_RECONFIGURATION ?= 0
+ENABLE_PARTIAL_RECONFIGURATION ?= 1
 # Enable FPGA I2C.
-ENABLE_FPGA_I2C ?= 1
+ENABLE_FPGA_I2C ?= 0
 
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
 QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
@@ -548,7 +546,7 @@ SCRUB_CLEAN_FILES += $(QUARTUS_BASE_QDB)
 qdb: $(QUARTUS_BASE_QDB)
 
 $(QUARTUS_BASE_QDB): $(QUARTUS_STAMP)
-	quartus_cdb $(QUARTUS_QPF) -c $(QUARTUS_BASE_REVISION) --export_partition root_partition --snapshot final --preserve_sdc --file $@
+	quartus_cdb $(QUARTUS_QPF) -c $(QUARTUS_BASE_REVISION) --export_partition root_partition --snapshot final --file $@
 
 QSYS_SUBSYS_PR := pr_r0_per
 QUARTUS_PR_REVISION := alternate_persona

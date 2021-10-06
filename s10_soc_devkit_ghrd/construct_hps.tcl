@@ -267,10 +267,11 @@ set_component_param "s10_hps
 
 if {$hps_mge_en == 1} {
 for {set x 1} {$x<=$sgmii_count} {incr x} {
+set selected_mac [lindex ${hps_mge_mac} [expr {${x}-1}]]
 set_component_param "s10_hps
-                     EMAC${x}_PinMuxing FPGA
-                     EMAC${x}_Mode RGMII_with_MDIO 
-                     FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_EMAC${x}_GTX_CLK 125
+                     EMAC${selected_mac}_PinMuxing FPGA
+                     EMAC${selected_mac}_Mode RGMII_with_MDIO
+                     FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_EMAC${selected_mac}_GTX_CLK 125
                      "
 }
 }
@@ -622,6 +623,12 @@ if {$hps_pll_source_export == 1} {
 connect "clk_100.out_clk s10_hps.f2h_free_clock"
 }
 
+if {$acp_adapter_en == 1} {
+    if {$f2h_width > 0} {
+        connect_map "axi_bridge_for_acp_0.m0 s10_hps.f2h_axi_slave 0x0000"
+    }
+}
+
 if {$fpga_pcie == 1} {
 connect "pcie_0.coreclkout_out s10_hps.f2sdram0_clock
          clk_100.out_clk s10_hps.h2f_axi_clock
@@ -636,10 +643,7 @@ connect_map "s10_hps.h2f_axi_master pcie_0.hptxs 0x10000000"
 connect_map "s10_hps.h2f_axi_master pcie_0.txs 0x10000000"
 }
 
-if {$pcie_f2h == 1} {
-#connect_map "pcie_0.ext_expanded_master s10_hps.f2h_axi_slave 0x0000"
-connect_map "axi_bridge_for_acp_0.m0 s10_hps.f2h_axi_slave 0x0000"
-} else {
+if {$pcie_f2h == 0} {
 connect_map "pcie_0.ext_expanded_master s10_hps.f2sdram0_data 0x0000"
 }
 connect_map "s10_hps.h2f_axi_master pcie_0.hip_reconfig 0x20000000"
@@ -671,7 +675,6 @@ set_connection_parameter_value s10_hps.f2h_irq0/mge_10gbe_1588_dma.rx_dma_ch2_ir
 }
        
 }
-connect_map "axi_bridge_for_acp_0.m0   s10_hps.f2h_axi_slave 0x0000"
 }
 
 # --------------------    Exported Interfaces     -----------------------#

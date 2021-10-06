@@ -40,11 +40,11 @@ input  wire [4-1:0]  fpga_dipsw_pio,
 input  wire [4-1:0]  fpga_button_pio,
 @@}
 @@if {$fpga_pcie == 1} {
-input	    wire	  			pcie_hip_refclk_clk,
-input 		wire [$pcie_count-1:0] 			pcie_hip_serial_rx_in,  
-output 		wire [$pcie_count-1:0] 			pcie_hip_serial_tx_out,
-input	    wire 	  			pcie_hip_npor_pin_perst,
-output     mux_io_1v8_20,       //fpga_pcie_perstn
+input  wire                pcie_hip_refclk_clk,
+input  wire [$pcie_count-1:0]          pcie_hip_serial_rx_in,
+output wire [$pcie_count-1:0]          pcie_hip_serial_tx_out,
+input  wire                pcie_hip_npor_pin_perst,
+output wire                mux_io_1v8_20,       //fpga_pcie_perstn
 @@}
 //HPS
 @@if {$hps_en == 1} {
@@ -403,8 +403,10 @@ output wire          ftrace_clk,
 inout  wire          fpga_i2c_sda,
 inout  wire          fpga_i2c_scl,
 @@}
-@@if {$hps_mge_en == 1} {
+@@if {$hps_mge_en == 1 || $hps_mge_10gbe_1588_en == 1} {
 input  wire          enet_refclk,
+@@}
+@@if {$hps_mge_en == 1} {
 @@ for {set x 1} {$x<=$sgmii_count} {incr x} {
 input  wire          emac${x}_sgmii_rxp,       
 output wire          emac${x}_sgmii_txp,       
@@ -416,7 +418,6 @@ output wire          emac${x}_phy_rst_n,
 @@}
 @@if {$hps_mge_10gbe_1588_en == 1} {
 input  wire          mge_refclk_125m,
-input  wire          mge_refclk_csr,
 input  wire          mge_refclk_10g,
 
 input  wire [$hps_mge_10gbe_1588_count-1:0]    mge_10gbe_rxp,       
@@ -631,19 +632,19 @@ wire [31:0]    h2f_gp_loopback;
 
 @@if {$pr_enable == 1} {
 @@  for {set m 0} {$m<$pr_region_count} {incr m} {
-wire 		  	pr_handshake_start_req_ack_loopback_wire_${m};
-wire 		  	pr_handshake_stop_req_ack_loopback_wire_${m};
+wire            pr_handshake_start_req_ack_loopback_wire_${m};
+wire            pr_handshake_stop_req_ack_loopback_wire_${m};
 @@}
 @@if {$freeze_ack_dly_enable == 1} {
 @@  for {set m 0} {$m<$pr_region_count} {incr m} {
-wire 		  	pr_handshake_start_req_ack_loopback_wire_delay_ver_${m};
-wire 		 	pr_handshake_stop_req_ack_loopback_wire_delay_ver_${m};
-wire 		  	freeze_wire_${m};     
-wire 		  	illegal_request_wire_${m}; 
+wire            pr_handshake_start_req_ack_loopback_wire_delay_ver_${m};
+wire            pr_handshake_stop_req_ack_loopback_wire_delay_ver_${m};
+wire            freeze_wire_${m};
+wire            illegal_request_wire_${m};
 @@}
-wire [31:0] 	start_ack_delay_cnt;
-wire [31:0] 	stop_ack_delay_cnt;
-@@}  
+wire [31:0]     start_ack_delay_cnt;
+wire [31:0]     stop_ack_delay_cnt;
+@@}
 @@}
 
 @@if {$hps_mge_en == 1} {
@@ -748,29 +749,29 @@ ${qsys_name} soc_inst (
 .button_pio_external_connection_export  (fpga_debounced_buttons), 
 @@}
 @@if {$fpga_pcie == 1} {  
-.pcie_hip_refclk_clk 			(pcie_hip_refclk_clk),
-.pcie_hip_pipe_sim_pipe_pclk_in	(1'b0),    
-@@  for {set j 0} {$j<$pcie_count} {incr j} { 
-.pcie_hip_pipe_phystatus${j}	(1'b0),  
-.pcie_hip_pipe_rxdata${j}		(32'b0),  
-.pcie_hip_pipe_rxdatak${j}		(4'b0),                                   
-.pcie_hip_pipe_rxelecidle${j}	(1'b0),                             
-.pcie_hip_pipe_rxstatus${j}		(3'b0),                             
-.pcie_hip_pipe_rxvalid${j}		(1'b0),                                 
-.pcie_hip_pipe_rxdataskip${j}	(1'b0),                                    
-.pcie_hip_pipe_rxblkst${j}		(1'b0),                       
-.pcie_hip_pipe_rxsynchd${j}		(2'b0),
-.pcie_hip_serial_rx_in${j}       	(pcie_hip_serial_rx_in[${j}]),                                
-.pcie_hip_serial_tx_out${j}      	(pcie_hip_serial_tx_out[${j}]), 
+.pcie_hip_refclk_clk                    (pcie_hip_refclk_clk),
+.pcie_hip_pipe_sim_pipe_pclk_in         (1'b0),
+@@  for {set j 0} {$j<$pcie_count} {incr j} {
+.pcie_hip_pipe_phystatus${j}            (1'b0),
+.pcie_hip_pipe_rxdata${j}               (32'b0),
+.pcie_hip_pipe_rxdatak${j}              (4'b0),
+.pcie_hip_pipe_rxelecidle${j}           (1'b0),
+.pcie_hip_pipe_rxstatus${j}             (3'b0),
+.pcie_hip_pipe_rxvalid${j}              (1'b0),
+.pcie_hip_pipe_rxdataskip${j}           (1'b0),
+.pcie_hip_pipe_rxblkst${j}              (1'b0),
+.pcie_hip_pipe_rxsynchd${j}             (2'b0),
+.pcie_hip_serial_rx_in${j}              (pcie_hip_serial_rx_in[${j}]),
+.pcie_hip_serial_tx_out${j}             (pcie_hip_serial_tx_out[${j}]),
 @@}
-.pcie_hip_pipe_sim_ltssmstate       (pcie_pipe_sim_ltssmstate),
-.pcie_hip_status_ltssmstate         (pcie_link_status[5:0]),
-.pcie_hip_status_link_up            (pcie_link_status[6]),
-.pcie_hip_status_lane_act           (pcie_link_status[11:7]),
-.pcie_hip_currentspeed_currentspeed (pcie_link_status[13:12]),
-.pcie_hip_npor_npor                 (pcie_npor_npor),
-.pcie_hip_npor_pin_perst            (pcie_hip_npor_pin_perst),
-.pcie_link_stat_pio_export          (pcie_link_status),
+.pcie_hip_pipe_sim_ltssmstate           (pcie_pipe_sim_ltssmstate),
+.pcie_hip_status_ltssmstate             (pcie_link_status[5:0]),
+.pcie_hip_status_link_up                (pcie_link_status[6]),
+.pcie_hip_status_lane_act               (pcie_link_status[11:7]),
+.pcie_hip_currentspeed_currentspeed     (pcie_link_status[13:12]),
+.pcie_hip_npor_npor                     (pcie_npor_npor),
+.pcie_hip_npor_pin_perst                (pcie_hip_npor_pin_perst),
+.pcie_link_stat_pio_export              (pcie_link_status),
 @@}
 @@if {$hps_en == 1} {     
 @@if {$hps_stm_en == 1} {
@@ -1152,7 +1153,7 @@ ${qsys_name} soc_inst (
 .sfp_i2c_clk_clk                           (sfp_i2c_scl_oe),
 .sfp_i2c_sda_i                             (sfpa_i2c_sda),
 .sfp_i2c_sda_oe                            (sfp_i2c_sda_oe),
-.mge_refclk_csr_clk                        (mge_refclk_125m),
+.mge_refclk_csr_clk                        (enet_refclk),
 .mge_refclk_csr_out_clk                    (mge_csr_clk),
 .mge_reset_csr_out_reset                   (mge_reset_csr_clk),
 .mge_csr_waitrequest                       (mge_csr_waitrequest),

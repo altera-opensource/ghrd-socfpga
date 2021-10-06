@@ -151,19 +151,21 @@ dict set pin_assignment_table pcie_hip_refclk_clk width_in_bits 1
 dict set pin_assignment_table pcie_hip_refclk_clk qsys_exported_port "pcie_hip_refclk_clk"
 
 dict set pin_assignment_table pcie_hip_npor_pin_perst location AE14
-dict set pin_assignment_table pcie_hip_npor_pin_perst io_standard "3.0-V LVTTL"
+dict set pin_assignment_table pcie_hip_npor_pin_perst io_standard "1.8 V"
 dict set pin_assignment_table pcie_hip_npor_pin_perst direction input
 dict set pin_assignment_table pcie_hip_npor_pin_perst width_in_bits 1
 dict set pin_assignment_table pcie_hip_npor_pin_perst qsys_exported_port "pcie_hip_npor_pin_perst"
 }
 
-if {$hps_mge_en == 1} {
+if {$hps_mge_en == 1 || $hps_mge_10gbe_1588_en == 1} {
 dict set pin_assignment_table enet_refclk location V9
 dict set pin_assignment_table enet_refclk io_standard "LVDS"
 dict set pin_assignment_table enet_refclk direction input
 dict set pin_assignment_table enet_refclk width_in_bits 1
 dict set pin_assignment_table enet_refclk qsys_exported_port "enet_refclk"
+}
 
+if {$hps_mge_en == 1} {
 dict set pin_assignment_table emac1_sgmii_rxp location J7
 dict set pin_assignment_table emac1_sgmii_rxp io_standard "HIGH SPEED DIFFERENTIAL I/O"
 dict set pin_assignment_table emac1_sgmii_rxp direction input
@@ -245,12 +247,6 @@ dict set pin_assignment_table mge_refclk_125m io_standard "LVDS"
 dict set pin_assignment_table mge_refclk_125m direction input
 dict set pin_assignment_table mge_refclk_125m width_in_bits 1
 dict set pin_assignment_table mge_refclk_125m qsys_exported_port "mge_refclk_125m"
-
-dict set pin_assignment_table mge_refclk_csr location V9
-dict set pin_assignment_table mge_refclk_csr io_standard "LVDS"
-dict set pin_assignment_table mge_refclk_csr direction input
-dict set pin_assignment_table mge_refclk_csr width_in_bits 1
-dict set pin_assignment_table mge_refclk_csr qsys_exported_port "mge_refclk_csr"
 
 dict set pin_assignment_table mge_refclk_10g location AM12
 dict set pin_assignment_table mge_refclk_10g io_standard "LVDS"

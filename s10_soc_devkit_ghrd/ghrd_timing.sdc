@@ -22,6 +22,9 @@ set_false_path -from [get_ports {fpga_reset_n[0]}]
 # sourcing JTAG related SDC
 source ./jtag.sdc
 
+# 10GbE PTP reference clock
+create_clock -period "125 MHz" -name {refclk_125m} [get_ports mge_refclk_125m]
+create_clock -period "644.53125 MHz" -name {refclk_10g} [get_ports mge_refclk_10g]
 # FPGA IO port constraints
 set_false_path -from [get_ports {fpga_button_pio[0]}] -to *
 set_false_path -from [get_ports {fpga_button_pio[1]}] -to *

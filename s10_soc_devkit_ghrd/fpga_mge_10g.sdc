@@ -13,9 +13,9 @@
 set NUM_OF_CHANNEL 1
 post_message -type info "Number of channel is $NUM_OF_CHANNEL"
 
-create_clock -period "125 MHz" -name {refclk_125m} [get_ports mge_refclk_125m]
-create_clock -period "125 MHz" -name {refclk_core} [get_ports mge_refclk_csr]
-create_clock -period "644.53125 MHz" -name {refclk_10g} [get_ports mge_refclk_10g]
+# create_clock -period "125 MHz" -name {refclk_125m} [get_ports mge_refclk_125m]
+# create_clock -period "125 MHz" -name {refclk_core} [get_ports mge_refclk_csr]
+# create_clock -period "644.53125 MHz" -name {refclk_10g} [get_ports mge_refclk_10g]
 
 # derive_pll_clocks -create_base_clocks
 derive_clock_uncertainty
@@ -176,5 +176,4 @@ set_false_path -from * -to {*|mge_10gbe_tod_start_sync_ctrl_pio|altera_avalon_pi
 set_false_path -from * -to {*|mge_10gbe_tod_start_sync_ctrl_pio|altera_avalon_pio_inst|readdata[*]}
 
 set_false_path -from {soc_inst|*axi_bridge_for_acp_128_inst|csr_*} -to {soc_inst|s10_hps|altera_stratix10_hps_inst|*}
-
-set_false_path -from {soc_inst|src_prb_rst|*|sync_src_1_bit[2]} -to {*|altera_xcvr_reset_control_s10_inst|alt_xcvr_resync_reset|resync_chains[0].synchronizer_nocut|dreg[1]}
+set_false_path -from [get_keepers {*|src_prb_rst|*|sync_src_1_bit[2]}] -to [get_keepers {*|alt_xcvr_resync_reset|resync_chains[0].synchronizer_nocut|dreg[*]}]

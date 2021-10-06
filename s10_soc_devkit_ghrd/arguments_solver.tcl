@@ -522,6 +522,23 @@ source ./s10_hps_pinmux_solver.tcl
 source ./s10_hps_parameter_solver.tcl
 source ./s10_hps_io48_delay_chain_solver.tcl
 
+## ----------------
+## Parameter Auto Derivation
+## ----------------
+
+# for acp_adapter
+if {$hps_mge_10gbe_1588_en == 1} {
+    set acp_adapter_en 1
+    set acp_adapter_csr_en 1
+    set acp_adapter_gpio_en 0
+} elseif {$fpga_pcie == 1 && $pcie_f2h == 1} {
+    set acp_adapter_en 1
+    set acp_adapter_csr_en 1
+    set acp_adapter_gpio_en 0
+} else {
+    set acp_adapter_en 0
+}
+
 #Parameter Overriding
 if { $fpga_i2c_en == 1 && $hps_mge_10gbe_1588_en == 1 } {
   error "Error GHRD argument solver" "FPGA_I2C_EN and HPS_MGE_10GBE_1588_EN cannot be enable at the same time"
@@ -530,6 +547,32 @@ if { $fpga_i2c_en == 1 && $hps_mge_10gbe_1588_en == 1 } {
 if { $hps_mge_10gbe_1588_en == 1 || $fpga_pcie == 1} {
    puts "Overriding f2h_addr_width to 33"
    set f2h_addr_width 33
+}
+
+#Checking for HPS MGE SGMII Mode
+if {$hps_mge_en == 1} {
+   set hps_mge_mac {}
+   if {$hps_emac0_rmii_en == 0 && $hps_emac0_rgmii_en == 0} {
+      lappend hps_mge_mac 0
+   }
+   if {$hps_emac1_rmii_en == 0 && $hps_emac1_rgmii_en == 0} {
+      lappend hps_mge_mac 1
+   }
+   if {$hps_emac2_rmii_en == 0 && $hps_emac2_rgmii_en == 0} {
+      lappend hps_mge_mac 2
+   }
+
+   puts "debug print: hps_mge_mac = $hps_mge_mac."
+
+   set hps_mge_mac_listlength [llength $hps_mge_mac]
+
+   if {$hps_mge_mac_listlength < 1} {
+      error "Error GHRD argument solver" "All HPS EMAC occupied for HPS IOs. Nothing left for HPS SGMII mode"
+   }
+
+   if {$sgmii_count > $hps_mge_mac_listlength && $hps_mge_mac_listlength >0 } {
+      error "Error GHRD argument solver" "Requested SGMII count is more than unused HPS EMAC. Please reduce the SGMII Count"
+   }
 }
 
 # Was thinking to enable single TCL entry for flow of TOP RTL, qsys, quartus generation. Ideal still pending implementation

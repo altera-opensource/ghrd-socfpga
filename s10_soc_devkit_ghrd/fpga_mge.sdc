@@ -17,8 +17,8 @@ set_false_path -from {*|altera_xcvr_reset_control_s10_inst|*} -to {*|altera_aval
 set_false_path -from {*|mge_rcfg_inst|mge_rcfg_fsm_i|status[*]} -to {*|altera_avalon_pio_inst|d1_data_in[*]}
 set_false_path -from {*|mge_rcfg_inst|mge_rcfg_fsm_i|status[*]} -to {*|altera_avalon_pio_inst|readdata[*]}
 
-#Remove clock related to MGE 2.5Gbps mode
-remove_clock [get_clocks {*|alt_mge_phy_inst|profile1|*}] 
+##Remove clock related to MGE 2.5Gbps mode
+#remove_clock [get_clocks {*|alt_mge_phy_inst|profile1|*}] 
 
 set_clock_groups -exclusive -group [get_clocks {*|enet_iopll_0|*outclk0}] -group [get_clocks {*|enet_iopll_0|*outclk1}] -group [get_clocks {*|enet_iopll_0|*outclk2}] -group [get_clocks {hps_emac*_gtx_clk}]
 

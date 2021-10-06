@@ -75,8 +75,6 @@ Here are the list of custom settings support in Makefile.
   - "devkit_dc_oobe" (Default), "devkit_dc_nand", "devkit_dc_emmc"
 - `ENABLE_HPS_EMIF_ECC`             : Enable HPS EMIF ECC.
   - 0, 1 (Default)
-                      
-### Enable only one of the below at a time. Work in progress to enable them at once.
 - `HPS_ENABLE_SGMII`                : Enable SGMII (1GbE, 100MbE, 10MbE) design (HPS EMAC + 1G/2.5G/5G/10G Multi-Rate Ethernet PHY Intel FPGA IP). 
   - 0 (Default), 1
 - `HPS_ENABLE_10GbE`                : Enable 10GbE 1588 Design. (Low Latency Ethernet 10G MAC Intel FPGA IP + 1G/2.5G/5G/10G Multi-Rate Ethernet PHY Intel FPGA IP). PTPv2 2-Step enabled.

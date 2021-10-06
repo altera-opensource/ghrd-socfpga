@@ -116,6 +116,10 @@ set_global_assignment -name OPTIMIZATION_MODE "HIGH PERFORMANCE EFFORT"
 set_global_assignment -name OPTIMIZATION_TECHNIQUE SPEED
 }
 
+if {$pr_enable == 1} {
+set_global_assignment -name FAST_PRESERVE AUTO
+}
+
 if {$c2p_early_revb_off == 1} { 
 #For ND5REVB_H_SX_F2397B, disable SEU in your project setting
     set_global_assignment -name ENABLE_ED_CRC_CHECK OFF
@@ -312,9 +316,10 @@ dict with info {
     
     if {$fpga_pcie == 1} {
         set_instance_assignment -name USE_AS_3V_GPIO ON -to mux_io_1v8_20 
+        set_instance_assignment -name IO_STANDARD "1.8 V" -to mux_io_1v8_20 
         set_location_assignment PIN_AH17 -to mux_io_1v8_20
                 
-#       set_instance_assignment -name USE_AS_3V_GPIO ON -to pcie_hip_npor_pin_perst 
+        set_instance_assignment -name USE_AS_3V_GPIO ON -to pcie_hip_npor_pin_perst 
 #       set_location_assignment PIN_AE14 -to pcie_hip_npor_pin_perst
     }
    
@@ -322,7 +327,6 @@ dict with info {
       # Clock termination setting
       set_instance_assignment -name XCVR_S10_REFCLK_TERM_TRISTATE TRISTATE_OFF -to mge_refclk_125m
       set_instance_assignment -name XCVR_S10_REFCLK_TERM_TRISTATE TRISTATE_OFF -to mge_refclk_10g
-      set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to mge_refclk_csr
       set_instance_assignment -name USE_AS_3V_GPIO ON -to sfpa_txdisable
       set_instance_assignment -name USE_AS_3V_GPIO ON -to sfpa_ratesel[0]
       set_instance_assignment -name USE_AS_3V_GPIO ON -to sfpa_ratesel[1]
@@ -337,6 +341,10 @@ dict with info {
       set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to sfpa_i2c_sda
       set_instance_assignment -name SLEW_RATE 1 -to sfpa_i2c_scl
       set_instance_assignment -name SLEW_RATE 1 -to sfpa_i2c_sda
+   }
+   
+   if {$hps_mge_en == 1 || $hps_mge_10gbe_1588_en == 1} {
+      set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to enet_refclk
    }
 } 
 
