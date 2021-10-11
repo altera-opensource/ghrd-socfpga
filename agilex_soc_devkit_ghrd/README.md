@@ -76,6 +76,8 @@ Here are the list of custom settings support in Makefile.
      - "devkit_dc_oobe", "devkit_dc_nand", "devkit_dc_emmc"
    - `ENABLE_HPS_EMIF_ECC` : Enable HPS EMIF ECC. REVA Agilex doesn't support ECC Enable.
      - 0 (Default), 1
+   - `ENABLE_PARTIAL_RECONFIGURATION` : Enable Partial Reconfiguration Design.
+     - 0 (Default), 1
    - `ENABLE_JOP` : Enable JOP for remote debug.
      - 0 (Default), 1
 

@@ -126,7 +126,7 @@ WATCHDOG_RST_ACTION ?= cold
 
 # Enable Partial Reconfiguration: 0, 1
 # Not applicable to FM6 RevA (AGFB014R24A3E3VR0)
-ENABLE_PARTIAL_RECONFIGURATION ?= 1
+ENABLE_PARTIAL_RECONFIGURATION ?= 0
 
 # Enable JOP for remote debug: 0, 1
 ENABLE_JOP ?= 0
