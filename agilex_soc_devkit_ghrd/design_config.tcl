@@ -224,3 +224,9 @@ set PR_REGION_NAME "pr_region"
 # setting to enable SGMII Ethernet port(s) in HPS, SGMII Enet
 set SGMII_EMAC1_ENABLE 0
 set SGMII_EMAC2_ENABLE 0
+
+## ----------------
+## JOP
+## ----------------
+# setting to enable JOP for remote debug
+set JOP_EN 0

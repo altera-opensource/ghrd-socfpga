@@ -499,6 +499,10 @@ if {$lwh2f_width > 0} {
    if {$fpga_peripheral_en == 1} {
       connect_map "agilex_hps.h2f_lw_axi_master periph.pb_cpu_0_s0 0x1000"
    }
+   
+   if {$jop_en == 1} {
+      connect_map "agilex_hps.h2f_lw_axi_master jop.avmm_s 0x8000"
+   }
 }
 
 if {$jtag_ocm_en == 1} {

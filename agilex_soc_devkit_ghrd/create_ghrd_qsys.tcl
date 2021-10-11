@@ -230,6 +230,16 @@ add_instance subsys_sgmii_emac${m} subsys_sgmii
 }
 }
 
+if {$jop_en == 1} {
+add_component_param "intel_jop_blaster jop
+                    IP_FILE_PATH ip/$qsys_name/jop.ip 
+                    EXPORT_SLD_ED {0}
+                    MEM_SIZE {4096}
+                    MEM_WIDTH {64}
+                    USE_TCK_ENA {1}
+                    "
+}
+
 if {$hps_en == 1} {
 #setup HPS and HPS EMIF
 source ./construct_hps.tcl
@@ -407,6 +417,12 @@ connect     "clk_100.out_clk                       subsys_sgmii_emac${m}.csr_clk
 	     agilex_hps.emac${m}                   subsys_sgmii_emac${m}.splitter_emac
             "
 }
+}
+
+if {$jop_en == 1} {
+connect     "clk_100.out_clk                       jop.clk
+            rst_in.out_reset                       jop.reset
+            "
 }
 
 ####################################

@@ -128,6 +128,9 @@ WATCHDOG_RST_ACTION ?= cold
 # Not applicable to FM6 RevA (AGFB014R24A3E3VR0)
 ENABLE_PARTIAL_RECONFIGURATION ?= 1
 
+# Enable JOP for remote debug: 0, 1
+ENABLE_JOP ?= 0
+
 ####
 # Default Assignment (Do not modify)
 QUARTUS_DEVICE_FAMILY := Agilex
@@ -315,6 +318,15 @@ QUARTUS_TCL_ARGS += hps_sgmii_emac1_en $(HPS_SGMII_EMAC1_EN) hps_sgmii_emac2_en 
 QSYS_TCL_CMDS += set hps_sgmii_emac1_en $(HPS_SGMII_EMAC1_EN); set hps_sgmii_emac2_en $(HPS_SGMII_EMAC2_EN);
 endif
 #### 
+
+####
+# Enable JOP
+ENABLE_JOP ?= 0
+ifeq ($(ENABLE_JOP),1)
+QUARTUS_TCL_ARGS += jop_en 1 
+QSYS_TCL_CMDS += set jop_en 1;  
+endif
+####
 
 ifneq ($(DAUGHTER_CARD),)
 QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)

@@ -100,6 +100,7 @@
 # pcie_hptxs                        : 1 or 0
 # hps_sgmii_emac1_en                : 1 or 0
 # hps_sgmii_emac2_en                : 1 or 0
+# jop_en                            : 1 or 0
 #
 # Each argument made available for configuration has a default value in design_config.tcl file
 # The value can be passed in through Makefile.
@@ -825,6 +826,15 @@ if {$hps_sgmii_emac2_en == 1} {
     set hps_sgmii_en 0
     set hps_sgmii_emac_start_node 0
     set hps_sgmii_emac_end_node 0
+}
+
+## ----------------
+## JOP
+## ----------------
+if { ![ info exists jop_en ] } {
+  set jop_en $JOP_EN
+} else {
+  puts "-- Accepted parameter \$jop_en = $jop_en"
 }
 
 # Default option
