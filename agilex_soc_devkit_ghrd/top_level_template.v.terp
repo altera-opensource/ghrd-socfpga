@@ -517,7 +517,7 @@ assign emac${m}_sgmii_debug_status_pio   = {emac${m}_lvds_tx_pll_locked_export,
     emac${m}_sgmii_status_hd_ena, emac${m}_sgmii_status_set_100,
     emac${m}_sgmii_status_set_1000, emac${m}_sgmii_status_set_10};
 
-assign emac${m}_mdio = ~emac${m}_mdio_gmii_mdo_o_e ? emac${m}_mdio_gmii_mdo_o : 1'bz;
+assign emac${m}_mdio = emac${m}_mdio_gmii_mdo_o_e ? emac${m}_mdio_gmii_mdo_o : 1'bz;
 assign emac${m}_mdio_gmii_mdi_i = emac${m}_mdio;
 
 assign emac${m}_phy_rst_n = system_reset_n;
