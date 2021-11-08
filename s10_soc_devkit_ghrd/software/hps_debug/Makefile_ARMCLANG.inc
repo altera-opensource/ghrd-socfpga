@@ -24,7 +24,7 @@ OBJDUMP_FILE := $(patsubst %.axf,%.objdump,$(AXF))
 SRC := hps_debug.S
 SCATTER_FILE := scatter.scat
 
-CC_FLAGS := -g --target=$(TARGET_PROCESSOR)
+CC_FLAGS := -g --target=$(TARGET_PROCESSOR) -mcpu=Cortex-A53
 LD_FLAGS := --scatter=$(SCATTER_FILE) --entry=0xffe00000
 
 OBJ.S := $(patsubst %.S,%.o,$(filter %.S,$(SRC)))
