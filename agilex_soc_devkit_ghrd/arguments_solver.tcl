@@ -21,6 +21,7 @@
 # config_scheme                     : "ACTIVE SERIAL X4", "AVST X8", "AVST X16", "AVST X32"
 # device_initialization_clock       : "INIT_INTOSC", "OSC_CLK_1_125MHZ", "OSC_CLK_1_100MHZ", "OSC_CLK_1_25MHZ"
 # fpga_peripheral_en                : Enable PIO for LEDs, DIPSW and Pushbutton. 1 or 0
+# niosv_subsys_en                   : Enable Nios V subsystem. 1 or 0
 # jtag_ocm_en                       : Enable JTAG Masters and OnChipMemory. 1 or 0
 # ocm_datawidth                     : 32, 64, 128, 256
 # ocm_memsize                       : 262144.0 (Default), 8388608.0 (PCIE OCM Boot)
@@ -213,6 +214,12 @@ if { $fpga_peripheral_en == 1} {
         set fpga_peripheral_en 0
         puts "-- Turn OFF fpga_peripheral_en because \"isPeriph_pins_available\" is not available"
     }
+}
+
+if { ![ info exists niosv_subsys_en ] } {
+ set niosv_subsys_en $NIOSV_SUBSYS_EN
+} else {
+ puts "-- Accepted parameter \$niosv_subsys_en = $niosv_subsys_en"
 }
 
 ## ----------------
