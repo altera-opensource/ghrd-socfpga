@@ -68,6 +68,13 @@ source ./construct_subsys_sgmii.tcl
 reload_ip_catalog
 }
 
+if {$niosv_subsys_en == 1} {
+source ./construct_subsys_niosv.tcl
+reload_ip_catalog
+}
+
+
+
 create_system $qsys_name
 
 set_project_property DEVICE_FAMILY $device_family
@@ -140,6 +147,10 @@ add_component_param "altera_avalon_mm_bridge fpga_m2ocm_pb
 
 if {$fpga_peripheral_en == 1} {
 add_instance periph subsys_periph
+}
+
+if {$niosv_subsys_en ==1} {
+add_instance niosv subsys_niosv
 }
 
 if {$h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1} {
@@ -305,6 +316,12 @@ connect_map "   jtg_mst.fpga_m_master   subsys_sgmii_emac2.csr 0x4000"
 if {$fpga_peripheral_en == 1} {
 connect "clk_100.out_clk   periph.clk
          rst_in.out_reset  periph.reset
+         "
+}
+
+if {$niosv_subsys_en == 1} {
+connect "clk_100.out_clk   niosv.clk
+         rst_in.out_reset  niosv.reset
          "
 }
 
