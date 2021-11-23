@@ -88,6 +88,7 @@
                                     MEM_DDR4_TFAW_NS 21.0
                                     MEM_DDR4_TWTR_S_CYC 3
                                     MEM_DDR4_TWTR_L_CYC 9
+                                    DIAG_HMC_HRC OFF
                                     DIAG_EXPORT_PLL_LOCKED 1"
 									
 #          set_component_param     "emif_hps DIAG_EXTRA_CONFIGS SEQ_DBG_SKIP_STEPS_ADD=6750208,SEQ_GLOBAL_SKIP_STEPS_ADD=8"

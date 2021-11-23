@@ -116,7 +116,7 @@ LOOPBACK_EN ?= 0
 HPS_EMIF_EN ?= 1
 
 # HPS EMIF ECC is not support for REVA Agilex
-ENABLE_HPS_EMIF_ECC ?= 0
+ENABLE_HPS_EMIF_ECC ?= 1
 
 # Enable Watchdog Reset: 0, 1
 ENABLE_WATCHDOG_RST ?= 1
@@ -167,7 +167,7 @@ LOOPBACK_EN ?= 0
 # HPS EMIF Enabled: 0, 1
 HPS_EMIF_EN ?= 1
 # HPS EMIF ECC is not support for REVA Agilex
-ENABLE_HPS_EMIF_ECC ?= 0
+ENABLE_HPS_EMIF_ECC ?= 1
 # Enable Watchdog Reset: 0, 1
 ENABLE_WATCHDOG_RST ?= 1
 # Supported watchdog reset action: cold, warm, remote_update
