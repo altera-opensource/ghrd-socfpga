@@ -69,7 +69,7 @@ add_component_param "altera_avalon_onchip_memory2 ram
 					initMemContent 1
 					initializationFileName ram.hex
 					instanceID NONE
-					memorySize 300000.0
+					memorySize 262144.0
 					readDuringWriteMode DONT_CARE
 					resetrequest_enabled 1
 					simAllowMRAMContentsFile 0
