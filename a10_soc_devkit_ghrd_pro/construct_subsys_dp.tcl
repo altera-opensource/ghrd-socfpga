@@ -111,7 +111,8 @@ add_component_param "altera_dp bitec_dp_0
                      TX_SUPPORT_DP 1
                      TX_SUPPORT_AUTOMATED_TEST 1
                      TX_MAX_NUM_OF_STREAMS 1
-                     RX_SUPPORT_DP 0"
+                     RX_SUPPORT_DP 0
+                     SELECT_SUPPORTED_VARIANT 5"
 if {$pr_dp_mix_enable == 1} {
 set_component_param "bitec_dp_0 
                     TX_VIDEO_BPS 10 
