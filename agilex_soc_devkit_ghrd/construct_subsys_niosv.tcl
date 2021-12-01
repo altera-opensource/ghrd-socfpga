@@ -107,6 +107,8 @@ connect_map "	cpu.instruction_manager ram.s1 0x0000"
 connect_map "	cpu.instruction_manager cpu.dm_agent 0x00080000"
 connect_map "	cpu.data_manager jtag_uart.avalon_jtag_slave 0x00090078"
 connect_map "	cpu.data_manager cpu.timer_sw_agent 0x00090000"
+connect_map "	cpu.data_manager ram.s1 0x0000"
+connect_map "	cpu.data_manager cpu.dm_agent 0x00080000"
 			
 # exported interfaces
 
