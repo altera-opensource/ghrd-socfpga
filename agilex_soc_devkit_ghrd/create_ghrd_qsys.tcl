@@ -431,7 +431,7 @@ connect     "clk_100.out_clk                       subsys_sgmii_emac${m}.csr_clk
              subsys_sgmii_emac${m}.emac_tx_clk_in  agilex_hps.emac${m}_tx_clk_in
              agilex_hps.emac${m}_rx_reset          subsys_sgmii_emac${m}.emac_rx_reset
              agilex_hps.emac${m}_tx_reset          subsys_sgmii_emac${m}.emac_tx_reset
-	     agilex_hps.emac${m}                   subsys_sgmii_emac${m}.splitter_emac
+             agilex_hps.emac${m}                   subsys_sgmii_emac${m}.splitter_emac
             "
 }
 }
@@ -525,6 +525,11 @@ export subsys_sgmii_emac${m} serial_connection          emac${m}_serial
 export subsys_sgmii_emac${m} mdio                       emac${m}_mdio
 export subsys_sgmii_emac${m} ptp                        emac${m}_ptp
 }
+}
+
+if {$niosv_subsys_en == 1} {
+export niosv  issp_reset_out  niosv_issp_reset_out
+export niosv  issp_reset_in   niosv_issp_reset_in
 }
 
 # interconnect requirements

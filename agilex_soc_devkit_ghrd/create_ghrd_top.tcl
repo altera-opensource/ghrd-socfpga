@@ -166,6 +166,7 @@ set param(hps_sgmii_emac2_en)           $hps_sgmii_emac2_en
 set param(hps_sgmii_en)                 $hps_sgmii_en
 set param(hps_sgmii_emac_start_node)    $hps_sgmii_emac_start_node
 set param(hps_sgmii_emac_end_node)      $hps_sgmii_emac_end_node
+set param(niosv_subsys_en)              $niosv_subsys_en
 
 ##-------------------------##
 # TOP RTL WRAPPER

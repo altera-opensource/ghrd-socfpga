@@ -382,6 +382,9 @@ wire         h2f_reset;
 @@  if {$h2f_user0_clk_en ==1} {
 wire         h2f_user_clk_clk;
 @@  }
+@@if {$niosv_subsys_en == 1} {
+wire         niosv_issp_reset;
+@@}
 
 
 @@if {$jtag_ocm_en == 0} {
@@ -961,6 +964,10 @@ ${qsys_name} soc_inst (
 .fpga_emif_status_local_cal_success     (fpga_emif_status_local_cal_success),         
 .fpga_emif_status_local_cal_fail        (fpga_emif_status_local_cal_fail),          
 .emif_usr_reset_n_reset_n               (emif_usr_reset_n),
+@@}
+@@if {$niosv_subsys_en == 1} {
+.niosv_issp_reset_out_source            (niosv_issp_reset),
+.niosv_issp_reset_in_reset              (niosv_issp_reset),
 @@}
 .reset_reset_n                          (system_reset_n)
 );  

@@ -36,6 +36,15 @@ add_component_param "altera_reset_bridge niosv_rst_in
                     NUM_RESET_OUTPUTS 1
                     USE_RESET_REQUEST 0
                     "
+
+add_component_param "altera_reset_bridge niosv_issp_reset_in 
+                    IP_FILE_PATH ip/$sub_sys/niosv_issp_reset_in.ip 
+                    ACTIVE_LOW_RESET 0
+                    SYNCHRONOUS_EDGES both
+                    NUM_RESET_OUTPUTS 1
+                    USE_RESET_REQUEST 0
+                    "
+
 add_component_param "intel_niosv_m cpu
 					IP_FILE_PATH ip/$sub_sys/cpu.ip
 					enableDebug 1
@@ -85,17 +94,31 @@ add_component_param "altera_avalon_jtag_uart jtag_uart
 					writeBufferDepth 64
 					writeIRQThreshold 8
 					"
+
+add_component_param "altera_in_system_sources_probes niosv_issp_reset_out
+					IP_FILE_PATH ip/$sub_sys/niosv_issp_reset_out.ip
+					create_source_clock {1}
+					probe_width {0}
+					source_initial_value {0}
+					source_width {1}
+"
+
 # Connections
 # Clocks
 connect "	niosv_clk.out_clk cpu.clk
 			niosv_clk.out_clk ram.clk1
 			niosv_clk.out_clk jtag_uart.clk
-			niosv_clk.out_clk niosv_rst_in.clk"
+			niosv_clk.out_clk niosv_rst_in.clk
+			niosv_clk.out_clk niosv_issp_reset_in.clk
+			niosv_clk.out_clk niosv_issp_reset_out.source_clk"
 			
 # Resets
 connect "	niosv_rst_in.out_reset cpu.reset 
 			niosv_rst_in.out_reset ram.reset1
-			niosv_rst_in.out_reset jtag_uart.reset"
+			niosv_rst_in.out_reset jtag_uart.reset
+			niosv_issp_reset_in.out_reset cpu.reset
+			niosv_issp_reset_in.out_reset ram.reset1
+			niosv_issp_reset_in.out_reset jtag_uart.reset"
 			
 # interupts
 add_connection cpu.platform_irq_rx/jtag_uart.irq
@@ -114,6 +137,8 @@ connect_map "	cpu.data_manager cpu.dm_agent 0x00080000"
 
 export niosv_rst_in in_reset reset
 export niosv_clk in_clk clk
+export niosv_issp_reset_out sources  issp_reset_out
+export niosv_issp_reset_in  in_reset issp_reset_in
 
 # interconnect requirements
 set_domain_assignment {$system} {qsys_mm.clockCrossingAdapter} {AUTO}
