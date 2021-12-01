@@ -12,6 +12,7 @@ This reference design demonstrating the following system integration between Har
   - SYSID
   - Programmable I/O (PIO) IP for controlling DIPSW, PushButton, and LEDs)
   - FPGA On-Chip Memory
+  - SGMII with HPS EMAC and Triple-Speed Ethernet Intel FPGA IP
 	
 This repository hosts build scripts for AGILEX GHRD.
 
@@ -94,3 +95,4 @@ Here are the list of custom settings support in Makefile.
      - File: ./board/board_pcie_devkit_make_config.inc
      - `QUARTUS_DEVICE`      : Device OPN
        - AGFB014R24A3E3VR0 (Default)
+
