@@ -65,3 +65,6 @@ set_false_path -from * -to [ get_ports emac${m}_phy_rst_n ]
 set_false_path -from [get_ports {emac${m}_phy_irq}] -to *
 @@  }
 @@}
+ 
+# False Path between debounced and reset synchronizer
+set_false_path -from fpga_reset_n_debounced -to {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain[1]}

@@ -58,3 +58,5 @@ set_false_path -from [get_ports {emac2_phy_irq}] -to *
 set_false_path -from {soc_inst|src_prb_rst|*|sync_src_1_bit[2]} -to {soc_inst|rst_controller_*altera_reset_synchronizer_int_chain[1]}
 
 set_false_path -from {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain_out} -to {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain[1]}
+
+set_false_path -from fpga_reset_n_debounced -to {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain[1]}

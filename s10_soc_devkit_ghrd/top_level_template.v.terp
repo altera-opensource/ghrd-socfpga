@@ -474,7 +474,8 @@ wire         system_clk_100_internal;
 wire         system_clk_100_gated;
 @@}
 wire         ninit_done;
-wire         fpga_reset_n_debounced;
+wire         fpga_reset_n_debounced_wire;
+reg          fpga_reset_n_debounced;
 wire         src_reset_n;
 wire         system_reset_n;
 @@if {$fpga_pcie == 1} {
@@ -1375,12 +1376,20 @@ debounce fpga_reset_n_debounce_inst (
 .clk          (system_clk_100_internal),
 .reset_n      (~ninit_done),
 .data_in      (fpga_reset_n),
-.data_out     (fpga_reset_n_debounced)
+.data_out     (fpga_reset_n_debounced_wire)
 );
 defparam debounce_inst.WIDTH = 1;
 defparam debounce_inst.POLARITY = "LOW";
 defparam debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
 defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
+
+always @ (posedge system_clk_100_internal or posedge ninit_done)
+begin
+    if (ninit_done == 1'b1)
+        fpga_reset_n_debounced <= 1'b0;
+    else
+        fpga_reset_n_debounced <= fpga_reset_n_debounced_wire;  
+end
 
 @@if {$fpga_peripheral_en == 1} {
 // Debounce logic to clean out glitches within 1ms
