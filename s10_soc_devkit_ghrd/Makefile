@@ -533,14 +533,14 @@ QUARTUS_PR_RBF := $(strip \
 
 QUARTUS_PMSF := $(patsubst %.rbf,%.pmsf,$(QUARTUS_PR_RBF))
 
+QUARTUS_BASE_QDB := base_static.qdb
+SCRUB_CLEAN_FILES += $(QUARTUS_BASE_QDB)
 endif
 
 #####################
 
 
 #####################
-QUARTUS_BASE_QDB := base_static.qdb
-SCRUB_CLEAN_FILES += $(QUARTUS_BASE_QDB)
 
 .PHONY: qdb
 qdb: $(QUARTUS_BASE_QDB)
@@ -730,6 +730,10 @@ endef
 # Clean-up and Archive
 
 AR_FILES += $(filter-out $(AR_FILTER_OUT),$(wildcard $(AR_REGEX)))
+
+ifeq ($(ENABLE_PARTIAL_RECONFIGURATION),1)
+AR_FILES += $(QUARTUS_BASE_QDB)
+endif
 
 CLEAN_FILES += $(filter-out $(AR_DIR) $(AR_FILES) ip,$(wildcard *))
 
