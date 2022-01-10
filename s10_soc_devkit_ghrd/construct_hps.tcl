@@ -436,7 +436,6 @@ if {$hps_emif_en == 1} {
 if {$f2h_width > 0} {
 if {$fpga_pcie == 1 && $pcie_f2h == 1} {
 connect "pcie_0.coreclkout_out s10_hps.f2h_axi_clock
-         pcie_0.nreset_status_out s10_hps.f2h_axi_reset
          rst_in.out_reset s10_hps.f2h_axi_reset"
 } elseif {$hps_mge_10gbe_1588_en == 1} {
 connect "mge_10gbe_clk_156p25.out_clk s10_hps.f2h_axi_clock
@@ -631,10 +630,7 @@ if {$acp_adapter_en == 1} {
 
 if {$fpga_pcie == 1} {
 connect "pcie_0.coreclkout_out s10_hps.f2sdram0_clock
-         clk_100.out_clk s10_hps.h2f_axi_clock
-         pcie_0.nreset_status_out s10_hps.f2sdram0_reset
-         pcie_0.nreset_status_out s10_hps.h2f_axi_reset
-         pcie_0.nreset_status_out s10_hps.h2f_lw_axi_reset"
+         clk_100.out_clk s10_hps.h2f_axi_clock"
          
 # connect_map "s10_hps.h2f_axi_master pcie_0.txs_ccb 0x10000000"
 if {$pcie_hptxs == 1} {

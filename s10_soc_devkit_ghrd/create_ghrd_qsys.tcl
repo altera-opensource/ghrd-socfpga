@@ -409,7 +409,6 @@ if {$acp_adapter_en == 1} {
 # PCIe subsystem
 if {$fpga_pcie == 1} {
 connect "clk_100.out_clk           pcie_0.clk
-         pcie_0.nreset_status_out  ocm.reset1
          rst_in.out_reset          pcie_rst_bg.in_reset
          pcie_0.coreclkout_out     pcie_rst_bg.clk
          s10_hps.f2h_irq0          pcie_0.msi2gic_interrupt
@@ -438,8 +437,6 @@ connect_map "jtg_mst.fpga_m_master pcie_0.txs 0x10000000"
 }
 
 if {$pcie_f2h == 1} {
-connect "pcie_0.nreset_status_out  axi_bridge_for_acp_0.reset"
-       
 connect_map "pcie_0.ext_expanded_master            axi_bridge_for_acp_0.s0 0x0
              pcie_0.ext_expanded_master_upper2GB   axi_bridge_for_acp_0.s0 0x0"
 }
