@@ -125,7 +125,7 @@ HPS_ENABLE_SGMII ?= 1
 # Enable 10GbE 1588 Design. (Low Latency Ethernet 10G MAC Intel FPGA IP + 1G/2.5G/5G/10G Multi-Rate Ethernet PHY Intel FPGA IP). PTPv2 2-Step enabled.
 HPS_ENABLE_10GbE ?= 0
 # Enable PCIE Design.
-ENABLE_PCIE ?= 1
+ENABLE_PCIE ?= 0
 # Enable Partial Reconfiguration Design.
 ENABLE_PARTIAL_RECONFIGURATION ?= 1
 # Enable FPGA I2C.
