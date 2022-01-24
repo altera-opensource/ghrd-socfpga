@@ -131,6 +131,9 @@ ENABLE_PARTIAL_RECONFIGURATION ?= 0
 # Enable JOP for remote debug: 0, 1
 ENABLE_JOP ?= 0
 
+# Enable NiosV subsystem
+ENABLE_NIOSV_SUBSYS ?= 1
+
 ####
 # Default Assignment (Do not modify)
 QUARTUS_DEVICE_FAMILY := Agilex
@@ -325,6 +328,15 @@ ENABLE_JOP ?= 0
 ifeq ($(ENABLE_JOP),1)
 QUARTUS_TCL_ARGS += jop_en 1 
 QSYS_TCL_CMDS += set jop_en 1;  
+endif
+####
+
+####
+# Enable NIOSV Subsystem
+ENABLE_NIOSV_SUBSYS ?= 0
+ifeq ($(ENABLE_NIOSV_SUBSYS),1)
+QUARTUS_TCL_ARGS += niosv_subsys_en 1 
+QSYS_TCL_CMDS += set niosv_subsys_en 1;  
 endif
 ####
 

@@ -81,6 +81,8 @@ Here are the list of custom settings support in Makefile.
      - 0 (Default), 1
    - `ENABLE_JOP` : Enable JOP for remote debug.
      - 0 (Default), 1
+   - `ENABLE_NIOSV_SUBSYS` : Enable NIOSV subsystem.
+     - 0, 1 (Default)
 
 2. Board Related Settings
    - board "devkit" (F-Series SoC Devkit)
