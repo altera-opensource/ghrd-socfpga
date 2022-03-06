@@ -20,7 +20,7 @@ This reference design demonstrating the following system integration between Har
 This repository hosts build scripts for S10 GHRD.
 
 ## Dependency
-* Intel Quartus Prime 21.4
+* Intel Quartus Prime 22.1
 * Intel Custom IP will be download automatically from rocketboard.org by the Makefile. The download link will be updated to the Makefile for the latest version.
 * Supported Board
   - Intel Arria 10 SoC Development Kit
