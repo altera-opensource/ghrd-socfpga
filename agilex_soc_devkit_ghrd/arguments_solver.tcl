@@ -102,6 +102,9 @@
 # hps_sgmii_emac1_en                : 1 or 0
 # hps_sgmii_emac2_en                : 1 or 0
 # jop_en                            : 1 or 0
+# hps_etile_1588_en                 : 1 or 0
+# hps_etile_1588_count              : 1
+
 #
 # Each argument made available for configuration has a default value in design_config.tcl file
 # The value can be passed in through Makefile.
@@ -844,6 +847,38 @@ if { ![ info exists jop_en ] } {
   puts "-- Accepted parameter \$jop_en = $jop_en"
 }
 
+## ----------------
+## Etile 25GbE
+## ----------------
+
+if { ![ info exists hps_etile_1588_en ] } {
+ set hps_etile_1588_en $HPS_ETILE_1588_EN
+} else {
+ puts "-- Accepted parameter \$hps_etile_1588_en = $hps_etile_1588_en"
+}
+
+if { $hps_etile_1588_en == 1} {
+    if {[ info exists isETILE_pins_available ] } {
+        if { $isETILE_pins_available == 0} {
+            set hps_etile_1588_en 0
+            puts "-- Turn OFF hps_etile_1588_en because \"isETILE_pins_available\" is disable"
+        }
+    } else {
+        set hps_etile_1588_en 0
+        puts "-- Turn OFF hps_etile_1588_en because \"isETILE_pins_available\" is not available"
+    }
+}
+
+if { ![ info exists hps_etile_1588_count ] } {
+ set hps_etile_1588_count $HPS_ETILE_1588_COUNT
+} else {
+ puts "-- Accepted parameter \$hps_etile_1588_count = $hps_etile_1588_count"
+}
+
+## ----------------
+## Parameter Auto Derivation
+## ----------------
+
 # Default option
 set hps_io_off 0
 
@@ -858,10 +893,22 @@ puts "Warning: Overriding Settings for Char BOARD"
 set h2f_user0_clk_en 1
 set fpga_peripheral_en 0
 }
+
+# for acp_adapter
+if {$hps_etile_1588_en == 1 || $fpga_pcie == 1 || ($h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1)} {
+    set acp_adapter_en 1
+    set acp_adapter_csr_en 1
+}
+
 source ./agilex_hps_pinmux_solver.tcl
 source ./agilex_hps_parameter_solver.tcl
 source ./agilex_hps_io48_delay_chain_solver.tcl
 
+#Parameter Overriding
+if { $hps_etile_1588_en == 1 || $fpga_pcie == 1} {
+   puts "Overriding f2h_addr_width to 34"
+   set f2h_addr_width 34
+}
 # Was thinking to enable single TCL entry for flow of TOP RTL, qsys, quartus generation. Ideal still pending implementation
 # exec quartus_sh --script=create_ghrd_quartus.tcl $top_quartus_arg
 # exec qsys-script --script=create_ghrd_qsys.tcl --quartus-project=$project_name.qpf --cmd="$qsys_arg"

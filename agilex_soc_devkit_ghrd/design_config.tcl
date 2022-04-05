@@ -232,3 +232,10 @@ set SGMII_EMAC2_ENABLE 0
 ## ----------------
 # setting to enable JOP for remote debug
 set JOP_EN 0
+
+## ----------------
+## Etile 25GbE
+## ----------------
+#Option for etile 25GbE 1588
+set HPS_ETILE_1588_EN 0
+set HPS_ETILE_1588_COUNT 1

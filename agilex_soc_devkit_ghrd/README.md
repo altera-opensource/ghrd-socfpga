@@ -93,6 +93,8 @@ Here are the list of custom settings support in Makefile.
        - "linear", "enpirion" (Default)
      - `HPS_SGMII_EMAC1_EN`  : HPS SGMII Enablement (HPS EMAC + TSE IP (PHY MODE))
        - 1 (Default), 0
+     - `ENABLE_ETILE_1588`  : Etile 1588v2 PTP Enablement
+       - 1, 0 (Default)
    - Board Related Settings - board "pcie_devkit" (F-Series FPGA Devkit)
      - File: ./board/board_pcie_devkit_make_config.inc
      - `QUARTUS_DEVICE`      : Device OPN

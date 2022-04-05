@@ -140,6 +140,8 @@ set param(s2f_usb1_irq_en)              $s2f_usb1_irq_en
 set param(hps_peri_irq_loopback_en)     $hps_peri_irq_loopback_en
 set param(hps_f2s_irq_en)               $hps_f2s_irq_en
 set param(gpio_loopback_en)             $gpio_loopback_en
+set param(hps_etile_1588_en)            $hps_etile_1588_en
+set param(hps_etile_1588_count)         $hps_etile_1588_count
 set param(board)                        $board
 if {[info exists fpga_led_pio_width ]} {
     set param(fpga_led_pio_width)           $fpga_led_pio_width

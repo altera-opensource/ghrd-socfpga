@@ -45,8 +45,8 @@ set_global_assignment -name IP_SEARCH_PATHS "intel_custom_ip/**/*;custom_ip/**/*
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name SDC_FILE ghrd_timing.sdc
 
-#HSDES 2207525670: User Reset Gate IP
-set_global_assignment -name DISABLE_REGISTER_POWERUP_INITIALIZATION ON
+# #HSDES 2207525670: User Reset Gate IP
+# set_global_assignment -name DISABLE_REGISTER_POWERUP_INITIALIZATION ON
 
 #HSDES 14010012832: Turn off debug certificate
 set_global_assignment -name HPS_DAP_NO_CERTIFICATE on
@@ -72,6 +72,12 @@ set_global_assignment -name FAST_PRESERVE AUTO
 
 if {$hps_sgmii_en == 1} {
 set_global_assignment -name OPTIMIZATION_MODE "SUPERIOR PERFORMANCE"
+}
+
+if {$hps_etile_1588_en == 1} {
+    set_global_assignment -name SDC_FILE etile_25gbe.sdc
+    set_global_assignment -name OPTIMIZATION_MODE "SUPERIOR PERFORMANCE WITH MAXIMUM PLACEMENT EFFORT"
+    set_global_assignment -name QII_AUTO_PACKED_REGISTERS "SPARSE AUTO"
 }
 
 # enabling signaltap

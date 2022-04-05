@@ -161,6 +161,45 @@ set emac_mdc_pin "CL50"
 set emac_phy_rst_n_pin "CL56"
 set emac_phy_irq_n_pin "CN56"
 
+#Etile 25GbE
+# REFCLK_GXEp0 156.25MHz
+set etile_clk_ref_pin "AT13"
+
+# FPGA_GPIO_REFCLK0 156.25MHz
+set etile_master_todclk_ref_pin "DC22"
+
+# CH15 (QSFPDD_TXp3)-> first channel; CH14 (QSFPDD_TXp1); CH13 (QSFPDD_TXp2); CH12 (QSFPDD_TXp0)
+set etile_tx_serial_pin {
+BL4
+BK1
+BG4
+BF1
+}
+set etile_tx_serial_n_pin {
+BM5
+BJ2
+BH5
+BE2
+}
+set etile_rx_serial_pin {
+BL10
+BK7
+BG10
+BF7
+}
+set etile_rx_serial_n_pin {
+BM11
+BJ8
+BH11
+BE8
+}
+set qsfpdd_modprsn_pin "CT3"
+set qsfpdd_resetn_pin "CV3"
+set qsfpdd_modseln_pin "CR4"
+set qsfpdd_intn_pin "CU4"
+set qsfpdd_initmode_pin "CT5"
+set qsfpdd_i2c_scl_pin "CT1"
+set qsfpdd_i2c_sda_pin "CY5"
 
 ## Preparing the dictionary for IOs PIN configuration
 dict set pin_assignment_table fpga_clk_100 location $fpga_clk_100_pin_list
@@ -262,7 +301,7 @@ if {$hps_sgmii_en == 1} {
 #  for script testing. The assigned pins are the same on both EMAC1 and EMAC2 setup.
 #  That means, only one of it can be enable at a time.
 if {$hps_sgmii_emac1_en == 1 && $hps_sgmii_emac2_en == 1} {
-	error "Error: For devkit, either EMAC1 or EMAC2 can active at a time as only one SGMMI available on board"
+    error "Error: For devkit, either EMAC1 or EMAC2 can active at a time as only one SGMMI available on board"
 }
 
 
@@ -372,13 +411,97 @@ dict set pin_assignment_table emac2_phy_rst_n qsys_exported_port "emac2_phy_rst_
 }
 }
 
+if {$hps_etile_1588_en == 1} {
+dict set pin_assignment_table etile_clk_ref location $etile_clk_ref_pin
+dict set pin_assignment_table etile_clk_ref io_standard "DIFFERENTIAL LVPECL"
+dict set pin_assignment_table etile_clk_ref direction input
+dict set pin_assignment_table etile_clk_ref width_in_bits 1
+dict set pin_assignment_table etile_clk_ref qsys_exported_port "etile_clk_ref"
+
+dict set pin_assignment_table etile_master_todclk_ref location $etile_master_todclk_ref_pin
+dict set pin_assignment_table etile_master_todclk_ref io_standard "TRUE DIFFERENTIAL SIGNALING"
+dict set pin_assignment_table etile_master_todclk_ref direction input
+dict set pin_assignment_table etile_master_todclk_ref width_in_bits 1
+dict set pin_assignment_table etile_master_todclk_ref qsys_exported_port "etile_master_todclk_ref"
+
+set etile_tx_serial_pin_list_rebuild [lrange $etile_tx_serial_pin 0 [expr {$hps_etile_1588_count-1}]]
+dict set pin_assignment_table etile_tx_serial location $etile_tx_serial_pin_list_rebuild
+dict set pin_assignment_table etile_tx_serial io_standard "HSSI DIFFERENTIAL I/O"
+dict set pin_assignment_table etile_tx_serial direction output
+dict set pin_assignment_table etile_tx_serial width_in_bits $hps_etile_1588_count
+dict set pin_assignment_table etile_tx_serial qsys_exported_port "etile_tx_serial"
+
+set etile_tx_serial_n_pin_list_rebuild [lrange $etile_tx_serial_n_pin 0 [expr {$hps_etile_1588_count-1}]]
+dict set pin_assignment_table etile_tx_serial_n location $etile_tx_serial_n_pin_list_rebuild
+dict set pin_assignment_table etile_tx_serial_n io_standard "HSSI DIFFERENTIAL I/O"
+dict set pin_assignment_table etile_tx_serial_n direction output
+dict set pin_assignment_table etile_tx_serial_n width_in_bits $hps_etile_1588_count
+dict set pin_assignment_table etile_tx_serial_n qsys_exported_port "etile_tx_serial_n"
+
+set etile_rx_serial_pin_list_rebuild [lrange $etile_rx_serial_pin 0 [expr {$hps_etile_1588_count-1}]]
+dict set pin_assignment_table etile_rx_serial location $etile_rx_serial_pin_list_rebuild
+dict set pin_assignment_table etile_rx_serial io_standard "HSSI DIFFERENTIAL I/O"
+dict set pin_assignment_table etile_rx_serial direction output
+dict set pin_assignment_table etile_rx_serial width_in_bits $hps_etile_1588_count
+dict set pin_assignment_table etile_rx_serial qsys_exported_port "etile_rx_serial"
+
+set etile_rx_serial_n_pin_list_rebuild [lrange $etile_rx_serial_n_pin 0 [expr {$hps_etile_1588_count-1}]]
+dict set pin_assignment_table etile_rx_serial_n location $etile_rx_serial_n_pin_list_rebuild
+dict set pin_assignment_table etile_rx_serial_n io_standard "HSSI DIFFERENTIAL I/O"
+dict set pin_assignment_table etile_rx_serial_n direction output
+dict set pin_assignment_table etile_rx_serial_n width_in_bits $hps_etile_1588_count
+dict set pin_assignment_table etile_rx_serial_n qsys_exported_port "etile_rx_serial_n"
+
+dict set pin_assignment_table qsfpdd_modprsn location $qsfpdd_modprsn_pin
+dict set pin_assignment_table qsfpdd_modprsn io_standard "1.2 V"
+dict set pin_assignment_table qsfpdd_modprsn direction input
+dict set pin_assignment_table qsfpdd_modprsn width_in_bits 1
+dict set pin_assignment_table qsfpdd_modprsn qsys_exported_port "qsfpdd_modprsn"
+
+dict set pin_assignment_table qsfpdd_resetn location $qsfpdd_resetn_pin
+dict set pin_assignment_table qsfpdd_resetn io_standard "1.2 V"
+dict set pin_assignment_table qsfpdd_resetn direction input
+dict set pin_assignment_table qsfpdd_resetn width_in_bits 1
+dict set pin_assignment_table qsfpdd_resetn qsys_exported_port "qsfpdd_resetn"
+
+dict set pin_assignment_table qsfpdd_modseln location $qsfpdd_modseln_pin
+dict set pin_assignment_table qsfpdd_modseln io_standard "1.2 V"
+dict set pin_assignment_table qsfpdd_modseln direction input
+dict set pin_assignment_table qsfpdd_modseln width_in_bits 1
+dict set pin_assignment_table qsfpdd_modseln qsys_exported_port "qsfpdd_modseln"
+
+dict set pin_assignment_table qsfpdd_intn location $qsfpdd_intn_pin
+dict set pin_assignment_table qsfpdd_intn io_standard "1.2 V"
+dict set pin_assignment_table qsfpdd_intn direction input
+dict set pin_assignment_table qsfpdd_intn width_in_bits 1
+dict set pin_assignment_table qsfpdd_intn qsys_exported_port "qsfpdd_intn"
+
+dict set pin_assignment_table qsfpdd_initmode location $qsfpdd_initmode_pin
+dict set pin_assignment_table qsfpdd_initmode io_standard "1.2 V"
+dict set pin_assignment_table qsfpdd_initmode direction input
+dict set pin_assignment_table qsfpdd_initmode width_in_bits 1
+dict set pin_assignment_table qsfpdd_initmode qsys_exported_port "qsfpdd_initmode"
+
+dict set pin_assignment_table qsfpdd_i2c_scl location $qsfpdd_i2c_scl_pin
+dict set pin_assignment_table qsfpdd_i2c_scl io_standard "1.2 V"
+dict set pin_assignment_table qsfpdd_i2c_scl direction input
+dict set pin_assignment_table qsfpdd_i2c_scl width_in_bits 1
+dict set pin_assignment_table qsfpdd_i2c_scl qsys_exported_port "qsfpdd_i2c_scl"
+
+dict set pin_assignment_table qsfpdd_i2c_sda location $qsfpdd_i2c_sda_pin
+dict set pin_assignment_table qsfpdd_i2c_sda io_standard "1.2 V"
+dict set pin_assignment_table qsfpdd_i2c_sda direction input
+dict set pin_assignment_table qsfpdd_i2c_sda width_in_bits 1
+dict set pin_assignment_table qsfpdd_i2c_sda qsys_exported_port "qsfpdd_i2c_sda"
+}
+
 puts "Number of ports: [dict size $pin_assignment_table]"
 
 
 ## EMIF PINOUT
 # Pin Support Matrix for AGILEX SoC Devkit
 # note that we have to perform a logical remapping of pins to support the HPS hard pinout.
-# The DQ* Bits within each byte lane can be swizzled between the DevKit and UDV.  This has no impact on GHRD.  The GHRD can just use the example design/pinout below.									
+# The DQ* Bits within each byte lane can be swizzled between the DevKit and UDV.  This has no impact on GHRD.  The GHRD can just use the example design/pinout below.
 # Pins obtain from Dharmesh GHRD_Requirements_EMIF_Pinmapping_Rev1_0.xlsx
 
 set emif_name "emif_hps"

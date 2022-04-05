@@ -5,7 +5,7 @@
 #
 #****************************************************************************
 # 
-# agilex_axi_bridge_for_acp_128 "agilex_axi_bridge_for_acp_128" v1.0
+# agilex_axi_bridge_for_acp "agilex_axi_bridge_for_acp" v1.0
 # RSF 2018.08.28.13:40:51
 # Simple ACE-LITE bridge to condition DOMAIN, BAR, SNOOP, CACHE, PROT and USER ports for ACP operation.
 # 
@@ -17,15 +17,15 @@ package require -exact qsys 18.1
 
 
 # 
-# module agilex_axi_bridge_for_acp_128
+# module agilex_axi_bridge_for_acp
 # 
 set_module_property DESCRIPTION "Simple ACE-LITE bridge to condition DOMAIN, BAR, SNOOP, CACHE, PROT and USER ports for ACP operation."
-set_module_property NAME agilex_axi_bridge_for_acp_128
+set_module_property NAME agilex_axi_bridge_for_acp
 set_module_property VERSION 19.2.0
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
-set_module_property AUTHOR "Intel Corporation"
-set_module_property DISPLAY_NAME agilex_axi_bridge_for_acp_128
+set_module_property AUTHOR RSF
+set_module_property DISPLAY_NAME agilex_axi_bridge_for_acp
 set_module_property INSTANTIATE_IN_SYSTEM_MODULE true
 set_module_property EDITABLE true
 set_module_property SUPPORTED_DEVICE_FAMILIES {"Agilex"}
@@ -40,22 +40,22 @@ set_module_property REPORT_HIERARCHY false
 # file sets
 # 
 add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
-set_fileset_property QUARTUS_SYNTH TOP_LEVEL agilex_axi_bridge_for_acp_128
+set_fileset_property QUARTUS_SYNTH TOP_LEVEL agilex_axi_bridge_for_acp
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property QUARTUS_SYNTH ENABLE_FILE_OVERWRITE_MODE false
-add_fileset_file agilex_axi_bridge_for_acp_128.v VERILOG PATH agilex_axi_bridge_for_acp_128.v TOP_LEVEL_FILE
+add_fileset_file agilex_axi_bridge_for_acp.v VERILOG PATH agilex_axi_bridge_for_acp.v TOP_LEVEL_FILE
 
 add_fileset SIM_VERILOG SIM_VERILOG "" ""
-set_fileset_property SIM_VERILOG TOP_LEVEL agilex_axi_bridge_for_acp_128
+set_fileset_property SIM_VERILOG TOP_LEVEL agilex_axi_bridge_for_acp
 set_fileset_property SIM_VERILOG ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property SIM_VERILOG ENABLE_FILE_OVERWRITE_MODE false
-add_fileset_file agilex_axi_bridge_for_acp_128.v VERILOG PATH agilex_axi_bridge_for_acp_128.v
+add_fileset_file agilex_axi_bridge_for_acp.v VERILOG PATH agilex_axi_bridge_for_acp.v
 
 add_fileset SIM_VHDL SIM_VHDL "" ""
-set_fileset_property SIM_VHDL TOP_LEVEL agilex_axi_bridge_for_acp_128
+set_fileset_property SIM_VHDL TOP_LEVEL agilex_axi_bridge_for_acp
 set_fileset_property SIM_VHDL ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property SIM_VHDL ENABLE_FILE_OVERWRITE_MODE false
-add_fileset_file agilex_axi_bridge_for_acp_128.v VERILOG PATH agilex_axi_bridge_for_acp_128.v
+add_fileset_file agilex_axi_bridge_for_acp.v VERILOG PATH agilex_axi_bridge_for_acp.v
 
 
 # 
@@ -172,6 +172,27 @@ set_parameter_property RSB_SSD_OVERRIDE DISPLAY_NAME "RSB_SSD_OVERRIDE"
 set_parameter_property RSB_SSD_OVERRIDE DESCRIPTION "RSB_SSD_OVERRIDE"
 set_parameter_property RSB_SSD_OVERRIDE WIDTH 5
 set_parameter_property RSB_SSD_OVERRIDE HDL_PARAMETER true
+
+add_parameter ADDR_WIDTH INTEGER 32
+set_parameter_property ADDR_WIDTH DEFAULT_VALUE 32
+set_parameter_property ADDR_WIDTH DISPLAY_NAME "Address Width"
+set_parameter_property ADDR_WIDTH DESCRIPTION "Address Width"
+set_parameter_property ADDR_WIDTH ALLOWED_RANGES 20:38
+set_parameter_property ADDR_WIDTH HDL_PARAMETER true
+
+add_parameter DATA_WIDTH INTEGER 128
+set_parameter_property DATA_WIDTH DISPLAY_NAME "Data Width"
+set_parameter_property DATA_WIDTH DESCRIPTION "Data Width"
+set_parameter_property DATA_WIDTH ALLOWED_RANGES {128 256 512}
+set_parameter_property DATA_WIDTH HDL_PARAMETER true
+
+# The remaining parameters are not displayed in the GUI
+add_parameter WSTRB_WIDTH INTEGER 16
+set_parameter_property WSTRB_WIDTH AFFECTS_GENERATION false
+set_parameter_property WSTRB_WIDTH DERIVED true
+set_parameter_property WSTRB_WIDTH HDL_PARAMETER true
+set_parameter_property WSTRB_WIDTH AFFECTS_ELABORATION true
+set_parameter_property WSTRB_WIDTH VISIBLE false
 
 # 
 # display items
@@ -298,7 +319,7 @@ set_interface_property m0 CMSIS_SVD_VARIABLES ""
 set_interface_property m0 SVD_ADDRESS_GROUP ""
 set_interface_property m0 IPXACT_REGISTER_MAP_VARIABLES ""
 
-add_interface_port m0 axm_m0_araddr araddr Output 32
+add_interface_port m0 axm_m0_araddr araddr Output -1
 add_interface_port m0 axm_m0_arburst arburst Output 2
 add_interface_port m0 axm_m0_arcache arcache Output 4
 add_interface_port m0 axm_m0_arid arid Output 5
@@ -313,7 +334,7 @@ add_interface_port m0 axm_m0_arsnoop arsnoop Output 4
 add_interface_port m0 axm_m0_ardomain ardomain Output 2
 add_interface_port m0 axm_m0_arbar arbar Output 2
 add_interface_port m0 axm_m0_aruser aruser Output 23
-add_interface_port m0 axm_m0_awaddr awaddr Output 32
+add_interface_port m0 axm_m0_awaddr awaddr Output -1
 add_interface_port m0 axm_m0_awburst awburst Output 2
 add_interface_port m0 axm_m0_awcache awcache Output 4
 add_interface_port m0 axm_m0_awid awid Output 5
@@ -328,16 +349,16 @@ add_interface_port m0 axm_m0_bid bid Input 5
 add_interface_port m0 axm_m0_bready bready Output 1
 add_interface_port m0 axm_m0_bresp bresp Input 2
 add_interface_port m0 axm_m0_bvalid bvalid Input 1
-add_interface_port m0 axm_m0_rdata rdata Input 128
+add_interface_port m0 axm_m0_rdata rdata Input -1
 add_interface_port m0 axm_m0_rid rid Input 5
 add_interface_port m0 axm_m0_rlast rlast Input 1
 add_interface_port m0 axm_m0_rready rready Output 1
 add_interface_port m0 axm_m0_rresp rresp Input 2
 add_interface_port m0 axm_m0_rvalid rvalid Input 1
-add_interface_port m0 axm_m0_wdata wdata Output 128
+add_interface_port m0 axm_m0_wdata wdata Output -1
 add_interface_port m0 axm_m0_wlast wlast Output 1
 add_interface_port m0 axm_m0_wready wready Input 1
-add_interface_port m0 axm_m0_wstrb wstrb Output 16
+add_interface_port m0 axm_m0_wstrb wstrb Output -1
 add_interface_port m0 axm_m0_wvalid wvalid Output 1
 add_interface_port m0 axm_m0_awsnoop awsnoop Output 3
 add_interface_port m0 axm_m0_awdomain awdomain Output 2
@@ -370,7 +391,7 @@ set_interface_property s0 CMSIS_SVD_VARIABLES ""
 set_interface_property s0 SVD_ADDRESS_GROUP ""
 set_interface_property s0 IPXACT_REGISTER_MAP_VARIABLES ""
 
-add_interface_port s0 axs_s0_araddr araddr Input 32
+add_interface_port s0 axs_s0_araddr araddr Input -1
 add_interface_port s0 axs_s0_arburst arburst Input 2
 add_interface_port s0 axs_s0_arcache arcache Input 4
 add_interface_port s0 axs_s0_arid arid Input 4
@@ -380,7 +401,7 @@ add_interface_port s0 axs_s0_arprot arprot Input 3
 add_interface_port s0 axs_s0_arready arready Output 1
 add_interface_port s0 axs_s0_arsize arsize Input 3
 add_interface_port s0 axs_s0_arvalid arvalid Input 1
-add_interface_port s0 axs_s0_awaddr awaddr Input 32
+add_interface_port s0 axs_s0_awaddr awaddr Input -1
 add_interface_port s0 axs_s0_awburst awburst Input 2
 add_interface_port s0 axs_s0_awcache awcache Input 4
 add_interface_port s0 axs_s0_awid awid Input 4
@@ -394,16 +415,16 @@ add_interface_port s0 axs_s0_bid bid Output 4
 add_interface_port s0 axs_s0_bready bready Input 1
 add_interface_port s0 axs_s0_bresp bresp Output 2
 add_interface_port s0 axs_s0_bvalid bvalid Output 1
-add_interface_port s0 axs_s0_rdata rdata Output 128
+add_interface_port s0 axs_s0_rdata rdata Output -1
 add_interface_port s0 axs_s0_rid rid Output 4
 add_interface_port s0 axs_s0_rlast rlast Output 1
 add_interface_port s0 axs_s0_rready rready Input 1
 add_interface_port s0 axs_s0_rresp rresp Output 2
 add_interface_port s0 axs_s0_rvalid rvalid Output 1
-add_interface_port s0 axs_s0_wdata wdata Input 128
+add_interface_port s0 axs_s0_wdata wdata Input -1
 add_interface_port s0 axs_s0_wlast wlast Input 1
 add_interface_port s0 axs_s0_wready wready Output 1
-add_interface_port s0 axs_s0_wstrb wstrb Input 16
+add_interface_port s0 axs_s0_wstrb wstrb Input -1
 add_interface_port s0 axs_s0_wvalid wvalid Input 1
 
 
@@ -423,6 +444,19 @@ add_interface_port gpio gp_input gp_in Output 32
 add_interface_port gpio gp_output gp_out Input 32
 
 proc elaborate {} {
+	set_parameter_value WSTRB_WIDTH [expr {[get_parameter_value DATA_WIDTH] / 8}]
+	
+    set_port_property axm_m0_araddr WIDTH_EXPR [get_parameter_value ADDR_WIDTH]
+    set_port_property axm_m0_awaddr WIDTH_EXPR [get_parameter_value ADDR_WIDTH]
+	set_port_property axm_m0_rdata 	WIDTH_EXPR [get_parameter_value DATA_WIDTH]
+	set_port_property axm_m0_wdata 	WIDTH_EXPR [get_parameter_value DATA_WIDTH]
+	set_port_property axm_m0_wstrb 	WIDTH_EXPR [get_parameter_value WSTRB_WIDTH]
+    set_port_property axs_s0_araddr WIDTH_EXPR [get_parameter_value ADDR_WIDTH]
+    set_port_property axs_s0_awaddr WIDTH_EXPR [get_parameter_value ADDR_WIDTH]
+	set_port_property axs_s0_rdata 	WIDTH_EXPR [get_parameter_value DATA_WIDTH]
+	set_port_property axs_s0_wdata 	WIDTH_EXPR [get_parameter_value DATA_WIDTH]
+	set_port_property axs_s0_wstrb 	WIDTH_EXPR [get_parameter_value WSTRB_WIDTH]
+    
     if { [get_parameter_value GPIO_EN] == 0 } {
         set_interface_property   gpio   ENABLED 0
         set_parameter_property   CSR_EN    ENABLED 1

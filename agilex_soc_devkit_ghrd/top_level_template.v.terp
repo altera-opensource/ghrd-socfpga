@@ -78,6 +78,24 @@ input  wire          emac${m}_phy_irq_n,
 output wire          emac${m}_phy_rst_n,
 @@}
 @@}
+@@if {$hps_etile_1588_en == 1} {
+input    wire           etile_clk_ref,
+input    wire           etile_master_todclk_ref,
+output   wire [$hps_etile_1588_count-1:0]   etile_tx_serial,
+output   wire [$hps_etile_1588_count-1:0]   etile_tx_serial_n,
+input    wire [$hps_etile_1588_count-1:0]   etile_rx_serial,
+input    wire [$hps_etile_1588_count-1:0]   etile_rx_serial_n,
+
+//QSFP Sideband
+input    wire           qsfpdd_modprsn,
+output   wire           qsfpdd_resetn,
+output   wire           qsfpdd_modseln,
+input    wire           qsfpdd_intn,
+// initmode  == lpmode
+output   wire           qsfpdd_initmode,
+inout    wire           qsfpdd_i2c_scl,
+inout    wire           qsfpdd_i2c_sda,
+@@}
 //HPS
 @@if {$hps_en == 1} {
 @@if {$hps_emif_en == 1} {
@@ -528,6 +546,23 @@ assign emac${m}_phy_rst_n = system_reset_n;
 @@}
 @@}
 
+@@if {$hps_etile_1588_en == 1} {
+wire qsfpdd_i2c_scl_oe;
+wire qsfpdd_i2c_sda_oe;
+wire [1:0]  qsfpdd_status_pio;
+wire [2:0]  qsfpdd_ctrl_pio_0;
+
+//assign qsfpdd_ctrl_pio_0 = {qsfpdd_modseln,qsfpdd_resetn, qsfpdd_initmode};
+assign qsfpdd_initmode = qsfpdd_ctrl_pio_0[0];
+assign qsfpdd_resetn   = qsfpdd_ctrl_pio_0[1];
+assign qsfpdd_modseln  = qsfpdd_ctrl_pio_0[2];
+
+assign qsfpdd_i2c_scl = (qsfpdd_i2c_scl_oe == 1'b1) ? 1'b0 : 1'bz;
+assign qsfpdd_i2c_sda = (qsfpdd_i2c_sda_oe == 1'b1) ? 1'b0 : 1'bz;
+
+assign qsfpdd_status_pio = {qsfpdd_intn, qsfpdd_modprsn};
+@@}
+
 @@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
 
 @@if {$hps_sgmii_emac1_en == 1 && $hps_sgmii_emac2_en == 1} {
@@ -591,6 +626,23 @@ ${qsys_name} soc_inst (
 .pcie_p${x}_link_req_rst_n_link_req_rst_n       (pcie_p${x}_link_req_rst_n),
 .pcie_p${x}_app_reset_status_n_reset_n          (pcie_app_reset_status_n[$x]),
 @@}
+@@}
+@@if {$hps_etile_1588_en == 1} {
+.qsfpdd_status_pio_export               (qsfpdd_status_pio),
+.qsfpdd_ctrl_pio_0_export               (qsfpdd_ctrl_pio_0),
+.etile_25gbe_ninit_done_reset           (ninit_done),
+.etile_25gbe_clk_ref_i_clk_ref          (etile_clk_ref),
+.etile_25gbe_serial_p_o_tx_serial       (etile_tx_serial),
+.etile_25gbe_serial_n_o_tx_serial_n     (etile_tx_serial_n),
+.etile_25gbe_serial_p_i_rx_serial       (etile_rx_serial),
+.etile_25gbe_serial_n_i_rx_serial_n     (etile_rx_serial_n),
+.etile_25gbe_master_todclk_clk          (etile_master_todclk_ref),
+//.etile_25gbe_master_todclk_clk          (etile_clk_ref),
+
+.qsfpdd_i2c_scl_in_clk                  (qsfpdd_i2c_scl),
+.qsfpdd_i2c_clk_clk                     (qsfpdd_i2c_scl_oe),
+.qsfpdd_i2c_sda_i                       (qsfpdd_i2c_sda),
+.qsfpdd_i2c_sda_oe                      (qsfpdd_i2c_sda_oe),
 @@}
 @@if {$hps_en == 1} {     
 @@if {$hps_stm_en == 1} {

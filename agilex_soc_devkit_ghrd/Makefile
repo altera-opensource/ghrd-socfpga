@@ -180,6 +180,8 @@ WATCHDOG_RST_ACTION ?= cold
 ENABLE_PARTIAL_RECONFIGURATION ?= 1
 # Enable SGMII (HPS EMAC + TSE PHY)
 HPS_ENABLE_SGMII ?= 1
+# Enable ETILE 1588v2 PTP
+ENABLE_ETILE_1588 ?= 0
 
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
 QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
@@ -339,6 +341,16 @@ QUARTUS_TCL_ARGS += niosv_subsys_en 0
 QSYS_TCL_CMDS += set niosv_subsys_en 0;  
 endif
 ####
+
+####
+# Enable Etile 1588v2 PTP Subsystem
+ENABLE_ETILE_1588 ?= 0
+ifeq ($(ENABLE_ETILE_1588),1)
+QUARTUS_TCL_ARGS += hps_etile_1588_en 1
+QSYS_TCL_CMDS += set hps_etile_1588_en 1;
+endif
+####
+
 
 ifneq ($(DAUGHTER_CARD),)
 QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)

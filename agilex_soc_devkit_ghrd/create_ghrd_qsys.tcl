@@ -73,7 +73,10 @@ source ./construct_subsys_niosv.tcl
 reload_ip_catalog
 }
 
-
+if {$hps_etile_1588_en == 1} {
+source ./construct_subsys_etile_25gbe.tcl
+reload_ip_catalog
+}
 
 create_system $qsys_name
 
@@ -153,23 +156,40 @@ if {$niosv_subsys_en ==1} {
 add_instance niosv subsys_niosv
 }
 
-if {$h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1} {
-add_component_param "agilex_axi_bridge_for_acp_128 acp_bridge_128_0
-                     IP_FILE_PATH ip/$qsys_name/acp_bridge_128_0.ip 
-                     CSR_EN 1
-                     "
+if {$acp_adapter_en == 1} {
+if {$f2h_width > 0} {
+add_component_param "agilex_axi_bridge_for_acp axi_bridge_for_acp_0
+                    IP_FILE_PATH ip/$qsys_name/axi_bridge_for_acp_0.ip
+                    CSR_EN $acp_adapter_csr_en
+                    ADDR_WIDTH $f2h_addr_width
+                    ARDOMAIN_OVERRIDE 0
+                    ARBAR_OVERRIDE 0
+                    ARSNOOP_OVERRIDE 0
+                    ARCACHE_OVERRIDE 2
+                    AWDOMAIN_OVERRIDE 0
+                    AWBAR_OVERRIDE 0
+                    AWSNOOP_OVERRIDE 0
+                    AWCACHE_OVERRIDE 2
+                    AxUSER_OVERRIDE 0xE0
+                    AxPROT_OVERRIDE 1
+                    DATA_WIDTH $f2h_width
+                    "
 }
 
+if {$f2h_addr_width > 32} {
+add_component_param "altera_address_span_extender ext_hps_m_master
+                    IP_FILE_PATH ip/$qsys_name/ext_hps_m_master.ip
+                    BURSTCOUNT_WIDTH 1
+                    MASTER_ADDRESS_WIDTH $f2h_addr_width
+                    SLAVE_ADDRESS_WIDTH 30
+                    ENABLE_SLAVE_PORT 0
+                    MAX_PENDING_READS 1
+                    "
+}
+}
 # instantiate PCIe subsystem
 if {$fpga_pcie == 1} {
 add_instance pcie_0 subsys_pcie
-
-if {$f2h_width > 0} {
-add_component_param "agilex_axi_bridge_for_acp_128 axi_bridge_for_acp_0
-                    IP_FILE_PATH ip/$qsys_name/axi_bridge_for_acp_0.ip 
-               CSR_EN 1
-                    "    
-}
 
 add_component_param "altera_reset_bridge pcie_nreset_status_merge
                     IP_FILE_PATH ip/$qsys_name/pcie_nreset_status_merge.ip 
@@ -251,6 +271,10 @@ add_component_param "intel_jop_blaster jop
                     "
 }
 
+if {$hps_etile_1588_en == 1} {
+add_instance etile_25gbe_1588 subsys_etile_25gbe_1588
+}
+
 if {$hps_en == 1} {
 #setup HPS and HPS EMIF
 source ./construct_hps.tcl
@@ -311,6 +335,10 @@ if {$hps_sgmii_emac2_en == 1} {
 connect_map "   jtg_mst.fpga_m_master   subsys_sgmii_emac2.csr 0x4000"
 }
 }
+
+if {$hps_etile_1588_en == 1} {
+connect_map "   jtg_mst.fpga_m_master   etile_25gbe_1588.csr   0x02000000"
+}
 }
 
 if {$fpga_peripheral_en == 1} {
@@ -354,6 +382,55 @@ connect "emif_fpga.emif_calbus            emif_calbus_0.emif_calbus_0
          "
 }
 
+if {$acp_adapter_en == 1 } {
+    if {$hps_etile_1588_en == 1} {
+        connect "etile_25gbe_1588.dma_clkout        axi_bridge_for_acp_0.clock"
+        connect "etile_25gbe_1588.dma_clkout_reset  axi_bridge_for_acp_0.reset"
+    } elseif {$fpga_pcie == 1} {
+        connect "pcie_0.pcie_p0_app_clk             axi_bridge_for_acp_0.clock"
+    } elseif {$f2h_clk_source == 1} {
+        connect "agilex_hps.h2f_user1_clock         axi_bridge_for_acp_0.clock"
+    } else {
+        connect "clk_100.out_clk                    axi_bridge_for_acp_0.clock"
+    }
+
+    connect "rst_in.out_reset        axi_bridge_for_acp_0.reset"
+
+    if {$f2h_addr_width >32} {
+        connect "clk_100.out_clk                    ext_hps_m_master.clock
+                 rst_in.out_reset                   ext_hps_m_master.reset"
+    }
+
+    if {$acp_adapter_csr_en == 1} {
+        connect "clk_100.out_clk                   axi_bridge_for_acp_0.csr_clock
+                 rst_in.out_reset                  axi_bridge_for_acp_0.csr_reset
+                "
+    }
+
+    if {$f2h_addr_width >32} {
+        connect_map "jtg_mst.hps_m_master          ext_hps_m_master.windowed_slave   0x0"
+        connect_map "ext_hps_m_master.expanded_master   axi_bridge_for_acp_0.s0      0x0"
+    } else {
+        connect_map "jtg_mst.hps_m_master          axi_bridge_for_acp_0.s0           0x0"
+    }
+
+    if {$fpga_pcie == 1} {
+        connect_map "pcie_0.ext_expanded_master    axi_bridge_for_acp_0.s0           0x0"
+    }
+
+    if {$hps_etile_1588_en == 1} {
+        for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
+            connect_map "etile_25gbe_1588.tx_dma_ch${x}_prefetcher_read_master      axi_bridge_for_acp_0.s0 0x0
+                         etile_25gbe_1588.tx_dma_ch${x}_prefetcher_write_master     axi_bridge_for_acp_0.s0 0x0
+                         etile_25gbe_1588.tx_dma_ch${x}_read_master                 axi_bridge_for_acp_0.s0 0x0
+                         etile_25gbe_1588.rx_dma_ch${x}_prefetcher_read_master      axi_bridge_for_acp_0.s0 0x0
+                         etile_25gbe_1588.rx_dma_ch${x}_prefetcher_write_master     axi_bridge_for_acp_0.s0 0x0
+                         etile_25gbe_1588.rx_dma_ch${x}_write_master                axi_bridge_for_acp_0.s0 0x0
+                     "
+        }
+    }
+}
+
 # PCIe subsystem
 if {$fpga_pcie == 1} {
 connect "clk_100.out_clk                     pcie_0.clk
@@ -371,19 +448,12 @@ for {set x 0} {$x < 4} {incr x} {
 }
 connect_map "pcie_0.pb_2_ocm_m0 ocm.s1 0x0"
 
-if {$f2h_width > 0} {
-connect "pcie_0.pcie_p0_app_clk  axi_bridge_for_acp_0.clock
-       rst_in.out_reset          axi_bridge_for_acp_0.reset
-       clk_100.out_clk           axi_bridge_for_acp_0.csr_clock
-       rst_in.out_reset          axi_bridge_for_acp_0.csr_reset
-       "
-
-# connect "pcie_nreset_status_merge.out_reset  axi_bridge_for_acp_0.reset"
-       
-connect_map "pcie_0.ext_expanded_master   axi_bridge_for_acp_0.s0 0x0
-             jtg_mst.hps_m_master         axi_bridge_for_acp_0.s0 0x0
-             "
 }
+
+if {$hps_etile_1588_en == 1} {
+connect "clk_100.out_clk                     etile_25gbe_1588.clk
+         rst_in.out_reset                    etile_25gbe_1588.reset
+       "
 }
 
 if {$pr_enable == 1} {
@@ -532,12 +602,50 @@ export niosv  issp_reset_out  niosv_issp_reset_out
 export niosv  issp_reset_in   niosv_issp_reset_in
 }
 
+# Etile HIP 25GbE Subsystem
+if {$hps_etile_1588_en == 1} {
+export etile_25gbe_1588     clk_ref         etile_25gbe_clk_ref
+export etile_25gbe_1588     serial_p        etile_25gbe_serial_p
+export etile_25gbe_1588     serial_n        etile_25gbe_serial_n
+export etile_25gbe_1588     ninit_done      etile_25gbe_ninit_done
+export etile_25gbe_1588     master_todclk   etile_25gbe_master_todclk
+
+export etile_25gbe_1588     qsfpdd_status_pio     qsfpdd_status_pio
+export etile_25gbe_1588     qsfpdd_ctrl_pio_0       qsfpdd_ctrl_pio_0
+
+}
+
+if {$hps_etile_1588_en == 1} {
+    set_postadaptation_assignment mm_interconnect_0|cmd_demux.src0/crosser.in qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|cmd_demux.src1/crosser_001.in qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|crosser_003.out/rsp_mux.sink1 qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_rx_dma_ch1_prefetcher_read_master_agent.cp/router_001.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_rx_dma_ch1_prefetcher_read_master_limiter.rsp_src/etile_25gbe_1588_rx_dma_ch1_prefetcher_read_master_agent.rp qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_rx_dma_ch1_prefetcher_write_master_agent.cp/router_002.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_rx_dma_ch1_write_master_agent.cp/router_003.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_tx_dma_ch1_prefetcher_read_master_agent.cp/router_004.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_tx_dma_ch1_prefetcher_read_master_limiter.rsp_src/etile_25gbe_1588_tx_dma_ch1_prefetcher_read_master_agent.rp qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_tx_dma_ch1_prefetcher_write_master_agent.cp/router_005.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_tx_dma_ch1_read_master_agent.cp/router_006.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|etile_25gbe_1588_tx_dma_ch1_read_master_limiter.rsp_src/etile_25gbe_1588_tx_dma_ch1_read_master_agent.rp qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|router_001.src/etile_25gbe_1588_rx_dma_ch1_prefetcher_read_master_limiter.cmd_sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|router_002.src/cmd_demux_002.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|router_003.src/cmd_demux_003.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|router_004.src/etile_25gbe_1588_tx_dma_ch1_prefetcher_read_master_limiter.cmd_sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|router_005.src/cmd_demux_005.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|router_006.src/etile_25gbe_1588_tx_dma_ch1_read_master_limiter.cmd_sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|rsp_mux.src/ext_hps_m_master_expanded_master_rsp_width_adapter.sink qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|rsp_mux_002.src/etile_25gbe_1588_rx_dma_ch1_prefetcher_write_master_agent.rp qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|rsp_mux_003.src/etile_25gbe_1588_rx_dma_ch1_write_master_agent.rp qsys_mm.postTransform.pipelineCount 1
+    set_postadaptation_assignment mm_interconnect_0|rsp_mux_005.src/etile_25gbe_1588_tx_dma_ch1_prefetcher_write_master_agent.rp qsys_mm.postTransform.pipelineCount 1
+}
+
 # interconnect requirements
 set_domain_assignment {$system} {qsys_mm.clockCrossingAdapter} {AUTO}
-set_domain_assignment {$system} {qsys_mm.maxAdditionalLatency} {1}
+set_domain_assignment {$system} {qsys_mm.maxAdditionalLatency} {4}
 set_domain_assignment {$system} {qsys_mm.enableEccProtection} {FALSE}
 set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
-set_domain_assignment {$system} qsys_mm.burstAdapterImplementation {PER_BURST_TYPE_CONVERTER}
+set_domain_assignment {$system} {qsys_mm.burstAdapterImplementation} {PER_BURST_TYPE_CONVERTER}
 
 sync_sysinfo_parameters 
 save_system ${qsys_name}.qsys

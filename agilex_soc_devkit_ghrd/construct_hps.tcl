@@ -279,12 +279,33 @@ if {$gpio_loopback_en == 1 || $fpga_pcie == 1} {
                         "
 }
 
-if {($h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1) || $fpga_pcie == 1} {
+if {$acp_adapter_en == 1} {
    set_component_param "agilex_hps 
                         F2S_mode 1
                         F2S_Route_config 2
                         "
 } 
+
+if {$hps_etile_1588_en == 1} {
+if {$hps_i2c0_q1_en == 0 && $hps_i2c0_q2_en == 0 && $hps_i2c0_q3_en == 0} {
+   set_component_param "agilex_hps
+                       I2C0_PinMuxing FPGA
+                       I2C0_Mode default
+                       "
+   set etile_25gbe_i2c 0
+   puts "Etile 25GbE I2C0 enable"
+} elseif {$hps_i2c1_q1_en == 0 && $hps_i2c1_q2_en == 0 && $hps_i2c1_q3_en == 0 && $hps_i2c1_q4_en == 0} {
+   set_component_param "agilex_hps
+                       I2C1_PinMuxing FPGA
+                       I2C1_Mode default
+                       "
+   set etile_25gbe_i2c 1
+   puts "Etile 25GbE I2C1 enable"
+} else {
+   error "Error: Conflict HPS i2c settings. None of I2C available"
+}
+
+}
 
  # CM_PinMuxing
  # CM_Mode
@@ -375,7 +396,10 @@ if {$hps_emif_en == 1} {
 # --------------- Connections and connection parameters ------------------#
 
 if {$f2h_width > 0} {
-   if {$fpga_pcie == 1} {
+   if {$hps_etile_1588_en == 1} {
+      connect "etile_25gbe_1588.dma_clkout agilex_hps.f2h_axi_clock"
+      connect "etile_25gbe_1588.dma_clkout_reset agilex_hps.f2h_axi_reset"
+   } elseif {$fpga_pcie == 1} {
       connect "pcie_0.pcie_p0_app_clk agilex_hps.f2h_axi_clock"
    } elseif {$f2h_clk_source == 1} {
       if {$h2f_user1_clk_en == 0} {
@@ -426,25 +450,28 @@ if {$jtag_ocm_en == 1} {
 }
 
 if {$h2f_width > 0} {
+   if {$hps_etile_1588_en == 1} {
+      connect_map "agilex_hps.h2f_axi_master    etile_25gbe_1588.csr   0x02000000"
+   }
+
    if {$fpga_pcie == 1} {
       if {$pcie_hptxs == 1} {
          connect_map "agilex_hps.h2f_axi_master    pcie_0.pb_hptxs   0x10000000"
-         connect_map "jtg_mst.fpga_m_master     pcie_0.pb_hptxs   0x10000000"
+         connect_map "jtg_mst.fpga_m_master        pcie_0.pb_hptxs   0x10000000"
       } else {
          connect_map "agilex_hps.h2f_axi_master    pcie_0.pb_txs     0x10000000"
-         connect_map "jtg_mst.fpga_m_master     pcie_0.pb_txs     0x10000000"
+         connect_map "jtg_mst.fpga_m_master        pcie_0.pb_txs     0x10000000"
       }
       
       connect_map "agilex_hps.h2f_axi_master    pcie_0.pb_hip_reconfig  0x20000000"
-      connect_map "jtg_mst.fpga_m_master     pcie_0.pb_hip_reconfig  0x20000000"
+      connect_map "jtg_mst.fpga_m_master        pcie_0.pb_hip_reconfig  0x20000000"
    } 
    
    if {$h2f_f2h_loopback_en == 1} {
-      if {$h2f_f2h_loopback_acp_adapter_en == 0} {
+      if {$acp_adapter_en == 0} {
          connect_map "agilex_hps.h2f_axi_master  agilex_hps.f2h_axi_slave 0x0"
       } else {
-         connect_map "agilex_hps.h2f_axi_master  acp_bridge_128_0.s0  0x0
-                      acp_bridge_128_0.m0    agilex_hps.f2h_axi_slave 0x0"
+         connect_map "agilex_hps.h2f_axi_master  axi_bridge_for_acp_0.s0  0x0"
       }
    } elseif {$h2f_width > 0 && $jtag_ocm_en == 1} {
       connect_map "agilex_hps.h2f_axi_master ocm.s1 0x0"
@@ -452,16 +479,16 @@ if {$h2f_width > 0} {
 }
 
 if {$lwh2f_width > 0} {
-   if {$h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1} {
-      connect_map "agilex_hps.h2f_lw_axi_master     acp_bridge_128_0.csr   0x210"
-      connect_map "jtg_mst.fpga_m_master            acp_bridge_128_0.csr   0x210"
+   if {$acp_adapter_en == 1} {
+      if {$acp_adapter_csr_en == 1} {
+         connect_map "agilex_hps.h2f_lw_axi_master     axi_bridge_for_acp_0.csr   0x210"
+         connect_map "jtg_mst.fpga_m_master            axi_bridge_for_acp_0.csr   0x210"
+      }
    }
 
    if {$fpga_pcie == 1} {
       connect_map "agilex_hps.h2f_lw_axi_master     pcie_0.pb_lwh2f_pcie       0x00040000"
-      connect_map "jtg_mst.fpga_m_master        pcie_0.pb_lwh2f_pcie       0x00040000"
-      connect_map "agilex_hps.h2f_lw_axi_master     axi_bridge_for_acp_0.csr   0x210"
-      connect_map "jtg_mst.fpga_m_master        axi_bridge_for_acp_0.csr   0x210"
+      connect_map "jtg_mst.fpga_m_master            pcie_0.pb_lwh2f_pcie       0x00040000"
    } 
    
    if {$pr_enable == 1} {
@@ -506,18 +533,14 @@ if {$lwh2f_width > 0} {
 }
 
 if {$jtag_ocm_en == 1} {
-   if { $h2f_f2h_loopback_en == 1 && $h2f_f2h_loopback_acp_adapter_en == 1 } {
-      # connect_map "jtg_mst.hps_m_master acp_bridge_128_0.s0 0x0"
-   } else {
-      if {$fpga_pcie == 0 && $f2h_width > 0 } {
-         connect_map "jtg_mst.hps_m_master agilex_hps.f2h_axi_slave 0x0"
-         
-         if {$secure_f2h_axi_slave == 1} {
-            #set_interconnect_requirement {agilex_hps.f2h_axi_slave} qsys_mm.security {SECURE}
-            #set_interconnect_requirement {jtg_mst.hps_m_master} qsys_mm.security {SECURE}
-            set_interface_assignment {agilex_hps.f2h_axi_slave} {qsys_mm.security} {SECURE}
-            set_interface_assignment {jtg_mst.hps_m_master} {qsys_mm.security} {SECURE}
-         }
+   if { $acp_adapter_en == 0} {
+      connect_map "jtg_mst.hps_m_master agilex_hps.f2h_axi_slave 0x0"
+
+      if {$secure_f2h_axi_slave == 1} {
+         #set_interconnect_requirement {agilex_hps.f2h_axi_slave} qsys_mm.security {SECURE}
+         #set_interconnect_requirement {jtg_mst.hps_m_master} qsys_mm.security {SECURE}
+         set_interface_assignment {agilex_hps.f2h_axi_slave} {qsys_mm.security} {SECURE}
+         set_interface_assignment {jtg_mst.hps_m_master} {qsys_mm.security} {SECURE}
       }
    }
 }
@@ -641,6 +664,24 @@ if {$hps_f2s_irq_en == 1} {
             set_connection_parameter_value agilex_hps.f2h_irq0/frz_ctrl_${k}.interrupt_sender irqNumber $frz_ctrl_int
          }
       }
+
+      if {$hps_etile_1588_en  == 1} {
+         connect "agilex_hps.f2h_irq0   etile_25gbe_1588.qsfpdd_status_pio_irq
+                  agilex_hps.f2h_irq0   etile_25gbe_1588.debug_status_pio_irq
+                  "
+         set_connection_parameter_value agilex_hps.f2h_irq0/etile_25gbe_1588.qsfpdd_status_pio_irq irqNumber 5
+         set_connection_parameter_value agilex_hps.f2h_irq0/etile_25gbe_1588.debug_status_pio_irq irqNumber 6
+
+         for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
+             connect "agilex_hps.f2h_irq0   etile_25gbe_1588.tx_dma_ch${x}_irq
+                      agilex_hps.f2h_irq0   etile_25gbe_1588.rx_dma_ch${x}_irq
+                      "
+             set irq_no [expr {$x + 6}]
+             set_connection_parameter_value agilex_hps.f2h_irq0/etile_25gbe_1588.tx_dma_ch${x}_irq irqNumber $irq_no
+             incr irq_no 1
+             set_connection_parameter_value agilex_hps.f2h_irq0/etile_25gbe_1588.rx_dma_ch${x}_irq irqNumber $irq_no
+         }
+      }
    }
 }
 
@@ -654,7 +695,7 @@ if {$hps_pll_source_export == 1} {
 connect "clk_100.out_clk agilex_hps.f2h_free_clock"
 }
 
-if {$fpga_pcie == 1} {
+if {$acp_adapter_en == 1} {
 # # temporary commented cause it lock the bridges.
 # connect "pcie_nreset_status_merge.out_reset agilex_hps.h2f_axi_reset
 #          pcie_nreset_status_merge.out_reset agilex_hps.h2f_lw_axi_reset"
@@ -696,4 +737,10 @@ if {$ftrace_en == 1} {
 export ext_trace f2h_clk_in ext_trace_f2h_clk_in
 export ext_trace trace_clk_out ext_trace_trace_clk_out
 export ext_trace trace_data_out ext_trace_trace_data_out
+}
+
+if {$hps_etile_1588_en == 1} {
+export agilex_hps i2c${etile_25gbe_i2c}_scl_in   qsfpdd_i2c_scl_in
+export agilex_hps i2c${etile_25gbe_i2c}_clk      qsfpdd_i2c_clk
+export agilex_hps i2c${etile_25gbe_i2c}          qsfpdd_i2c
 }
