@@ -1031,10 +1031,10 @@ debounce fpga_reset_n_debounce_inst (
 .data_in      (fpga_reset_n),
 .data_out     (fpga_reset_n_debounced_wire)
 );
-defparam debounce_inst.WIDTH = 1;
-defparam debounce_inst.POLARITY = "LOW";
-defparam debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
-defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
+defparam fpga_reset_n_debounce_inst.WIDTH = 1;
+defparam fpga_reset_n_debounce_inst.POLARITY = "LOW";
+defparam fpga_reset_n_debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
+defparam fpga_reset_n_debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
 
 always @ (posedge system_clk_100_internal or posedge ninit_done)
 begin
