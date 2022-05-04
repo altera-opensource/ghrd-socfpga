@@ -225,6 +225,16 @@ QUARTUS_TCL_ARGS += hps_emif_ref_clk_freq_mhz $(HPS_EMIF_REF_CLK_FREQ_MHZ)
 QSYS_TCL_CMDS += set hps_emif_ref_clk_freq_mhz $(HPS_EMIF_REF_CLK_FREQ_MHZ);
 endif
 
+ifneq ($(HPS_EMIF_MEM_CLK_FREQ_MHZ),)
+QUARTUS_TCL_ARGS += hps_emif_mem_clk_freq_mhz $(HPS_EMIF_MEM_CLK_FREQ_MHZ)
+QSYS_TCL_CMDS += set hps_emif_mem_clk_freq_mhz $(HPS_EMIF_MEM_CLK_FREQ_MHZ);
+endif
+
+ifneq ($(HPS_EMIF_RATE),)
+QUARTUS_TCL_ARGS += hps_emif_rate $(HPS_EMIF_RATE)
+QSYS_TCL_CMDS += set hps_emif_rate $(HPS_EMIF_RATE);
+endif
+
 ifneq ($(LOOPBACK_EN),)
 QUARTUS_TCL_ARGS += h2f_f2h_loopback_en $(LOOPBACK_EN)
 QSYS_TCL_CMDS += set h2f_f2h_loopback_en $(LOOPBACK_EN);
