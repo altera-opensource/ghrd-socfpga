@@ -334,9 +334,9 @@ endif
 ####
 # Enable NIOSV Subsystem
 ENABLE_NIOSV_SUBSYS ?= 0
-ifeq ($(ENABLE_NIOSV_SUBSYS),1)
-QUARTUS_TCL_ARGS += niosv_subsys_en 1 
-QSYS_TCL_CMDS += set niosv_subsys_en 1;  
+ifeq ($(ENABLE_NIOSV_SUBSYS),0)
+QUARTUS_TCL_ARGS += niosv_subsys_en 0 
+QSYS_TCL_CMDS += set niosv_subsys_en 0;  
 endif
 ####
 
