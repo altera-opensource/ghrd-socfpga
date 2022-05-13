@@ -145,7 +145,7 @@ set_global_assignment -name STRATIX_JTAG_USER_CODE 3
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } else {
 if {$board == "devkit" && $daughter_card == "devkit_dc_oobe"} {
-set_global_assignment -name STRATIX_JTAG_USER_CODE 0
+set_global_assignment -name STRATIX_JTAG_USER_CODE 4
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } elseif {$board == "devkit" && $daughter_card == "devkit_dc_nand"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 1
