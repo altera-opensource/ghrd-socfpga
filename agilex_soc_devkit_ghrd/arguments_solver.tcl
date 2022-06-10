@@ -898,6 +898,8 @@ set fpga_peripheral_en 0
 if {$hps_etile_1588_en == 1 || $fpga_pcie == 1 || ($h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1)} {
     set acp_adapter_en 1
     set acp_adapter_csr_en 1
+} else {
+    set acp_adapter_en 0
 }
 
 source ./agilex_hps_pinmux_solver.tcl
