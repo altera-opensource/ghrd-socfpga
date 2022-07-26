@@ -357,7 +357,7 @@ $(INTEL_CUSTOM_IP_DIR_ABSENT):
 	@echo "Folder $(INTEL_CUSTOM_IP_DIR) does not exist."
 	@echo "Proceed to copy for link $(INTEL_CUSTOM_IP_LINK)"
 #if `wget $ -O $(INTEL_CUSTOM_IP_TARBALL) --tries=5 $(INTEL_CUSTOM_IP_LINK)`; then echo "Success"; else echo "Failed" && exit 1; fi
-	if `curl $ -o $(INTEL_CUSTOM_IP_TARBALL) -m 90 $(INTEL_CUSTOM_IP_LINK)`; then echo "Success"; else echo "Failed to download $(INTEL_CUSTOM_IP_TARBALL)" && exit 1; fi
+	if `curl $ -o $(INTEL_CUSTOM_IP_TARBALL) -m 90 -L $(INTEL_CUSTOM_IP_LINK)`; then echo "Success"; else echo "Failed to download $(INTEL_CUSTOM_IP_TARBALL)" && exit 1; fi
 	@echo "$(INTEL_CUSTOM_IP_TARBALL) copied"
 #Untar $(INTEL_CUSTOM_IP_TARBALL) 
 	tar -xzf $(INTEL_CUSTOM_IP_TARBALL)
