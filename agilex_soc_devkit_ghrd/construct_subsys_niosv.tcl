@@ -48,12 +48,20 @@ add_component_param "altera_reset_bridge niosv_issp_reset_in
 add_component_param "intel_niosv_m cpu
 					IP_FILE_PATH ip/$sub_sys/cpu.ip
 					enableDebug 1
-					exceptionOffset 32
-					exceptionSlave ram.s1
 					numGpr 32
 					resetOffset 0
 					resetSlave ram.s1
 					"
+
+load_component cpu
+set cpu_version [get_component_property VERSION]
+puts "CPU VERSION = $cpu_version"
+if {$cpu_version < "22.3.0"} {
+	# exceptionOffset and exceptionSlave are removed at 22.3.0
+	set_component_parameter_value exceptionOffset 32
+	set_component_parameter_value exceptionSlave ram.s1
+}
+save_component
 
 add_component_param "altera_avalon_onchip_memory2 ram
 					IP_FILE_PATH ip/$sub_sys/ram.ip
