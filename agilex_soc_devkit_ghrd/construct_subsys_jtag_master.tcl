@@ -37,11 +37,9 @@ add_component_param "altera_reset_bridge jtag_rst_in
                     USE_RESET_REQUEST 0
                     "
     
-if {$h2f_f2h_loopback_en != 1 && $lwh2f_f2h_loopback_en != 1} { 
 add_component_param "altera_jtag_avalon_master hps_m 
                     IP_FILE_PATH ip/$sub_qsys_jtag/hps_m.ip 
                     "
-}
 
 add_component_param "altera_jtag_avalon_master fpga_m 
                     IP_FILE_PATH ip/$sub_qsys_jtag/fpga_m.ip 
@@ -65,9 +63,7 @@ connect "   jtag_clk.out_clk hps_m.clk
 export jtag_rst_in in_reset reset
 export jtag_clk in_clk clk
 export fpga_m master fpga_m_master
-if {$h2f_f2h_loopback_en != 1 && $lwh2f_f2h_loopback_en != 1} {
 export hps_m master hps_m_master
-}
 
 
 # interconnect requirements
