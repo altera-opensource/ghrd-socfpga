@@ -353,17 +353,17 @@ connect "clk_100.out_clk   niosv.clk
          "
 }
 
-if {$h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1} {
-if {$f2h_clk_source == 1} {
-connect "agilex_hps.h2f_user1_clock  acp_bridge_128_0.clock"
-} else {
-connect "clk_100.out_clk         acp_bridge_128_0.clock"
-}
-connect "rst_in.out_reset        acp_bridge_128_0.reset"
-
-connect "clk_100.out_clk         acp_bridge_128_0.csr_clock"
-connect "rst_in.out_reset        acp_bridge_128_0.csr_reset"
-}
+#if {$h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1} {
+#if {$f2h_clk_source == 1} {
+#connect "agilex_hps.h2f_user1_clock  acp_bridge_128_0.clock"
+#} else {
+#connect "clk_100.out_clk         acp_bridge_128_0.clock"
+#}
+#connect "rst_in.out_reset        acp_bridge_128_0.reset"
+#
+#connect "clk_100.out_clk         acp_bridge_128_0.csr_clock"
+#connect "rst_in.out_reset        acp_bridge_128_0.csr_reset"
+#}
 
 if {$hps_emif_en == 1 && $fpga_emif_en == 1} {
 connect "emif_hps.emif_calbus             emif_calbus_0.emif_calbus_0
