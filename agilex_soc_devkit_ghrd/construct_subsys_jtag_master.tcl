@@ -51,13 +51,9 @@ connect "   jtag_clk.out_clk fpga_m.clk
             jtag_rst_in.out_reset fpga_m.clk_reset
 "
 
-if {$h2f_f2h_loopback_en != 1 && $lwh2f_f2h_loopback_en != 1} {
 connect "   jtag_clk.out_clk hps_m.clk
             jtag_rst_in.out_reset hps_m.clk_reset
 "
-}
-
-
 
 # exported interfaces
 export jtag_rst_in in_reset reset
