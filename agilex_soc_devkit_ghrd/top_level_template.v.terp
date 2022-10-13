@@ -1053,7 +1053,7 @@ debounce debounce_inst (
 .data_in      (fpga_button_pio),
 .data_out     (fpga_debounced_buttons)
 );
-defparam debounce_inst.WIDTH = 4;
+defparam debounce_inst.WIDTH = $fpga_button_pio_width;
 defparam debounce_inst.POLARITY = "LOW";
 defparam debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
 defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
