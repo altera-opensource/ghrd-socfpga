@@ -277,6 +277,7 @@ set pin_matrix [ list \
       [ list "${emif_name}_mem_mem_ba[0]"       "ddr4"      "PIN_N6"        "PIN_N6"     "PIN_N6"     "PIN_N6"       "PIN_N6"       "PIN_N6"       "PIN_N6"         ] \
       [ list "${emif_name}_mem_mem_ba[1]"       "ddr4"      "PIN_M5"        "PIN_M5"     "PIN_M5"     "PIN_M5"       "PIN_M5"       "PIN_M5"       "PIN_M5"         ] \
       [ list "${emif_name}_mem_mem_bg[0]"       "ddr4"      "PIN_P5"        "PIN_P5"     "PIN_P5"     "PIN_P5"       "PIN_P5"       "PIN_P5"       "PIN_P5"         ] \
+      [ list "${emif_name}_mem_mem_bg[1]"       "ddr4"      "PIN_M17"        "PIN_M17"     "PIN_M17"     "PIN_M17"       "PIN_M17"       "PIN_M17"       "PIN_M17"         ] \
       [ list "${emif_name}_mem_mem_act_n"       "ddr4"      "PIN_N16"       "PIN_N16"    "PIN_N16"    "PIN_N16"      "PIN_N16"      "PIN_N16"      "PIN_N16"        ] \
       [ list "${emif_name}_mem_mem_alert_n"     "ddr4"      "PIN_L6"        "PIN_L6"     "PIN_L6"     "PIN_L6"       "PIN_L6"       "PIN_L6"       "PIN_L6"         ] \
       [ list "${emif_name}_mem_mem_ck[0]"       "ddr4"      "PIN_M13"       "PIN_M13"    "PIN_M13"    "PIN_M13"      "PIN_M13"      "PIN_M13"      "PIN_M13"        ] \
