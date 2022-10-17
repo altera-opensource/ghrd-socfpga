@@ -49,7 +49,7 @@ output   wire          fpga_sgpo,
 @@if {$fpga_led_pio_width > 0} {
 output   wire [$fpga_led_pio_width-1:0]  fpga_led_pio,
 @@}
-@@if {$fpga_dipsw_pio_width > 0} {
+@@if {$fpga_dipsw_pio_width > 0 && $fpga_sgpio_en == 0} {
 input    wire [$fpga_dipsw_pio_width-1:0]  fpga_dipsw_pio,
 @@}
 @@if {$fpga_button_pio_width > 0 || $fpga_sgpio_en == 1} {
@@ -452,11 +452,11 @@ assign heartbeat_led = ~heartbeat_count[22];
 @@  }
 
 @@if {$fpga_sgpio_en == 1} {
-wire[7:0]    fpga_user_sw_enabled;
+//wire[7:0]    fpga_user_sw_enabled;
 wire[7:0]    fpga_led_pio;
-//wire [$fpga_dipsw_pio_width-1:0]   fpga_dipsw_pio;
+wire [$fpga_dipsw_pio_width-1:0]   fpga_dipsw_pio;
 assign fpga_led_pio            = {{(8-$fpga_led_pio_width){1'b1}},heartbeat_led,fpga_led_internal};
-assign fpga_dipsw_pio = fpga_user_sw_enabled[$fpga_dipsw_pio_width-1:0];
+//assign fpga_dipsw_pio = fpga_user_sw_enabled[$fpga_dipsw_pio_width-1:0];
 @@  } else {
 assign fpga_led_pio = {heartbeat_led,fpga_led_internal};
 @@}
@@ -1122,7 +1122,7 @@ sgpio_slave sgpio_slave_inst(
   .i_sync     (fpga_sgpio_sync ),
   .i_mosi     (fpga_sgpi       ),
   .o_miso     (fpga_sgpo       ),
-  .o_user_sw  (fpga_user_sw_enabled  ),
+  .o_user_sw  (fpga_dipsw_pio  ),
   .i_user_led (fpga_led_pio    )
   );
 @@}
