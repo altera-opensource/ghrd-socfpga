@@ -523,7 +523,7 @@ if {$lwh2f_width > 0} {
       connect_map "agilex_hps.h2f_lw_axi_master sysid.control_slave 0x0"
    }
    
-   if {$fpga_peripheral_en == 1} {
+   if {$fpga_peripheral_en == 1 || $fpga_sgpio_en == 1} {
       connect_map "agilex_hps.h2f_lw_axi_master periph.pb_cpu_0_s0 0x1000"
    }
    

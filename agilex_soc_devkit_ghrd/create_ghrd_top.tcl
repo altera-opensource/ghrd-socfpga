@@ -43,6 +43,7 @@ set param(fpga_emif_ecc_en)             $fpga_emif_ecc_en
 set param(fpga_emif_en)                 $fpga_emif_en
 set param(fpga_emif_width)              $fpga_emif_width
 set param(fpga_peripheral_en)           $fpga_peripheral_en
+set param(fpga_sgpio_en)                $fpga_sgpio_en
 set param(hps_en)                       $hps_en
 set param(h2f_user0_clk_en)             $h2f_user0_clk_en
 set param(board_rev)                    $board_rev

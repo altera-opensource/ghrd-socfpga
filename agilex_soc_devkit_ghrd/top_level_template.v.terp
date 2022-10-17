@@ -30,11 +30,21 @@
 
 module ${top_name} (
 //Additional refclk_bti to preserve Etile XCVR
+@@if {$board == "devkit"} {
 input    wire          refclk_bti,
+@@}
 // Clock and Reset
 @@if {$h2f_user0_clk_en == 0} {
 input    wire [1-1:0]  fpga_clk_100,
 @@}
+
+@@if {$fpga_sgpio_en == 1} {
+input    wire          fpga_sgpio_sync,
+input    wire          fpga_sgpio_clk,
+input    wire          fpga_sgpi,
+output   wire          fpga_sgpo,
+@@}
+
 @@if {$fpga_peripheral_en == 1} {
 @@if {$fpga_led_pio_width > 0} {
 output   wire [$fpga_led_pio_width-1:0]  fpga_led_pio,
@@ -42,7 +52,7 @@ output   wire [$fpga_led_pio_width-1:0]  fpga_led_pio,
 @@if {$fpga_dipsw_pio_width > 0} {
 input    wire [$fpga_dipsw_pio_width-1:0]  fpga_dipsw_pio,
 @@}
-@@if {$fpga_button_pio_width > 0} {
+@@if {$fpga_button_pio_width > 0 || $fpga_sgpio_en == 1} {
 input    wire [$fpga_button_pio_width-1:0]  fpga_button_pio,
 @@}
 @@}
@@ -79,6 +89,7 @@ output wire          emac${m}_phy_rst_n,
 @@}
 @@}
 @@if {$hps_etile_1588_en == 1} {
+@@if {$fpga_sgpio_en == 1} {
 input    wire           etile_clk_ref,
 input    wire           etile_master_todclk_ref,
 output   wire [$hps_etile_1588_count-1:0]   etile_tx_serial,
@@ -96,6 +107,8 @@ output   wire           qsfpdd_initmode,
 inout    wire           qsfpdd_i2c_scl,
 inout    wire           qsfpdd_i2c_sda,
 @@}
+@@}
+
 //HPS
 @@if {$hps_en == 1} {
 @@if {$hps_emif_en == 1} {
@@ -434,10 +447,19 @@ wire [$fpga_button_pio_width-1:0]     fpga_debounced_buttons;
 wire [$fpga_led_pio_width-2:0]     fpga_led_internal;
 wire           heartbeat_led;
 reg  [22:0]    heartbeat_count;
-assign fpga_led_pio = {heartbeat_led,fpga_led_internal};
 assign heartbeat_led = ~heartbeat_count[22];
 @@  }
-@@  } 
+@@  }
+
+@@if {$fpga_sgpio_en == 1} {
+wire[7:0]    fpga_user_sw_enabled;
+wire[7:0]    fpga_led_pio;
+//wire [$fpga_dipsw_pio_width-1:0]   fpga_dipsw_pio;
+assign fpga_led_pio            = {{(8-$fpga_led_pio_width){1'b1}},heartbeat_led,fpga_led_internal};
+assign fpga_dipsw_pio = fpga_user_sw_enabled[$fpga_dipsw_pio_width-1:0];
+@@  } else {
+assign fpga_led_pio = {heartbeat_led,fpga_led_internal};
+@@}
 
 @@if {$hps_en == 1} {
 @@  if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
@@ -547,6 +569,7 @@ assign emac${m}_phy_rst_n = system_reset_n;
 @@}
 
 @@if {$hps_etile_1588_en == 1} {
+@@if {$fpga_sgpio_en == 1} {
 wire qsfpdd_i2c_scl_oe;
 wire qsfpdd_i2c_sda_oe;
 wire [1:0]  qsfpdd_status_pio;
@@ -561,6 +584,7 @@ assign qsfpdd_i2c_scl = (qsfpdd_i2c_scl_oe == 1'b1) ? 1'b0 : 1'bz;
 assign qsfpdd_i2c_sda = (qsfpdd_i2c_sda_oe == 1'b1) ? 1'b0 : 1'bz;
 
 assign qsfpdd_status_pio = {qsfpdd_intn, qsfpdd_modprsn};
+@@}
 @@}
 
 @@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
@@ -628,6 +652,7 @@ ${qsys_name} soc_inst (
 @@}
 @@}
 @@if {$hps_etile_1588_en == 1} {
+@@if {$fpga_sgpio_en == 1} {
 .qsfpdd_status_pio_export               (qsfpdd_status_pio),
 .qsfpdd_ctrl_pio_0_export               (qsfpdd_ctrl_pio_0),
 .etile_25gbe_ninit_done_reset           (ninit_done),
@@ -643,6 +668,7 @@ ${qsys_name} soc_inst (
 .qsfpdd_i2c_clk_clk                     (qsfpdd_i2c_scl_oe),
 .qsfpdd_i2c_sda_i                       (qsfpdd_i2c_sda),
 .qsfpdd_i2c_sda_oe                      (qsfpdd_i2c_sda_oe),
+@@}
 @@}
 @@if {$hps_en == 1} {     
 @@if {$hps_stm_en == 1} {
@@ -1087,6 +1113,18 @@ ack_delay_logic stop_ack_delay_logic_${m}_inst (
 .ack_delay_out                        (pr_handshake_stop_req_ack_loopback_wire_delay_ver_${m})
 ); 
 @@}
+@@}
+
+@@if {$fpga_sgpio_en == 1} {
+sgpio_slave sgpio_slave_inst(
+  .i_rstn     (system_reset_n  ),
+  .i_clk      (fpga_sgpio_clk  ),
+  .i_sync     (fpga_sgpio_sync ),
+  .i_mosi     (fpga_sgpi       ),
+  .o_miso     (fpga_sgpo       ),
+  .o_user_sw  (fpga_user_sw_enabled  ),
+  .i_user_led (fpga_led_pio    )
+  );
 @@}
 
 endmodule

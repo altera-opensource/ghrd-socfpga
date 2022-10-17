@@ -20,7 +20,7 @@ source ./arguments_solver.tcl
 source ./board/board_${board}_pin_assignment_table.tcl
 global pin_assignment_table
 
-set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v,custom_ip/edge_detect/altera_edge_detector.v"
+set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v,custom_ip/edge_detect/altera_edge_detector.v,custom_ip/sgpio_slave/sgpio_slave.v"
 
 if {$freeze_ack_dly_enable == 1 && $pr_enable == 1} {
 set hdlfiles "${hdlfiles},custom_ip/ack_delay_logic/ack_delay_logic.sv"

@@ -21,6 +21,7 @@
 # config_scheme                     : "ACTIVE SERIAL X4", "AVST X8", "AVST X16", "AVST X32"
 # device_initialization_clock       : "INIT_INTOSC", "OSC_CLK_1_125MHZ", "OSC_CLK_1_100MHZ", "OSC_CLK_1_25MHZ"
 # fpga_peripheral_en                : Enable PIO for LEDs, DIPSW and Pushbutton. 1 or 0
+# fpga_sgpio_en                     : Enable SGPIO for SGPIO. 1 or 0
 # niosv_subsys_en                   : Enable Nios V subsystem. 1 or 0
 # jtag_ocm_en                       : Enable JTAG Masters and OnChipMemory. 1 or 0
 # ocm_datawidth                     : 32, 64, 128, 256
@@ -202,6 +203,7 @@ if {[file exist $board_config_file]} {
     error "Error: $board_config_file not exist!! Please make sure the board settings files are included in folder ./board/"
 }
 
+#qsys generate consume this arguments
 if { ![ info exists fpga_peripheral_en ] } {
  set fpga_peripheral_en $FPGA_PERIPHERAL_EN
 } else {
@@ -216,6 +218,24 @@ if { $fpga_peripheral_en == 1} {
     } else {
         set fpga_peripheral_en 0
         puts "-- Turn OFF fpga_peripheral_en because \"isPeriph_pins_available\" is not available"
+    }
+}
+
+#qsys generate consume this arguments
+if { ![ info exists fpga_sgpio_en ] } {
+ set fpga_sgpio_en $FPGA_SGPIO_EN
+} else {
+ puts "-- Accepted parameter \$fpga_sgpio_en = $fpga_sgpio_en"
+}
+if { $fpga_sgpio_en == 1} {
+    if {[ info exists isSgpio_pins_available ] } {
+        if { $isSgpio_pins_available == 0} {
+            set fpga_sgpio_en 0
+            puts "-- Turn OFF fpga_sgpio_en because \"isSgpio_pins_available\" is disable"
+        }
+    } else {
+        set fpga_sgpio_en 0
+        puts "-- Turn OFF fpga_sgpio_en because \"isSgpio_pins_available\" is not available"
     }
 }
 
