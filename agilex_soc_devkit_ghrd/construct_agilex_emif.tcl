@@ -33,7 +33,7 @@ if {$hps_emif_mem_part == "default_part"} {
       set selected_tcl 14
       set selected_wtcl 11
    } elseif {$hps_emif_mem_clk_freq_mhz == 1200} {
-      if {$board == "devkit" } {
+      if {$board == "DK-SI-AGF014E" } {
          set selected_tcl 20
          set selected_wtcl 16
       } else {
