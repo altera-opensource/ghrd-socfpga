@@ -744,3 +744,19 @@ export agilex_hps i2c${etile_25gbe_i2c}_scl_in   qsfpdd_i2c_scl_in
 export agilex_hps i2c${etile_25gbe_i2c}_clk      qsfpdd_i2c_clk
 export agilex_hps i2c${etile_25gbe_i2c}          qsfpdd_i2c
 }
+
+##----------------
+## USB timing
+##---------------
+set_component_param     "agilex_hps
+                         IO_INPUT_DELAY1 {126}
+                         IO_INPUT_DELAY2 {126}
+                         IO_INPUT_DELAY3 {126}
+                         IO_INPUT_DELAY4 {126}
+                         IO_INPUT_DELAY5 {126}
+                         IO_INPUT_DELAY6 {126}
+                         IO_INPUT_DELAY7 {126}
+                         IO_INPUT_DELAY8 {126}
+                         IO_INPUT_DELAY9 {126}
+                         IO_INPUT_DELAY10 {126}
+                         IO_INPUT_DELAY11 {126}"

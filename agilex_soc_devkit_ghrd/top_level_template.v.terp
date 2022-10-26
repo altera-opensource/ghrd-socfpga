@@ -46,13 +46,13 @@ output   wire          fpga_sgpo,
 @@}
 
 @@if {$fpga_peripheral_en == 1} {
-@@if {$fpga_led_pio_width > 0} {
+@@if {$fpga_led_pio_width > 0 && $fpga_sgpio_en == 0 } {
 output   wire [$fpga_led_pio_width-1:0]  fpga_led_pio,
 @@}
 @@if {$fpga_dipsw_pio_width > 0 && $fpga_sgpio_en == 0} {
 input    wire [$fpga_dipsw_pio_width-1:0]  fpga_dipsw_pio,
 @@}
-@@if {$fpga_button_pio_width > 0 || $fpga_sgpio_en == 1} {
+@@if {$fpga_button_pio_width > 0} {
 input    wire [$fpga_button_pio_width-1:0]  fpga_button_pio,
 @@}
 @@}
