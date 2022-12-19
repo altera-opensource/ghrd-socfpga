@@ -126,7 +126,7 @@ add_component_param "altera_iopll iopll_clk_dma
                      gui_operation_mode {direct}
                      gui_number_of_clocks {1}
                      gui_clock_name_string0 {outclk0}
-                     gui_multiply_factor {87}
+                     gui_multiply_factor {84}
                      gui_divide_factor_n {13}
                      gui_divide_factor_c0 {5}
                      gui_duty_cycle0 {50.0}
