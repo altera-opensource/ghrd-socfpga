@@ -68,7 +68,7 @@ Here are the list of custom settings support in Makefile.
 
    - File: ./Makefile
    - `BOARD_TYPE`          : Board Type
-     - "devkit" -> F-Series SoC Devkit (Default), "pcie_devkit" (F-Series FPGA Devkit)
+     - "DK-SI-AGF014E" -> F-Series SoC Devkit (Default), "DK-DEV-AGF014E" (F-Series FPGA Devkit)
    - `BOOTS_FIRST`         : System initialization mode.
      - "fpga", "hps" (Default)
    - `HPS_JTAG_MODE`       : HPS JTAG mode.
@@ -85,18 +85,18 @@ Here are the list of custom settings support in Makefile.
      - 0, 1 (Default)
 
 2. Board Related Settings
-   - board "devkit" (F-Series SoC Devkit)
-     - File: ./board/board_devkit_make_config.inc
+   - board "DK-SI-AGF014E" (F-Series SoC Devkit)
+     - File: ./board/board_DK-SI-AGF014E_make_config.inc
      - `QUARTUS_DEVICE`      : Device OPN
-       - AGFB014R24A3E3VR0 (Default)
+       - AGFB014R24B2E2V (Default)
      - `BOARD_PWRMGT`        : Board Power management option for Agilex F-Series Transceiver-SoC Development Kit and Agilex F-Series FPGA Development Kit.
        - "linear", "enpirion" (Default)
      - `HPS_SGMII_EMAC1_EN`  : HPS SGMII Enablement (HPS EMAC + TSE IP (PHY MODE))
        - 1 (Default), 0
      - `ENABLE_ETILE_1588`  : Etile 1588v2 PTP Enablement
        - 1, 0 (Default)
-   - Board Related Settings - board "pcie_devkit" (F-Series FPGA Devkit)
-     - File: ./board/board_pcie_devkit_make_config.inc
+   - Board Related Settings - board "DK-DEV-AGF014E" (F-Series FPGA Devkit)
+     - File: ./board/board_DK-DEV-AGF014E_make_config.inc
      - `QUARTUS_DEVICE`      : Device OPN
-       - AGFB014R24A3E3VR0 (Default)
+       - AGFB027R24C2E2VR2 (Default)
 

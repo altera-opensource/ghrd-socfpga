@@ -77,7 +77,7 @@ set hps_mdio2_q3_en 1
 set hps_gpio1_en 1
 set hps_gpio1_list "0 1 4 5 10 11"
 
-} elseif {$daughter_card == "pcie_devkit"} {
+} elseif {$daughter_card == "DK-DEV-AGF014E"} {
 set hps_sdmmc4b_q4_en 1
 set hps_i2c1_q3_en 1
 set hps_emac0_rgmii_en 1

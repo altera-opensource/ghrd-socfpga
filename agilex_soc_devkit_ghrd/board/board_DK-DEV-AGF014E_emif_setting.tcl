@@ -54,8 +54,8 @@
                                     PHY_DDR4_USER_PING_PONG_EN false
                                     PHY_DDR4_DEFAULT_REF_CLK_FREQ false
                                     PHY_DDR4_USER_REF_CLK_FREQ_MHZ $hps_emif_ref_clk_freq_mhz
-                                    CTRL_DDR4_ECC_EN $hps_emif_ecc_en
-                                    CTRL_DDR4_ECC_AUTO_CORRECTION_EN $hps_emif_ecc_en
+                                    CTRL_DDR4_ECC_EN 0
+                                    CTRL_DDR4_ECC_AUTO_CORRECTION_EN 0
                                     PHY_DDR4_DEFAULT_IO false
                                     PHY_DDR4_USER_AC_IO_STD_ENUM IO_STD_SSTL_12
                                     PHY_DDR4_USER_CK_IO_STD_ENUM IO_STD_SSTL_12
@@ -103,4 +103,5 @@
         export emif_hps oct         emif_hps_oct 
         export emif_hps pll_ref_clk emif_hps_pll_ref_clk 
      }
-
+  
+     

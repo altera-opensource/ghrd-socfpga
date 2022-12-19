@@ -27,8 +27,8 @@ set CLK_GATE_EN 0
 ## Board
 ## ----------------
 
-set BOARD "devkit"
-# Only valid for board="devkit"; "enpirion" or "linear"
+set BOARD "DK-SI-AGF014E"
+# Only valid for board="DK-SI-AGF014E"; "enpirion" or "linear"
 set BOARD_PWRMGT "linear"
 
 # SoC Board revision
