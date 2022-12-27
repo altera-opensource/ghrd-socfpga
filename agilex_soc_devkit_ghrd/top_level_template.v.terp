@@ -89,7 +89,6 @@ output wire          emac${m}_phy_rst_n,
 @@}
 @@}
 @@if {$hps_etile_1588_en == 1} {
-@@if {$fpga_sgpio_en == 1} {
 input    wire           etile_clk_ref,
 input    wire           etile_master_todclk_ref,
 output   wire [$hps_etile_1588_count-1:0]   etile_tx_serial,
@@ -106,7 +105,6 @@ input    wire           qsfpdd_intn,
 output   wire           qsfpdd_initmode,
 inout    wire           qsfpdd_i2c_scl,
 inout    wire           qsfpdd_i2c_sda,
-@@}
 @@}
 
 //HPS
@@ -569,7 +567,6 @@ assign emac${m}_phy_rst_n = system_reset_n;
 @@}
 
 @@if {$hps_etile_1588_en == 1} {
-@@if {$fpga_sgpio_en == 1} {
 wire qsfpdd_i2c_scl_oe;
 wire qsfpdd_i2c_sda_oe;
 wire [1:0]  qsfpdd_status_pio;
@@ -584,7 +581,6 @@ assign qsfpdd_i2c_scl = (qsfpdd_i2c_scl_oe == 1'b1) ? 1'b0 : 1'bz;
 assign qsfpdd_i2c_sda = (qsfpdd_i2c_sda_oe == 1'b1) ? 1'b0 : 1'bz;
 
 assign qsfpdd_status_pio = {qsfpdd_intn, qsfpdd_modprsn};
-@@}
 @@}
 
 @@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
@@ -652,7 +648,6 @@ ${qsys_name} soc_inst (
 @@}
 @@}
 @@if {$hps_etile_1588_en == 1} {
-@@if {$fpga_sgpio_en == 1} {
 .qsfpdd_status_pio_export               (qsfpdd_status_pio),
 .qsfpdd_ctrl_pio_0_export               (qsfpdd_ctrl_pio_0),
 .etile_25gbe_ninit_done_reset           (ninit_done),
@@ -668,7 +663,6 @@ ${qsys_name} soc_inst (
 .qsfpdd_i2c_clk_clk                     (qsfpdd_i2c_scl_oe),
 .qsfpdd_i2c_sda_i                       (qsfpdd_i2c_sda),
 .qsfpdd_i2c_sda_oe                      (qsfpdd_i2c_sda_oe),
-@@}
 @@}
 @@if {$hps_en == 1} {     
 @@if {$hps_stm_en == 1} {
