@@ -30,7 +30,7 @@
 
 module ${top_name} (
 //Additional refclk_bti to preserve Etile XCVR
-@@if {$board == "devkit"} {
+@@if {$board == "devkit_fm86" | $board == "devkit_fm87" | $board == "DK-SI-AGF014E" | $board == "DK-DEV-AGF014E"} {
 input    wire          refclk_bti,
 @@}
 // Clock and Reset
