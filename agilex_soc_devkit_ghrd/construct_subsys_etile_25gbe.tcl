@@ -318,7 +318,7 @@ connect_map "subsys_etile_25gbe_1588_csr.m0                 etile_25gbe_tx_dma_c
              "
 }
 for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
-connect     "subsys_etile_25gbe_1588_master_todclk.out_clk           etile_tod_ch${x}.clk
+connect     "subsys_etile_25gbe_1588_csrclk.out_clk           etile_tod_ch${x}.clk
              subsys_etile_25gbe_1588_reset.out_reset                 etile_tod_ch${x}.reset
              subsys_etile_25gbe_1588_master_todclk.out_clk           etile_tod_ch${x}.master_todclk
              etile_hip_adapter_0.sl_tx_lanes_stable_reset_n          etile_tod_ch${x}.tod_tx_reset

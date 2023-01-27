@@ -25,7 +25,7 @@ set_validation_property AUTOMATIC_VALIDATION false
 
 add_component_param "altera_clock_bridge subsys_etile_tod_csrclk
                      IP_FILE_PATH ip/$subsys_name/subsys_etile_tod_csrclk.ip
-                     EXPLICIT_CLOCK_RATE 100000000
+                     EXPLICIT_CLOCK_RATE 0
                      NUM_CLOCK_OUTPUTS 1
                     "
 
