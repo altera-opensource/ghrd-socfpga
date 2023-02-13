@@ -21,7 +21,7 @@ package require -exact qsys 21.3
 #
 set_module_property DESCRIPTION ""
 set_module_property NAME etile_hip_adapter
-set_module_property VERSION 1.0.1
+set_module_property VERSION 1.0.2
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property GROUP "Example Designs/Ethernet/Misc"
@@ -33,6 +33,7 @@ set_module_property REPORT_TO_TALKBACK true
 set_module_property ALLOW_GREYBOX_GENERATION false
 set_module_property REPORT_HIERARCHY false
 set_module_property LOAD_ELABORATION_LIMIT 0
+set_module_property ELABORATION_CALLBACK elaborate
 
 
 #
@@ -76,6 +77,23 @@ set_parameter_property READY_LATENCY_SL ALLOWED_RANGES 0:3
 set_parameter_property READY_LATENCY_SL DESCRIPTION "Readylatency for SL interface"
 set_parameter_property READY_LATENCY_SL AFFECTS_GENERATION false
 
+add_parameter eth_25gbe_en INTEGER 1 "Enable for Etherent 25gbe"
+set_parameter_property eth_25gbe_en DEFAULT_VALUE 1
+set_parameter_property eth_25gbe_en DISPLAY_NAME "eth_enable 25gbe"
+set_parameter_property eth_25gbe_en UNITS None
+set_parameter_property eth_25gbe_en ALLOWED_RANGES {0 1}
+set_parameter_property eth_25gbe_en DESCRIPTION "Width of the address signal"
+set_parameter_property eth_25gbe_en AFFECTS_GENERATION false
+set_parameter_property eth_25gbe_en HDL_PARAMETER false
+
+add_parameter eth_10gbe_en INTEGER 0 "Enable for Etherent 10gbe"
+set_parameter_property eth_10gbe_en DEFAULT_VALUE 0
+set_parameter_property eth_10gbe_en DISPLAY_NAME "eth_enable 10gbe"
+set_parameter_property eth_10gbe_en UNITS None
+set_parameter_property eth_10gbe_en ALLOWED_RANGES {0 1}
+set_parameter_property eth_10gbe_en DESCRIPTION "Width of the address signal"
+set_parameter_property eth_10gbe_en AFFECTS_GENERATION false
+set_parameter_property eth_10gbe_en HDL_PARAMETER false
 
 #
 # display items
@@ -543,55 +561,6 @@ set_interface_property i_rsfec_reconfig_addr SVD_ADDRESS_GROUP ""
 set_interface_property i_rsfec_reconfig_addr IPXACT_REGISTER_MAP_VARIABLES ""
 
 add_interface_port i_rsfec_reconfig_addr i_rsfec_reconfig_addr i_rsfec_reconfig_addr Output 11
-
-
-#
-# connection point o_time_of_day_96_b
-#
-add_interface o_time_of_day_96_b conduit end
-set_interface_property o_time_of_day_96_b associatedClock ""
-set_interface_property o_time_of_day_96_b associatedReset ""
-set_interface_property o_time_of_day_96_b ENABLED true
-set_interface_property o_time_of_day_96_b EXPORT_OF ""
-set_interface_property o_time_of_day_96_b PORT_NAME_MAP ""
-set_interface_property o_time_of_day_96_b CMSIS_SVD_VARIABLES ""
-set_interface_property o_time_of_day_96_b SVD_ADDRESS_GROUP ""
-set_interface_property o_time_of_day_96_b IPXACT_REGISTER_MAP_VARIABLES ""
-
-add_interface_port o_time_of_day_96_b o_time_of_day_96_b data Input 96
-
-#
-# connection point i_tx_tod_master_data
-#
-add_interface i_tx_tod_master_data conduit end
-set_interface_property i_tx_tod_master_data associatedClock ""
-set_interface_property i_tx_tod_master_data associatedReset ""
-set_interface_property i_tx_tod_master_data ENABLED true
-set_interface_property i_tx_tod_master_data EXPORT_OF ""
-set_interface_property i_tx_tod_master_data PORT_NAME_MAP ""
-set_interface_property i_tx_tod_master_data CMSIS_SVD_VARIABLES ""
-set_interface_property i_tx_tod_master_data SVD_ADDRESS_GROUP ""
-set_interface_property i_tx_tod_master_data IPXACT_REGISTER_MAP_VARIABLES ""
-
-add_interface_port i_tx_tod_master_data i_tx_tod_master_data data Output 96
-
-
-#
-# connection point i_rx_tod_master_data
-#
-add_interface i_rx_tod_master_data conduit end
-set_interface_property i_rx_tod_master_data associatedClock ""
-set_interface_property i_rx_tod_master_data associatedReset ""
-set_interface_property i_rx_tod_master_data ENABLED true
-set_interface_property i_rx_tod_master_data EXPORT_OF ""
-set_interface_property i_rx_tod_master_data PORT_NAME_MAP ""
-set_interface_property i_rx_tod_master_data CMSIS_SVD_VARIABLES ""
-set_interface_property i_rx_tod_master_data SVD_ADDRESS_GROUP ""
-set_interface_property i_rx_tod_master_data IPXACT_REGISTER_MAP_VARIABLES ""
-
-add_interface_port i_rx_tod_master_data i_rx_tod_master_data data Output 96
-#
-#
 
 
 # connection point i_rsfec_reconfig_write
@@ -1630,19 +1599,19 @@ add_interface_port o_sl_remote_fault_status o_sl_remote_fault_status o_sl_remote
 
 
 #
-# connection point iopll_clk_avst_div2_locked
+# connection point iopll_clk_dma_locked
 #
-add_interface iopll_clk_avst_div2_locked conduit end
-set_interface_property iopll_clk_avst_div2_locked associatedClock ""
-set_interface_property iopll_clk_avst_div2_locked associatedReset ""
-set_interface_property iopll_clk_avst_div2_locked ENABLED true
-set_interface_property iopll_clk_avst_div2_locked EXPORT_OF ""
-set_interface_property iopll_clk_avst_div2_locked PORT_NAME_MAP ""
-set_interface_property iopll_clk_avst_div2_locked CMSIS_SVD_VARIABLES ""
-set_interface_property iopll_clk_avst_div2_locked SVD_ADDRESS_GROUP ""
-set_interface_property iopll_clk_avst_div2_locked IPXACT_REGISTER_MAP_VARIABLES ""
+add_interface iopll_clk_dma_locked conduit end
+set_interface_property iopll_clk_dma_locked associatedClock ""
+set_interface_property iopll_clk_dma_locked associatedReset ""
+set_interface_property iopll_clk_dma_locked ENABLED true
+set_interface_property iopll_clk_dma_locked EXPORT_OF ""
+set_interface_property iopll_clk_dma_locked PORT_NAME_MAP ""
+set_interface_property iopll_clk_dma_locked CMSIS_SVD_VARIABLES ""
+set_interface_property iopll_clk_dma_locked SVD_ADDRESS_GROUP ""
+set_interface_property iopll_clk_dma_locked IPXACT_REGISTER_MAP_VARIABLES ""
 
-add_interface_port iopll_clk_avst_div2_locked iopll_clk_avst_div2_locked export Input 1
+add_interface_port iopll_clk_dma_locked iopll_clk_dma_locked export Input 1
 
 
 #
@@ -1678,23 +1647,35 @@ set_interface_property tx_pll_locked_reset IPXACT_REGISTER_MAP_VARIABLES ""
 
 add_interface_port tx_pll_locked_reset tx_pll_locked_reset_n reset_n Output 1
 
+#
+# connection point dma_clock
+#
+add_interface dma_clock clock end
+set_interface_property dma_clock ENABLED true
+set_interface_property dma_clock EXPORT_OF ""
+set_interface_property dma_clock PORT_NAME_MAP ""
+set_interface_property dma_clock CMSIS_SVD_VARIABLES ""
+set_interface_property dma_clock SVD_ADDRESS_GROUP ""
+set_interface_property dma_clock IPXACT_REGISTER_MAP_VARIABLES ""
+
+add_interface_port dma_clock dma_clock clk Input 1
 
 #
-# connection point tx_plldiv2_locked_reset
+# connection point clk_dma_lock_reset
 #
-add_interface tx_plldiv2_locked_reset reset start
-set_interface_property tx_plldiv2_locked_reset associatedClock clk_pll_div64
-set_interface_property tx_plldiv2_locked_reset associatedDirectReset ""
-set_interface_property tx_plldiv2_locked_reset associatedResetSinks ""
-set_interface_property tx_plldiv2_locked_reset synchronousEdges DEASSERT
-set_interface_property tx_plldiv2_locked_reset ENABLED true
-set_interface_property tx_plldiv2_locked_reset EXPORT_OF ""
-set_interface_property tx_plldiv2_locked_reset PORT_NAME_MAP ""
-set_interface_property tx_plldiv2_locked_reset CMSIS_SVD_VARIABLES ""
-set_interface_property tx_plldiv2_locked_reset SVD_ADDRESS_GROUP ""
-set_interface_property tx_plldiv2_locked_reset IPXACT_REGISTER_MAP_VARIABLES ""
+add_interface clk_dma_lock_reset reset start
+set_interface_property clk_dma_lock_reset associatedClock dma_clock
+set_interface_property clk_dma_lock_reset associatedDirectReset ""
+set_interface_property clk_dma_lock_reset associatedResetSinks ""
+set_interface_property clk_dma_lock_reset synchronousEdges DEASSERT
+set_interface_property clk_dma_lock_reset ENABLED true
+set_interface_property clk_dma_lock_reset EXPORT_OF ""
+set_interface_property clk_dma_lock_reset PORT_NAME_MAP ""
+set_interface_property clk_dma_lock_reset CMSIS_SVD_VARIABLES ""
+set_interface_property clk_dma_lock_reset SVD_ADDRESS_GROUP ""
+set_interface_property clk_dma_lock_reset IPXACT_REGISTER_MAP_VARIABLES ""
 
-add_interface_port tx_plldiv2_locked_reset tx_plldiv2_locked_reset_n reset_n Output 1
+add_interface_port clk_dma_lock_reset clk_dma_lock_reset_n reset_n Output 1
 
 
 #
@@ -1714,47 +1695,62 @@ add_interface_port ptp_sampling_clk_iopll_locked ptp_sampling_clk_iopll_locked e
 
 
 #
-# connection point tod_sync_sampling_clk_iopll_locked
+# connection point tod_sync_sampling_25gbe_clk_iopll_locked
 #
-add_interface tod_sync_sampling_clk_iopll_locked conduit end
-set_interface_property tod_sync_sampling_clk_iopll_locked associatedClock ""
-set_interface_property tod_sync_sampling_clk_iopll_locked associatedReset ""
-set_interface_property tod_sync_sampling_clk_iopll_locked ENABLED true
-set_interface_property tod_sync_sampling_clk_iopll_locked EXPORT_OF ""
-set_interface_property tod_sync_sampling_clk_iopll_locked PORT_NAME_MAP ""
-set_interface_property tod_sync_sampling_clk_iopll_locked CMSIS_SVD_VARIABLES ""
-set_interface_property tod_sync_sampling_clk_iopll_locked SVD_ADDRESS_GROUP ""
-set_interface_property tod_sync_sampling_clk_iopll_locked IPXACT_REGISTER_MAP_VARIABLES ""
+add_interface tod_sync_sampling_25gbe_clk_iopll_locked conduit end
+set_interface_property tod_sync_sampling_25gbe_clk_iopll_locked associatedClock ""
+set_interface_property tod_sync_sampling_25gbe_clk_iopll_locked associatedReset ""
+set_interface_property tod_sync_sampling_25gbe_clk_iopll_locked ENABLED true
+set_interface_property tod_sync_sampling_25gbe_clk_iopll_locked EXPORT_OF ""
+set_interface_property tod_sync_sampling_25gbe_clk_iopll_locked PORT_NAME_MAP ""
+set_interface_property tod_sync_sampling_25gbe_clk_iopll_locked CMSIS_SVD_VARIABLES ""
+set_interface_property tod_sync_sampling_25gbe_clk_iopll_locked SVD_ADDRESS_GROUP ""
+set_interface_property tod_sync_sampling_25gbe_clk_iopll_locked IPXACT_REGISTER_MAP_VARIABLES ""
 
-add_interface_port tod_sync_sampling_clk_iopll_locked tod_sync_sampling_clk_iopll_locked export Input 1
-
-#
-# RX TOD start_tod_sync
-#
-add_interface rx_tod_start_tod_sync conduit end
-set_interface_property rx_tod_start_tod_sync associatedClock ""
-set_interface_property rx_tod_start_tod_sync associatedReset ""
-set_interface_property rx_tod_start_tod_sync ENABLED true
-set_interface_property rx_tod_start_tod_sync EXPORT_OF ""
-set_interface_property rx_tod_start_tod_sync PORT_NAME_MAP ""
-set_interface_property rx_tod_start_tod_sync CMSIS_SVD_VARIABLES ""
-set_interface_property rx_tod_start_tod_sync SVD_ADDRESS_GROUP ""
-set_interface_property rx_tod_start_tod_sync IPXACT_REGISTER_MAP_VARIABLES ""
-
-add_interface_port rx_tod_start_tod_sync rx_tod_start_tod_sync data Output 1
+add_interface_port tod_sync_sampling_25gbe_clk_iopll_locked tod_sync_sampling_25gbe_clk_iopll_locked export Input 1
 
 #
-# TX TOD start_tod_sync
+# connection point tod_sync_sampling_10gbe_clk_iopll_locked
 #
-add_interface tx_tod_start_tod_sync conduit end
-set_interface_property tx_tod_start_tod_sync associatedClock ""
-set_interface_property tx_tod_start_tod_sync associatedReset ""
-set_interface_property tx_tod_start_tod_sync ENABLED true
-set_interface_property tx_tod_start_tod_sync EXPORT_OF ""
-set_interface_property tx_tod_start_tod_sync PORT_NAME_MAP ""
-set_interface_property tx_tod_start_tod_sync CMSIS_SVD_VARIABLES ""
-set_interface_property tx_tod_start_tod_sync SVD_ADDRESS_GROUP ""
-set_interface_property tx_tod_start_tod_sync IPXACT_REGISTER_MAP_VARIABLES ""
+add_interface tod_sync_sampling_10gbe_clk_iopll_locked conduit end
+set_interface_property tod_sync_sampling_10gbe_clk_iopll_locked associatedClock ""
+set_interface_property tod_sync_sampling_10gbe_clk_iopll_locked associatedReset ""
+set_interface_property tod_sync_sampling_10gbe_clk_iopll_locked ENABLED true
+set_interface_property tod_sync_sampling_10gbe_clk_iopll_locked EXPORT_OF ""
+set_interface_property tod_sync_sampling_10gbe_clk_iopll_locked PORT_NAME_MAP ""
+set_interface_property tod_sync_sampling_10gbe_clk_iopll_locked CMSIS_SVD_VARIABLES ""
+set_interface_property tod_sync_sampling_10gbe_clk_iopll_locked SVD_ADDRESS_GROUP ""
+set_interface_property tod_sync_sampling_10gbe_clk_iopll_locked IPXACT_REGISTER_MAP_VARIABLES ""
 
-add_interface_port tx_tod_start_tod_sync tx_tod_start_tod_sync data Output 1
+add_interface_port tod_sync_sampling_10gbe_clk_iopll_locked tod_sync_sampling_10gbe_clk_iopll_locked export Input 1
 
+
+proc elaborate {} {
+   set eth_25g_en [get_parameter_value eth_25gbe_en]
+   set eth_10g_en [get_parameter_value eth_10gbe_en]
+   
+   if {$eth_25g_en == 0} {
+      set_port_property tod_sync_sampling_25gbe_clk_iopll_locked termination true
+      set_port_property tod_sync_sampling_25gbe_clk_iopll_locked termination_value 1
+   } else {
+      set_port_property tod_sync_sampling_25gbe_clk_iopll_locked termination false
+   }
+
+  if {$eth_10g_en == 0} {
+      set_port_property tod_sync_sampling_10gbe_clk_iopll_locked termination true
+      set_port_property tod_sync_sampling_10gbe_clk_iopll_locked termination_value 1
+   } else {
+      set_port_property tod_sync_sampling_10gbe_clk_iopll_locked termination false
+   }
+   
+   if {$eth_25g_en == 1 || $eth_10g_en == 1} {
+      set_port_property i_eth_reconfig_addr termination true
+      set_port_property i_eth_reconfig_read termination true
+      set_port_property o_eth_reconfig_readdata termination true
+      set_port_property o_eth_reconfig_readdata termination_value 0
+      set_port_property i_eth_reconfig_write termination true
+      set_port_property i_eth_reconfig_writedata termination true
+      set_port_property o_eth_reconfig_waitrequest termination true
+      set_port_property o_eth_reconfig_waitrequest termination_value 0
+   } 
+}

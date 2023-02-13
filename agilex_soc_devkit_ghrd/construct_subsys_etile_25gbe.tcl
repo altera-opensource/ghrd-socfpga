@@ -19,6 +19,7 @@ package require -exact qsys 19.1
 reload_ip_catalog
 source ./construct_subsys_etile_25gbe_rx_dma.tcl
 source ./construct_subsys_etile_25gbe_tx_dma.tcl
+source ./construct_subsys_etile_tod.tcl
 reload_ip_catalog
 
 set subsys_name subsys_etile_25gbe_1588
@@ -67,8 +68,10 @@ add_component_param "altera_avalon_mm_bridge subsys_etile_25gbe_1588_csr
 for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
    add_instance etile_25gbe_tx_dma_ch${x} subsys_etile_25gbe_tx_dma
    add_instance etile_25gbe_rx_dma_ch${x} subsys_etile_25gbe_rx_dma
+   add_instance etile_tod_ch${x} subsys_etile_tod
 }
 
+if {$hps_etile_1588_25gbe_en == 1} {
 add_component_param "alt_ehipc3_fm etile_hip
                      IP_FILE_PATH ip/$subsys_name/etile_hip.ip
                      {core_variant} {3}
@@ -88,24 +91,44 @@ add_component_param "alt_ehipc3_fm etile_hip
                      {rx_bytes_to_remove} {Remove CRC bytes}
                      {source_address_insertion_gui_sl_0} {1}
                      "
+} elseif {$hps_etile_1588_10gbe_en == 1} {
+add_component_param "alt_ehipc3_fm etile_hip
+                     IP_FILE_PATH ip/$subsys_name/etile_hip.ip
+                     {core_variant} {3}
+                     {number_of_channel} {0}
+                     {active_channel} {0}
+                     {ENABLE_PTP} {1}
+                     {EHIP_LOCATION} {EHIP0/2}
+                     {ENHANCED_PTP_ACCURACY} {1}
+                     {ENABLE_ADME} {1}
+                     {ehip_rate_gui_sl_0} {10G}
+                     {ehip_mode_gui_sl_0} {MAC+PTP+PCS}
+                     {PHY_REFCLK_sl_0} {156.250000}
+                     {flow_control_gui_sl_0} {Yes}
+                     {rx_bytes_to_remove} {Remove CRC bytes}
+                     {source_address_insertion_gui_sl_0} {1}
+                     "
+}
 
 add_component_param "etile_hip_adapter etile_hip_adapter_0
                      IP_FILE_PATH ip/$subsys_name/etile_hip_adapter_0.ip
+                     eth_25gbe_en $hps_etile_1588_25gbe_en
+                     eth_10gbe_en $hps_etile_1588_10gbe_en
                      "
 
-add_component_param "altera_iopll iopll_clk_avst_div2
-                     IP_FILE_PATH ip/$subsys_name/iopll_clk_avst_div2.ip
+add_component_param "altera_iopll iopll_clk_dma
+                     IP_FILE_PATH ip/$subsys_name/iopll_clk_dma.ip
                      gui_location_type {Fabric-Feeding}
-                     gui_reference_clock_frequency {402.83203125}
+                     gui_reference_clock_frequency {156.25}
                      gui_use_coreclk {1}
                      gui_use_locked {1}
                      gui_en_adv_params {1}
                      gui_operation_mode {direct}
                      gui_number_of_clocks {1}
                      gui_clock_name_string0 {outclk0}
-                     gui_multiply_factor {4}
-                     gui_divide_factor_n {2}
-                     gui_divide_factor_c0 {4}
+                     gui_multiply_factor {87}
+                     gui_divide_factor_n {13}
+                     gui_divide_factor_c0 {5}
                      gui_duty_cycle0 {50.0}
                      gui_phase_shift0 {0.0}
                      hp_qsys_scripting_mode {1}
@@ -128,9 +151,9 @@ add_component_param "altera_iopll iopll_etile_ptp_sampling_clk
                      gui_ps_units0 {ps}
                      hp_qsys_scripting_mode {1}
                      "
-
-add_component_param "altera_iopll iopll_etile_tod_sync_sampling_clk
-                     IP_FILE_PATH ip/$subsys_name/iopll_etile_tod_sync_sampling_clk.ip
+if {$hps_etile_1588_25gbe_en == 1} {
+add_component_param "altera_iopll iopll_etile_tod_sync_sampling_25gbe_clk
+                     IP_FILE_PATH ip/$subsys_name/iopll_etile_tod_sync_sampling_25gbe_clk.ip
                      gui_location_type {I/O Bank}
                      gui_reference_clock_frequency {156.25}
                      gui_use_coreclk {1}
@@ -146,7 +169,26 @@ add_component_param "altera_iopll iopll_etile_tod_sync_sampling_clk
                      gui_phase_shift0 {0.0}
                      hp_qsys_scripting_mode {1}
                      "
-
+}
+if {$hps_etile_1588_10gbe_en == 1} {
+add_component_param "altera_iopll iopll_etile_tod_sync_sampling_10gbe_clk
+                     IP_FILE_PATH ip/$subsys_name/iopll_etile_tod_sync_sampling_10gbe_clk.ip
+                     gui_location_type {I/O Bank}
+                     gui_reference_clock_frequency {156.25}
+                     gui_use_coreclk {1}
+                     gui_use_locked {1}
+                     gui_en_adv_params {1}
+                     gui_operation_mode {direct}
+                     gui_number_of_clocks {1}
+                     gui_clock_name_string0 {outclk0}
+                     gui_multiply_factor {64}
+                     gui_divide_factor_n {9}
+                     gui_divide_factor_c0 {7}
+                     gui_duty_cycle0 {50.0}
+                     gui_phase_shift0 {0.0}
+                     hp_qsys_scripting_mode {1}
+                     "
+}
 add_component_param "altera_avalon_pio qsfpdd_status_pio
                      IP_FILE_PATH ip/$subsys_name/qsfpdd_status_pio.ip
                      captureEdge 1
@@ -195,50 +237,6 @@ add_component_param "eth_tod_load_off etile_master_tod_load_off_64b
                      CONDUIT_DATA_WIDTH {64}
                      "
 
-add_component_param "altera_eth_1588_tod etile_tx_tod
-                     IP_FILE_PATH ip/$subsys_name/etile_tx_tod.ip
-                     PERIOD_CLOCK_FREQUENCY {1}
-                     DEFAULT_NSEC_PERIOD {2}
-                     DEFAULT_NSEC_ADJPERIOD {0}
-                     DEFAULT_FNSEC_PERIOD {36700}
-                     DEFAULT_FNSEC_ADJPERIOD {0}
-                     ENABLE_PPS {0}
-                     "
-
-add_component_param "eth_tod_load_off etile_tx_tod_load_off_64b
-                     IP_FILE_PATH ip/$subsys_name/etile_tx_tod_load_off_64b.ip
-                     CONDUIT_DATA_WIDTH {64}
-                     "
-
-add_component_param "altera_eth_1588_tod_synchronizer etile_tx_tod_sync
-                     IP_FILE_PATH ip/$subsys_name/etile_tx_tod_sync.ip
-                     TOD_MODE {1}
-                     SYNC_MODE {9}
-                     SAMPLE_SIZE {64}
-                     "
-
-add_component_param "altera_eth_1588_tod etile_rx_tod
-                     IP_FILE_PATH ip/$subsys_name/etile_rx_tod.ip
-                     PERIOD_CLOCK_FREQUENCY {1}
-                     DEFAULT_NSEC_PERIOD {2}
-                     DEFAULT_NSEC_ADJPERIOD {0}
-                     DEFAULT_FNSEC_PERIOD {36700}
-                     DEFAULT_FNSEC_ADJPERIOD {0}
-                     ENABLE_PPS {0}
-                     "
-
-add_component_param "eth_tod_load_off etile_rx_tod_load_off_64b
-                     IP_FILE_PATH ip/$subsys_name/etile_rx_tod_load_off_64b.ip
-                     CONDUIT_DATA_WIDTH {64}
-                     "
-
-add_component_param "altera_eth_1588_tod_synchronizer etile_rx_tod_sync
-                     IP_FILE_PATH ip/$subsys_name/etile_rx_tod_sync.ip
-                     TOD_MODE {1}
-                     SYNC_MODE {9}
-                     SAMPLE_SIZE {64}
-                     "
-
 add_component_param "altera_clock_bridge subsys_etile_25gbe_1588_dmaclkout
                      IP_FILE_PATH ip/$subsys_name/subsys_etile_25gbe_1588_dmaclkout.ip
                      NUM_CLOCK_OUTPUTS 1
@@ -251,8 +249,24 @@ add_component_param "altera_reset_bridge subsys_etile_25gbe_1588_dmaclkout_reset
                      NUM_RESET_OUTPUTS 1
                      USE_RESET_REQUEST 0
                      "
+add_component_param "eth_tod_distributor eth_tod_distributor_0
+                     IP_FILE_PATH ip/$subsys_name/eth_tod_distributor_0.ip
+                     OUTPUT_PORT_SIZE 4
+                     "
 
 # --------------- Connections and connection parameters ------------------#
+if {$hps_etile_1588_25gbe_en == 1} {
+connect "iopll_etile_tod_sync_sampling_25gbe_clk.locked     etile_hip_adapter_0.tod_sync_sampling_25gbe_clk_iopll_locked
+         subsys_etile_25gbe_1588_master_todclk.out_clk      iopll_etile_tod_sync_sampling_25gbe_clk.refclk
+         subsys_etile_25gbe_1588_ninitdone_reset.out_reset  iopll_etile_tod_sync_sampling_25gbe_clk.reset
+        "
+}
+if {$hps_etile_1588_10gbe_en == 1} {
+connect "iopll_etile_tod_sync_sampling_10gbe_clk.locked     etile_hip_adapter_0.tod_sync_sampling_10gbe_clk_iopll_locked
+         subsys_etile_25gbe_1588_master_todclk.out_clk      iopll_etile_tod_sync_sampling_10gbe_clk.refclk
+         subsys_etile_25gbe_1588_ninitdone_reset.out_reset  iopll_etile_tod_sync_sampling_10gbe_clk.reset
+        "
+}
 connect "subsys_etile_25gbe_1588_csrclk.out_clk             subsys_etile_25gbe_1588_reset.clk
          subsys_etile_25gbe_1588_csrclk.out_clk             subsys_etile_25gbe_1588_csr.clk
          subsys_etile_25gbe_1588_reset.out_reset            subsys_etile_25gbe_1588_csr.reset
@@ -262,41 +276,11 @@ connect "subsys_etile_25gbe_1588_csrclk.out_clk             subsys_etile_25gbe_1
          subsys_etile_25gbe_1588_master_todclk.out_clk      etile_master_tod.period_clock
          subsys_etile_25gbe_1588_reset.out_reset            etile_master_tod.period_clock_reset
 
-         subsys_etile_25gbe_1588_csrclk.out_clk             etile_tx_tod.csr_clock
-         subsys_etile_25gbe_1588_reset.out_reset            etile_tx_tod.csr_reset
-         etile_hip_adapter_0.clk_pll_div66                  etile_tx_tod.period_clock
-         subsys_etile_25gbe_1588_reset.out_reset            etile_tx_tod.period_clock_reset
-         etile_hip_adapter_0.sl_tx_lanes_stable_reset_n     etile_tx_tod.period_clock_reset
-         etile_tx_tod_sync.tod_slave_data                   etile_tx_tod.time_of_day_96b_load
-
-         subsys_etile_25gbe_1588_master_todclk.out_clk      etile_tx_tod_sync.clk_master
-         subsys_etile_25gbe_1588_reset.out_reset            etile_tx_tod_sync.reset_master
-         etile_hip_adapter_0.clk_pll_div66                  etile_tx_tod_sync.clk_slave
-         subsys_etile_25gbe_1588_reset.out_reset            etile_tx_tod_sync.reset_slave
-         etile_hip_adapter_0.sl_tx_lanes_stable_reset_n     etile_tx_tod_sync.reset_slave
-         iopll_etile_tod_sync_sampling_clk.outclk0          etile_tx_tod_sync.clk_sampling
-
-         subsys_etile_25gbe_1588_csrclk.out_clk             etile_rx_tod.csr_clock
-         subsys_etile_25gbe_1588_reset.out_reset            etile_rx_tod.csr_reset
-         etile_hip_adapter_0.clk_rec_div66                  etile_rx_tod.period_clock
-         subsys_etile_25gbe_1588_reset.out_reset            etile_rx_tod.period_clock_reset
-         etile_hip_adapter_0.sl_rx_pcs_ready_reset_n        etile_rx_tod.period_clock_reset
-         etile_rx_tod_sync.tod_slave_data                   etile_rx_tod.time_of_day_96b_load
-
-         subsys_etile_25gbe_1588_master_todclk.out_clk      etile_rx_tod_sync.clk_master
-         subsys_etile_25gbe_1588_reset.out_reset            etile_rx_tod_sync.reset_master
-         etile_hip_adapter_0.clk_rec_div66                  etile_rx_tod_sync.clk_slave
-         subsys_etile_25gbe_1588_reset.out_reset            etile_rx_tod_sync.reset_slave
-         etile_hip_adapter_0.sl_rx_pcs_ready_reset_n        etile_rx_tod_sync.reset_slave
-         iopll_etile_tod_sync_sampling_clk.outclk0          etile_rx_tod_sync.clk_sampling
+         etile_master_tod.time_of_day_96b                   eth_tod_distributor_0.tod_in
 
          subsys_etile_25gbe_1588_csrclk.out_clk             iopll_etile_ptp_sampling_clk.refclk
          subsys_etile_25gbe_1588_ninitdone_reset.out_reset  iopll_etile_ptp_sampling_clk.reset
          iopll_etile_ptp_sampling_clk.locked                etile_hip_adapter_0.ptp_sampling_clk_iopll_locked
-
-         subsys_etile_25gbe_1588_master_todclk.out_clk      iopll_etile_tod_sync_sampling_clk.refclk
-         subsys_etile_25gbe_1588_ninitdone_reset.out_reset  iopll_etile_tod_sync_sampling_clk.reset
-         iopll_etile_tod_sync_sampling_clk.locked           etile_hip_adapter_0.tod_sync_sampling_clk_iopll_locked
 
          subsys_etile_25gbe_1588_csrclk.out_clk             etile_debug_status_pio_0.clk
          subsys_etile_25gbe_1588_reset.out_reset            etile_debug_status_pio_0.reset
@@ -307,14 +291,14 @@ connect "subsys_etile_25gbe_1588_csrclk.out_clk             subsys_etile_25gbe_1
          "
 
 for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
-connect "iopll_clk_avst_div2.outclk0                        etile_25gbe_tx_dma_ch${x}.dma_clk
+connect "iopll_clk_dma.outclk0                              etile_25gbe_tx_dma_ch${x}.dma_clk
          etile_hip_adapter_0.clk_pll_div64                  etile_25gbe_tx_dma_ch${x}.etile_clk
          subsys_etile_25gbe_1588_reset.out_reset            etile_25gbe_tx_dma_ch${x}.reset
-         etile_hip_adapter_0.tx_plldiv2_locked_reset        etile_25gbe_tx_dma_ch${x}.reset
-         iopll_clk_avst_div2.outclk0                        etile_25gbe_rx_dma_ch${x}.dma_clk
+         etile_hip_adapter_0.clk_dma_lock_reset             etile_25gbe_tx_dma_ch${x}.reset
+         iopll_clk_dma.outclk0                              etile_25gbe_rx_dma_ch${x}.dma_clk
          etile_hip_adapter_0.clk_pll_div64                  etile_25gbe_rx_dma_ch${x}.etile_clk
          subsys_etile_25gbe_1588_reset.out_reset            etile_25gbe_rx_dma_ch${x}.reset
-         etile_hip_adapter_0.tx_plldiv2_locked_reset        etile_25gbe_rx_dma_ch${x}.reset
+         etile_hip_adapter_0.clk_dma_lock_reset             etile_25gbe_rx_dma_ch${x}.reset
 
          etile_25gbe_tx_dma_ch${x}.pktout                   etile_hip_adapter_0.sl_tx_avst
          etile_25gbe_tx_dma_ch${x}.timestamp_req            etile_hip_adapter_0.timestamp_request
@@ -328,25 +312,53 @@ connect "iopll_clk_avst_div2.outclk0                        etile_25gbe_tx_dma_c
 }
 
 for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
-connect_map "subsys_etile_25gbe_1588_csr.m0                 etile_25gbe_tx_dma_ch${x}.csr [expr {0x800 + ($x-1)*0x200}]
-             subsys_etile_25gbe_1588_csr.m0                 etile_25gbe_rx_dma_ch${x}.csr [expr {0x900 + ($x-1)*0x200}]
+connect_map "subsys_etile_25gbe_1588_csr.m0                 etile_25gbe_tx_dma_ch${x}.csr [expr {0x00210700 + ($x-1)*0x00000200}]
+             subsys_etile_25gbe_1588_csr.m0                 etile_25gbe_rx_dma_ch${x}.csr [expr {0x00210B00 + ($x-1)*0x00000200}]
+             subsys_etile_25gbe_1588_csr.m0                 etile_tod_ch${x}.csr          [expr {0x00210300 + ($x-1)*0x00000100}]
              "
 }
+for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
+connect     "subsys_etile_25gbe_1588_master_todclk.out_clk           etile_tod_ch${x}.clk
+             subsys_etile_25gbe_1588_reset.out_reset                 etile_tod_ch${x}.reset
+             subsys_etile_25gbe_1588_master_todclk.out_clk           etile_tod_ch${x}.master_todclk
+             etile_hip_adapter_0.sl_tx_lanes_stable_reset_n          etile_tod_ch${x}.tod_tx_reset
+             etile_hip_adapter_0.sl_rx_pcs_ready_reset_n             etile_tod_ch${x}.tod_rx_reset
+             etile_tod_ch${x}.tx_slave_time_of_day_96b               etile_hip_adapter_0.sl_ptp_tx_tod
+             etile_tod_ch${x}.rx_slave_time_of_day_96b               etile_hip_adapter_0.sl_ptp_rx_tod
+            "
+}
+for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
+if {$hps_etile_1588_25gbe_en == 1} {
+connect     "iopll_etile_tod_sync_sampling_25gbe_clk.outclk0         etile_tod_ch${x}.sampling_25gbe_clk
+             etile_hip_adapter_0.clk_pll_div66                       etile_tod_ch${x}.tx_25gbe_period_slave_clk
+             etile_hip_adapter_0.clk_rec_div66                       etile_tod_ch${x}.rx_25gbe_period_slave_clk
+             eth_tod_distributor_0.tod_out0                          etile_tod_ch${x}.tx_25gbe_slave_tod
+             eth_tod_distributor_0.tod_out1                          etile_tod_ch${x}.rx_25gbe_slave_tod
+             "
 
-connect "etile_hip_adapter_0.clk_pll_div64              iopll_clk_avst_div2.refclk
-         etile_hip_adapter_0.tx_pll_locked_reset        iopll_clk_avst_div2.reset
-         subsys_etile_25gbe_1588_ninitdone_reset.out_reset   iopll_clk_avst_div2.reset
+}
+if {$hps_etile_1588_10gbe_en == 1} {
+connect     "iopll_etile_tod_sync_sampling_10gbe_clk.outclk0         etile_tod_ch${x}.sampling_10gbe_clk
+             etile_hip_adapter_0.clk_pll_div66                       etile_tod_ch${x}.tx_10gbe_period_slave_clk
+             etile_hip_adapter_0.clk_rec_div66                       etile_tod_ch${x}.rx_10gbe_period_slave_clk
+             eth_tod_distributor_0.tod_out2                          etile_tod_ch${x}.tx_10gbe_slave_tod
+             eth_tod_distributor_0.tod_out3                          etile_tod_ch${x}.rx_10gbe_slave_tod
+             "
+}
+}
+connect "subsys_etile_25gbe_1588_master_todclk.out_clk          iopll_clk_dma.refclk
+         subsys_etile_25gbe_1588_ninitdone_reset.out_reset      iopll_clk_dma.reset
 
-         iopll_clk_avst_div2.outclk0                    subsys_etile_25gbe_1588_dmaclkout.in_clk
-         iopll_clk_avst_div2.outclk0                    subsys_etile_25gbe_1588_dmaclkout_reset.clk
-         etile_hip_adapter_0.tx_plldiv2_locked_reset    subsys_etile_25gbe_1588_dmaclkout_reset.in_reset
+         iopll_clk_dma.outclk0                                  subsys_etile_25gbe_1588_dmaclkout.in_clk
+         iopll_clk_dma.outclk0                                  subsys_etile_25gbe_1588_dmaclkout_reset.clk
+         etile_hip_adapter_0.clk_dma_lock_reset                 subsys_etile_25gbe_1588_dmaclkout_reset.in_reset
          "
 
 connect "subsys_etile_25gbe_1588_csrclk.out_clk         etile_hip_adapter_0.reconfig_clock
          subsys_etile_25gbe_1588_reset.out_reset        etile_hip_adapter_0.reconfig_reset
          subsys_etile_25gbe_1588_reset.out_reset        etile_hip.i_csr_rst_n
          subsys_etile_25gbe_1588_csrclk.out_clk         etile_hip.i_reconfig_clk
-         etile_hip_adapter_0.i_reconfig_reset           etile_hip.i_reconfig_reset
+         subsys_etile_25gbe_1588_reset.out_reset        etile_hip.i_reconfig_reset
          etile_hip_adapter_0.o_clk_pll_div64            etile_hip.o_clk_pll_div64
          etile_hip_adapter_0.o_clk_pll_div66            etile_hip.o_clk_pll_div66
          etile_hip_adapter_0.o_clk_rec_div64            etile_hip.o_clk_rec_div64
@@ -371,13 +383,6 @@ connect "subsys_etile_25gbe_1588_csrclk.out_clk         etile_hip_adapter_0.reco
          etile_hip_adapter_0.ptp_tod_ports_1p5ns        etile_hip.ptp_tod_ports_1p5ns
          etile_hip_adapter_0.sl_ptp_ports_1p5ns         etile_hip.sl_ptp_ports_1p5ns
 
-         etile_hip_adapter_0.i_rsfec_reconfig_addr              etile_hip.i_rsfec_reconfig_addr
-         etile_hip_adapter_0.i_rsfec_reconfig_write             etile_hip.i_rsfec_reconfig_write
-         etile_hip_adapter_0.i_rsfec_reconfig_read              etile_hip.i_rsfec_reconfig_read
-         etile_hip_adapter_0.i_rsfec_reconfig_writedata         etile_hip.i_rsfec_reconfig_writedata
-         etile_hip_adapter_0.o_rsfec_reconfig_readdata          etile_hip.o_rsfec_reconfig_readdata
-         etile_hip_adapter_0.o_rsfec_reconfig_waitrequest       etile_hip.o_rsfec_reconfig_waitrequest
-
          etile_hip_adapter_0.i_ptp_reconfig_address             etile_hip.i_ptp_reconfig_address
          etile_hip_adapter_0.i_ptp_reconfig_write               etile_hip.i_ptp_reconfig_write
          etile_hip_adapter_0.i_ptp_reconfig_read                etile_hip.i_ptp_reconfig_read
@@ -391,14 +396,6 @@ connect "subsys_etile_25gbe_1588_csrclk.out_clk         etile_hip_adapter_0.reco
          etile_hip_adapter_0.i_xcvr_reconfig_writedata          etile_hip.i_xcvr_reconfig_writedata
          etile_hip_adapter_0.o_xcvr_reconfig_readdata           etile_hip.o_xcvr_reconfig_readdata
          etile_hip_adapter_0.o_xcvr_reconfig_waitrequest        etile_hip.o_xcvr_reconfig_waitrequest
-
-         etile_hip_adapter_0.i_eth_reconfig_addr                etile_hip.i_eth_reconfig_addr
-         etile_hip_adapter_0.i_eth_reconfig_write               etile_hip.i_eth_reconfig_write
-         etile_hip_adapter_0.i_eth_reconfig_read                etile_hip.i_eth_reconfig_read
-         etile_hip_adapter_0.i_eth_reconfig_writedata           etile_hip.i_eth_reconfig_writedata
-         etile_hip_adapter_0.o_eth_reconfig_readdata            etile_hip.o_eth_reconfig_readdata
-         etile_hip_adapter_0.o_eth_reconfig_readdata_valid      etile_hip.o_eth_reconfig_readdata_valid
-         etile_hip_adapter_0.o_eth_reconfig_waitrequest         etile_hip.o_eth_reconfig_waitrequest
 
          etile_hip_adapter_0.i_sl_eth_reconfig_addr             etile_hip.i_sl_eth_reconfig_addr
          etile_hip_adapter_0.i_sl_eth_reconfig_read             etile_hip.i_sl_eth_reconfig_read
@@ -416,15 +413,9 @@ connect "subsys_etile_25gbe_1588_csrclk.out_clk         etile_hip_adapter_0.reco
          etile_master_tod_load_off_64b.time_of_day_load         etile_master_tod.time_of_day_64b_load
          etile_master_tod_load_off_96b.time_of_day_load         etile_master_tod.time_of_day_96b_load
 
-         etile_tx_tod_load_off_64b.time_of_day_load             etile_tx_tod.time_of_day_64b_load
-         etile_rx_tod_load_off_64b.time_of_day_load             etile_rx_tod.time_of_day_64b_load
-
          etile_hip.sl_ptp_1step_ports                           etile_hip_adapter_0.sl_ptp_1step_ports
 
-         etile_tx_tod.time_of_day_96b                           etile_hip_adapter_0.sl_ptp_tx_tod
-         etile_rx_tod.time_of_day_96b                           etile_hip_adapter_0.sl_ptp_rx_tod
          etile_hip.sl_ptp_ports                                 etile_hip_adapter_0.sl_ptp_ports
-
 
          etile_hip_adapter_0.o_cdr_lock                         etile_hip.o_cdr_lock
          etile_hip_adapter_0.o_tx_pll_locked                    etile_hip.o_tx_pll_locked
@@ -434,29 +425,25 @@ connect "subsys_etile_25gbe_1588_csrclk.out_clk         etile_hip_adapter_0.reco
          etile_hip_adapter_0.o_sl_rx_block_lock                 etile_hip.o_sl_rx_block_lock
          etile_hip_adapter_0.o_sl_local_fault_status            etile_hip.o_sl_local_fault_status
          etile_hip_adapter_0.o_sl_remote_fault_status           etile_hip.o_sl_remote_fault_status
-         etile_hip_adapter_0.iopll_clk_avst_div2_locked         iopll_clk_avst_div2.locked
-         etile_hip_adapter_0.tx_tod_start_tod_sync              etile_tx_tod_sync.start_tod_sync
-         etile_hip_adapter_0.rx_tod_start_tod_sync              etile_rx_tod_sync.start_tod_sync
-
-         etile_master_tod.time_of_day_96b                      etile_hip_adapter_0.o_time_of_day_96_b
-         etile_hip_adapter_0.i_tx_tod_master_data              etile_tx_tod_sync.tod_master_data
-         etile_hip_adapter_0.i_rx_tod_master_data              etile_rx_tod_sync.tod_master_data
+         iopll_clk_dma.outclk0                                  etile_hip_adapter_0.dma_clock
+         etile_hip_adapter_0.iopll_clk_dma_locked               iopll_clk_dma.locked
 
          etile_hip_adapter_0.ehip_debug_status                  etile_debug_status_pio_0.external_connection
          "
+if {$hps_etile_1588_25gbe_en == 1} {
+connect_map "subsys_etile_25gbe_1588_csr.m0      etile_hip.rsfec_reconfig     0x0022_1000
+            "
+}
+connect_map "subsys_etile_25gbe_1588_csr.m0      etile_hip_adapter_0.xcvr_reconfig      0x0018_0000
+             subsys_etile_25gbe_1588_csr.m0      etile_hip_adapter_0.sl_eth_reconfig    0x0020_C000
 
-connect_map "subsys_etile_25gbe_1588_csr.m0      etile_hip_adapter_0.rsfec_reconfig     0x0000_1000
-             subsys_etile_25gbe_1588_csr.m0      etile_hip_adapter_0.xcvr_reconfig      0x0010_0000
-             subsys_etile_25gbe_1588_csr.m0      etile_hip_adapter_0.sl_eth_reconfig    0x0008_0000
-
-             subsys_etile_25gbe_1588_csr.m0      etile_debug_status_pio_0.s1            0x0
-             subsys_etile_25gbe_1588_csr.m0      qsfpdd_status_pio.s1                   0x10
-             subsys_etile_25gbe_1588_csr.m0      qsfpdd_ctrl_pio_0.s1                   0x20
-             subsys_etile_25gbe_1588_csr.m0      etile_master_tod.csr                   0x40
-             subsys_etile_25gbe_1588_csr.m0      etile_tx_tod.csr                       0x80
-             subsys_etile_25gbe_1588_csr.m0      etile_rx_tod.csr                       0xC0
+             subsys_etile_25gbe_1588_csr.m0      etile_debug_status_pio_0.s1            0x0022_0000
+             subsys_etile_25gbe_1588_csr.m0      qsfpdd_status_pio.s1                   0x0022_0010
+             subsys_etile_25gbe_1588_csr.m0      qsfpdd_ctrl_pio_0.s1                   0x0022_0020
+             subsys_etile_25gbe_1588_csr.m0      etile_master_tod.csr                   0x0022_0040
              "
 
+#export signals
 export etile_debug_status_pio_0             irq                         debug_status_pio_irq
 export qsfpdd_status_pio                    irq                         qsfpdd_status_pio_irq
 

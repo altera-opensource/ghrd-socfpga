@@ -182,6 +182,9 @@ ENABLE_PARTIAL_RECONFIGURATION ?= 1
 HPS_ENABLE_SGMII ?= 1
 # Enable ETILE 1588v2 PTP
 ENABLE_ETILE_1588 ?= 0
+#Option for Etile 10G or 25G
+HPS_ETILE_1588_25GBE_EN ?= 0
+HPS_ETILE_1588_10GBE_EN ?= 0
 
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
 QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
@@ -361,6 +364,21 @@ QSYS_TCL_CMDS += set hps_etile_1588_en 1;
 endif
 ####
 
+# Enable Etile 1588v2 25Gbe PTP Subsystem
+HPS_ETILE_1588_25GBE_EN ?= 0
+ifeq ($(HPS_ETILE_1588_25GBE_EN),1)
+QUARTUS_TCL_ARGS += hps_etile_1588_25gbe_en 1
+QSYS_TCL_CMDS += set hps_etile_1588_25gbe_en 1;
+endif
+####
+
+# Enable Etile 1588v2 10Gbe PTP Subsystem
+HPS_ETILE_1588_10GBE_EN ?= 0
+ifeq ($(HPS_ETILE_1588_10GBE_EN),1)
+QUARTUS_TCL_ARGS += hps_etile_1588_10gbe_en 1
+QSYS_TCL_CMDS += set hps_etile_1588_10gbe_en 1;
+endif
+####
 
 ifneq ($(DAUGHTER_CARD),)
 QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)

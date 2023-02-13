@@ -105,6 +105,8 @@
 # jop_en                            : 1 or 0
 # hps_etile_1588_en                 : 1 or 0
 # hps_etile_1588_count              : 1
+# hps_etile_1588_25gbe_en           : 1 or 0
+# hps_etile_1588_10gbe_en           : 1 or 0
 
 #
 # Each argument made available for configuration has a default value in design_config.tcl file
@@ -888,7 +890,17 @@ if { $hps_etile_1588_en == 1} {
         puts "-- Turn OFF hps_etile_1588_en because \"isETILE_pins_available\" is not available"
     }
 }
+if { ![ info exists hps_etile_1588_25gbe_en ] } {
+ set hps_etile_1588_25gbe_en $HPS_ETILE_1588_25GBE_EN
+} else {
+ puts "-- Accepted parameter \$hps_etile_1588_25gbe_en = $hps_etile_1588_25gbe_en"
+}
 
+if { ![ info exists hps_etile_1588_10gbe_en ] } {
+ set hps_etile_1588_10gbe_en $HPS_ETILE_1588_10GBE_EN
+} else {
+ puts "-- Accepted parameter \$hps_etile_1588_10gbe_en = $hps_etile_1588_10gbe_en"
+}
 if { ![ info exists hps_etile_1588_count ] } {
  set hps_etile_1588_count $HPS_ETILE_1588_COUNT
 } else {

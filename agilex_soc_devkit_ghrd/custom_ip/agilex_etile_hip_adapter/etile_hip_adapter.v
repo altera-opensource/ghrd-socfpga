@@ -204,10 +204,6 @@ module etile_hip_adapter #(
     output  [95:0]                            i_sl_ptp_tx_its,
     output                                    i_sl_ptp_update_eb,
     output                                    i_sl_ptp_zero_csum,
-//Wirelevel tx_tod_sync_data and rx_tod_sync_data
-    input  [95:0]                             o_time_of_day_96_b,           // conduit
-    output [95:0]                             i_tx_tod_master_data,         // conduit
-    output [95:0]                             i_rx_tod_master_data,         // conduit
 // ehip debug and status
     input                                     o_cdr_lock,
     input                                     o_tx_pll_locked,
@@ -217,29 +213,28 @@ module etile_hip_adapter #(
     input                                     o_sl_rx_block_lock,
     input                                     o_sl_local_fault_status,
     input                                     o_sl_remote_fault_status,
-    input                                     iopll_clk_avst_div2_locked,
+    input                                     dma_clock,
+    input                                     iopll_clk_dma_locked,
     output  [12:0]                            ehip_debug_status,
     output                                    sl_tx_lanes_stable_reset_n,
     output                                    sl_rx_pcs_ready_reset_n,
     output                                    tx_pll_locked_reset_n,
-    output                                    tx_plldiv2_locked_reset_n,
+    output                                    clk_dma_lock_reset_n,
     input                                     ptp_sampling_clk_iopll_locked,
-    input                                     tod_sync_sampling_clk_iopll_locked,
-    output                                    rx_tod_start_tod_sync,
-    output                                    tx_tod_start_tod_sync
+    input                                     tod_sync_sampling_25gbe_clk_iopll_locked,
+    input                                     tod_sync_sampling_10gbe_clk_iopll_locked
 );
 
 reg                                           sl_csr_rst_n_int;
 reg [1:0]                                     sl_csr_rst_n_sync;
 reg [12:0]                                    debug_status_reg;
+wire                                          tod_sync_sampling_clk_iopll_locked;
 
 //assign i_clk_ref                            = clk_ref;
 assign clk_pll_div64                          = o_clk_pll_div64[1];
 assign clk_pll_div66                          = o_clk_pll_div66[0];
 assign clk_rec_div64                          = o_clk_rec_div64[1];
 assign clk_rec_div66                          = o_clk_rec_div66[0];
-assign   i_tx_tod_master_data                 = o_time_of_day_96_b;
-assign   i_rx_tod_master_data                 = o_time_of_day_96_b;
 
 //eth_reconfig
 assign i_eth_reconfig_addr                    = 19'd0;
@@ -319,7 +314,8 @@ begin
         sl_csr_rst_n_sync                    <= 2'b0;
         sl_csr_rst_n_int                     <= 1'b0;
     end else begin
-        sl_csr_rst_n_sync[0]                 <= o_tx_pll_locked & ptp_sampling_clk_iopll_locked & tod_sync_sampling_clk_iopll_locked;
+        //sl_csr_rst_n_sync[0]                 <= o_tx_pll_locked & ptp_sampling_clk_iopll_locked & tod_sync_sampling_clk_iopll_locked;
+        sl_csr_rst_n_sync[0]                 <= o_tx_pll_locked & ptp_sampling_clk_iopll_locked & tod_sync_sampling_25gbe_clk_iopll_locked & tod_sync_sampling_10gbe_clk_iopll_locked;
         sl_csr_rst_n_sync[1]                 <= sl_csr_rst_n_sync[0];
         sl_csr_rst_n_int                     <= sl_csr_rst_n_sync[1];
     end
@@ -348,13 +344,14 @@ assign i_sl_ptp_tx_its                       = 96'd0;
 assign i_sl_ptp_update_eb                    = 1'd0;
 assign i_sl_ptp_zero_csum                    = 1'd0;
 
+assign tod_sync_sampling_clk_iopll_locked    = tod_sync_sampling_25gbe_clk_iopll_locked & tod_sync_sampling_10gbe_clk_iopll_locked;
 always @(posedge reconfig_clock)
 begin
     debug_status_reg                        <= {ptp_sampling_clk_iopll_locked, tod_sync_sampling_clk_iopll_locked,
                                                 o_sl_rx_ptp_ready, o_sl_tx_ptp_ready, o_cdr_lock,
                                                 o_tx_pll_locked, o_sl_tx_lanes_stable, o_sl_rx_pcs_ready,
                                                 o_sl_ehip_ready, o_sl_rx_block_lock, o_sl_local_fault_status,
-                                                o_sl_remote_fault_status, iopll_clk_avst_div2_locked};
+                                                o_sl_remote_fault_status, iopll_clk_dma_locked};
 end
 
 assign ehip_debug_status                     = debug_status_reg;
@@ -375,20 +372,16 @@ begin
 end
 assign tx_pll_locked_reset_n = tx_pll_lock_reset_reg[5];
 
-//TX PLL Div2 LOCK as reset for user to use
-reg[5:0]    tx_plldiv2_lock_reset_reg;
-always @(posedge o_clk_pll_div64[1] or negedge iopll_clk_avst_div2_locked)
+//DMA Clock as reset for user to use
+reg[5:0]    clk_dma_lock_reset_reg;
+always @(posedge dma_clock or negedge iopll_clk_dma_locked)
 begin
-    if (iopll_clk_avst_div2_locked == 1'b0) begin
-        tx_plldiv2_lock_reset_reg   <= 6'd0;
+    if (iopll_clk_dma_locked == 1'b0) begin
+        clk_dma_lock_reset_reg   <= 6'd0;
     end else begin
-        tx_plldiv2_lock_reset_reg   <= {tx_plldiv2_lock_reset_reg[4:0],1'b1};
+        clk_dma_lock_reset_reg   <= {clk_dma_lock_reset_reg[4:0],1'b1};
     end
 end
-assign tx_plldiv2_locked_reset_n = tx_plldiv2_lock_reset_reg[5];
-
-// RX & TX TOD's start_tod_sync
-assign rx_tod_start_tod_sync = 1'b1;
-assign tx_tod_start_tod_sync = 1'b1;
+assign clk_dma_lock_reset_n = clk_dma_lock_reset_reg[5];
 
 endmodule
