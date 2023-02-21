@@ -1272,18 +1272,28 @@ add_interface_port sl_pfc_ports o_sl_rx_pfc o_sl_rx_pfc Input 8
 #
 # connection point ptp_tod_ports_1p5ns
 #
-add_interface ptp_tod_ports_1p5ns conduit end
-set_interface_property ptp_tod_ports_1p5ns associatedClock ""
-set_interface_property ptp_tod_ports_1p5ns associatedReset ""
-set_interface_property ptp_tod_ports_1p5ns ENABLED true
-set_interface_property ptp_tod_ports_1p5ns EXPORT_OF ""
-set_interface_property ptp_tod_ports_1p5ns PORT_NAME_MAP ""
-set_interface_property ptp_tod_ports_1p5ns CMSIS_SVD_VARIABLES ""
-set_interface_property ptp_tod_ports_1p5ns SVD_ADDRESS_GROUP ""
-set_interface_property ptp_tod_ports_1p5ns IPXACT_REGISTER_MAP_VARIABLES ""
+add_interface ptp_tod_ports_1p5ns_tx avalon_streaming source
+set_interface_property ptp_tod_ports_1p5ns_tx associatedClock ""
+set_interface_property ptp_tod_ports_1p5ns_tx associatedReset ""
+set_interface_property ptp_tod_ports_1p5ns_tx ENABLED true
+set_interface_property ptp_tod_ports_1p5ns_tx EXPORT_OF ""
+set_interface_property ptp_tod_ports_1p5ns_tx PORT_NAME_MAP ""
+set_interface_property ptp_tod_ports_1p5ns_tx CMSIS_SVD_VARIABLES ""
+set_interface_property ptp_tod_ports_1p5ns_tx SVD_ADDRESS_GROUP ""
+set_interface_property ptp_tod_ports_1p5ns_tx IPXACT_REGISTER_MAP_VARIABLES ""
 
-add_interface_port ptp_tod_ports_1p5ns i_sl_ptp_tx_tod i_sl_ptp_tx_tod Output 96
-add_interface_port ptp_tod_ports_1p5ns i_sl_ptp_rx_tod i_sl_ptp_rx_tod Output 96
+add_interface_port ptp_tod_ports_1p5ns_tx i_sl_ptp_tx_tod data Output 96
+
+add_interface ptp_tod_ports_1p5ns_rx avalon_streaming source
+set_interface_property ptp_tod_ports_1p5ns_rx associatedClock ""
+set_interface_property ptp_tod_ports_1p5ns_rx associatedReset ""
+set_interface_property ptp_tod_ports_1p5ns_rx ENABLED true
+set_interface_property ptp_tod_ports_1p5ns_rx EXPORT_OF ""
+set_interface_property ptp_tod_ports_1p5ns_rx PORT_NAME_MAP ""
+set_interface_property ptp_tod_ports_1p5ns_rx CMSIS_SVD_VARIABLES ""
+set_interface_property ptp_tod_ports_1p5ns_rx SVD_ADDRESS_GROUP ""
+
+add_interface_port ptp_tod_ports_1p5ns_rx i_sl_ptp_rx_tod data Output 96
 
 
 #
@@ -1305,7 +1315,7 @@ add_interface_port sl_ptp_ports_1p5ns i_clk_ptp_sample i_clk_ptp_sample Output 1
 #
 # connection point sl_ptp_tx_tod
 #
-add_interface sl_ptp_tx_tod conduit end
+add_interface sl_ptp_tx_tod avalon_streaming sink 
 set_interface_property sl_ptp_tx_tod associatedClock ""
 set_interface_property sl_ptp_tx_tod associatedReset ""
 set_interface_property sl_ptp_tx_tod ENABLED true
@@ -1321,7 +1331,7 @@ add_interface_port sl_ptp_tx_tod sl_ptp_tx_tod data Input 96
 #
 # connection point sl_ptp_rx_tod
 #
-add_interface sl_ptp_rx_tod conduit end
+add_interface sl_ptp_rx_tod avalon_streaming sink
 set_interface_property sl_ptp_rx_tod associatedClock ""
 set_interface_property sl_ptp_rx_tod associatedReset ""
 set_interface_property sl_ptp_rx_tod ENABLED true

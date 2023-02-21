@@ -71,7 +71,7 @@ set_parameter_property CONDUIT_DATA_WIDTH HDL_PARAMETER true
 #
 # connection point time_of_day_load
 #
-add_interface time_of_day_load conduit start
+add_interface time_of_day_load avalon_streaming source
 set_interface_property time_of_day_load associatedClock ""
 set_interface_property time_of_day_load associatedReset ""
 set_interface_property time_of_day_load ENABLED true

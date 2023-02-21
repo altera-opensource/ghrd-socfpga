@@ -5,13 +5,13 @@
 //
 //****************************************************************************
 //
-// etile_tod
-// This component is an conduit for ETILE 25Gbe SUBSYSTEM
+// eth_tod_distributor
+// This component is an ToD distributor IP
 //****************************************************************************
 
 module eth_tod_distributor #(parameter OUTPUT_PORT_SIZE) (
     //Wirelevel tx_tod_sync_data and rx_tod_sync_data
-    input  [95:0]       tod_in,           // conduit
+    input  [95:0]       tod_in,           // Avalon streaming sink
     output [95:0]       tod_out0 ,         // conduit
     output [95:0]       tod_out1 ,         // conduit
     output [95:0]       tod_out2 ,         // conduit

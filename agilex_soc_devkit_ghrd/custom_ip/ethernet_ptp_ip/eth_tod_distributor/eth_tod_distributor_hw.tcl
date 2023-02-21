@@ -4,7 +4,7 @@
 
 
 # 
-# etile_tod "Etile tod subsystem conduits" v1.0.0
+# eth_tod_distributor "Etile ToD Distributor IP" v1.0.0
 # Intel Corporation 2022.04.13.16:46:20
 # 
 # 
@@ -25,7 +25,7 @@ set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property GROUP "Example Designs/Ethernet/Misc"
 set_module_property AUTHOR "Intel Corporation"
-set_module_property DISPLAY_NAME "Etile tod subsystem conduits"
+set_module_property DISPLAY_NAME "Etile ToD Distributor IP"
 set_module_property INSTANTIATE_IN_SYSTEM_MODULE true
 set_module_property EDITABLE true
 set_module_property REPORT_TO_TALKBACK true
@@ -70,7 +70,7 @@ set_parameter_property OUTPUT_PORT_SIZE ALLOWED_RANGES "2:16"
 #
 # connection point tod_in
 #
-add_interface tod_in conduit end
+add_interface tod_in avalon_streaming sink
 set_interface_property tod_in associatedClock ""
 set_interface_property tod_in associatedReset ""
 set_interface_property tod_in ENABLED true
@@ -91,7 +91,7 @@ proc elaborate {} {
     #
     # connection point tod_out1
     #
-    add_interface tod_out$i conduit end
+    add_interface tod_out$i avalon_streaming source
     set_interface_property tod_out$i associatedClock ""
     set_interface_property tod_out$i associatedReset ""
     set_interface_property tod_out$i ENABLED true

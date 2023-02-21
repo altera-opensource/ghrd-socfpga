@@ -380,7 +380,8 @@ connect "subsys_etile_25gbe_1588_csrclk.out_clk         etile_hip_adapter_0.reco
          etile_hip_adapter_0.i_sl_clk_tx_tod            etile_hip.i_sl_clk_tx_tod
          etile_hip_adapter_0.i_sl_clk_rx                etile_hip.i_sl_clk_rx
          etile_hip_adapter_0.i_sl_clk_rx_tod            etile_hip.i_sl_clk_rx_tod
-         etile_hip_adapter_0.ptp_tod_ports_1p5ns        etile_hip.ptp_tod_ports_1p5ns
+         etile_hip_adapter_0.ptp_tod_ports_1p5ns_tx     etile_hip.ptp_tod_ports_1p5ns_tx
+         etile_hip_adapter_0.ptp_tod_ports_1p5ns_rx     etile_hip.ptp_tod_ports_1p5ns_rx
          etile_hip_adapter_0.sl_ptp_ports_1p5ns         etile_hip.sl_ptp_ports_1p5ns
 
          etile_hip_adapter_0.i_ptp_reconfig_address             etile_hip.i_ptp_reconfig_address

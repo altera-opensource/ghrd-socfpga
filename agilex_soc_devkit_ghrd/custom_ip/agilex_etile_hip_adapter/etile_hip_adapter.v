@@ -308,7 +308,7 @@ assign i_clk_ptp_sample                       = clk_ptp_sample;    // Advance mo
 // Etile CSR Reset
 // - sl_csr_rst_n -> user reset + ninit_done
 // - PLL lockeds
-always @(posedge o_clk_pll_div64[1] or negedge sl_csr_rst_n)
+always @(posedge reconfig_clock or negedge sl_csr_rst_n)
 begin
     if (sl_csr_rst_n == 1'b0) begin
         sl_csr_rst_n_sync                    <= 2'b0;
