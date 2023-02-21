@@ -55,7 +55,7 @@ add_fileset_file tod_mux.v VERILOG PATH tod_mux.v TOP_LEVEL_FILE
 #
 # tod_sync_data tod_mux
 #
-add_interface tx_tod_out conduit end
+add_interface tx_tod_out avalon_streaming source
 set_interface_property tx_tod_out associatedClock ""
 set_interface_property tx_tod_out associatedReset ""
 set_interface_property tx_tod_out ENABLED true
@@ -70,7 +70,7 @@ add_interface_port tx_tod_out tx_tod_out data Output 96
 #
 # tod_sync_data tod_mux
 #
-add_interface rx_tod_out conduit end
+add_interface rx_tod_out avalon_streaming source
 set_interface_property rx_tod_out associatedClock ""
 set_interface_property rx_tod_out associatedReset ""
 set_interface_property rx_tod_out ENABLED true
