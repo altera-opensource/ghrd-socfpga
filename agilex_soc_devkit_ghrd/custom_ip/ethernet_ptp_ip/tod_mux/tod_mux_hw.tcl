@@ -84,7 +84,7 @@ add_interface_port rx_tod_out rx_tod_out data Output 96
 #
 # tod_sync_25G_data tod_mux
 #
-add_interface tx_tod10g conduit end
+add_interface tx_tod10g avalon_streaming sink
 set_interface_property tx_tod10g associatedClock ""
 set_interface_property tx_tod10g associatedReset ""
 set_interface_property tx_tod10g ENABLED true
@@ -99,7 +99,7 @@ add_interface_port tx_tod10g tx_tod10g data Input 96
 #
 # tod_sync_10G_data tod_mux
 #
-add_interface tx_tod25g conduit end
+add_interface tx_tod25g avalon_streaming sink
 set_interface_property tx_tod25g associatedClock ""
 set_interface_property tx_tod25g associatedReset ""
 set_interface_property tx_tod25g ENABLED true
@@ -114,7 +114,7 @@ add_interface_port tx_tod25g tx_tod25g data Input 96
 #
 # tod_sync_10G_data tod_mux
 #
-add_interface rx_tod10g conduit end
+add_interface rx_tod10g avalon_streaming sink
 set_interface_property rx_tod10g associatedClock ""
 set_interface_property rx_tod10g associatedReset ""
 set_interface_property rx_tod10g ENABLED true
@@ -129,7 +129,7 @@ add_interface_port rx_tod10g rx_tod10g data Input 96
 #
 # tod_sync_10G_data tod_mux
 #
-add_interface rx_tod25g conduit end
+add_interface rx_tod25g avalon_streaming sink
 set_interface_property rx_tod25g associatedClock ""
 set_interface_property rx_tod25g associatedReset ""
 set_interface_property rx_tod25g ENABLED true

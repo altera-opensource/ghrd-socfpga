@@ -320,10 +320,10 @@ connect "subsys_etile_tod_csrclk.out_clk                          tod_25g_10g_en
          subsys_etile_tod_csrclk.out_clk                          address_span_25g10g.clock
          subsys_etile_tod_reset.out_reset                         address_span_25g10g.reset
          tod_mux_0.sel                                            tod_25g_10g_enable_pio_0.external_connection
-         tod_mux_0.tx_tod25g                                      etile_25gbe_tx_slave_tod.time_of_day_96b
-         tod_mux_0.rx_tod25g                                      etile_25gbe_rx_slave_tod.time_of_day_96b
-         tod_mux_0.tx_tod10g                                      etile_10gbe_tx_slave_tod.time_of_day_96b
-         tod_mux_0.rx_tod10g                                      etile_10gbe_rx_slave_tod.time_of_day_96b
+         etile_25gbe_tx_slave_tod.time_of_day_96b		  tod_mux_0.tx_tod25g
+         etile_25gbe_rx_slave_tod.time_of_day_96b     		  tod_mux_0.rx_tod25g
+         etile_10gbe_tx_slave_tod.time_of_day_96b     		  tod_mux_0.tx_tod10g
+         etile_10gbe_rx_slave_tod.time_of_day_96b     		  tod_mux_0.rx_tod10g
         "
 }
 
