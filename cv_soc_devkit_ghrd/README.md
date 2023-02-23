@@ -17,7 +17,7 @@ This reference design demonstrating the following system integration between Har
 This repository hosts build scripts for S10 GHRD.
 
 ## Dependency
-* Intel Quartus Prime 21.1std
+* Intel Quartus Prime 22.1std
 * Supported Board
   - Intel Cyclone V SoC Development Kit
 
