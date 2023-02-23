@@ -17,7 +17,7 @@ This reference design demonstrating the following system integration between Har
 This repository hosts build scripts for AGILEX GHRD.
 
 ## Dependency
-* Intel Quartus Prime 22.4
+* Intel Quartus Prime 23.1
 * Intel Custom IP will be download automatically from rocketboard.org by the Makefile. The download link will be updated to the Makefile for the latest version.
 * Supported Board
   - Intel Agilex F-Series Transceiver-SoC Development Kit
