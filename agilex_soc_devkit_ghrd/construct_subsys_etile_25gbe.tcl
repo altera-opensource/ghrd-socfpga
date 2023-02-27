@@ -203,7 +203,7 @@ add_component_param "altera_avalon_pio qsfpdd_ctrl_pio_0
                      captureEdge 1
                      direction Output
                      edgeType RISING
-                     resetValue 0x3
+                     resetValue 0x2
                      bitModifyingOutReg 0x07
                      width 3
                      "
