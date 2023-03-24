@@ -499,7 +499,7 @@ AR_REGEX += \
 	Makefile custom_ip $(INTEL_CUSTOM_IP_DIR) ip/*/*.ip *.txt ds5 software README.md license.txt \
 	altera_avalon* *.sdc *.v *.sv *.vhd *.qsys *.tcl *.terp *.stp *.mk board \
 	*.hex *.sed quartus.ini output_files/*.sof output_files/*.rbf output_files/*.pmsf output_files/*handoff* *.sopcinfo */*.sopcinfo *.jdi \
-	hps_isw_handoff handoff.bin */*.svd */synthesis/*.svd */synth/*.svd *.dts *.dtb *.xml \
+	hps_isw_handoff handoff.bin */*.svd */synthesis/*.svd */synth/*.svd *.dts *.dtb *.xml *.dawf \
 	patches
 
 AR_FILTER_OUT += %_tb.qsys
