@@ -45,6 +45,14 @@ set_global_assignment -name IP_SEARCH_PATHS "intel_custom_ip/**/*;custom_ip/**/*
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name SDC_FILE ghrd_timing.sdc
 
+if {$hps_etile_1588_25gbe_en == 1 && $hps_etile_1588_10gbe_en == 1} {
+set_global_assignment -name DESIGN_ASSISTANT_WAIVER_FILE etile_dr_da_drc.dawf
+} elseif {$hps_etile_1588_25gbe_en == 1} {
+set_global_assignment -name DESIGN_ASSISTANT_WAIVER_FILE etile_25gbe_da_drc.dawf
+} else {
+set_global_assignment -name DESIGN_ASSISTANT_WAIVER_FILE etile_10gbe_da_drc.dawf
+}
+
 # #HSDES 2207525670: User Reset Gate IP
 # set_global_assignment -name DISABLE_REGISTER_POWERUP_INITIALIZATION ON
 
