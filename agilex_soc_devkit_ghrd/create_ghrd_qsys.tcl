@@ -156,12 +156,14 @@ if {$niosv_subsys_en ==1} {
 add_instance niosv subsys_niosv
 }
 
-if {$acp_adapter_en == 1} {
+if {$cct_en == 1} {
 if {$f2h_width > 0} {
-add_component_param "agilex_axi_bridge_for_acp axi_bridge_for_acp_0
-                    IP_FILE_PATH ip/$qsys_name/axi_bridge_for_acp_0.ip
-                    CSR_EN $acp_adapter_csr_en
+add_component_param "intel_cache_coherency_translator intel_cache_coherency_translator_0
+                    IP_FILE_PATH ip/$qsys_name/intel_cache_coherency_translator_0.ip
+                    CONTROL_INTERFACE $cct_control_interface
                     ADDR_WIDTH $f2h_addr_width
+                    AXM_ID_WIDTH 5
+                    AXS_ID_WIDTH 5
                     ARDOMAIN_OVERRIDE 0
                     ARBAR_OVERRIDE 0
                     ARSNOOP_OVERRIDE 0
@@ -382,50 +384,50 @@ connect "emif_fpga.emif_calbus            emif_calbus_0.emif_calbus_0
          "
 }
 
-if {$acp_adapter_en == 1 } {
+if {$cct_en == 1 } {
     if {$hps_etile_1588_en == 1} {
-        connect "etile_25gbe_1588.dma_clkout        axi_bridge_for_acp_0.clock"
-        connect "etile_25gbe_1588.dma_clkout_reset  axi_bridge_for_acp_0.reset"
+        connect "etile_25gbe_1588.dma_clkout        intel_cache_coherency_translator_0.clock"
+        connect "etile_25gbe_1588.dma_clkout_reset  intel_cache_coherency_translator_0.reset"
     } elseif {$fpga_pcie == 1} {
-        connect "pcie_0.pcie_p0_app_clk             axi_bridge_for_acp_0.clock"
+        connect "pcie_0.pcie_p0_app_clk             intel_cache_coherency_translator_0.clock"
     } elseif {$f2h_clk_source == 1} {
-        connect "agilex_hps.h2f_user1_clock         axi_bridge_for_acp_0.clock"
+        connect "agilex_hps.h2f_user1_clock         intel_cache_coherency_translator_0.clock"
     } else {
-        connect "clk_100.out_clk                    axi_bridge_for_acp_0.clock"
+        connect "clk_100.out_clk                    intel_cache_coherency_translator_0.clock"
     }
 
-    connect "rst_in.out_reset        axi_bridge_for_acp_0.reset"
+    connect "rst_in.out_reset        intel_cache_coherency_translator_0.reset"
 
     if {$f2h_addr_width >32} {
         connect "clk_100.out_clk                    ext_hps_m_master.clock
                  rst_in.out_reset                   ext_hps_m_master.reset"
     }
 
-    if {$acp_adapter_csr_en == 1} {
-        connect "clk_100.out_clk                   axi_bridge_for_acp_0.csr_clock
-                 rst_in.out_reset                  axi_bridge_for_acp_0.csr_reset
+    if {$cct_control_interface == 2} {
+        connect "clk_100.out_clk                   intel_cache_coherency_translator_0.csr_clock
+                 rst_in.out_reset                  intel_cache_coherency_translator_0.csr_reset
                 "
     }
 
     if {$f2h_addr_width >32} {
         connect_map "jtg_mst.hps_m_master          ext_hps_m_master.windowed_slave   0x0"
-        connect_map "ext_hps_m_master.expanded_master   axi_bridge_for_acp_0.s0      0x0"
+        connect_map "ext_hps_m_master.expanded_master   intel_cache_coherency_translator_0.s0      0x0"
     } else {
-        connect_map "jtg_mst.hps_m_master          axi_bridge_for_acp_0.s0           0x0"
+        connect_map "jtg_mst.hps_m_master          intel_cache_coherency_translator_0.s0           0x0"
     }
 
     if {$fpga_pcie == 1} {
-        connect_map "pcie_0.ext_expanded_master    axi_bridge_for_acp_0.s0           0x0"
+        connect_map "pcie_0.ext_expanded_master    intel_cache_coherency_translator_0.s0           0x0"
     }
 
     if {$hps_etile_1588_en == 1} {
         for {set x 1} {$x<=$hps_etile_1588_count} {incr x} {
-            connect_map "etile_25gbe_1588.tx_dma_ch${x}_prefetcher_read_master      axi_bridge_for_acp_0.s0 0x0
-                         etile_25gbe_1588.tx_dma_ch${x}_prefetcher_write_master     axi_bridge_for_acp_0.s0 0x0
-                         etile_25gbe_1588.tx_dma_ch${x}_read_master                 axi_bridge_for_acp_0.s0 0x0
-                         etile_25gbe_1588.rx_dma_ch${x}_prefetcher_read_master      axi_bridge_for_acp_0.s0 0x0
-                         etile_25gbe_1588.rx_dma_ch${x}_prefetcher_write_master     axi_bridge_for_acp_0.s0 0x0
-                         etile_25gbe_1588.rx_dma_ch${x}_write_master                axi_bridge_for_acp_0.s0 0x0
+            connect_map "etile_25gbe_1588.tx_dma_ch${x}_prefetcher_read_master      intel_cache_coherency_translator_0.s0 0x0
+                         etile_25gbe_1588.tx_dma_ch${x}_prefetcher_write_master     intel_cache_coherency_translator_0.s0 0x0
+                         etile_25gbe_1588.tx_dma_ch${x}_read_master                 intel_cache_coherency_translator_0.s0 0x0
+                         etile_25gbe_1588.rx_dma_ch${x}_prefetcher_read_master      intel_cache_coherency_translator_0.s0 0x0
+                         etile_25gbe_1588.rx_dma_ch${x}_prefetcher_write_master     intel_cache_coherency_translator_0.s0 0x0
+                         etile_25gbe_1588.rx_dma_ch${x}_write_master                intel_cache_coherency_translator_0.s0 0x0
                      "
         }
     }

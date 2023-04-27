@@ -400,8 +400,8 @@ QSYS_TCL_CMDS += set f2h_width 0;
 endif
 
 ifeq ($(LOOPBACK_EN),1)
-QUARTUS_TCL_ARGS += f2h_width 128 h2f_width 128 h2f_f2h_loopback_acp_adapter_en 1 ocm_datawidth 128 h2f_f2h_loopback_en 1
-QSYS_TCL_CMDS += set f2h_width 128; set h2f_width 128; set h2f_f2h_loopback_acp_adapter_en 1; set ocm_datawidth 128; set h2f_f2h_loopback_en 1; 
+QUARTUS_TCL_ARGS += f2h_width 128 h2f_width 128 h2f_f2h_loopback_cct_en 1 ocm_datawidth 128 h2f_f2h_loopback_en 1
+QSYS_TCL_CMDS += set f2h_width 128; set h2f_width 128; set h2f_f2h_loopback_cct_en 1; set ocm_datawidth 128; set h2f_f2h_loopback_en 1;
 endif
 
 #
@@ -499,7 +499,7 @@ AR_REGEX += \
 	Makefile custom_ip $(INTEL_CUSTOM_IP_DIR) ip/*/*.ip *.txt ds5 software README.md license.txt \
 	altera_avalon* *.sdc *.v *.sv *.vhd *.qsys *.tcl *.terp *.stp *.mk board \
 	*.hex *.sed quartus.ini output_files/*.sof output_files/*.rbf output_files/*.pmsf output_files/*handoff* *.sopcinfo */*.sopcinfo *.jdi \
-	hps_isw_handoff handoff.bin */*.svd */synthesis/*.svd */synth/*.svd *.dts *.dtb *.xml *.dawf \
+	hps_isw_handoff handoff.bin */*.svd */synthesis/*.svd */synth/*.svd *.dts *.dtb *.xml \
 	patches
 
 AR_FILTER_OUT += %_tb.qsys

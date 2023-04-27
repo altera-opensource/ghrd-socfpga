@@ -279,7 +279,7 @@ if {$gpio_loopback_en == 1 || $fpga_pcie == 1} {
                         "
 }
 
-if {$acp_adapter_en == 1} {
+if {$cct_en == 1} {
    set_component_param "agilex_hps 
                         F2S_mode 1
                         F2S_Route_config 2
@@ -468,10 +468,10 @@ if {$h2f_width > 0} {
    } 
    
    if {$h2f_f2h_loopback_en == 1} {
-      if {$acp_adapter_en == 0} {
+      if {$cct_en == 0} {
          connect_map "agilex_hps.h2f_axi_master  agilex_hps.f2h_axi_slave 0x0"
       } else {
-         connect_map "agilex_hps.h2f_axi_master  axi_bridge_for_acp_0.s0  0x0"
+         connect_map "agilex_hps.h2f_axi_master  intel_cache_coherency_translator_0.s0  0x0"
       }
    } elseif {$h2f_width > 0 && $jtag_ocm_en == 1} {
       connect_map "agilex_hps.h2f_axi_master ocm.s1 0x0"
@@ -479,10 +479,10 @@ if {$h2f_width > 0} {
 }
 
 if {$lwh2f_width > 0} {
-   if {$acp_adapter_en == 1} {
-      if {$acp_adapter_csr_en == 1} {
-         connect_map "agilex_hps.h2f_lw_axi_master     axi_bridge_for_acp_0.csr   0x210"
-         connect_map "jtg_mst.fpga_m_master            axi_bridge_for_acp_0.csr   0x210"
+   if {$cct_en == 1} {
+      if {$cct_control_interface == 2} {
+         connect_map "agilex_hps.h2f_lw_axi_master     intel_cache_coherency_translator_0.csr   0x210"
+         connect_map "jtg_mst.fpga_m_master            intel_cache_coherency_translator_0.csr   0x210"
       }
    }
 
@@ -533,7 +533,7 @@ if {$lwh2f_width > 0} {
 }
 
 if {$jtag_ocm_en == 1} {
-   if { $acp_adapter_en == 0} {
+   if { $cct_en == 0} {
       connect_map "jtg_mst.hps_m_master agilex_hps.f2h_axi_slave 0x0"
 
       if {$secure_f2h_axi_slave == 1} {
@@ -695,14 +695,14 @@ if {$hps_pll_source_export == 1} {
 connect "clk_100.out_clk agilex_hps.f2h_free_clock"
 }
 
-if {$acp_adapter_en == 1} {
+if {$cct_en == 1} {
 # # temporary commented cause it lock the bridges.
 # connect "pcie_nreset_status_merge.out_reset agilex_hps.h2f_axi_reset
 #          pcie_nreset_status_merge.out_reset agilex_hps.h2f_lw_axi_reset"
 
    if {$f2h_width > 0} {
 #      connect  "pcie_nreset_status_merge.out_reset agilex_hps.f2h_axi_reset"
-      connect_map "axi_bridge_for_acp_0.m0   agilex_hps.f2h_axi_slave    0x0000"
+      connect_map "intel_cache_coherency_translator_0.m0   agilex_hps.f2h_axi_slave    0x0000"
    }
 }
 

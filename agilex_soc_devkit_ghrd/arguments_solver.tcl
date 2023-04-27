@@ -84,7 +84,7 @@
 # ocm_clk_source                    : 0 (System_100MHz), 1 (h2f_user1_clock)
 # secure_f2h_axi_slave              : 0 (non-secure), 1(secure)
 # h2f_f2h_loopback_en               : 1 or 0 
-# h2f_f2h_loopback_acp_adapter_en   : 1 or 0
+# h2f_f2h_loopback_cct_en           : 1 or 0
 # lwh2f_f2h_loopback_en             : 1 or 0
 # gpio_loopback_en                  : 1 or 0
 # hps_peri_irq_loopback_en          : 1 or 0
@@ -629,10 +629,10 @@ if { ![ info exists h2f_f2h_loopback_en ] } {
  puts "-- Accepted parameter \$h2f_f2h_loopback_en = $h2f_f2h_loopback_en"
 }
 
-if { ![ info exists h2f_f2h_loopback_acp_adapter_en ] } {
- set h2f_f2h_loopback_acp_adapter_en $H2F_F2H_LOOPBACK_ACP_ADAPTER_EN
+if { ![ info exists h2f_f2h_loopback_cct_en ] } {
+ set h2f_f2h_loopback_cct_en $H2F_F2H_LOOPBACK_CCT_EN
 } else {
- puts "-- Accepted parameter \$h2f_f2h_loopback_acp_adapter_en = $h2f_f2h_loopback_acp_adapter_en"
+ puts "-- Accepted parameter \$h2f_f2h_loopback_cct_en = $h2f_f2h_loopback_cct_en"
 }
 
 if { ![ info exists lwh2f_f2h_loopback_en ] } {
@@ -926,12 +926,12 @@ set h2f_user0_clk_en 1
 set fpga_peripheral_en 0
 }
 
-# for acp_adapter
-if {$hps_etile_1588_en == 1 || $fpga_pcie == 1 || ($h2f_f2h_loopback_acp_adapter_en == 1 && $h2f_f2h_loopback_en == 1)} {
-    set acp_adapter_en 1
-    set acp_adapter_csr_en 1
+# for cct_adapter
+if {$hps_etile_1588_en == 1 || $fpga_pcie == 1 || ($h2f_f2h_loopback_cct_en == 1 && $h2f_f2h_loopback_en == 1)} {
+    set cct_en 1
+    set cct_control_interface 2
 } else {
-    set acp_adapter_en 0
+    set cct_en 0
 }
 
 source ./agilex_hps_pinmux_solver.tcl
