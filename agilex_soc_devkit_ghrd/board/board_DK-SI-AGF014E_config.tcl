@@ -136,18 +136,9 @@ proc config_pwrmgt {} {
         set_global_assignment -name VID_OPERATION_MODE "PMBUS MASTER"
         set_global_assignment -name USE_PWRMGT_SCL SDM_IO0
         set_global_assignment -name USE_PWRMGT_SDA SDM_IO12
-        set_global_assignment -name PWRMGT_BUS_SPEED_MODE "400 KHZ"
-        set_global_assignment -name PWRMGT_PAGE_COMMAND_ENABLE ON
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE_TYPE OTHER
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE0_ADDRESS 42
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE1_ADDRESS 43
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE2_ADDRESS 44
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE3_ADDRESS 00
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE4_ADDRESS 00
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE5_ADDRESS 00
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE6_ADDRESS 00
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE7_ADDRESS 00
-        set_global_assignment -name PWRMGT_PAGE_COMMAND_ENABLE ON
+        set_global_assignment -name PWRMGT_BUS_SPEED_MODE "100 KHZ"
+        set_global_assignment -name PWRMGT_SLAVE_DEVICE_TYPE LTC3888
+        set_global_assignment -name PWRMGT_SLAVE_DEVICE0_ADDRESS 28
         set_global_assignment -name PWRMGT_VOLTAGE_OUTPUT_FORMAT "LINEAR FORMAT"
         set_global_assignment -name PWRMGT_LINEAR_FORMAT_N "-12"
         set_global_assignment -name PWRMGT_TRANSLATED_VOLTAGE_VALUE_UNIT VOLTS
