@@ -93,7 +93,7 @@ add_component_param "altera_clock_bridge clk_100
 add_component_param "altera_reset_bridge rst_in
                     IP_FILE_PATH ip/$qsys_name/rst_in.ip 
                     ACTIVE_LOW_RESET 1
-                    SYNCHRONOUS_EDGES both
+                    SYNCHRONOUS_EDGES none
                     NUM_RESET_OUTPUTS 1
                     USE_RESET_REQUEST 0
                     "
@@ -295,8 +295,9 @@ add_component_param "altera_emif_cal emif_calbus_0
 }
 
 # --------------- Connections and connection parameters ------------------#
-connect "   clk_100.out_clk rst_in.clk
-"
+#connect "   clk_100.out_clk rst_in.clk
+#"
+#Disable for HSD 14019499053 
 
 if {$jtag_ocm_en == 1} {
 ## Temporary disable src_prb_rst
