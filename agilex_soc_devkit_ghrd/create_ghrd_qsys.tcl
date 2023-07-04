@@ -167,12 +167,15 @@ add_component_param "intel_cache_coherency_translator intel_cache_coherency_tran
                     ARDOMAIN_OVERRIDE 0
                     ARBAR_OVERRIDE 0
                     ARSNOOP_OVERRIDE 0
+                    ARCACHE_OVERRIDE_EN 1
                     ARCACHE_OVERRIDE 2
                     AWDOMAIN_OVERRIDE 0
                     AWBAR_OVERRIDE 0
                     AWSNOOP_OVERRIDE 0
+                    AWCACHE_OVERRIDE_EN 1
                     AWCACHE_OVERRIDE 2
                     AxUSER_OVERRIDE 0xE0
+                    AxPROT_OVERRIDE_EN 1
                     AxPROT_OVERRIDE 1
                     DATA_WIDTH $f2h_width
                     "
