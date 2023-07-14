@@ -129,12 +129,13 @@ add_component_param "altera_avalon_sysid_qsys sysid
 
 add_instance jtg_mst subsys_jtg_mst
 
-add_component_param "altera_avalon_onchip_memory2 ocm
+add_component_param "intel_onchip_memory ocm
                     IP_FILE_PATH ip/$qsys_name/ocm.ip 
                     dataWidth $ocm_datawidth
                     memorySize $ocm_memsize
-                    slave1Latency 2
                     singleClockOperation 1
+                    interfaceType 1
+                    idWidth 5
                     "
 
 # if {$ocm_memsize <= 262144} {
@@ -321,7 +322,7 @@ connect "   clk_100.out_clk   fpga_m2ocm_pb.clk
             rst_in.out_reset  fpga_m2ocm_pb.reset
 "
 
-connect_map "   fpga_m2ocm_pb.m0        ocm.s1 0x0" 
+connect_map "   fpga_m2ocm_pb.m0        ocm.axi_s1 0x0"
 
 #connect_map "  jtg_mst.fpga_m_master   fpga_m2ocm_pb.s0 0x80000"
 connect_map "   jtg_mst.fpga_m_master   fpga_m2ocm_pb.s0 0x80000000"
@@ -452,7 +453,7 @@ for {set x 0} {$x < 4} {incr x} {
 # connect "pcie_0.p${x}_app_reset_status_n         pcie_nreset_status_merge.in_reset
 #          "
 }
-connect_map "pcie_0.pb_2_ocm_m0 ocm.s1 0x0"
+connect_map "pcie_0.pb_2_ocm_m0 ocm.axi_s1 0x0"
 
 }
 

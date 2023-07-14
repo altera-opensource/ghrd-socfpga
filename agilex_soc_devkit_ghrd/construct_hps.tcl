@@ -474,7 +474,7 @@ if {$h2f_width > 0} {
          connect_map "agilex_hps.h2f_axi_master  intel_cache_coherency_translator_0.s0  0x0"
       }
    } elseif {$h2f_width > 0 && $jtag_ocm_en == 1} {
-      connect_map "agilex_hps.h2f_axi_master ocm.s1 0x0"
+      connect_map "agilex_hps.h2f_axi_master ocm.axi_s1 0x0"
    }
 }
 
