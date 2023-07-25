@@ -46,7 +46,7 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 JTAG_Enable 0
 					 CTI_Enable 0
 					 DMA_PeriphID 0
-					 DMA_Enable 0
+					 DMA_Enable No
                      HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      H2F_Width $h2f_width
 					 H2F_Address_Width $h2f_addr_width
@@ -309,7 +309,7 @@ if {$hps_i2c_emac2_q1_en == 1 || $hps_i2c_emac2_q3_en == 1 || $hps_i2c_emac2_q4_
 
 if {$cct_en == 1} {
    set_component_param "agilex_hps 
-                        F2S_mode 1
+                        F2S_mode acelite
                         "
 } #F2S_Route_config 2
 

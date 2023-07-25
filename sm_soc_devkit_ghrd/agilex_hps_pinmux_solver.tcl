@@ -451,10 +451,10 @@ if {$hps_gpio0_en == 1} {
   foreach io_num $hps_gpio0_list {
     if {$io_num < 12} {
       # set io48_q1_assignment [lreplace $io48_q1_assignment $io_num $io_num GPIO0:IO${io_num}]
-      set io48_q1_assignment [lreplace $io48_q1_assignment $io_num $io_num GPIO]
+      set io48_q1_assignment [lreplace $io48_q1_assignment $io_num $io_num GPIO0]
     } else {
       # set io48_q2_assignment [lreplace $io48_q2_assignment [expr $io_num-12] [expr $io_num-12] GPIO0:IO${io_num}]
-      set io48_q2_assignment [lreplace $io48_q2_assignment [expr $io_num-12] [expr $io_num-12] GPIO]
+      set io48_q2_assignment [lreplace $io48_q2_assignment [expr $io_num-12] [expr $io_num-12] GPIO0]
     }
   }
 }
@@ -463,10 +463,10 @@ if {$hps_gpio1_en == 1} {
   foreach io_num $hps_gpio1_list {
     if {$io_num < 12} {
       # set io48_q3_assignment [lreplace $io48_q3_assignment $io_num $io_num GPIO1:IO${io_num}]
-      set io48_q3_assignment [lreplace $io48_q3_assignment $io_num $io_num GPIO]
+      set io48_q3_assignment [lreplace $io48_q3_assignment $io_num $io_num GPIO1]
     } else {
       # set io48_q4_assignment [lreplace $io48_q4_assignment [expr $io_num-12] [expr $io_num-12] GPIO1:IO${io_num}]
-      set io48_q4_assignment [lreplace $io48_q4_assignment [expr $io_num-12] [expr $io_num-12] GPIO]
+      set io48_q4_assignment [lreplace $io48_q4_assignment [expr $io_num-12] [expr $io_num-12] GPIO1]
     }
   }
 }

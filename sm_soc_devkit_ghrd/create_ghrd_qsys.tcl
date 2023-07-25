@@ -63,12 +63,13 @@ add_component_param "altera_s10_user_rst_clkgate user_rst_clkgate_0
                     IP_FILE_PATH ip/$qsys_name/user_rst_clkgate_0.ip 
                     "
 					
-add_component_param "altera_avalon_onchip_memory2 ocm
+add_component_param "intel_onchip_memory ocm
                     IP_FILE_PATH ip/$qsys_name/ocm.ip 
                     dataWidth $ocm_datawidth
                     memorySize $ocm_memsize
-                    slave1Latency 2
                     singleClockOperation 1
+		    interfaceType 1
+		    idWidth 6
                     "
 					
 if {$clk_gate_en == 1} {
@@ -94,25 +95,27 @@ add_instance hps_subsys subsys_hps
 }
 
 #enable cct only the f2h bridge is enabled
-if {$cct_en == 1} {
-add_component_param "intel_cache_coherency_translator intel_cache_coherency_translator_0
-                    IP_FILE_PATH ip/$qsys_name/intel_cache_coherency_translator_0.ip
-                    CONTROL_INTERFACE $cct_control_interface
-                    ADDR_WIDTH $f2s_address_width
-                    AXM_ID_WIDTH 5
-                    AXS_ID_WIDTH 5
-                    ARDOMAIN_OVERRIDE 0
-                    ARBAR_OVERRIDE 0
-                    ARSNOOP_OVERRIDE 0
-                    ARCACHE_OVERRIDE 2
-                    AWDOMAIN_OVERRIDE 0
-                    AWBAR_OVERRIDE 0
-                    AWSNOOP_OVERRIDE 0
-                    AWCACHE_OVERRIDE 2
-                    AxUSER_OVERRIDE 0xE0
-                    AxPROT_OVERRIDE 1
-                    DATA_WIDTH $f2s_data_width
-                    "
+if {$f2s_address_width > 32} {
+	if {$cct_en == 1} {
+	add_component_param "intel_cache_coherency_translator intel_cache_coherency_translator_0
+						IP_FILE_PATH ip/$qsys_name/intel_cache_coherency_translator_0.ip
+						CONTROL_INTERFACE $cct_control_interface
+						ADDR_WIDTH $f2s_address_width
+						AXM_ID_WIDTH 5
+						AXS_ID_WIDTH 5
+						ARDOMAIN_OVERRIDE 0
+						ARBAR_OVERRIDE 0
+						ARSNOOP_OVERRIDE 0
+						ARCACHE_OVERRIDE 2
+						AWDOMAIN_OVERRIDE 0
+						AWBAR_OVERRIDE 0
+						AWSNOOP_OVERRIDE 0
+						AWCACHE_OVERRIDE 2
+						AxUSER_OVERRIDE 0xE0
+						AxPROT_OVERRIDE 1
+						DATA_WIDTH $f2s_data_width
+						"
+	}
 }
 
 if {$f2s_address_width > 32} {
@@ -166,7 +169,7 @@ if {$jtag_ocm_en == 1} {
 	connect "   clk_100.out_clk   ocm.clk1
 			   rst_in.out_reset  ocm.reset1 
 		   "
-	connect_map " jtg_mst.fpga_m_master ocm.s1 0x40000	"
+	connect_map " jtg_mst.fpga_m_master ocm.axi_s1 0x40000	"
    }
 }
 
@@ -203,7 +206,7 @@ if {$fpga_peripheral_en == 1} {
 
 if {$h2f_width > 0} {
    if {$h2f_width > 0 && $jtag_ocm_en == 1} {
-      connect_map "hps_subsys.hps2fpga ocm.s1 0x0000"
+      connect_map "hps_subsys.hps2fpga ocm.axi_s1 0x0000"
    }
 }
 
