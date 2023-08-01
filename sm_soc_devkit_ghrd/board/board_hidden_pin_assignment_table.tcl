@@ -21,41 +21,41 @@ source ./arguments_solver.tcl
 ## -----------------------------
 
 ## Clock and Reset
-set fpga_clk_100_pin_list "U52"
-set fpga_clk_100_iostandard "1.2 V"
+set fpga_clk_100_pin_list "BH118"
+set fpga_clk_100_iostandard "3.3 V"
 
-set fpga_reset_n_pin_list "G52"
-set fpga_reset_n_iostandard "1.2 V"
+set fpga_reset_n_pin_list "BR112"
+set fpga_reset_n_iostandard "3.3 V"
 
 ## Peripheral IOs
 set fpga_led_pio_pin_list {
-D43
-B43
-C42
-A42
+BM59
+BH59
+BH62
+BP62
 }
 
-set fpga_led_pio_iostandard "1.2 V"
+set fpga_led_pio_iostandard "1.1 V"
 set fpga_led_pio_slewrate "0"
 
 set fpga_dipsw_pio_pin_list {
-H45
-F45
-J44
-G44
+CH12
+BU22
+BW19
+BH28
 }
 
-set fpga_dipsw_pio_iostandard "1.2 V"
+set fpga_dipsw_pio_iostandard "3.3 V"
 set fpga_dipsw_pio_weakpullup "ON"
 
 set fpga_button_pio_pin_list {
-H41
-F41
-J40
-G40
+BK31
+BP22
+BK28
+BR22
 }
 
-set fpga_button_pio_iostandard "1.2 V"
+set fpga_button_pio_iostandard "3.3 V"
 
 ## PCIE Related IOs
 set pcie_tx_p_out_pin_list {

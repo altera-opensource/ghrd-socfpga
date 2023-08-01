@@ -407,51 +407,23 @@ if {$hps_trace_8b_en == 1} {
 # --------------- Connections and connection parameters ------------------#
 
 if {$f2sdram_data_width > 0} {
-   if {$f2h_clk_source == 1} {
-      if {$user0_clk_src_select == 0} {
-         error "Error: user0_clk_src_select is not enabled. F2H CLK source error. "
-      }
-      connect "agilex_hps.user0_clk_src_select agilex_hps.f2sdram_axi_clock"
-   } else {
-      connect "hps_clk.out_clk agilex_hps.f2sdram_axi_clock"
-   }
-   connect "hps_rst_in.out_reset agilex_hps.f2sdram_axi_reset"
+    connect "hps_clk.out_clk agilex_hps.f2sdram_axi_clock"
+    connect "hps_rst_in.out_reset agilex_hps.f2sdram_axi_reset"
 }
 
 if {$f2s_data_width > 0} {
-   if {$f2h_clk_source == 1} {
-      if {$user0_clk_src_select == 0} {
-         error "Error: user0_clk_src_select is not enabled. F2H CLK source error. "
-      }
-      connect "agilex_hps.user0_clk_src_select agilex_hps.fpga2hps_clock"
-   } else {
-      connect "hps_clk.out_clk agilex_hps.fpga2hps_clock"
-   }
-   connect "hps_rst_in.out_reset agilex_hps.fpga2hps_reset"
+    connect "hps_clk.out_clk agilex_hps.fpga2hps_clock"
+    connect "hps_rst_in.out_reset agilex_hps.fpga2hps_reset"
 }
 
 if {$h2f_width > 0} {
-   if {$h2f_clk_source ==1} {
-      if {$user0_clk_src_select == 0} {
-         error "Error: user0_clk_src_select is not enabled. H2F CLK source error. "
-      }
-      connect "agilex_hps.user0_clk_src_select agilex_hps.hps2fpga_axi_clock"
-    } else {
-      connect "hps_clk.out_clk agilex_hps.hps2fpga_axi_clock"
-    }
-   connect "hps_rst_in.out_reset agilex_hps.hps2fpga_axi_reset"
+    connect "hps_clk.out_clk agilex_hps.hps2fpga_axi_clock"
+    connect "hps_rst_in.out_reset agilex_hps.hps2fpga_axi_reset"
 }
 
 if {$lwh2f_width > 0} {
-   if {$lwh2f_clk_source ==1} {
-      if {$user0_clk_src_select == 0} {
-         error "Error: user0_clk_src_select is not enabled. LWH2F CLK source error. "
-      }
-      connect "agilex_hps.user0_clk_src_select agilex_hps.lwhps2fpga_axi_clock"
-   } else {
-      connect "hps_clk.out_clk agilex_hps.lwhps2fpga_axi_clock"
-   }
-   connect "hps_rst_in.out_reset agilex_hps.lwhps2fpga_axi_reset"
+    connect "hps_clk.out_clk agilex_hps.lwhps2fpga_axi_clock"
+    connect "hps_rst_in.out_reset agilex_hps.lwhps2fpga_axi_reset"
 }
 
 #if {$jtag_ocm_en == 1} {

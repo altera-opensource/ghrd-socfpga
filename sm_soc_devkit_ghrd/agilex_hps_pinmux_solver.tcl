@@ -436,13 +436,13 @@ set io48_q4_assignment [lreplace $io48_q4_assignment 7 11 TRACE:CLK TRACE:D0 TRA
 }
 
 if {$hps_cm_q == 1} {
-set io48_q1_assignment [lreplace $io48_q1_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HPS_OSC_CLK]
+set io48_q1_assignment [lreplace $io48_q1_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK]
 } elseif {$hps_cm_q == 2} {
-set io48_q2_assignment [lreplace $io48_q2_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HPS_OSC_CLK]
+set io48_q2_assignment [lreplace $io48_q2_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK]
 } elseif {$hps_cm_q == 3} {
-set io48_q3_assignment [lreplace $io48_q3_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HPS_OSC_CLK]
+set io48_q3_assignment [lreplace $io48_q3_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK]
 } elseif {$hps_cm_q == 4} {
-set io48_q4_assignment [lreplace $io48_q4_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HPS_OSC_CLK]
+set io48_q4_assignment [lreplace $io48_q4_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK]
 } elseif {$hps_cm_alt_en == 1} {
 set io48_q3_assignment [lreplace $io48_q3_assignment 0 3 CM:PLL_CLK0 CM:PLL_CLK1 CM:PLL_CLK2 CM:PLL_CLK3]
 }
