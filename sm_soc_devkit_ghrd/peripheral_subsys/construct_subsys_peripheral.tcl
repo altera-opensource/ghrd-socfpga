@@ -14,7 +14,7 @@
 source ./arguments_solver.tcl
 source ./utils.tcl
 set sub_qsys_periph subsys_periph
-  
+
 package require -exact qsys 19.1
 
 set SYSID "0xACD5CAFE"

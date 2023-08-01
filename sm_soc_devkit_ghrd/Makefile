@@ -281,7 +281,7 @@ SOFTWARE_DIR := software
 #custom_ip $(INTEL_CUSTOM_IP_DIR) ip/*/*.ip
 AR_REGEX += \
 	Makefile *.txt ds5 software README.md license.txt \
-	altera_avalon* *.sdc *.v *.sv *.vhd *.qsys *.tcl *.terp *.stp *.mk board \
+	altera_avalon* *.sdc *.v *.sv *.vhd *.qsys *.tcl *.terp *.stp *.mk board hps_subsys jtag_subsys peripheral_subsys\
 	*.hex *.sed quartus.ini output_files/*.sof output_files/*.rbf output_files/*.pmsf output_files/*handoff* *.sopcinfo */*.sopcinfo *.jdi \
 	hps_isw_handoff handoff.bin */*.svd */synthesis/*.svd */synth/*.svd *.dts *.dtb *.xml \
 	patches
