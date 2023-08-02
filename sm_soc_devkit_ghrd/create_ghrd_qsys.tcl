@@ -152,8 +152,12 @@ if {$cct_en == 1} {
         connect_map "jtg_mst.hps_m_master               intel_cache_coherency_translator_0.s0      0x0"
     }
 	
-	connect_map " hps_subsys.lwhps2fpga           intel_cache_coherency_translator_0.csr "
-	connect_map " jtg_mst.fpga_m_master           intel_cache_coherency_translator_0.csr 0x10200 "
+	connect_map " intel_cache_coherency_translator_0.m0              hps_subsys.fpga2hps 0x0000 "
+	connect_map " hps_subsys.lwhps2fpga                              intel_cache_coherency_translator_0.csr "
+	connect_map " jtg_mst.fpga_m_master                              intel_cache_coherency_translator_0.csr 0x10200 "
+} else {
+
+	connect_map "jtg_mst.hps_m_master hps_subsys.fpga2hps 0x0000"
 }
 
 # --------------- Connections and connection parameters ------------------#

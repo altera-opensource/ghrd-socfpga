@@ -605,7 +605,7 @@ export agilex_hps h2f_watchdog_reset wd_reset
 
 export agilex_hps hps2fpga hps2fpga
 export agilex_hps lwhps2fpga lwhps2fpga
-#export agilex_hps fpga2hps fpga2hps
+export agilex_hps fpga2hps fpga2hps
 export agilex_hps f2sdram f2sdram
 
 #if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
