@@ -97,7 +97,7 @@ if {$hps_peri_irq_loopback_en == 1} {
 	if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
 		set h2f_nand_irq_en 1	
 	}
-	if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc1b_q2_en == 1 || $hps_sdmmc4b_q3_en == 1 || $hps_sdmmc1b_q4_en == 1} {
+	if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc1b_q2_en == 1 || $hps_sdmmc4b_q3_en == 1 || $hps_sdmmc_pupd_q4_en == 1} {
 		set h2f_sdmmc_irq_en 1	
 	}
 	if {$hps_spim0_q1_en == 1 || $hps_spim0_q4_en == 1} {

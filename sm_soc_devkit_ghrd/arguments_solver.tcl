@@ -413,7 +413,7 @@ set fpga_peripheral_en 0
 }
 
 # for cct_adapter
-if {$f2s_data_width > 0 || $f2sdram_data_width > 0} {
+if {$f2s_address_width > 32 && $f2sdram_data_width > 0} {
     set cct_en 1
     set cct_control_interface 2
 } else {

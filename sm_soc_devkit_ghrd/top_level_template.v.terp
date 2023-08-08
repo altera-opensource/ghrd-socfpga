@@ -35,7 +35,7 @@ input    wire          hps_jtag_tms,
 output   wire          hps_jtag_tdo,
 input    wire          hps_jtag_tdi,
 @@}
-@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc1b_q4_en == 1 || $hps_sdmmc4b_q4_alt_en == 1} {
+@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pupd_q4_en == 1 || $hps_sdmmc_pwr_q4_en == 1} {
 output   wire          hps_sdmmc_CCLK, 
 inout    wire          hps_sdmmc_CMD,          
 inout    wire          hps_sdmmc_D0,          
@@ -43,7 +43,7 @@ inout    wire          hps_sdmmc_D1,
 inout    wire          hps_sdmmc_D2,        
 inout    wire          hps_sdmmc_D3,        
 @@}
-@@if {$hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc4b_q4_alt_en == 1} {
+@@if {$hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pwr_q4_en == 1} {
 inout    wire          hps_sdmmc_D4,          
 inout    wire          hps_sdmmc_D5,          
 inout    wire          hps_sdmmc_D6,        
@@ -476,7 +476,7 @@ ${qsys_name} soc_inst (
 .hps_io_EMAC2_MDIO                         (hps_emac2_MDIO),  
 .hps_io_EMAC2_MDC                          (hps_emac2_MDC),  
 @@}
-@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc1b_q4_en == 1 || $hps_sdmmc4b_q4_alt_en == 1} {
+@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pupd_q4_en == 1 || $hps_sdmmc_pwr_q4_en == 1} {
 .hps_io_SDMMC_CCLK                         (hps_sdmmc_CCLK),   
 .hps_io_SDMMC_CMD                          (hps_sdmmc_CMD), 
 .hps_io_SDMMC_D0                           (hps_sdmmc_D0),          
@@ -484,7 +484,7 @@ ${qsys_name} soc_inst (
 .hps_io_SDMMC_D2                           (hps_sdmmc_D2),         
 .hps_io_SDMMC_D3                           (hps_sdmmc_D3),        
 @@}
-@@if {$hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc4b_q4_alt_en == 1} {
+@@if {$hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pwr_q4_en == 1} {
 .hps_io_SDMMC_D4                           (hps_sdmmc_D4),          
 .hps_io_SDMMC_D5                           (hps_sdmmc_D5),          
 .hps_io_SDMMC_D6                           (hps_sdmmc_D6),         

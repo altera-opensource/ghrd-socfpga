@@ -51,9 +51,9 @@ set param(board_rev)                    $board_rev
 set param(cross_trigger_en)             $cross_trigger_en
 set param(hps_stm_en)                   $hps_stm_en
 set param(hps_sdmmc4b_q1_en)            $hps_sdmmc4b_q1_en
-set param(hps_sdmmc8b_q1_en)            $hps_sdmmc8b_q1_en
-set param(hps_sdmmc4b_q4_en)            $hps_sdmmc4b_q4_en
-set param(hps_sdmmc8b_q4_en)            $hps_sdmmc8b_q4_en
+set param(hps_sdmmc8b_q1_alt_en)        $hps_sdmmc8b_q1_alt_en
+set param(hps_sdmmc_pupd_q4_en)         $hps_sdmmc_pupd_q4_en
+set param(hps_sdmmc_pwr_q4_en)          $hps_sdmmc_pwr_q4_en
 set param(hps_usb0_en)                  $hps_usb0_en
 set param(hps_usb1_en)                  $hps_usb1_en
 set param(hps_emac0_rmii_en)            $hps_emac0_rmii_en

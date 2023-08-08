@@ -82,19 +82,6 @@ add_component_param "stratix10_clkctrl clkctrl_0
                     "
 }
 
-if {$jtag_ocm_en == 1} {
-add_instance jtg_mst subsys_jtg_mst
-}
-
-if {$fpga_peripheral_en == 1} {
-add_instance periph_subsys subsys_periph
-}
-
-if {$hps_en == 1} {
-add_instance hps_subsys subsys_hps
-}
-
-#enable cct only the f2h bridge is enabled
 if {$f2s_address_width > 32} {
 	if {$cct_en == 1} {
 	add_component_param "intel_cache_coherency_translator intel_cache_coherency_translator_0
@@ -118,26 +105,38 @@ if {$f2s_address_width > 32} {
 	}
 }
 
-if {$f2s_address_width > 32} {
 add_component_param "altera_address_span_extender ext_hps_m_master
                     IP_FILE_PATH ip/$qsys_name/ext_hps_m_master.ip
                     BURSTCOUNT_WIDTH 1
-                    MASTER_ADDRESS_WIDTH $f2s_address_width
+                    MASTER_ADDRESS_WIDTH 33
                     SLAVE_ADDRESS_WIDTH 30
                     ENABLE_SLAVE_PORT 0
                     MAX_PENDING_READS 1
                     "
+
+if {$jtag_ocm_en == 1} {
+add_instance jtg_mst subsys_jtg_mst
 }
 
+if {$fpga_peripheral_en == 1} {
+add_instance periph_subsys subsys_periph
+}
+
+if {$hps_en == 1} {
+add_instance hps_subsys subsys_hps
+}
+
+connect "   clk_100.out_clk                    ext_hps_m_master.clock
+            rst_in.out_reset                   ext_hps_m_master.reset"
+
+connect_map "   jtg_mst.hps_m_master              ext_hps_m_master.windowed_slave 0x0 "
+connect_map "   ext_hps_m_master.expanded_master  hps_subsys.fpga2hps 0x1_0000_0000 "
+connect_map "   ext_hps_m_master.expanded_master  hps_subsys.f2sdram 0x0000 "
+	
 if {$cct_en == 1} {	
 	connect "	clk_100.out_clk        intel_cache_coherency_translator_0.clock
 			    rst_in.out_reset       intel_cache_coherency_translator_0.reset
 		"
-		 		
-	if {$f2s_address_width > 32} {
-    connect "   clk_100.out_clk                    ext_hps_m_master.clock
-                rst_in.out_reset                   ext_hps_m_master.reset"
-    }
 
     if {$cct_control_interface == 2} {
         connect "clk_100.out_clk                   intel_cache_coherency_translator_0.csr_clock
@@ -155,9 +154,6 @@ if {$cct_en == 1} {
 	connect_map " intel_cache_coherency_translator_0.m0              hps_subsys.fpga2hps 0x0000 "
 	connect_map " hps_subsys.lwhps2fpga                              intel_cache_coherency_translator_0.csr "
 	connect_map " jtg_mst.fpga_m_master                              intel_cache_coherency_translator_0.csr 0x10200 "
-} else {
-
-	connect_map "jtg_mst.hps_m_master hps_subsys.fpga2hps 0x0000"
 }
 
 # --------------- Connections and connection parameters ------------------#
@@ -183,9 +179,9 @@ connect "   clk_100.out_clk   jtg_mst.clk
 "
 }
 
-if {$fpga_peripheral_en == 1} {
-	connect_map "   jtg_mst.fpga_m_master   periph_subsys.control_slave 0x10000"
-}
+#if {$fpga_peripheral_en == 1} {
+#	connect_map "   jtg_mst.fpga_m_master   periph_subsys.control_slave 0x10000"
+#}
 
 if {$fpga_peripheral_en == 1} {
 connect "clk_100.out_clk   periph_subsys.clk
@@ -215,9 +211,9 @@ if {$h2f_width > 0} {
 }
 
 if {$lwh2f_width > 0} {
-   if {$jtag_ocm_en == 1} {
-      connect_map "hps_subsys.lwhps2fpga periph_subsys.control_slave 0x1_0000"
-   }
+   #if {$jtag_ocm_en == 1} {
+   #   connect_map "hps_subsys.lwhps2fpga periph_subsys.control_slave 0x1_0000"
+   #}
    
    if {$fpga_peripheral_en == 1} {
      connect_map "hps_subsys.lwhps2fpga periph_subsys.pb_cpu_0_s0 0x20000"

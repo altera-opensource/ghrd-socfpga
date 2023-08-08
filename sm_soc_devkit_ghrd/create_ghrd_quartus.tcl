@@ -231,13 +231,13 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_jtag_tck
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_jtag_tms
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_jtag_tdi
 }
-if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc1b_q4_en == 1 || $hps_sdmmc4b_q4_alt_en == 1} {
+if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pupd_q4_en == 1 || $hps_sdmmc_pwr_q4_en == 1} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_sdmmc_CMD
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_sdmmc_CCLK
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_sdmmc_CMD
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_sdmmc_CCLK 
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_sdmmc_CMD
-if {$hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc4b_q4_alt_en == 1} {
+if {$hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pwr_q4_en == 1} {
 set sdmmc_bits 8
 } else {
 set sdmmc_bits 4

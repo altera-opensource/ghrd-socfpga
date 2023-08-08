@@ -114,6 +114,8 @@ if {$fpga_button_pio_width >0} {
 connect_map "   pb_cpu_0.m0 button_pio.s1 0x10060"
 }
 
+connect_map "   pb_cpu_0.m0 sysid.control_slave 0x1_0000 "
+
 connect "   periph_clk.out_clk pb_cpu_0.clk
             periph_clk.out_clk periph_rst_in.clk
             periph_clk.out_clk ILC.clk
@@ -139,7 +141,7 @@ connect "   periph_rst_in.out_reset pb_cpu_0.reset
 
 export periph_rst_in in_reset reset
 export periph_clk in_clk clk
-export sysid control_slave control_slave
+#export sysid control_slave control_slave
 
 if {$fpga_button_pio_width >0} {
 export button_pio external_connection button_pio_external_connection

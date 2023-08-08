@@ -11,7 +11,7 @@
 
 if {$daughter_card == "devkit_dc_oobe"} {
 set hps_cm_q 1
-set hps_cm_io 0
+set hps_cm_io 1
 set hps_gpio0_en 1
 set hps_gpio0_list "1 10 11"
 set hps_uart0_q1_en 1
@@ -54,7 +54,7 @@ set hps_gpio1_en 1
 set hps_gpio1_list "3 4"
 set hps_sdmmc8b_q3_alt_en 1
 set hps_jtag_en 1
-set hps_sdmmc1b_q4_en 1
+set hps_sdmmc_pupd_q4_en 1
 set hps_cm_q 4
 set hps_cm_io 2
 set hps_trace_q34_en 1

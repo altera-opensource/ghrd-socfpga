@@ -15,16 +15,17 @@ set hps_sdmmc4b_q1_sel_en 0
 set hps_sdmmc4b_q1_alt_en 0
 set hps_sdmmc8b_q1_alt_en 0
 set hps_sdmmc12b_q1_alt_en 0
-set hps_sdmmc1b_q2_en 0
 set hps_sdmmc2b_q2_alt_en 0
 set hps_sdmmc4b_q2_alt_en 0
 set hps_sdmmc4b_q3_en 0
 set hps_sdmmc4b_q3_alt_en 0
-set hps_sdmmc8b_q3_alt_en 0
 set hps_sdmmc12b_q3_alt_en 0
-set hps_sdmmc1b_q4_en 0
-set hps_sdmmc2b_q4_alt_en 0
-set hps_sdmmc4b_q4_alt_en 0
+set hps_sdmmc_pupd_q2_en 0
+set hps_sdmmc_pwr_q2_en 0
+set hps_sdmmc_data_strobe_q2_en 0
+set hps_sdmmc_pupd_q4_en 0
+set hps_sdmmc_pwr_q4_en 0
+set hps_sdmmc_data_strobe_q4_en 0
 
 set hps_usb0_en 0
 set hps_usb1_en 0
@@ -141,38 +142,56 @@ if {$hps_jtag_en == 1} {
 set io48_q3_assignment [lreplace $io48_q3_assignment 8 11 JTAG:TCK JTAG:TMS JTAG:TDO JTAG:TDI]
 }
 
+#SDMMC Q1
 if {$hps_sdmmc4b_q1_en == 1} {
-#puts "[llength $io48_q1_assignment]"
-set io48_q1_assignment [lreplace $io48_q1_assignment 0 2 SDMMC:DATA0 SDMMC:DATA1 SDMMC:CLK]
-	if {$hps_sdmmc4b_q1_sel_en == 1} {
+	#puts "[llength $io48_q1_assignment]"
+	set io48_q1_assignment [lreplace $io48_q1_assignment 0 2 SDMMC:DATA0 SDMMC:DATA1 SDMMC:CLK]
+}
+if {$hps_sdmmc4b_q1_sel_en == 1} {
 		set io48_q1_assignment [lreplace $io48_q1_assignment 3 3 SDMMC:LVL_SEL]
-	} elseif {$hps_sdmmc4b_q1_alt_en == 1} {
+}
+if {$hps_sdmmc4b_q1_alt_en == 1} {
 	set io48_q1_assignment [lreplace $io48_q1_assignment 4 4 SDMMC:WRITE_PROTECT]
-	} elseif {$hps_sdmmc8b_q1_alt_en == 1} {
-		set io48_q1_assignment [lreplace $io48_q1_assignment 5 7 SDMMC:DATA2 SDMMC:DATA3 SDMMC:CMD]
-	} elseif {$hps_sdmmc12b_q1_alt_en == 1} {
-		set io48_q1_assignment [lreplace $io48_q1_assignment 8 11 SDMMC:DATA4 SDMMC:DATA5 SDMMC:DATA6 SDMMC:DATA7]
-	}
-} elseif {$hps_sdmmc1b_q2_en == 1} {
+}
+if {$hps_sdmmc8b_q1_alt_en == 1} {
+	set io48_q1_assignment [lreplace $io48_q1_assignment 5 7 SDMMC:DATA2 SDMMC:DATA3 SDMMC:CMD]
+}
+if {$hps_sdmmc12b_q1_alt_en == 1} {
+	set io48_q1_assignment [lreplace $io48_q1_assignment 8 11 SDMMC:DATA4 SDMMC:DATA5 SDMMC:DATA6 SDMMC:DATA7]
+}
+
+#SDMMC Q2
+if {$hps_sdmmc_pupd_q2_en == 1} {
 	set io48_q2_assignment [lreplace $io48_q2_assignment 0 0 SDMMC:PU_PD_DATA2]
-	} elseif {$hps_sdmmc2b_q2_alt_en == 1} {
-		set io48_q2_assignment [lreplace $io48_q2_assignment 1 1 SDMMC:BUS_PWR   
-	} elseif {$hps_sdmmc4b_q2_alt_en == 1} {
-		set io48_q2_assignment [lreplace $io48_q2_assignment 3 3 SDMMC:DATA_STROBE
-} elseif {$hps_sdmmc4b_q3_en == 1} {
-	set io48_q3_assignment [lreplace $io48_q3_assignment 0 2 SDMMC:DATA0 SDMMC:DATA1 SDMMC:CLK]
-	} elseif {$hps_sdmmc4b_q3_alt_en == 1} {
+}
+if {$hps_sdmmc_pwr_q2_en == 1} {
+	set io48_q2_assignment [lreplace $io48_q2_assignment 1 1 SDMMC:BUS_PWR]   
+}
+if {$hps_sdmmc_data_strobe_q2_en == 1} {
+	set io48_q2_assignment [lreplace $io48_q2_assignment 3 3 SDMMC:DATA_STROBE]
+}
+
+#SDMMC Q3
+if {$hps_sdmmc4b_q3_en == 1} {
+	set io48_q3_assignment [lreplace $io48_q3_assignment 0 2 SDMMC:DATA0 SDMMC:DATA1 SDMMC:CCLK]
+	set io48_q3_assignment [lreplace $io48_q3_assignment 5 7 SDMMC:DATA2 SDMMC:DATA3 SDMMC:CMD]
+}
+if {$hps_sdmmc4b_q3_alt_en == 1} {
 		set io48_q3_assignment [lreplace $io48_q3_assignment 4 4 SDMMC:WRITE_PROTECT]
-	} elseif {$hps_sdmmc8b_q3_alt_en == 1} {
-		set io48_q3_assignment [lreplace $io48_q3_assignment 5 7 SDMMC:DATA2 SDMMC:DATA3 SDMMC:CMD]
-	} elseif {$hps_sdmmc12b_q3_alt_en == 1} {
-		set io48_q3_assignment [lreplace $io48_q3_assignment 8 11 SDMMC:DATA4 SDMMC:DATA5 SDMMC:DATA6 SDMMC:DATA7]  
-} elseif {$hps_sdmmc1b_q4_en == 1} {
+}
+if {$hps_sdmmc12b_q3_alt_en == 1} {
+	set io48_q3_assignment [lreplace $io48_q3_assignment 8 11 SDMMC:DATA4 SDMMC:DATA5 SDMMC:DATA6 SDMMC:DATA7]  
+}
+
+#SDMMC Q4
+if {$hps_sdmmc_pupd_q4_en == 1} {
 	set io48_q4_assignment [lreplace $io48_q4_assignment 0 0 SDMMC:PU_PD_DATA2]
-	} elseif {$hps_sdmmc2b_q4_alt_en == 1} {
-		set io48_q4_assignment [lreplace $io48_q4_assignment 1 1 SDMMC:BUS_PWR   
-	} elseif {$hps_sdmmc4b_q4_alt_en == 1} {
-		set io48_q4_assignment [lreplace $io48_q4_assignment 3 3 SDMMC:DATA_STROBE   
+}
+if {$hps_sdmmc_pwr_q4_en == 1} {
+	set io48_q4_assignment [lreplace $io48_q4_assignment 1 1 SDMMC:BUS_PWR   
+}
+if {$hps_sdmmc_data_strobe_q4_en == 1} {
+	set io48_q4_assignment [lreplace $io48_q4_assignment 3 3 SDMMC:DATA_STROBE   
 }
 
 if {$hps_usb0_en == 1} {
@@ -201,11 +220,11 @@ set io48_q4_assignment [lreplace $io48_q4_assignment 0 7 EMAC2:TX_CLK EMAC2:TX_C
 }
 
 if {$hps_emac0_q1_en == 1} {
-set io48_q1_assignment [lreplace $io48_q1_assignment 0 1 EMAC0:PPS0 EMAC0:PPSTRIG0]
+set io48_q1_assignment [lreplace $io48_q1_assignment 0 1 EMAC0:PPS EMAC0:PPSTRIG]
 } elseif {$hps_emac1_q1_en == 1} {
-set io48_q1_assignment [lreplace $io48_q1_assignment 2 3 EMAC1:PPS1 EMAC1:PPSTRIG1]
+set io48_q1_assignment [lreplace $io48_q1_assignment 2 3 EMAC1:PPS EMAC1:PPSTRIG]
 } elseif {$hps_emac2_q1_en == 1} {
-set io48_q1_assignment [lreplace $io48_q1_assignment 4 5 EMAC2:PPS2 EMAC2:PPSTRIG2]
+set io48_q1_assignment [lreplace $io48_q1_assignment 4 5 EMAC2:PPS EMAC2:PPSTRIG]
 }
 
 if {$hps_spim0_q1_en == 1} {
@@ -436,37 +455,37 @@ set io48_q4_assignment [lreplace $io48_q4_assignment 7 11 TRACE:CLK TRACE:D0 TRA
 }
 
 if {$hps_cm_q == 1} {
-set io48_q1_assignment [lreplace $io48_q1_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK]
+set io48_q1_assignment [lreplace $io48_q1_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK:HPS_OSC_CLK]
 } elseif {$hps_cm_q == 2} {
-set io48_q2_assignment [lreplace $io48_q2_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK]
+set io48_q2_assignment [lreplace $io48_q2_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK:HPS_OSC_CLK]
 } elseif {$hps_cm_q == 3} {
-set io48_q3_assignment [lreplace $io48_q3_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK]
+set io48_q3_assignment [lreplace $io48_q3_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK:HPS_OSC_CLK]
 } elseif {$hps_cm_q == 4} {
-set io48_q4_assignment [lreplace $io48_q4_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK]
+set io48_q4_assignment [lreplace $io48_q4_assignment [expr $hps_cm_io-1] [expr $hps_cm_io-1] HCLK:HPS_OSC_CLK]
 } elseif {$hps_cm_alt_en == 1} {
 set io48_q3_assignment [lreplace $io48_q3_assignment 0 3 CM:PLL_CLK0 CM:PLL_CLK1 CM:PLL_CLK2 CM:PLL_CLK3]
 }
 
 if {$hps_gpio0_en == 1} {
-  foreach io_num $hps_gpio0_list {
+  foreach io_num [split $hps_gpio0_list] {
     if {$io_num < 12} {
-      # set io48_q1_assignment [lreplace $io48_q1_assignment $io_num $io_num GPIO0:IO${io_num}]
-      set io48_q1_assignment [lreplace $io48_q1_assignment $io_num $io_num GPIO0]
+	  set io48_q1_assignment [lreplace $io48_q1_assignment $io_num $io_num GPIO0:IO${io_num}]
+      #set io48_q1_assignment [lreplace $io48_q1_assignment $io_num $io_num GPIO0]
     } else {
-      # set io48_q2_assignment [lreplace $io48_q2_assignment [expr $io_num-12] [expr $io_num-12] GPIO0:IO${io_num}]
-      set io48_q2_assignment [lreplace $io48_q2_assignment [expr $io_num-12] [expr $io_num-12] GPIO0]
+      set io48_q2_assignment [lreplace $io48_q2_assignment [expr $io_num-12] [expr $io_num-12] GPIO0:IO${io_num}]
+      #set io48_q2_assignment [lreplace $io48_q2_assignment [expr $io_num-12] [expr $io_num-12] GPIO0]
     }
   }
 }
 
 if {$hps_gpio1_en == 1} {
-  foreach io_num $hps_gpio1_list {
+  foreach io_num [split $hps_gpio1_list] {
     if {$io_num < 12} {
-      # set io48_q3_assignment [lreplace $io48_q3_assignment $io_num $io_num GPIO1:IO${io_num}]
-      set io48_q3_assignment [lreplace $io48_q3_assignment $io_num $io_num GPIO1]
+      set io48_q3_assignment [lreplace $io48_q3_assignment $io_num $io_num GPIO1:IO${io_num}]
+      #set io48_q3_assignment [lreplace $io48_q3_assignment $io_num $io_num GPIO1]
     } else {
-      # set io48_q4_assignment [lreplace $io48_q4_assignment [expr $io_num-12] [expr $io_num-12] GPIO1:IO${io_num}]
-      set io48_q4_assignment [lreplace $io48_q4_assignment [expr $io_num-12] [expr $io_num-12] GPIO1]
+      set io48_q4_assignment [lreplace $io48_q4_assignment [expr $io_num-12] [expr $io_num-12] GPIO1:IO${io_num}]
+      #set io48_q4_assignment [lreplace $io48_q4_assignment [expr $io_num-12] [expr $io_num-12] GPIO1]
     }
   }
 }
