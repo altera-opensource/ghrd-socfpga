@@ -119,17 +119,15 @@ QUARTUS_DEVICE ?= A5ED065BB32AE5SR0
 # Board Power Management. Support board devkit is supported: linear, enpirion
 BOARD_PWRMGT ?= enpirion
 # Publicly Available DC: devkit_dc_oobe, devkit_dc_nand, devkit_dc_emmc
-ifeq ($(BOARD_TYPE), pcie_devkit)
-DAUGHTER_CARD = pcie_devkit
-else
 DAUGHTER_CARD ?= devkit_dc_oobe
-endif
+
 # System initilization mode: fpga, hps
 BOOTS_FIRST ?= hps
 # HPS JTAG MODE: combined, separate
 HPS_JTAG_MODE ?= combined
 # Option to enable Hard Processor System
 HPS_EN ?= 1
+F2S_DATA_WIDTH ?= 0
 # HPS EMIF Enabled: 0, 1
 HPS_EMIF_EN ?= 0
 # HPS EMIF ECC is not support for REVA Agilex
@@ -190,8 +188,8 @@ QSYS_TCL_CMDS += set hps_emif_en $(HPS_EMIF_EN);
 #QSYS_TCL_CMDS += set hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC);
 
 ifneq ($(HPS_EN),)
-QUARTUS_TCL_ARGS += hps_en $(HPS_EN)
-QSYS_TCL_CMDS += set hps_en $(HPS_EN);
+QUARTUS_TCL_ARGS += hps_en $(HPS_EN) f2s_data_width $(F2S_DATA_WIDTH)
+QSYS_TCL_CMDS += set hps_en $(HPS_EN); set f2s_data_width $(F2S_DATA_WIDTH);
 endif
 
 ifeq ($(HPS_EMIF_EN),0)

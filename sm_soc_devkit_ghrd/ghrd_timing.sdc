@@ -9,4 +9,4 @@
 #
 #****************************************************************************
 
-Placeholder. Generate during GHRD generation.  "make generate_from_tcl"
+#Placeholder. Generate during GHRD generation.  "make generate_from_tcl"

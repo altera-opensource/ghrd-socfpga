@@ -14,7 +14,7 @@
 
 set QSYS_NAME qsys_top
 set PROJECT_NAME ghrd_agilex
-set TOP_NAME ghrd_agilex_top
+set TOP_NAME ghrd_agilex5_top
 set DEVICE_FAMILY "Agilex 5"
 set DEVICE A5ED065BB32AE5SR0
 
@@ -51,7 +51,7 @@ set OCM_MEMSIZE 262144.0
 # Option to enable Hard Processor System
 set HPS_EN 1
 # Option to enable H2F User Clock0 Output Port
-set USER0_CLK_SRC_SELECT 1
+set USER0_CLK_SRC_SELECT 0
 set USER1_CLK_SRC_SELECT 0
 set USER0_CLK_FREQ 500
 set USER1_CLK_FREQ 500

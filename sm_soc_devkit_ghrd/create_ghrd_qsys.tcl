@@ -130,7 +130,7 @@ connect "   clk_100.out_clk                    ext_hps_m_master.clock
             rst_in.out_reset                   ext_hps_m_master.reset"
 
 connect_map "   jtg_mst.hps_m_master              ext_hps_m_master.windowed_slave 0x0 "
-connect_map "   ext_hps_m_master.expanded_master  hps_subsys.fpga2hps 0x1_0000_0000 "
+#connect_map "   ext_hps_m_master.expanded_master  hps_subsys.fpga2hps 0x1_0000_0000 "
 connect_map "   ext_hps_m_master.expanded_master  hps_subsys.f2sdram 0x0000 "
 	
 if {$cct_en == 1} {	
@@ -193,14 +193,14 @@ if {$fpga_peripheral_en == 1} {
     if {$fpga_button_pio_width >0} {
 #       connect "agilex_hps.f2h_irq0      periph.button_pio_irq"
 #       set_connection_parameter_value agilex_hps.f2h_irq0/periph.button_pio_irq irqNumber {1}
-       connect "periph_subsys.ILC_irq       periph_subsys.button_pio_irq"
-       set_connection_parameter_value periph_subsys.ILC_irq/periph_subsys.button_pio_irq irqNumber {1}
+      # connect "periph_subsys.ILC_irq       periph_subsys.button_pio_irq"
+      # set_connection_parameter_value periph_subsys.ILC_irq/periph_subsys.button_pio_irq irqNumber {1}
     }
     if {$fpga_dipsw_pio_width >0} {
 #       connect "agilex_hps.f2h_irq0      periph.dipsw_pio_irq"
 #       set_connection_parameter_value agilex_hps.f2h_irq0/periph.dipsw_pio_irq irqNumber {0}
-       connect "periph_subsys.ILC_irq       periph_subsys.dipsw_pio_irq"
-       set_connection_parameter_value periph_subsys.ILC_irq/periph_subsys.dipsw_pio_irq irqNumber {0}
+      # connect "periph_subsys.ILC_irq       periph_subsys.dipsw_pio_irq"
+      # set_connection_parameter_value periph_subsys.ILC_irq/periph_subsys.dipsw_pio_irq irqNumber {0}
     }
 }
 

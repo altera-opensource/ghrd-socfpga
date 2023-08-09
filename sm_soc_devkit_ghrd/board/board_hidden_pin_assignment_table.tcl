@@ -21,8 +21,8 @@ source ./arguments_solver.tcl
 ## -----------------------------
 
 ## Clock and Reset
-set fpga_clk_100_pin_list "BH118"
-set fpga_clk_100_iostandard "3.3 V"
+set fpga_clk_100_pin_list "BK109"
+set fpga_clk_100_iostandard "3.3-V LVCMOS"
 
 set fpga_reset_n_pin_list "BR112"
 set fpga_reset_n_iostandard "3.3 V"
@@ -45,7 +45,7 @@ BW19
 BH28
 }
 
-set fpga_dipsw_pio_iostandard "3.3 V"
+set fpga_dipsw_pio_iostandard "3.3-V LVCMOS"
 set fpga_dipsw_pio_weakpullup "ON"
 
 set fpga_button_pio_pin_list {
@@ -55,7 +55,7 @@ BK28
 BR22
 }
 
-set fpga_button_pio_iostandard "3.3 V"
+set fpga_button_pio_iostandard "3.3-V LVCMOS"
 
 ## PCIE Related IOs
 set pcie_tx_p_out_pin_list {

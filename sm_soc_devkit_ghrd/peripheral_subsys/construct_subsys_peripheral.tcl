@@ -80,11 +80,12 @@ add_component_param "altera_avalon_pio led_pio
 "
 }
 
-add_component_param "interrupt_latency_counter ILC 
-                    IP_FILE_PATH ip/$sub_qsys_periph/ILC.ip 
-                    INTR_TYPE 0
-                    IRQ_PORT_CNT 2
-                    "
+# Temporary turn off as 23.2.1 no ILC
+#add_component_param "interrupt_latency_counter ILC 
+#                    IP_FILE_PATH ip/$sub_qsys_periph/ILC.ip 
+#                    INTR_TYPE 0
+#                    IRQ_PORT_CNT 2
+#                    "
 
 add_component_param "altera_avalon_mm_bridge pb_cpu_0 
                     IP_FILE_PATH ip/$sub_qsys_periph/pb_cpu_0.ip 
@@ -100,7 +101,7 @@ connect "   periph_clk.out_clk sysid.clk
             periph_rst_in.out_reset sysid.reset
 "
 
-connect_map "   pb_cpu_0.m0 ILC.avalon_slave 0x10100 "
+#connect_map "   pb_cpu_0.m0 ILC.avalon_slave 0x10100 "
 
 if {$fpga_led_pio_width >0} {
 connect_map "   pb_cpu_0.m0 led_pio.s1 0x10080"
@@ -118,8 +119,9 @@ connect_map "   pb_cpu_0.m0 sysid.control_slave 0x1_0000 "
 
 connect "   periph_clk.out_clk pb_cpu_0.clk
             periph_clk.out_clk periph_rst_in.clk
-            periph_clk.out_clk ILC.clk
 "
+#            periph_clk.out_clk ILC.clk
+
 if {$fpga_led_pio_width >0} {
 connect "   periph_clk.out_clk      led_pio.clk
             periph_rst_in.out_reset led_pio.reset"
@@ -134,8 +136,8 @@ connect "   periph_clk.out_clk      button_pio.clk
 }
 
 connect "   periph_rst_in.out_reset pb_cpu_0.reset
-            periph_rst_in.out_reset ILC.reset_n
 "
+#periph_rst_in.out_reset ILC.reset_n
 
 # exported interfaces
 
@@ -151,7 +153,7 @@ if {$fpga_dipsw_pio_width >0} {
 export dipsw_pio external_connection dipsw_pio_external_connection
 export dipsw_pio irq dipsw_pio_irq
 }
-export ILC irq ILC_irq
+#export ILC irq ILC_irq
 if {$fpga_led_pio_width >0} {
 export led_pio external_connection led_pio_external_connection
 }
