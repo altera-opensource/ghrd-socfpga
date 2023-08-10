@@ -25,7 +25,7 @@ set fpga_clk_100_pin_list "BK109"
 set fpga_clk_100_iostandard "3.3-V LVCMOS"
 
 set fpga_reset_n_pin_list "BR112"
-set fpga_reset_n_iostandard "3.3 V"
+set fpga_reset_n_iostandard "3.3-V LVCMOS"
 
 ## Peripheral IOs
 set fpga_led_pio_pin_list {
