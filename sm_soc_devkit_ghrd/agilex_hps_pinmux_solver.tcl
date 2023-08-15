@@ -22,10 +22,10 @@ set hps_sdmmc4b_q3_alt_en 0
 set hps_sdmmc12b_q3_alt_en 0
 set hps_sdmmc_pupd_q2_en 0
 set hps_sdmmc_pwr_q2_en 0
-set hps_sdmmc_data_strobe_q2_en 0
+set hps_sdmmc_dstrb_q2_en 0
 set hps_sdmmc_pupd_q4_en 0
 set hps_sdmmc_pwr_q4_en 0
-set hps_sdmmc_data_strobe_q4_en 0
+set hps_sdmmc_dstrb_q4_en 0
 
 set hps_usb0_en 0
 set hps_usb1_en 0
@@ -167,7 +167,7 @@ if {$hps_sdmmc_pupd_q2_en == 1} {
 if {$hps_sdmmc_pwr_q2_en == 1} {
 	set io48_q2_assignment [lreplace $io48_q2_assignment 1 1 SDMMC:BUS_PWR]   
 }
-if {$hps_sdmmc_data_strobe_q2_en == 1} {
+if {$hps_sdmmc_dstrb_q2_en == 1} {
 	set io48_q2_assignment [lreplace $io48_q2_assignment 3 3 SDMMC:DATA_STROBE]
 }
 
@@ -190,7 +190,7 @@ if {$hps_sdmmc_pupd_q4_en == 1} {
 if {$hps_sdmmc_pwr_q4_en == 1} {
 	set io48_q4_assignment [lreplace $io48_q4_assignment 1 1 SDMMC:BUS_PWR   
 }
-if {$hps_sdmmc_data_strobe_q4_en == 1} {
+if {$hps_sdmmc_dstrb_q4_en == 1} {
 	set io48_q4_assignment [lreplace $io48_q4_assignment 3 3 SDMMC:DATA_STROBE   
 }
 
