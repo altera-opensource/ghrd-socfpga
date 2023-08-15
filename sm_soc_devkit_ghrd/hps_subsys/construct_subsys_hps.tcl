@@ -320,16 +320,6 @@ if {$cct_en == 1} {
                         "
 } #F2S_Route_config 2
 
-if {$hps_i2c1_q1_en == 0 && $hps_i2c1_q2_en == 0 && $hps_i2c1_q3_en == 0 && $hps_i2c1_q4_en == 0} {
-   set_component_param "agilex_hps
-                       I2C1_PinMuxing FPGA
-                       I2C1_Mode default
-                       "
-   set etile_25gbe_i2c 1
-   puts "Etile 25GbE I2C1 enable"
-} else {
-   error "Error: Conflict HPS i2c settings. None of I2C available"
-}
 
 # connect "hps_clk.out_clk agilex_hps.I2C1_scl_i" 
 
