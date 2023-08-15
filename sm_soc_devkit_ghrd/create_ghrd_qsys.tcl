@@ -247,7 +247,6 @@ export clk_100 in_clk clk_100
 export rst_in in_reset reset
 export user_rst_clkgate_0 ninit_done ninit_done
 export hps_subsys usb31_io usb31_io
-export hps_subsys I2C1 I2C1
 export hps_subsys hps_io hps_io
 
 if {$clk_gate_en == 1} {

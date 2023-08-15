@@ -569,7 +569,6 @@ export agilex_hps h2f_reset h2f_reset
 export agilex_hps usb31_io usb31_io
 # export hps_rst_in in_reset reset
 # export hps_clk in_clk clk
-export agilex_hps I2C1 I2C1
 
 if {$hps_io_off == 0} {
 export agilex_hps hps_io hps_io
