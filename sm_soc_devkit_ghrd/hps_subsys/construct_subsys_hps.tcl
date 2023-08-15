@@ -11,34 +11,36 @@
 #
 #****************************************************************************
 
-source ./arguments_solver.tcl
-source ./utils.tcl
-set sub_qsys_hps subsys_hps
+# source ./arguments_solver.tcl
+# source ./utils.tcl
+
+
+set subsys_name subsys_hps
   
 package require -exact qsys 19.1
 
-create_system $sub_qsys_hps
+create_system $subsys_name
 
 set_project_property DEVICE_FAMILY $device_family
 set_project_property DEVICE $device
 set_validation_property AUTOMATIC_VALIDATION false
 
-add_component_param "altera_clock_bridge hps_clk 
-                    IP_FILE_PATH ip/$sub_qsys_hps/hps_clk.ip 
-                    EXPLICIT_CLOCK_RATE 100000000 
-                    NUM_CLOCK_OUTPUTS 1
-                    "
+# add_component_param "altera_clock_bridge hps_clk 
+                    # IP_FILE_PATH ip/$subsys_name/hps_clk.ip 
+                    # EXPLICIT_CLOCK_RATE 100000000 
+                    # NUM_CLOCK_OUTPUTS 1
+                    # "
 
-add_component_param "altera_reset_bridge hps_rst_in 
-                    IP_FILE_PATH ip/$sub_qsys_hps/hps_rst_in.ip 
-                    ACTIVE_LOW_RESET 1
-                    SYNCHRONOUS_EDGES both
-                    NUM_RESET_OUTPUTS 1
-                    USE_RESET_REQUEST 0
-                    "
+# add_component_param "altera_reset_bridge hps_rst_in 
+                    # IP_FILE_PATH ip/$subsys_name/hps_rst_in.ip 
+                    # ACTIVE_LOW_RESET 1
+                    # SYNCHRONOUS_EDGES both
+                    # NUM_RESET_OUTPUTS 1
+                    # USE_RESET_REQUEST 0
+                    # "
 
 add_component_param "intel_agilex_5_soc agilex_hps
-                     IP_FILE_PATH ip/$sub_qsys_hps/agilex_hps.ip 
+                     IP_FILE_PATH ip/$subsys_name/agilex_hps.ip 
                      MPU_EVENTS_Enable 0
 					 GP_Enable 0
 					 Debug_APB_Enable 0
@@ -54,16 +56,21 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 f2sdram_address_width $f2sdram_address_width
 					 f2s_data_width $f2s_data_width
 					 f2s_address_width $f2s_address_width
-					 LWH2F_Width $lwh2f_width
+					 f2s_mode acelite
+                     LWH2F_Width $lwh2f_width
 					 LWH2F_Address_Width $lwh2f_addr_width
                      EMIF_AXI_Enable $hps_emif_en
                      Rst_watchdog_en $reset_watchdog_en
 					 Rst_hps_warm_en $reset_hps_warm_en
 					 Rst_h2f_cold_en $reset_h2f_cold_en
 					 Rst_sdm_wd_config $reset_sdm_watchdog_cfg
-					 f2s_mode acelite
-					 
 "
+
+
+if {$hps_emif_en == 1} {
+    source ../board/emif_setting.tcl
+
+}
 # EMIF_DDR_WIDTH $hps_emif_width     
        
 #load_component agilex_hps
@@ -75,7 +82,7 @@ add_component_param "intel_agilex_5_soc agilex_hps
 
 #MPU_CLK_VCCL 1
 
-connect "hps_clk.out_clk hps_rst_in.clk" 
+# connect "hps_clk.out_clk hps_rst_in.clk" 
 
 if {$user0_clk_src_select == 1} {
 set_component_param "agilex_hps   
@@ -324,7 +331,7 @@ if {$hps_i2c1_q1_en == 0 && $hps_i2c1_q2_en == 0 && $hps_i2c1_q3_en == 0 && $hps
    error "Error: Conflict HPS i2c settings. None of I2C available"
 }
 
-connect "hps_clk.out_clk agilex_hps.I2C1_scl_i" 
+# connect "hps_clk.out_clk agilex_hps.I2C1_scl_i" 
 
  # CM_PinMuxing
  # CM_Mode
@@ -406,25 +413,9 @@ if {$hps_trace_8b_en == 1} {
 
 # --------------- Connections and connection parameters ------------------#
 
-if {$f2sdram_data_width > 0} {
-    connect "hps_clk.out_clk agilex_hps.f2sdram_axi_clock"
-    connect "hps_rst_in.out_reset agilex_hps.f2sdram_axi_reset"
-}
 
-if {$f2s_data_width > 0} {
-    connect "hps_clk.out_clk agilex_hps.fpga2hps_clock"
-    connect "hps_rst_in.out_reset agilex_hps.fpga2hps_reset"
-}
 
-if {$h2f_width > 0} {
-    connect "hps_clk.out_clk agilex_hps.hps2fpga_axi_clock"
-    connect "hps_rst_in.out_reset agilex_hps.hps2fpga_axi_reset"
-}
 
-if {$lwh2f_width > 0} {
-    connect "hps_clk.out_clk agilex_hps.lwhps2fpga_axi_clock"
-    connect "hps_rst_in.out_reset agilex_hps.lwhps2fpga_axi_reset"
-}
 
 #if {$jtag_ocm_en == 1} {
 #   if {$ocm_clk_source == 0} {
@@ -586,8 +577,8 @@ connect "clk_100.out_clk agilex_hps.f2h_free_clock"
 # --------------------    Exported Interfaces     -----------------------#
 export agilex_hps h2f_reset h2f_reset
 export agilex_hps usb31_io usb31_io
-export hps_rst_in in_reset reset
-export hps_clk in_clk clk
+# export hps_rst_in in_reset reset
+# export hps_clk in_clk clk
 export agilex_hps I2C1 I2C1
 
 if {$hps_io_off == 0} {
@@ -603,10 +594,35 @@ if {$reset_watchdog_en == 1} {
 export agilex_hps h2f_watchdog_reset wd_reset
 }
 
-export agilex_hps hps2fpga hps2fpga
-export agilex_hps lwhps2fpga lwhps2fpga
-#export agilex_hps fpga2hps fpga2hps
-export agilex_hps f2sdram f2sdram
+
+if {$f2s_data_width > 0} {
+    export agilex_hps fpga2hps fpga2hps
+    export agilex_hps fpga2hps_axi_clock fpga2hps_clk
+    export agilex_hps fpga2hps_axi_reset fpga2hps_rst
+}
+
+if {$f2sdram_data_width > 0} {
+    export agilex_hps f2sdram f2sdram
+    export agilex_hps f2sdram_axi_clock f2sdram_clk
+    export agilex_hps f2sdram_axi_reset f2sdram_rst
+}
+
+if {$h2f_width > 0} {
+    export agilex_hps hps2fpga hps2fpga
+    export agilex_hps hps2fpga_axi_clock hps2fpga_clk
+    export agilex_hps hps2fpga_axi_reset hps2fpga_rst
+}
+
+if {$lwh2f_width > 0} {
+    export agilex_hps lwhps2fpga lwhps2fpga
+    export agilex_hps lwhps2fpga_axi_clock lwhps2fpga_clk
+    export agilex_hps lwhps2fpga_axi_reset lwhps2fpga_rst
+}
+
+
+
+
+
 
 #if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
 #export agilex_hps fpga2hps_interrupt fpga2hps_interrupt
@@ -634,4 +650,4 @@ set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
     
 sync_sysinfo_parameters 
     
-save_system ${sub_qsys_hps}.qsys
+save_system ${subsys_name}.qsys

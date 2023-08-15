@@ -159,9 +159,31 @@ if {$cct_en == 1} {
 # --------------- Connections and connection parameters ------------------#
 
 if {$hps_en == 1} {
-connect "clk_100.out_clk   hps_subsys.clk
-         rst_in.out_reset  hps_subsys.reset
-         "
+# connect "clk_100.out_clk   hps_subsys.clk
+         # rst_in.out_reset  hps_subsys.reset
+         # "
+  if {$f2sdram_data_width > 0} {
+  connect " clk_100.out_clk hps_subsys.f2sdram_clk
+            rst_in.out_reset  hps_subsys.f2sdram_rst 
+          "
+  }
+  if {$lwh2f_width > 0} {
+  connect " clk_100.out_clk hps_subsys.lwhps2fpga_clk
+            rst_in.out_reset  hps_subsys.lwhps2fpga_rst 
+          "
+  }
+  if {$h2f_width > 0} {
+  connect " clk_100.out_clk hps_subsys.hps2fpga_clk
+            rst_in.out_reset  hps_subsys.hps2fpga_rst 
+          "
+  }
+  if {$f2s_data_width > 0} {
+  connect " clk_100.out_clk hps_subsys.fpga2hps_clk
+            rst_in.out_reset  hps_subsys.fpga2hps_rst 
+          "
+  }
+
+
 }
 
 if {$jtag_ocm_en == 1} {
