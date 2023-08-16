@@ -21,6 +21,45 @@
 # ocm_datawidth                     : 32, 64, 128, 256
 # ocm_memsize                       : 262144.0 (Default), 8388608.0 (PCIE OCM Boot)
 # hps_emif_en                       : 1 or 0
+# hps_emif_mem_part                 : default_part or custom or termination_sweep
+# hps_emif_type                     : ddr3 or ddr4
+# hps_emif_rate                     : RATE_HALF or RATE_QUARTER
+# hps_emif_ref_clk_freq_mhz         : <Frequency in MHz>
+# hps_emif_mem_clk_freq_mhz         : <Frequency in MHz>
+# hps_emif_width                    : 16, 32, 64 (irrespective of ECC)
+# hps_emif_ecc_en                   : 1 or 0 
+# hps_emif_comp_preset              : "DDR4-3200AA CL22 Component 1CS 8Gb (512Mb x16)"
+# hps_emif_mem_format               : MEM_FORMAT_DISCRETE
+# hps_emif_tcl                      : <DDR's TCL> 
+# hps_emif_wtcl                     : <DDR's WTCL> 
+# hps_emif_bank_addr_width          : <DDR's Bank Width> 
+# hps_emif_bank_gp_width            : <DDR's Bank Group Width> 
+# hps_emif_num_dimms                : <DDR's number of DIMMS> 
+# hps_emif_ranks_per_dimm           : <DDR's ranks per DIMM> 
+# hps_emif_rtt_wr_enum              : DDR4_RTT_WR_ODT_DISABLED
+# hps_emif_drv_str_enum             : DDR4_DRV_STR_RZQ_7
+# hps_emif_rtt_nom_enum             : DDR4_RTT_NOM_ODT_DISABLED
+# hps_emif_rtt_park                 : "DDR4_RTT_PARK_RZQ_4"
+# hps_emif_use_default_odt          : "false"
+# hps_emif_r_odt0_1x1               : "off"
+# hps_emif_w_odt0_1x1               : "off"
+# hps_emif_ac_io_std_enum           : IO_STD_SSTL_12
+# hps_emif_ck_io_std_enum           : IO_STD_SSTL_12
+# hps_emif_data_io_std_enum         : IO_STD_SSTL_12
+# hps_emif_ac_mode_enum             : OUT_OCT_40_CAL
+# hps_emif_ck_mode_enum             : OUT_OCT_40_CAL
+# hps_emif_data_out_mode_enum       : OUT_OCT_34_CAL
+# hps_emif_data_in_mode_enum        : IN_OCT_60_CAL
+# hps_emif_ref_clk_io_std_enum      : IO_STD_TRUE_DIFF_SIGNALING
+# hps_emif_rzq_io_std_enum          : IO_STD_CMOS_12
+# hps_emif_extra_configs            :
+# hps_emif_export_seq_avalon_slave  : CAL_DEBUG_EXPORT_MODE_DISABLED or CAL_DEBUG_EXPORT_MODE_EXPORT or CAL_DEBUG_EXPORT_MODE_JTAG
+# hps_emif_jtag_uart_en             : true or false
+# hps_emif_diag_soft_nios_mode      : SOFT_NIOS_MODE_DISABLED
+# hps_emif_diag_hmc_hrc             : "OFF"
+# fpga_emif_en                      : 1 or 0
+# fpga_emif_width                   : 16, 32, 64 (irrespective of ECC)
+# fpga_emif_ecc_en                  : 1 or 0 
 # hps_en                            : 1 or 0
 # sys_initialization                : HPS initialization sequence. HPS_FIRST or FPGA_FIRST
 # hps_dap_mode                      : HPS debug split mode. 2(SDM Pins),1(HPS Pins),0(disabled)
@@ -183,6 +222,243 @@ if { ![ info exists hps_emif_en ] } {
  set hps_emif_en $HPS_EMIF_EN
 } else {
  puts "-- Accepted parameter \$hps_emif_en = $hps_emif_en"
+}
+
+if { ![ info exists hps_emif_mem_part ] } {
+ set hps_emif_mem_part $HPS_EMIF_MEM_PART
+} else {
+ puts "-- Accepted parameter \$hps_emif_mem_part = $hps_emif_mem_part"
+}
+
+if { ![ info exists hps_emif_type ] } {
+ set hps_emif_type $HPS_EMIF_TYPE
+} else {
+ puts "-- Accepted parameter \$hps_emif_type = $hps_emif_type"
+}
+
+if { ![ info exists hps_emif_rate] } {
+ set hps_emif_rate $HPS_EMIF_RATE
+} else {
+ puts "-- Accepted parameter \$hps_emif_rate = $hps_emif_rate"
+}
+
+if { ![ info exists hps_emif_ref_clk_freq_mhz] } {
+ set hps_emif_ref_clk_freq_mhz $HPS_EMIF_REF_CLK_FREQ_MHZ
+} else {
+ puts "-- Accepted parameter \$hps_emif_ref_clk_freq_mhz = $hps_emif_ref_clk_freq_mhz"
+}
+
+if { ![ info exists hps_emif_mem_clk_freq_mhz] } {
+ set hps_emif_mem_clk_freq_mhz $HPS_EMIF_MEM_CLK_FREQ_MHZ
+} else {
+ puts "-- Accepted parameter \$hps_emif_mem_clk_freq_mhz = $hps_emif_mem_clk_freq_mhz"
+}
+
+if { ![ info exists hps_emif_width] } {
+ set hps_emif_width $HPS_EMIF_WIDTH
+} else {
+ puts "-- Accepted parameter \$hps_emif_width = $hps_emif_width"
+}
+
+if { ![ info exists hps_emif_ecc_en ] } {
+ set hps_emif_ecc_en $HPS_EMIF_ECC_EN
+} else {
+ puts "-- Accepted parameter \$hps_emif_ecc_en = $hps_emif_ecc_en"
+}
+
+if { ![ info exists hps_emif_comp_preset ] } {
+ set hps_emif_comp_preset $HPS_EMIF_COMP_PRESET
+} else {
+ puts "-- Accepted parameter \$hps_emif_comp_preset = $hps_emif_comp_preset"
+}
+
+if { ![ info exists hps_emif_mem_format ] } {
+ set hps_emif_mem_format $HPS_EMIF_MEM_FORMAT
+} else {
+ puts "-- Accepted parameter \$hps_emif_mem_format = $hps_emif_mem_format"
+}
+
+if { ![ info exists hps_emif_tcl ] } {
+ set hps_emif_tcl $HPS_EMIF_TCL
+} else {
+ puts "-- Accepted parameter \$hps_emif_tcl = $hps_emif_tcl"
+}
+
+if { ![ info exists hps_emif_wtcl ] } {
+ set hps_emif_wtcl $HPS_EMIF_WTCL
+} else {
+ puts "-- Accepted parameter \$hps_emif_wtcl = $hps_emif_wtcl"
+}
+
+if { ![ info exists hps_emif_bank_gp_width ] } {
+ set hps_emif_bank_gp_width $HPS_EMIF_BANK_GP_WIDTH
+} else {
+ puts "-- Accepted parameter \$hps_emif_bank_gp_width = $hps_emif_bank_gp_width"
+}
+if {$HPS_EMIF_MEM_PART == "default_part"} {
+    set hps_emif_bank_gp_width $hps_emif_bank_gp_default_width
+    puts "-- Overriding to board_${board}_config.tcl hps_emif_bank_gp_default_width"
+}
+
+if { ![ info exists hps_emif_bank_addr_width ] } {
+ set hps_emif_bank_addr_width $HPS_EMIF_BANK_ADDR_WIDTH
+} else {
+ puts "-- Accepted parameter \$hps_emif_bank_addr_width = $hps_emif_bank_addr_width"
+}
+
+if { ![ info exists hps_emif_num_dimms] } {
+ set hps_emif_num_dimms $HPS_EMIF_NUM_DIMMS
+} else {
+ puts "-- Accepted parameter \$hps_emif_num_dimms= $hps_emif_num_dimms"
+}
+
+if { ![ info exists hps_emif_ranks_per_dimm ] } {
+ set hps_emif_ranks_per_dimm $HPS_EMIF_RANKS_PER_DIMM
+} else {
+ puts "-- Accepted parameter \$hps_emif_ranks_per_dimm = $hps_emif_ranks_per_dimm"
+}
+
+if { ![ info exists hps_emif_rtt_wr_enum ] } {
+ set hps_emif_rtt_wr_enum $HPS_EMIF_RTT_WR_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_rtt_wr_enum = $hps_emif_rtt_wr_enum"
+}
+
+if { ![ info exists hps_emif_drv_str_enum ] } {
+ set hps_emif_drv_str_enum $HPS_EMIF_DRV_STR_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_drv_str_enum = $hps_emif_drv_str_enum"
+}
+
+if { ![ info exists hps_emif_rtt_nom_enum ] } {
+ set hps_emif_rtt_nom_enum $HPS_EMIF_RTT_NOM_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_rtt_nom_enum = $hps_emif_rtt_nom_enum"
+}
+
+if { ![ info exists hps_emif_rtt_park ] } {
+ set hps_emif_rtt_park $HPS_EMIF_RTT_PARK
+} else {
+ puts "-- Accepted parameter \$hps_emif_rtt_park = $hps_emif_rtt_park"
+}
+
+if { ![ info exists hps_emif_use_default_odt ] } {
+ set hps_emif_use_default_odt $HPS_EMIF_USE_DEFAULT_ODT
+} else {
+ puts "-- Accepted parameter \$hps_emif_use_default_odt = $hps_emif_use_default_odt"
+}
+
+if { ![ info exists hps_emif_r_odt0_1x1 ] } {
+ set hps_emif_r_odt0_1x1 $HPS_EMIF_R_ODT0_1X1
+} else {
+ puts "-- Accepted parameter \$hps_emif_r_odt0_1x1 = $hps_emif_r_odt0_1x1"
+}
+
+if { ![ info exists hps_emif_w_odt0_1x1 ] } {
+ set hps_emif_w_odt0_1x1 $HPS_EMIF_W_ODT0_1X1
+} else {
+ puts "-- Accepted parameter \$hps_emif_w_odt0_1x1 = $hps_emif_w_odt0_1x1"
+}
+
+
+if { ![ info exists hps_emif_ac_io_std_enum ] } {
+ set hps_emif_ac_io_std_enum $HPS_EMIF_AC_IO_STD_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_ac_io_std_enum = $hps_emif_ac_io_std_enum"
+}
+
+if { ![ info exists hps_emif_ck_io_std_enum ] } {
+ set hps_emif_ck_io_std_enum $HPS_EMIF_CK_IO_STD_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_ck_io_std_enum = $hps_emif_ck_io_std_enum"
+}
+
+if { ![ info exists hps_emif_data_io_std_enum ] } {
+ set hps_emif_data_io_std_enum $HPS_EMIF_DATA_IO_STD_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_data_io_std_enum = $hps_emif_data_io_std_enum"
+}
+
+if { ![ info exists hps_emif_ac_mode_enum ] } {
+ set hps_emif_ac_mode_enum $HPS_EMIF_AC_MODE_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_ac_mode_enum = $hps_emif_ac_mode_enum"
+}
+
+if { ![ info exists hps_emif_ck_mode_enum ] } {
+ set hps_emif_ck_mode_enum $HPS_EMIF_CK_MODE_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_ck_mode_enum = $hps_emif_ck_mode_enum"
+}
+
+if { ![ info exists hps_emif_data_out_mode_enum ] } {
+ set hps_emif_data_out_mode_enum $HPS_EMIF_DATA_OUT_MODE_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_data_out_mode_enum = $hps_emif_data_out_mode_enum"
+}
+
+if { ![ info exists hps_emif_data_in_mode_enum ] } {
+ set hps_emif_data_in_mode_enum $HPS_EMIF_DATA_IN_MODE_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_data_in_mode_enum = $hps_emif_data_in_mode_enum"
+}
+
+if { ![ info exists hps_emif_ref_clk_io_std_enum ] } {
+ set hps_emif_ref_clk_io_std_enum $HPS_EMIF_REF_CLK_IO_STD_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_ref_clk_io_std_enum = $hps_emif_ref_clk_io_std_enum"
+}
+
+if { ![ info exists hps_emif_rzq_io_std_enum ] } {
+ set hps_emif_rzq_io_std_enum $HPS_EMIF_RZQ_IO_STD_ENUM
+} else {
+ puts "-- Accepted parameter \$hps_emif_rzq_io_std_enum = $hps_emif_rzq_io_std_enum"
+}
+
+if { ![ info exists hps_emif_extra_configs ] } {
+ set hps_emif_extra_configs $HPS_EMIF_EXTRA_CONFIGS
+} else {
+ puts "-- Accepted parameter \$hps_emif_extra_configs = $hps_emif_extra_configs"
+}
+
+if { ![ info exists hps_emif_export_seq_avalon_slave ] } {
+ set hps_emif_export_seq_avalon_slave $HPS_EMIF_EXPORT_SEQ_AVALON_SLAVE
+} else {
+ puts "-- Accepted parameter \$hps_emif_export_seq_avalon_slave = $hps_emif_export_seq_avalon_slave"
+}
+
+if { ![ info exists hps_emif_jtag_uart_en ] } {
+ set hps_emif_jtag_uart_en $HPS_EMIF_JTAG_UART_EN
+} else {
+ puts "-- Accepted parameter \$hps_emif_jtag_uart_en = $hps_emif_jtag_uart_en"
+}
+
+if { ![ info exists hps_emif_diag_soft_nios_mode ] } {
+ set hps_emif_diag_soft_nios_mode $HPS_EMIF_DIAG_SOFT_NIOS_MODE
+} else {
+ puts "-- Accepted parameter \$hps_emif_diag_soft_nios_mode = $hps_emif_diag_soft_nios_mode"
+}
+
+## ----------------
+## FPGA EMIF
+## ----------------
+
+if { ![ info exists fpga_emif_en ] } {
+ set fpga_emif_en $FPGA_EMIF_EN
+} else {
+ puts "-- Accepted parameter \$fpga_emif_en = $fpga_emif_en"
+}
+
+if { ![ info exists fpga_emif_width] } {
+ set fpga_emif_width $FPGA_EMIF_WIDTH
+} else {
+ puts "-- Accepted parameter \$fpga_emif_width = $fpga_emif_width"
+}
+
+if { ![ info exists fpga_emif_ecc_en ] } {
+ set fpga_emif_ecc_en $FPGA_EMIF_ECC_EN
+} else {
+ puts "-- Accepted parameter \$fpga_emif_ecc_en = $fpga_emif_ecc_en"
 }
 
 if { ![ info exists hps_en ] } {

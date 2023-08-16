@@ -30,6 +30,7 @@ set param(top_name)                     $top_name
 set param(qsys_name)                    $qsys_name
 set param(daughter_card)                $daughter_card
 set param(clk_gate_en)                  $clk_gate_en
+set param(hps_en)                       $hps_en
 set param(hps_emif_ecc_en)              $hps_emif_ecc_en
 set param(hps_emif_en)                  $hps_emif_en
 set param(hps_emif_rate)                $hps_emif_rate

@@ -56,8 +56,71 @@ set USER1_CLK_SRC_SELECT 0
 set USER0_CLK_FREQ 500
 set USER1_CLK_FREQ 500
 
+## ----------------
+## HPS EMIF
+## ----------------
+
 # Option to enable HPS EMIF
 set HPS_EMIF_EN 0
+
+#Option to enable custom DIMM types for HPS_EMIF
+set HPS_EMIF_MEM_PART "default_part"
+# Option to specify HPS EMIF memory type
+set HPS_EMIF_TYPE ddr4
+# Option to set HPS EMIF RATE
+set HPS_EMIF_RATE RATE_QUARTER
+# Option to set HPS EMIF REF CLK frequency in MHz
+set HPS_EMIF_REF_CLK_FREQ_MHZ 100.0
+# Option to set HPS EMIF CLK frequency in MHz
+set HPS_EMIF_MEM_CLK_FREQ_MHZ 1200.0
+# Option to set HPS EMIF width (ignoring extra bits for ECC)
+set HPS_EMIF_WIDTH 64
+# Option to enable HPS EMIF ECC
+set HPS_EMIF_ECC_EN 0
+
+# Addtional Option to set HPS EMIF Memory Parameters
+# only for custom or termination_sweep
+set HPS_EMIF_COMP_PRESET "DDR4-3200AA CL22 Component 1CS 8Gb (512Mb x16)"
+set HPS_EMIF_MEM_FORMAT MEM_FORMAT_DISCRETE
+set HPS_EMIF_TCL 14
+set HPS_EMIF_WTCL 11
+set HPS_EMIF_BANK_ADDR_WIDTH 2
+set HPS_EMIF_BANK_GP_WIDTH 1
+set HPS_EMIF_NUM_DIMMS 1
+set HPS_EMIF_RANKS_PER_DIMM 1
+set HPS_EMIF_EXPORT_SEQ_AVALON_SLAVE CAL_DEBUG_EXPORT_MODE_DISABLED
+set HPS_EMIF_JTAG_UART_EN false
+set HPS_EMIF_EXTRA_CONFIGS " "
+
+# only for termination_sweep
+set HPS_EMIF_RTT_WR_ENUM DDR4_RTT_WR_ODT_DISABLED
+set HPS_EMIF_DRV_STR_ENUM DDR4_DRV_STR_RZQ_7
+set HPS_EMIF_RTT_NOM_ENUM DDR4_RTT_NOM_ODT_DISABLED
+set HPS_EMIF_RTT_PARK "DDR4_RTT_PARK_RZQ_4"
+set HPS_EMIF_USE_DEFAULT_ODT "false"
+set HPS_EMIF_R_ODT0_1X1 "off"
+set HPS_EMIF_W_ODT0_1X1 "off"
+set HPS_EMIF_AC_IO_STD_ENUM IO_STD_SSTL_12
+set HPS_EMIF_CK_IO_STD_ENUM IO_STD_SSTL_12
+set HPS_EMIF_DATA_IO_STD_ENUM IO_STD_POD_12
+set HPS_EMIF_AC_MODE_ENUM OUT_OCT_40_CAL
+set HPS_EMIF_CK_MODE_ENUM OUT_OCT_40_CAL
+set HPS_EMIF_DATA_OUT_MODE_ENUM OUT_OCT_34_CAL
+set HPS_EMIF_DATA_IN_MODE_ENUM IN_OCT_60_CAL
+set HPS_EMIF_REF_CLK_IO_STD_ENUM IO_STD_TRUE_DIFF_SIGNALING
+set HPS_EMIF_RZQ_IO_STD_ENUM IO_STD_CMOS_12
+set HPS_EMIF_DIAG_SOFT_NIOS_MODE SOFT_NIOS_MODE_DISABLED
+
+## ----------------
+## FPGA EMIF
+## ----------------
+
+# Option to enable FPGA EMIF
+set FPGA_EMIF_EN 0
+# Option to set FPGA EMIF width (ignoring extra bits for ECC)
+set FPGA_EMIF_WIDTH 32
+# Option to enable FPGA EMIF ECC
+set FPGA_EMIF_ECC_EN 0
 
 # Option to enable HPS initialization first or after FPGA initialization done
 set SYS_INITIALIZATION "fpga"

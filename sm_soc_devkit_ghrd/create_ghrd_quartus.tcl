@@ -183,6 +183,9 @@ if {[info exists pin_assignment_table]} {
     }
 }
 
+if {$hps_emif_en == 1} {
+source ./pin_assign_agilex_emif.tcl
+}
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_osc_clk
 
 if {$hps_io_off == 0} {

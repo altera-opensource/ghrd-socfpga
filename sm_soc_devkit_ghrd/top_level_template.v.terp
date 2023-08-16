@@ -6,6 +6,28 @@
 //****************************************************************************
 // This is a generated system top level RTL file. 
 
+@@if {$hps_emif_ecc_en == 1} {
+@@   incr hps_emif_width 8
+@@   set hps_ddr_w $hps_emif_width
+@@   set hps_ddr_dm_w [expr $hps_emif_width/8]
+@@   set hps_ddr_dqs_w [expr $hps_emif_width/8]
+@@} else {
+@@   set hps_ddr_w $hps_emif_width
+@@   set hps_ddr_dm_w [expr $hps_emif_width/8]
+@@   set hps_ddr_dqs_w [expr $hps_emif_width/8]
+@@}
+
+@@if {$fpga_emif_ecc_en == 1} {
+@@   incr fpga_emif_width 8
+@@   set fpga_ddr_w $fpga_emif_width
+@@   set fpga_ddr_dm_w [expr $fpga_emif_width/8]
+@@   set fpga_ddr_dqs_w [expr $fpga_emif_width/8]
+@@} else {
+@@   set fpga_ddr_w $fpga_emif_width
+@@   set fpga_ddr_dm_w [expr $fpga_emif_width/8]
+@@   set fpga_ddr_dqs_w [expr $fpga_emif_width/8]
+@@}
+
 module ${top_name} (
 //Additional refclk_bti to preserve Etile XCVR
 @@if {$board == "hidden"} {
@@ -29,6 +51,27 @@ input    wire [$fpga_button_pio_width-1:0]  fpga_button_pio,
 @@}
 //HPS
 @@if {$hps_en == 1} {
+@@if {$hps_emif_en == 1} {
+// HPS EMIF
+output   wire [0:0]    emif_hps_mem_mem_ck,
+output   wire [0:0]    emif_hps_mem_mem_ck_n,
+output   wire [16:0]   emif_hps_mem_mem_a,
+output   wire [0:0]    emif_hps_mem_mem_act_n,
+output   wire [1:0]    emif_hps_mem_mem_ba,
+output   wire [$hps_emif_bank_gp_width-1:0]    emif_hps_mem_mem_bg,
+output   wire [0:0]    emif_hps_mem_mem_cke,
+output   wire [0:0]    emif_hps_mem_mem_cs_n,
+output   wire [0:0]    emif_hps_mem_mem_odt,
+output   wire [0:0]    emif_hps_mem_mem_reset_n,
+output   wire [0:0]    emif_hps_mem_mem_par,
+input    wire [0:0]    emif_hps_mem_mem_alert_n,
+input    wire          emif_hps_oct_oct_rzqin,
+input    wire          emif_hps_pll_ref_clk,
+inout    wire [$hps_ddr_dm_w-1:0]   emif_hps_mem_mem_dbi_n,
+inout    wire [$hps_ddr_w-1:0]   emif_hps_mem_mem_dq,
+inout    wire [$hps_ddr_dqs_w-1:0]   emif_hps_mem_mem_dqs,
+inout    wire [$hps_ddr_dqs_w-1:0]   emif_hps_mem_mem_dqs_n,
+@@}
 @@if {$hps_jtag_en == 1} {
 input    wire          hps_jtag_tck,
 input    wire          hps_jtag_tms,
@@ -59,9 +102,6 @@ inout    wire          hps_sdmmc_D7,
 @@if {$hps_sdmmc_dstrb_q4_en == 1 || $hps_sdmmc_dstrb_q2_en == 1} {
 //Temporary no plan for data strobe on devkit
 @@}
-
-
-
 
 @@if {$hps_usb0_en == 1} {
 inout    wire          hps_usb0_DATA0,         

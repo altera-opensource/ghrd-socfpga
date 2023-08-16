@@ -159,9 +159,9 @@ if {$cct_en == 1} {
 # --------------- Connections and connection parameters ------------------#
 
 if {$hps_en == 1} {
-# connect "clk_100.out_clk   hps_subsys.clk
-         # rst_in.out_reset  hps_subsys.reset
-         # "
+  connect "clk_100.out_clk   hps_subsys.clk
+         rst_in.out_reset  hps_subsys.reset
+         "
   if {$f2sdram_data_width > 0} {
   connect " clk_100.out_clk hps_subsys.f2sdram_clk
             rst_in.out_reset  hps_subsys.f2sdram_rst 
@@ -182,7 +182,6 @@ if {$hps_en == 1} {
             rst_in.out_reset  hps_subsys.fpga2hps_rst 
           "
   }
-
 
 }
 

@@ -156,6 +156,34 @@ QUARTUS_TCL_ARGS += board_pwrmgt $(BOARD_PWRMGT)
 QSYS_TCL_CMDS += set board_pwrmgt $(BOARD_PWRMGT);
 endif
 
+ifneq ($(HPS_EMIF_TYPE),)
+QUARTUS_TCL_ARGS += hps_emif_type $(HPS_EMIF_TYPE)
+QSYS_TCL_CMDS += set hps_emif_type $(HPS_EMIF_TYPE);
+endif
+
+ifneq ($(HPS_EMIF_WIDTH),)
+QUARTUS_TCL_ARGS += hps_emif_width $(HPS_EMIF_WIDTH)
+QSYS_TCL_CMDS += set hps_emif_width $(HPS_EMIF_WIDTH);
+endif
+
+QUARTUS_TCL_ARGS += hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC)
+QSYS_TCL_CMDS += set hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC);
+
+ifneq ($(HPS_EMIF_REF_CLK_FREQ_MHZ),)
+QUARTUS_TCL_ARGS += hps_emif_ref_clk_freq_mhz $(HPS_EMIF_REF_CLK_FREQ_MHZ)
+QSYS_TCL_CMDS += set hps_emif_ref_clk_freq_mhz $(HPS_EMIF_REF_CLK_FREQ_MHZ);
+endif
+
+ifneq ($(HPS_EMIF_MEM_CLK_FREQ_MHZ),)
+QUARTUS_TCL_ARGS += hps_emif_mem_clk_freq_mhz $(HPS_EMIF_MEM_CLK_FREQ_MHZ)
+QSYS_TCL_CMDS += set hps_emif_mem_clk_freq_mhz $(HPS_EMIF_MEM_CLK_FREQ_MHZ);
+endif
+
+ifneq ($(HPS_EMIF_RATE),)
+QUARTUS_TCL_ARGS += hps_emif_rate $(HPS_EMIF_RATE)
+QSYS_TCL_CMDS += set hps_emif_rate $(HPS_EMIF_RATE);
+endif
+
 ifneq ($(BOOTS_FIRST),)
 QUARTUS_TCL_ARGS += sys_initialization $(BOOTS_FIRST)
 QSYS_TCL_CMDS += set sys_initialization $(BOOTS_FIRST);
