@@ -306,7 +306,7 @@ output   wire          ftrace_clk,
 @@}
 @@if {$hps_en == 1} {
 @@if {$hps_io_off == 0} {
-input    wire          hps_ref_clk,
+input    wire          hps_osc_clk,
 @@}
 @@}
 input    wire [1-1:0]  fpga_reset_n
@@ -698,7 +698,7 @@ ${qsys_name} soc_inst (
 .ext_trace_trace_data_out_export           (ftrace_data),
 @@}
 @@if {$hps_io_off == 0} {
-.hps_io_hps_osc_clk                        (hps_ref_clk),
+.hps_io_hps_osc_clk                        (hps_osc_clk),
 @@}
 
 //.h2f_reset_reset                           (h2f_reset),
