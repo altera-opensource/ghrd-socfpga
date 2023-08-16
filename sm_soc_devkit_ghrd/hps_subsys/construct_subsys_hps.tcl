@@ -25,19 +25,21 @@ set_project_property DEVICE_FAMILY $device_family
 set_project_property DEVICE $device
 set_validation_property AUTOMATIC_VALIDATION false
 
-add_component_param "altera_clock_bridge hps_clk 
-                    IP_FILE_PATH ip/$subsys_name/hps_clk.ip 
+if {$hps_emif_en == 1} {
+add_component_param "altera_clock_bridge sub_clk 
+                    IP_FILE_PATH ip/$subsys_name/sub_clk.ip 
                     EXPLICIT_CLOCK_RATE 100000000 
                     NUM_CLOCK_OUTPUTS 1
                     "
 
-add_component_param "altera_reset_bridge hps_rst_in 
-                    IP_FILE_PATH ip/$subsys_name/hps_rst_in.ip 
+add_component_param "altera_reset_bridge sub_rst_in 
+                    IP_FILE_PATH ip/$subsys_name/sub_rst_in.ip 
                     ACTIVE_LOW_RESET 1
                     SYNCHRONOUS_EDGES both
                     NUM_RESET_OUTPUTS 1
                     USE_RESET_REQUEST 0
                     "
+}
 
 add_component_param "intel_agilex_5_soc agilex_hps
                      IP_FILE_PATH ip/$subsys_name/agilex_hps.ip 
@@ -83,16 +85,16 @@ if {$hps_emif_en == 1} {
 
 #MPU_CLK_VCCL 1
 
-connect "hps_clk.out_clk                    hps_rst_in.clk" 
 
 if {$hps_emif_en == 1} {
 connect "
-         hps_clk.out_clk                    agilex_hps.emif0_csr_axi_clk
-         hps_clk.out_clk                    agilex_hps.emif0_ch0_axi_clk
-		 hps_rst_in.out_reset               agilex_hps.emif0_csr_axi_rst
-		 hps_rst_in.out_reset               agilex_hps.emif0_ch0_axi_rst
-		"
-}
+         sub_clk.out_clk                    agilex_hps.emif0_csr_axi_clk
+         sub_clk.out_clk                    agilex_hps.emif0_ch0_axi_clk
+         sub_rst_in.out_reset               agilex_hps.emif0_csr_axi_rst
+         sub_rst_in.out_reset               agilex_hps.emif0_ch0_axi_rst
+         "
+connect "sub_clk.out_clk                    sub_rst_in.clk" 
+ }
 
 # if {$user0_clk_src_select == 1} {
 # set_component_param "agilex_hps   
@@ -578,8 +580,11 @@ connect "clk_100.out_clk agilex_hps.f2h_free_clock"
 # --------------------    Exported Interfaces     -----------------------#
 export agilex_hps h2f_reset h2f_reset
 export agilex_hps usb31_io usb31_io
-export hps_rst_in in_reset reset
-export hps_clk in_clk clk
+
+if {$hps_emif_en == 1} {
+export sub_rst_in in_reset reset
+export sub_clk in_clk clk
+}
 
 if {$hps_io_off == 0} {
 export agilex_hps hps_io hps_io

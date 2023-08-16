@@ -332,10 +332,6 @@ if { ![ info exists daughter_card ] } {
  set daughter_card $DAUGHTER_CARD
 } else {
  puts "-- Accepted parameter \$daughter_card = $daughter_card"
- if {$hps_en == 0 && $daughter_card != "none"} {
-   set hps_en 1
-   puts "Solver INFO: Since \$daughter_card has selected, \$hps-en is enabled by default"
- }
 }
 
 # if { ![ info exists cross_trigger_en ] } {
