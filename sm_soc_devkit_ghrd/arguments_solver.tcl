@@ -71,7 +71,7 @@
 # f2h_width                         : 256 or 0(as disable)
 # f2s_data_width                    : 0:Unused, 256-bit"}
 # f2s_address_width                 : {40-bit 1TB,39-bit 512GB,38-bit 256GB,37-bit 128GB,36-bit 64GB,35-bit 32GB,34-bit 16GB,33-bit 8GB,32-bit 4GB,31-bit 2GB,30-bit 1GB,29-bit 512 MB,28-bit 256 MB,27-bit 128 MB,26-bit 64 MB,25-bit 32 MB,24-bit 16 MB,23-bit 8 MB,22-bit 4 MB,21-bit 2 MB,20-bit 1 MB}     		
-# f2sdram_data_width                : 0:Unused, 256-bit"}
+# f2sdram_width                : 0:Unused, 256-bit"}
 # f2sdram_address_width             :{40-bit 1TB,39-bit 512GB,38-bit 256GB,37-bit 128GB,36-bit 64GB,35-bit 32GB,34-bit 16GB,33-bit 8GB,32-bit 4GB,31-bit 2GB,30-bit 1GB,29-bit 512 MB,28-bit 256 MB,27-bit 128 MB,26-bit 64 MB,25-bit 32 MB,24-bit 16 MB,23-bit 8 MB,22-bit 4 MB,21-bit 2 MB,20-bit 1 MB}
 # lwh2f_width                       : 32 or 0(as disable)
 # h2f_addr_width                    : 38-256GB, 37-128GB. 36-64GB, 35-32GB, 34-16GB. 33-16GB, 32-8GB, 31-2GB, 30-1GB, 29-512MB, 28-256MB, 27-128MB, 26-64MB, 25-32MB, 24-16MB, 23-8MB, 22-4MB, 21-2MB, 20-1MB
@@ -521,16 +521,16 @@ if { ![ info exists f2s_address_width ] } {
  puts "-- Accepted parameter \$f2s_address_width = $f2s_address_width"
 }
 
-if { ![ info exists f2sdram_data_width ] } {
- set f2sdram_data_width $F2SDRAM_DATA_WIDTH
+if { ![ info exists f2sdram_width ] } {
+ set f2sdram_width $F2SDRAM_DATA_WIDTH
 } else {
- puts "-- Accepted parameter \$f2sdram_data_width = $f2sdram_data_width"
+ puts "-- Accepted parameter \$f2sdram_width = $f2sdram_width"
 }
 
-if { ![ info exists f2sdram_address_width ] } {
- set f2sdram_address_width $F2SDRAM_ADDRESS_WIDTH
+if { ![ info exists f2sdram_addr_width ] } {
+ set f2sdram_addr_width $F2SDRAM_ADDR_WIDTH
 } else {
- puts "-- Accepted parameter \$f2sdram_address_width = $f2sdram_address_width"
+ puts "-- Accepted parameter \$f2sdram_addr_width = $f2sdram_addr_width"
 }
 
 if { ![ info exists f2h_width ] } {
@@ -669,6 +669,19 @@ if { ![ info exists reset_sdm_watchdog_cfg ] } {
  puts "-- Accepted parameter \$reset_sdm_watchdog_cfg = $reset_sdm_watchdog_cfg"
 }
 
+if { ![ info exists hps_f2h_irq_en ] } {
+ set hps_f2h_irq_en $HPS_F2H_IRQ_EN
+} else {
+ puts "-- Accepted parameter \$hps_f2h_irq_en = $hps_f2h_irq_en"
+}
+
+if { ![ info exists f2h_free_clk_en ] } {
+ set f2h_free_clk_en $F2H_FREE_CLK_EN
+} else {
+ puts "-- Accepted parameter \$f2h_free_clk_en = $f2h_free_clk_en"
+}
+
+
 # ----------------
 # Parameter Auto Derivation
 # ----------------
@@ -689,7 +702,7 @@ set fpga_peripheral_en 0
 }
 
 # for cct_adapter
-if {$f2s_address_width > 32 && $f2sdram_data_width > 0} {
+if {$f2s_address_width > 32 && $f2sdram_width > 0} {
     set cct_en 1
     set cct_control_interface 2
 } else {

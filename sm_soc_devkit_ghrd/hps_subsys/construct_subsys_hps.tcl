@@ -11,8 +11,8 @@
 #
 #****************************************************************************
 
-# source ./arguments_solver.tcl
-# source ./utils.tcl
+source ./arguments_solver.tcl
+source ./utils.tcl
 
 
 set subsys_name subsys_hps
@@ -44,7 +44,7 @@ add_component_param "intel_agilex_5_soc agilex_hps
                      MPU_EVENTS_Enable 0
 					 GP_Enable 0
 					 Debug_APB_Enable 0
-                     STM_Enable $hps_stm_en
+                     STM_Enable 0
 					 JTAG_Enable 0
 					 CTI_Enable 0
 					 DMA_PeriphID 0
@@ -52,19 +52,20 @@ add_component_param "intel_agilex_5_soc agilex_hps
                      HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      H2F_Width $h2f_width
 					 H2F_Address_Width $h2f_addr_width
-					 f2sdram_data_width $f2sdram_data_width
-					 f2sdram_address_width $f2sdram_address_width
-					 f2s_data_width $f2s_data_width
-					 f2s_address_width $f2s_address_width
+					 f2sdram_data_width $f2sdram_width
+					 f2sdram_address_width $f2sdram_addr_width
+					 f2s_data_width $f2h_width
+					 f2s_address_width $f2h_addr_width
 					 f2s_mode acelite
                      LWH2F_Width $lwh2f_width
 					 LWH2F_Address_Width $lwh2f_addr_width
                      EMIF_AXI_Enable $hps_emif_en
-                     Rst_watchdog_en $reset_watchdog_en
-					 Rst_hps_warm_en $reset_hps_warm_en
-					 Rst_h2f_cold_en $reset_h2f_cold_en
-					 Rst_sdm_wd_config $reset_sdm_watchdog_cfg
-"
+                     "
+                     # Rst_watchdog_en $reset_watchdog_en
+					 # Rst_hps_warm_en $reset_hps_warm_en
+					 # Rst_h2f_cold_en $reset_h2f_cold_en
+					 # Rst_sdm_wd_config $reset_sdm_watchdog_cfg
+
 
 
 if {$hps_emif_en == 1} {
@@ -93,21 +94,21 @@ connect "
 		"
 }
 
-if {$user0_clk_src_select == 1} {
-set_component_param "agilex_hps   
-                     User0_clk_src_select 1
-                     User0_clk_freq 100
-"
-}
+# if {$user0_clk_src_select == 1} {
+# set_component_param "agilex_hps   
+                     # User0_clk_src_select 1
+                     # User0_clk_freq 100
+# "
+# }
 
-if {$user1_clk_src_select == 1} {
-set_component_param "agilex_hps   
-                     User1_clk_src_select 1
-                     User1_clk_freq $user1_clk_freq
-"
-}
+# if {$user1_clk_src_select == 1} {
+# set_component_param "agilex_hps   
+                     # User1_clk_src_select 1
+                     # User1_clk_freq $user1_clk_freq
+# "
+# }
 
-if {$hps_pll_source_export == 1} {
+if {$f2h_free_clk_en == 1} {
 set_component_param "agilex_hps
                      CLK_MAIN_PLL_SOURCE2 2
                      CLK_PERI_PLL_SOURCE2 2
@@ -323,11 +324,7 @@ if {$hps_i2c_emac2_q1_en == 1 || $hps_i2c_emac2_q3_en == 1 || $hps_i2c_emac2_q4_
 #                        "
 #}
 
-if {$cct_en == 1} {
-   set_component_param "agilex_hps 
-                        F2S_mode acelite
-                        "
-} #F2S_Route_config 2
+
 
 
 # connect "hps_clk.out_clk agilex_hps.I2C1_scl_i" 
@@ -379,20 +376,20 @@ if {$cct_en == 1} {
 #}
 
 # Support only in Agilex Char Board
-if {$ftrace_en == 1} {
-   set_component_param "agilex_hps TRACE_PinMuxing FPGA"
+# if {$ftrace_en == 1} {
+   # set_component_param "agilex_hps TRACE_PinMuxing FPGA"
    
-   add_component_param "altera_trace_wrapper ext_trace
-                        IP_FILE_PATH ip/$qsys_name/ext_trace.ip 
-                        NUM_PIPELINE_REG 1"
+   # add_component_param "altera_trace_wrapper ext_trace
+                        # IP_FILE_PATH ip/$qsys_name/ext_trace.ip 
+                        # NUM_PIPELINE_REG 1"
 
    #HPS Trace: 4,8,12 yield 64bits output trace from hps
    #FPGA Trace: 16-bit yield only 32bits output trace; 32-bit yield 64bits output trace
-   set ftrace_mode "${ftrace_output_width}-bit"
-   set_component_param "agilex_hps   TRACE_Mode $ftrace_mode"
+   # set ftrace_mode "${ftrace_output_width}-bit"
+   # set_component_param "agilex_hps   TRACE_Mode $ftrace_mode"
                   
-   set_component_param "ext_trace IN_DWIDTH $ftrace_output_width"
-} 
+   # set_component_param "ext_trace IN_DWIDTH $ftrace_output_width"
+# } 
 
 if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1 || $hps_trace_8b_en == 1 || $hps_trace_12b_en == 1 || $hps_trace_16b_en == 1} {
    set_component_param "agilex_hps TRACE_PinMuxing IO"
@@ -557,13 +554,13 @@ if {$hps_emif_en == 1} {
 #   }
 #}
 
-if {$ftrace_en == 1} {
-connect "rst_in.out_reset     ext_trace.reset_sink
-         agilex_hps.trace_h2f_clk ext_trace.clock_sink
-         agilex_hps.trace         ext_trace.h2f_tpiu"
-}
+# if {$ftrace_en == 1} {
+# connect "rst_in.out_reset     ext_trace.reset_sink
+         # agilex_hps.trace_h2f_clk ext_trace.clock_sink
+         # agilex_hps.trace         ext_trace.h2f_tpiu"
+# }
 
-if {$hps_pll_source_export == 1} {
+if {$f2h_free_clk_en == 1} {
 connect "clk_100.out_clk agilex_hps.f2h_free_clock"
 }
 
@@ -588,14 +585,14 @@ if {$hps_io_off == 0} {
 export agilex_hps hps_io hps_io
 }
 
-if {$hps_stm_en == 1} {
-export agilex_hps stm_hwevents agilex_hps_f2h_stm_hw_events
-export agilex_hps h2f_cs agilex_hps_h2f_cs
-}
+# if {$hps_stm_en == 1} {
+# export agilex_hps stm_hwevents agilex_hps_f2h_stm_hw_events
+# export agilex_hps h2f_cs agilex_hps_h2f_cs
+# }
 
-if {$reset_watchdog_en == 1} {
-export agilex_hps h2f_watchdog_reset wd_reset
-}
+# if {$reset_watchdog_en == 1} {
+# export agilex_hps h2f_watchdog_reset wd_reset
+# }
 
 
 if {$f2s_data_width > 0} {
@@ -604,7 +601,7 @@ if {$f2s_data_width > 0} {
     export agilex_hps fpga2hps_axi_reset fpga2hps_rst
 }
 
-if {$f2sdram_data_width > 0} {
+if {$f2sdram_width > 0} {
     export agilex_hps f2sdram f2sdram
     export agilex_hps f2sdram_axi_clock f2sdram_clk
     export agilex_hps f2sdram_axi_reset f2sdram_rst
@@ -634,17 +631,17 @@ if {$lwh2f_width > 0} {
 #export agilex_hps h2f_gp agilex_hps_h2f_gp
 #} 
 
-if {$ftrace_en == 1} {
-export ext_trace f2h_clk_in ext_trace_f2h_clk_in
-export ext_trace trace_clk_out ext_trace_trace_clk_out
-export ext_trace trace_data_out ext_trace_trace_data_out
-}
+# if {$ftrace_en == 1} {
+# export ext_trace f2h_clk_in ext_trace_f2h_clk_in
+# export ext_trace trace_clk_out ext_trace_trace_clk_out
+# export ext_trace trace_data_out ext_trace_trace_data_out
+# }
 
 # interconnect requirements
-set_domain_assignment {$system} {qsys_mm.clockCrossingAdapter} {AUTO}
-set_domain_assignment {$system} {qsys_mm.maxAdditionalLatency} {1}
-set_domain_assignment {$system} {qsys_mm.enableEccProtection} {FALSE}
-set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
+# set_domain_assignment {$system} {qsys_mm.clockCrossingAdapter} {AUTO}
+# set_domain_assignment {$system} {qsys_mm.maxAdditionalLatency} {1}
+# set_domain_assignment {$system} {qsys_mm.enableEccProtection} {FALSE}
+# set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
     
 sync_sysinfo_parameters 
     

@@ -29,21 +29,12 @@ set CLK_GATE_EN 0
 
 set BOARD "hidden"
 # Only valid for board="DK-SI-AGF014E"; "enpirion" or "linear"
-set BOARD_PWRMGT "linear"
+#set BOARD_PWRMGT "linear"
 
 #  IO48 DAUGHTER_CARD, available options such as "devkit_dc_oobe", "devkit_dc_nand", "devkit_dc_emmc"
 set DAUGHTER_CARD "devkit_dc_oobe"
 
-set FPGA_PERIPHERAL_EN 1
-
-## ----------------
-## OCM
-## ----------------
-
-set JTAG_OCM_EN 1
-set OCM_DATAWIDTH 128
-set OCM_MEMSIZE 262144.0
-
+set HPS_FIRST_CONFIG 0
 ## ----------------
 ## HPS
 ## ----------------
@@ -56,6 +47,9 @@ set USER1_CLK_SRC_SELECT 0
 set USER0_CLK_FREQ 500
 set USER1_CLK_FREQ 500
 
+
+set HPS_F2H_IRQ_EN 0
+set F2H_FREE_CLK_EN 0
 # Option to enable HPS EMIF
 set HPS_EMIF_EN 0
 
@@ -92,8 +86,8 @@ set F2H_WIDTH 64
 set LWH2F_WIDTH 32
 set F2S_DATA_WIDTH 256
 set F2S_ADDRESS_WIDTH 32
-set F2SDRAM_DATA_WIDTH 256
-set F2SDRAM_ADDRESS_WIDTH 32
+set F2SDRAM_WIDTH 256
+set F2SDRAM_ADDR_WIDTH 32
 set H2F_F2H_LOOPBACK_EN 0
 set LWH2F_F2H_LOOPBACK_EN 0
 set F2H_ADDR_WIDTH 32
