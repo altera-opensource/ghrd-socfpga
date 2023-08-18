@@ -49,9 +49,6 @@ if {$hps_emif_mem_part == "default_part"} {
 
 add_component_param     "emif_ph2 emif_hps
                         IP_FILE_PATH ip/$qsys_name/emif_hps.ip"
-#set_component_param     "emif hps
-#                         
-#"
 
 # ------ Connections --------------------------------- #
 connect "${cpu_instance}.emif0_ch0_axi emif_hps.s0_axi4"
@@ -61,11 +58,11 @@ export emif_hps mem_0         emif_hps_mem_0
 export emif_hps oct_0         emif_hps_oct_0
 #export emif_hps pll_ref_clk emif_hps_pll_ref_clk 
 
-connect "hps_clk.out_clk                emif_hps.ref_clk_0
-         hps_clk.out_clk                emif_hps.usr_async_clk_0
-		 hps_clk.out_clk                emif_hps.s0_axil_clk
-		 hps_rst_in.out_reset           emif_hps.core_init_n_0
-		 hps_rst_in.out_reset           emif_hps.s0_axil_rst_n
+connect "sub_clk.out_clk                emif_hps.ref_clk_0
+         sub_clk.out_clk                emif_hps.usr_async_clk_0
+		 sub_clk.out_clk                emif_hps.s0_axil_clk
+		 sub_rst_in.out_reset           emif_hps.core_init_n_0
+		 sub_rst_in.out_reset           emif_hps.s0_axil_rst_n
 		 "
 
 #if {$hps_emif_mem_part == "custom"} {

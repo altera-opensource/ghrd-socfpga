@@ -56,7 +56,7 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 H2F_Address_Width $h2f_addr_width
 					 f2sdram_data_width $f2sdram_width
 					 f2sdram_address_width $f2sdram_addr_width
-					 f2s_data_width $f2h_width
+					 f2s_data_width $f2s_data_width
 					 f2s_address_width $f2h_addr_width
 					 f2s_mode acelite
                      LWH2F_Width $lwh2f_width
@@ -69,13 +69,50 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 # Rst_sdm_wd_config $reset_sdm_watchdog_cfg
 
 
-
+# EMIF_DDR_WIDTH $hps_emif_width 
 if {$hps_emif_en == 1} {
-    source ../board/emif_setting.tcl
+    set cpu_instance agilex_hps
+    set board_emif_config_file "./board/board_hidden_emif_setting.tcl"
+    if {[file exist $board_emif_config_file]} {
+        source $board_emif_config_file
+    } else {
+        error "$board_emif_config_file not exist!! Please make sure the board settings files are included in folder ./board/"
+    }
+#   connect "emif_hps.usr_async_clk_0     agilex_hps.emif0_ch0_axi_clk
+#		     emif_hps.s0_axil_clk          agilex_hps.emif0_csr_axi_clk
+#		     emif_hps.usr_rst_n_0        agilex_hps.emif0_ch0_axi_rst
+#		     emif_hps.s0_axil_rst_n        agilex_hps.emif0_csr_axi_rst
+#		    "
+#	connect "sub_clk.out_clk               emif_hps.usr_async_clk_0
+#		     sub_clk.out_clk               emif_hps.s0_axil_clk
+#	         sub_rst_in.out_reset          emif_hps.core_init_n_0
+#		     sub_rst_in.out_reset          emif_hps.s0_axil_rst_n
+#			 sub_rst_in.out_reset          emif_hps.usr_rst_n_0
+#		    "
+#			
+#	connect "sub_clk.out_clk               agilex_hps.emif0_ch0_axi_clk
+#	         sub_clk.out_clk               agilex_hps.emif0_csr_axi_clk
+#			 sub_rst_in.out_reset          agilex_hps.emif0_ch0_axi_rst
+#			 sub_rst_in.out_reset          agilex_hps.emif0_csr_axi_rst
+#            "			 
+	
+    connect "emif_hps.usr_rst_n_0          agilex_hps.emif0_ch0_axi_rst"
 
-}
-# EMIF_DDR_WIDTH $hps_emif_width     
-       
+	connect "sub_clk.out_clk               emif_hps.usr_async_clk_0
+		     sub_clk.out_clk               emif_hps.s0_axil_clk
+	         sub_rst_in.out_reset          emif_hps.core_init_n_0
+		     sub_rst_in.out_reset          emif_hps.s0_axil_rst_n
+		    "
+			
+	connect "sub_clk.out_clk               agilex_hps.emif0_ch0_axi_clk
+	         sub_clk.out_clk               agilex_hps.emif0_csr_axi_clk
+			 sub_rst_in.out_reset          agilex_hps.emif0_csr_axi_rst
+            "			
+	
+	connect "sub_clk.out_clk               sub_rst_in.clk" 
+	
+	connect "agilex_hps.emif0_csr_axi      emif_hps.s0_axil"
+} 
 #load_component agilex_hps
 #for {set i 0} {$i < 48} {incr i} {
 #set_component_parameter_value IO_INPUT_DELAY${i} $input_dly_chain_io48(${i})
@@ -84,17 +121,6 @@ if {$hps_emif_en == 1} {
 #save_component
 
 #MPU_CLK_VCCL 1
-
-
-if {$hps_emif_en == 1} {
-connect "
-         sub_clk.out_clk                    agilex_hps.emif0_csr_axi_clk
-         sub_clk.out_clk                    agilex_hps.emif0_ch0_axi_clk
-         sub_rst_in.out_reset               agilex_hps.emif0_csr_axi_rst
-         sub_rst_in.out_reset               agilex_hps.emif0_ch0_axi_rst
-         "
-connect "sub_clk.out_clk                    sub_rst_in.clk" 
- }
 
 # if {$user0_clk_src_select == 1} {
 # set_component_param "agilex_hps   
@@ -409,10 +435,6 @@ if {$hps_trace_8b_en == 1} {
    set_component_param "agilex_hps   TRACE_Mode 16-bit"
 }
 
-if {$hps_emif_en == 1} {
-   set cpu_instance agilex_hps
-   source ./construct_agilex_emif.tcl
-}
 
 # --------------- Connections and connection parameters ------------------#
 
@@ -602,8 +624,8 @@ export agilex_hps hps_io hps_io
 
 if {$f2s_data_width > 0} {
     export agilex_hps fpga2hps fpga2hps
-    export agilex_hps fpga2hps_axi_clock fpga2hps_clk
-    export agilex_hps fpga2hps_axi_reset fpga2hps_rst
+    export agilex_hps fpga2hps_clock fpga2hps_clk
+    export agilex_hps fpga2hps_reset fpga2hps_rst
 }
 
 if {$f2sdram_width > 0} {
