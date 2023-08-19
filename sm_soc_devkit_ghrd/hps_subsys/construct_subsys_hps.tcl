@@ -78,36 +78,12 @@ if {$hps_emif_en == 1} {
     } else {
         error "$board_emif_config_file not exist!! Please make sure the board settings files are included in folder ./board/"
     }
-#   connect "emif_hps.usr_async_clk_0     agilex_hps.emif0_ch0_axi_clk
-#		     emif_hps.s0_axil_clk          agilex_hps.emif0_csr_axi_clk
-#		     emif_hps.usr_rst_n_0        agilex_hps.emif0_ch0_axi_rst
-#		     emif_hps.s0_axil_rst_n        agilex_hps.emif0_csr_axi_rst
-#		    "
-#	connect "sub_clk.out_clk               emif_hps.usr_async_clk_0
-#		     sub_clk.out_clk               emif_hps.s0_axil_clk
-#	         sub_rst_in.out_reset          emif_hps.core_init_n_0
-#		     sub_rst_in.out_reset          emif_hps.s0_axil_rst_n
-#			 sub_rst_in.out_reset          emif_hps.usr_rst_n_0
-#		    "
-#			
-#	connect "sub_clk.out_clk               agilex_hps.emif0_ch0_axi_clk
-#	         sub_clk.out_clk               agilex_hps.emif0_csr_axi_clk
-#			 sub_rst_in.out_reset          agilex_hps.emif0_ch0_axi_rst
-#			 sub_rst_in.out_reset          agilex_hps.emif0_csr_axi_rst
-#            "			 
 	
-    connect "emif_hps.usr_rst_n_0          agilex_hps.emif0_ch0_axi_rst"
-
-	connect "sub_clk.out_clk               emif_hps.usr_async_clk_0
-		     sub_clk.out_clk               emif_hps.s0_axil_clk
-	         sub_rst_in.out_reset          emif_hps.core_init_n_0
-		     sub_rst_in.out_reset          emif_hps.s0_axil_rst_n
+    connect "emif_hps.usr_clk_0            agilex_hps.emif0_ch0_axi_clk
+		     emif_hps.s0_axil_clk          agilex_hps.emif0_csr_axi_clk
+		     emif_hps.usr_rst_n_0          agilex_hps.emif0_ch0_axi_rst
+		     emif_hps.s0_axil_rst_n        agilex_hps.emif0_csr_axi_rst
 		    "
-			
-	connect "sub_clk.out_clk               agilex_hps.emif0_ch0_axi_clk
-	         sub_clk.out_clk               agilex_hps.emif0_csr_axi_clk
-			 sub_rst_in.out_reset          agilex_hps.emif0_csr_axi_rst
-            "			
 	
 	connect "sub_clk.out_clk               sub_rst_in.clk" 
 	

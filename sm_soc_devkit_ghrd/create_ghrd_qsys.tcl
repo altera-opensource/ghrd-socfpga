@@ -162,7 +162,7 @@ if {$hps_en == 1} {
   if {$hps_emif_en == 1} {
   connect "clk_100.out_clk    hps_subsys.clk
           rst_in.out_reset    hps_subsys.reset
-		  clk_100.out_clk     hps_subsys.emif_ref_clk_0 
+		  clk_100.out_clk     hps_subsys.emif_hps_emif_ref_clk_0 
           "
   }
   if {$f2sdram_width > 0} {
