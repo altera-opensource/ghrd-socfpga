@@ -60,15 +60,17 @@ if {$hps_emif_mem_part == "custom"} {
         #apply_component_preset  "DDR4-3200AA CL22 Component 1CS 8Gb (512Mb x16)"
         #save_component
       
-        set_component_param     "emif_hps 
+        set_component_param     "emif_hps
+		                        MEM_TECHNOLOGY_AUTO_BOOL             false
                                 MEM_TECHNOLOGY                       MEM_TECHNOLOGY_DDR4
+								HPS_EMIF_CONFIG_AUTO_BOOL            false
                                 HPS_EMIF_CONFIG                      HPS_EMIF_1x32
 								MEM_FORMAT                           MEM_FORMAT_DISCRETE
 								MEM_TOPOLOGY                         MEM_TOPOLOGY_FLYBY
 								CTRL_ECC_MODE                        CTRL_ECC_MODE_DISABLED
 								PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_AUTO
 								MEM_DEVICE_DQ_WIDTH                  16
-								MEM_COMPS_PER_RANK                   1
+								MEM_COMPS_PER_RANK                   2
 								"
     }
 

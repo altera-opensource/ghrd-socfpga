@@ -246,7 +246,7 @@ puts "Number of ports: [dict size $pin_assignment_table]"
 
 set emif_name "emif_hps"
 set pin_matrix [ list \
-      [ list "NAME"                               "MEM"       "LOC"            "x16_r1"      "x24_r1"      "x32_r1"        "x40_r1"        "x64_r1"        "x72_r1"         ] \
+      [ list "NAME"                                    "MEM"       "LOC"            "x16_r1"      "x24_r1"      "x32_r1"        "x40_r1"        "x64_r1"        "x72_r1"         ] \
       [ list "${emif_name}_emif_ref_clk_0_clk"         "ddr4"      "PIN_AB117"      "PIN_AB117"   "PIN_AB117"   "PIN_AB117"     "PIN_AB117"     "PIN_AB117"     "PIN_AB117"      ] \
       [ list "${emif_name}_emif_oct_0_oct_rzqin"       "ddr4"      "PIN_AK111"      "PIN_AK111"   "PIN_AK111"   "PIN_AK111"     "PIN_AK111"     "PIN_AK111"     "PIN_AK111"      ] \
       [ list "${emif_name}_emif_mem_0_mem_a[0]"        "ddr4"      "PIN_T114"       "PIN_T114"    "PIN_T114"    "PIN_T114"      "PIN_T114"      "PIN_T114"      "PIN_T114"       ] \
@@ -272,11 +272,11 @@ set pin_matrix [ list \
 	  [ list "${emif_name}_emif_mem_0_mem_bg[1]"       "ddr4"      "PIN_F117"       "PIN_F117"    "PIN_F117"    "PIN_F117"      "PIN_F117"      "PIN_F117"      "PIN_F117"       ] \
       [ list "${emif_name}_emif_mem_0_mem_act_n"       "ddr4"      "PIN_M117"       "PIN_M117"    "PIN_M117"    "PIN_M117"      "PIN_M117"      "PIN_M117"      "PIN_M117"       ] \
       [ list "${emif_name}_emif_mem_0_mem_alert_n"     "ddr4"      "PIN_Y108"       "PIN_Y108"    "PIN_Y108"    "PIN_Y108"      "PIN_Y108"      "PIN_Y108"      "PIN_Y108"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_ck_t[0]"     "ddr4"      "PIN_H108"       "PIN_H108"    "PIN_H108"    "PIN_H108"      "PIN_H108"      "PIN_H108"      "PIN_H108"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_ck_c[0]"     "ddr4"      "PIN_F108"       "PIN_F108"    "PIN_F108"    "PIN_F108"      "PIN_F108"      "PIN_F108"      "PIN_F108"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_cke[0]"      "ddr4"      "PIN_F105"       "PIN_F105"    "PIN_F105"    "PIN_F105"      "PIN_F105"      "PIN_F105"      "PIN_F105"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_cs_n[0]"     "ddr4"      "PIN_K117"       "PIN_K117"    "PIN_K117"    "PIN_K117"      "PIN_K117"      "PIN_K117"      "PIN_K117"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_odt[0]"      "ddr4"      "PIN_F114"       "PIN_F114"    "PIN_F114"    "PIN_F114"      "PIN_F114"      "PIN_F114"      "PIN_F114"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_ck_t"        "ddr4"      "PIN_H108"       "PIN_H108"    "PIN_H108"    "PIN_H108"      "PIN_H108"      "PIN_H108"      "PIN_H108"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_ck_c"        "ddr4"      "PIN_F108"       "PIN_F108"    "PIN_F108"    "PIN_F108"      "PIN_F108"      "PIN_F108"      "PIN_F108"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_cke"         "ddr4"      "PIN_F105"       "PIN_F105"    "PIN_F105"    "PIN_F105"      "PIN_F105"      "PIN_F105"      "PIN_F105"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_cs_n"        "ddr4"      "PIN_K117"       "PIN_K117"    "PIN_K117"    "PIN_K117"      "PIN_K117"      "PIN_K117"      "PIN_K117"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_odt"         "ddr4"      "PIN_F114"       "PIN_F114"    "PIN_F114"    "PIN_F114"      "PIN_F114"      "PIN_F114"      "PIN_F114"       ] \
       [ list "${emif_name}_emif_mem_0_mem_par"         "ddr4"      "PIN_K108"       "PIN_K108"    "PIN_K108"    "PIN_K108"      "PIN_K108"      "PIN_K108"      "PIN_K108"       ] \
       [ list "${emif_name}_emif_mem_0_mem_reset_n"     "ddr4"      "PIN_H117"       "PIN_H117"    "PIN_H117"    "PIN_H117"      "PIN_H117"      "PIN_H117"      "PIN_H117"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dqs_t[0]"    "ddr4"      "PIN_B122"       "PIN_B122"    "PIN_B122"    "PIN_B122"      "PIN_B122"      "PIN_B122"      "PIN_B122"       ] \
