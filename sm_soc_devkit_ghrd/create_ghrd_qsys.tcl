@@ -161,8 +161,7 @@ if {$cct_en == 1} {
 if {$hps_en == 1} {
   if {$hps_emif_en == 1} {
   connect "clk_100.out_clk    hps_subsys.clk
-          rst_in.out_reset    hps_subsys.reset
-		  clk_100.out_clk     hps_subsys.emif_hps_emif_ref_clk_0 
+          rst_in.out_reset    hps_subsys.reset 
           "
   }
   if {$f2sdram_width > 0} {
@@ -250,6 +249,12 @@ export rst_in in_reset reset
 export user_rst_clkgate_0 ninit_done ninit_done
 export hps_subsys usb31_io usb31_io
 export hps_subsys hps_io hps_io
+
+if {$hps_emif_en == 1} {
+export hps_subsys emif_hps_emif_mem_0 emif_hps_emif_mem_0
+export hps_subsys emif_hps_emif_oct_0 emif_hps_emif_oct_0
+export hps_subsys emif_hps_emif_ref_clk_0 emif_hps_emif_ref_clk_0
+}
 
 if {$clk_gate_en == 1} {
 export clkctrl_0 clkctrl_input clkctrl_input

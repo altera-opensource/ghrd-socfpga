@@ -76,7 +76,7 @@ set HPS_EMIF_REF_CLK_FREQ_MHZ 100.0
 # Option to set HPS EMIF CLK frequency in MHz
 set HPS_EMIF_MEM_CLK_FREQ_MHZ 1200.0
 # Option to set HPS EMIF width (ignoring extra bits for ECC)
-set HPS_EMIF_WIDTH 64
+set HPS_EMIF_WIDTH 32
 # Option to enable HPS EMIF ECC
 set HPS_EMIF_ECC_EN 0
 

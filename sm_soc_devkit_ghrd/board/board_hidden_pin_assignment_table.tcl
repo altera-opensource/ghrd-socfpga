@@ -295,7 +295,7 @@ set pin_matrix [ list \
       [ list "${emif_name}_emif_mem_0_mem_dq[3]"       "ddr4"      "PIN_A116"       "PIN_A116"    "PIN_A116"    "PIN_A116"      "PIN_A116"      "PIN_A116"      "PIN_A116"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[4]"       "ddr4"      "PIN_A130"       "PIN_A130"    "PIN_A130"    "PIN_A130"      "PIN_A130"      "PIN_A130"      "PIN_A130"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[5]"       "ddr4"      "PIN_B113"       "PIN_B113"    "PIN_B113"    "PIN_B113"      "PIN_B113"      "PIN_B113"      "PIN_B113"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[6]"       "ddr4"      "PIN_B130"       "PIN_H17"     "PIN_H17"     "PIN_H17"       "PIN_H17"       "PIN_H17"       "PIN_H17"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[6]"       "ddr4"      "PIN_B130"       "PIN_B130"    "PIN_B130"    "PIN_B130"      "PIN_B130"      "PIN_B130"      "PIN_B130"        ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[7]"       "ddr4"      "PIN_A113"       "PIN_A113"    "PIN_A113"    "PIN_A113"      "PIN_A113"      "PIN_A113"      "PIN_A113"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[8]"       "ddr4"      "PIN_AC100"      "PIN_AC100"   "PIN_AC100"   "PIN_AC100"     "PIN_AC100"     "PIN_AC100"     "PIN_AC100"      ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[9]"       "ddr4"      "PIN_Y84"        "PIN_Y84"     "PIN_Y84"     "PIN_Y84"       "PIN_Y84"       "PIN_Y84"       "PIN_Y84"        ] \
