@@ -151,6 +151,9 @@ QUARTUS_DEVICE_FAMILY := Agilex
 QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
 #QUARTUS_DEVICE ?= AGFB014R24A2E2VR1
 
+#FP82 
+#QUARTUS_DEVICE ?= AGMF039R47A1E2VR0
+
 # Board Power Management. Support board devkit is supported: linear, enpirion
 BOARD_PWRMGT ?= enpirion
 # Publicly Available DC: devkit_dc_oobe, devkit_dc_nand, devkit_dc_emmc
