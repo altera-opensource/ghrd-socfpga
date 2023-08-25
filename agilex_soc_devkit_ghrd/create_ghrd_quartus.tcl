@@ -20,7 +20,11 @@ source ./arguments_solver.tcl
 source ./board/board_${board}_pin_assignment_table.tcl
 global pin_assignment_table
 
-set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v,custom_ip/edge_detect/altera_edge_detector.v,custom_ip/sgpio_slave/sgpio_slave.v"
+if {$board ==  "devkit_fp82"} {
+	set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v,custom_ip/edge_detect/altera_edge_detector.v"
+} else {
+	set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v,custom_ip/edge_detect/altera_edge_detector.v,custom_ip/sgpio_slave/sgpio_slave.v"
+}
 
 if {$freeze_ack_dly_enable == 1 && $pr_enable == 1} {
 set hdlfiles "${hdlfiles},custom_ip/ack_delay_logic/ack_delay_logic.sv"
@@ -212,6 +216,15 @@ if {[info exists pin_assignment_table]} {
 
 if {$hps_emif_en == 1} {
 source ./pin_assign_agilex_emif.tcl
+if {$board == "devkit_fp82"} {
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|emif_hps_noc|emif_hps_noc|pll_inst -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|emif_hps_noc|emif_hps_noc|ssm_inst -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif_0|tniu_0|target_0.target_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_CONNECTION ON -from soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif_0|tniu_0|target_0.target_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_TARGET_BASE_ADDRESS 0 -from soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif_0|tniu_0|target_0.target_inst_0 -entity $top_name
+
+}
 }
 
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_ref_clk

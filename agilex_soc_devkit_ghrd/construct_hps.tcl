@@ -11,12 +11,12 @@
 #****************************************************************************
 
 #add_component_param "intel_falconmesa_hps agilex_hps
+
 add_component_param "intel_agilex_hps agilex_hps
                      IP_FILE_PATH ip/$qsys_name/agilex_hps.ip 
                      MPU_EVENTS_Enable 0
                      STM_Enable $hps_stm_en
-                     HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
-                     F2S_Width $f2s_width
+                     HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}                     
                      S2F_Width $s2f_width
                      LWH2F_Enable $lwh2f_width
                      EMIF_CONDUIT_Enable $hps_emif_en
@@ -32,6 +32,13 @@ add_component_param "intel_agilex_hps agilex_hps
                      watchdog_reset $watchdog_rst_en
                      W_RESET_ACTION $watchdog_rst_act
 "
+if {$board == "devkit_fp82"} {
+set_component_param "agilex_hps FP_F2S_Width $f2s_width"
+} else {
+set_component_param "agilex_hps F2S_Width $f2s_width"
+}
+# }	
+
 #                     EMIF_DDR_WIDTH $hps_emif_width
 
                      

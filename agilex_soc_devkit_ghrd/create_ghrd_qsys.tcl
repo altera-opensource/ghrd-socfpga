@@ -287,6 +287,7 @@ source ./construct_hps.tcl
 }
 
 if {$hps_emif_en == 1 || $fpga_emif_en == 1} {
+if {$board != "devkit_fp82"} {
 if {$hps_emif_en == 1 && $fpga_emif_en == 1} {
 set num_calbus 2
 } else {
@@ -296,6 +297,7 @@ add_component_param "altera_emif_cal emif_calbus_0
                      IP_FILE_PATH ip/$qsys_name/emif_calbus_0.ip 
                      NUM_CALBUS_INTERFACE $num_calbus 
                      "
+}
 }
 
 # --------------- Connections and connection parameters ------------------#
@@ -371,7 +373,7 @@ connect "clk_100.out_clk   niosv.clk
 #connect "clk_100.out_clk         acp_bridge_128_0.csr_clock"
 #connect "rst_in.out_reset        acp_bridge_128_0.csr_reset"
 #}
-
+if {$board != "devkit_fp82"} {
 if {$hps_emif_en == 1 && $fpga_emif_en == 1} {
 connect "emif_hps.emif_calbus             emif_calbus_0.emif_calbus_0
          emif_calbus_0.emif_calbus_clk    emif_hps.emif_calbus_clk
@@ -387,6 +389,7 @@ connect "emif_hps.emif_calbus             emif_calbus_0.emif_calbus_0
 connect "emif_fpga.emif_calbus            emif_calbus_0.emif_calbus_0
          emif_calbus_0.emif_calbus_clk    emif_fpga.emif_calbus_clk
          "
+}
 }
 
 if {$cct_en == 1 } {

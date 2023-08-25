@@ -131,6 +131,22 @@ inout    wire [$hps_ddr_w-1:0]   emif_hps_mem_mem_dq,
 inout    wire [$hps_ddr_dqs_w-1:0]   emif_hps_mem_mem_dqs,
 inout    wire [$hps_ddr_dqs_w-1:0]   emif_hps_mem_mem_dqs_n,
 @@}
+@@if {$hps_emif_type == "ddr5"} {
+output   wire     					emif_hps_mem_mem_ck_c,
+output   wire     					emif_hps_mem_mem_ck_t,
+output   wire [12:0]   				emif_hps_mem_mem_ca,
+output   wire     					emif_hps_mem_mem_cs_n,
+output   wire     					emif_hps_mem_mem_reset_n,
+output   wire [3:0]    				emif_hps_mem_mem_dm_n,
+input    wire     					emif_hps_mem_mem_alert_n,
+input    wire          				emif_hps_oct_oct_rzqin,
+input    wire          				emif_hps_noc_refclk_clk,
+output	 wire		   				emif_hps_noc_pll_lock_o_pll_lock_o,
+input    wire          				emif_hps_ref_clk_clk,
+inout    wire [$hps_ddr_w-1:0]   	emif_hps_mem_mem_dq,
+inout	 wire [3:0]	   				emif_hps_mem_mem_dqs_c,
+inout	 wire [3:0]	   				emif_hps_mem_mem_dqs_t,
+@@}
 @@}
 @@if {$hps_jtag_en == 1} {
 input    wire        hps_jtag_tck,
@@ -455,8 +471,12 @@ wire[7:0]    fpga_led_pio;
 wire [$fpga_dipsw_pio_width-1:0]   fpga_dipsw_pio;
 assign fpga_led_pio            = {{(8-$fpga_led_pio_width){1'b1}},heartbeat_led,fpga_led_internal};
 //assign fpga_dipsw_pio = fpga_user_sw_enabled[$fpga_dipsw_pio_width-1:0];
-@@  } else {
+@@  } elseif {$fpga_peripheral_en ==1 && $fpga_led_pio_width > 0} {
+@@if {$fpga_led_pio_width > 1} {
 assign fpga_led_pio = {heartbeat_led,fpga_led_internal};
+@@} else {
+assign fpga_led_pio = {heartbeat_led};
+@@}
 @@}
 
 @@if {$hps_en == 1} {
@@ -695,6 +715,22 @@ ${qsys_name} soc_inst (
 .emif_hps_mem_mem_dq                    (emif_hps_mem_mem_dq), 
 .emif_hps_mem_mem_dbi_n                 (emif_hps_mem_mem_dbi_n), 
 .emif_hps_oct_oct_rzqin                 (emif_hps_oct_oct_rzqin), 
+@@}
+@@if {$hps_emif_type == "ddr5"} {
+.emif_hps_noc_pll_lock_o_pll_lock_o     (emif_hps_noc_pll_lock_o_pll_lock_o),   
+.emif_hps_mem_mem_ck_c                  (emif_hps_mem_mem_ck_c),   
+.emif_hps_mem_mem_ck_t                  (emif_hps_mem_mem_ck_t),  
+.emif_hps_mem_mem_ca                    (emif_hps_mem_mem_ca),       
+.emif_hps_mem_mem_cs_n                  (emif_hps_mem_mem_cs_n),    
+.emif_hps_mem_mem_reset_n               (emif_hps_mem_mem_reset_n),
+.emif_hps_mem_mem_dm_n                  (emif_hps_mem_mem_dm_n), 
+.emif_hps_mem_mem_alert_n               (emif_hps_mem_mem_alert_n),    
+.emif_hps_oct_oct_rzqin                 (emif_hps_oct_oct_rzqin),
+.emif_hps_noc_refclk_clk                (emif_hps_noc_refclk_clk),
+.emif_hps_ref_clk_clk                   (emif_hps_ref_clk_clk),
+.emif_hps_mem_mem_dq                    (emif_hps_mem_mem_dq),       
+.emif_hps_mem_mem_dqs_c                 (emif_hps_mem_mem_dqs_c), 
+.emif_hps_mem_mem_dqs_t                 (emif_hps_mem_mem_dqs_t), 
 @@}
 @@}
 @@if {$hps_jtag_en == 1} {
