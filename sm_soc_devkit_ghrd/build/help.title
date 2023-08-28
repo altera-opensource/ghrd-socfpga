@@ -1,0 +1,3 @@
+usage       : make <param>=<value> ... module
+example     : make board_type=pcie_devkit all
+parameters  :
