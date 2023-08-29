@@ -19,15 +19,21 @@
 ## --------------------------
 
 if {$hps_emif_en} {
-   set ranks r1
-   set width $hps_emif_width
-   set ecc   $hps_emif_ecc_en
+if {$board == "devkit_fp82"} {
+		set key fp82
+	
+	} else {	
+		set ranks r1
+		set width $hps_emif_width
+		
 
-   if {$ecc} {
-      incr width 8
-   }
+		set key "x${width}_$ranks"
+		}
+	set ecc   $hps_emif_ecc_en
 
-   set key "x${width}_$ranks"
+	if {$ecc} {
+		incr width 8
+	}
 
    # Search for key in the first line
    set key_line [lindex $pin_matrix 0]
