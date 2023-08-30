@@ -283,12 +283,12 @@ set pin_matrix [ list \
       [ list "${emif_name}_emif_mem_0_mem_dqs_t[1]"    "ddr4"      "PIN_AG90"       "PIN_AG90"    "PIN_AG90"    "PIN_AG90"      "PIN_AG90"      "PIN_AG90"      "PIN_AG90"       ] \
 	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[2]"    "ddr4"      "PIN_K95"        "PIN_K95"     "PIN_K95"     "PIN_K95"       "PIN_K95"       "PIN_K95"       "PIN_K95"       ] \
 	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[3]"    "ddr4"      "PIN_F95"        "PIN_F95"     "PIN_F95"     "PIN_F95"       "PIN_F95"       "PIN_F95"       "PIN_F95"       ] \
-	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[4]"    "ddr4"      "PIN_A101"       "PIN_A101"    "PIN_A101"    "PIN_A101"      "PIN_A101"      "PIN_A101"      "PIN_A101"       ] \
+	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[4]"    "ddr4"      "PIN_A101"       "PIN_A101"    "PIN_A101"    "unused"        "PIN_A101"      "PIN_A101"      "PIN_A101"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dqs_c[0]"    "ddr4"      "PIN_A125"       "PIN_A125"    "PIN_A125"    "PIN_A125"      "PIN_A125"      "PIN_A125"      "PIN_A125"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dqs_c[1]"    "ddr4"      "PIN_AG93"       "PIN_AG93"    "PIN_AG93"    "PIN_AG93"      "PIN_AG93"      "PIN_AG93"      "PIN_AG93"       ] \
 	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[2]"    "ddr4"      "PIN_M95"        "PIN_M95"     "PIN_M95"     "PIN_M95"       "PIN_M95"       "PIN_M95"       "PIN_M95"       ] \
 	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[3]"    "ddr4"      "PIN_D95"        "PIN_D95"     "PIN_D95"     "PIN_D95"       "PIN_D95"       "PIN_D95"       "PIN_D95"       ] \
-	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[4]"    "ddr4"      "PIN_B101"       "PIN_B101"    "PIN_B101"    "PIN_B101"      "PIN_B101"      "PIN_B101"      "PIN_B101"       ] \
+	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[4]"    "ddr4"      "PIN_B101"       "PIN_B101"    "PIN_B101"    "unused"      "PIN_B101"      "PIN_B101"      "PIN_B101"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[0]"       "ddr4"      "PIN_B128"       "PIN_B128"    "PIN_B128"    "PIN_B128"      "PIN_B128"      "PIN_B128"      "PIN_B128"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[1]"       "ddr4"      "PIN_B116"       "PIN_B116"    "PIN_B116"    "PIN_B116"      "PIN_B116"      "PIN_B116"      "PIN_B116"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[2]"       "ddr4"      "PIN_A128"       "PIN_A128"    "PIN_A128"    "PIN_A128"      "PIN_A128"      "PIN_A128"      "PIN_A128"       ] \

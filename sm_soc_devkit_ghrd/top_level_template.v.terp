@@ -35,7 +35,7 @@ input    wire          refclk_bti,
 @@}
 // Clock and Reset
 @@if {$user0_clk_src_select == 0} {
-input    wire [1-1:0]  fpga_clk_100,
+input    wire          fpga_clk_100,
 @@}
 
 @@if {$fpga_peripheral_en == 1} {
@@ -67,9 +67,9 @@ output   wire          emif_hps_emif_mem_0_mem_par,
 input    wire          emif_hps_emif_mem_0_mem_alert_n,
 input    wire          emif_hps_emif_oct_0_oct_rzqin,
 input    wire          emif_hps_emif_ref_clk_0_clk,
-inout    wire [4:0]    emif_hps_emif_mem_0_mem_dqs_t,
-inout    wire [4:0]    emif_hps_emif_mem_0_mem_dqs_c,
-inout    wire [39:0]   emif_hps_emif_mem_0_mem_dq,
+inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_t,
+inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_c,
+inout    wire [31:0]   emif_hps_emif_mem_0_mem_dq,
 @@}
 @@if {$hps_jtag_en == 1} {
 input    wire          hps_jtag_tck,

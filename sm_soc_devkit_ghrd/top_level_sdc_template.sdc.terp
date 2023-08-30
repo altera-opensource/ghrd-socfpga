@@ -12,24 +12,12 @@
 set_time_format -unit ns -decimal_places 3
 
 # 100MHz board input clock, 133.3333MHz for EMIF refclk
-create_clock -name MAIN_CLOCK -period 10 [get_ports fpga_clk_100[0]]
-@@if {$board == "devkit_fp82" && $hbm_en != 1} {
-create_clock -name EMIF_REF_CLOCK -period ${hps_emif_ref_clk_freq_mhz}MHz [get_ports emif_hps_pll_ref_clk] 
-@@} elseif {$board == "devkit_fp82" && $hbm_en == 1} {
-create_clock -name EMIF_REF_CLOCK -period ${hps_emif_ref_clk_freq_mhz}MHz [get_ports emif_hps_pll_ref_clk] 
-create_clock -name corepll_clk -period 10 [get_ports hbm_core_pll_refclk_clk]
-create_clock -name uibpll_refclk -period 10 [get_ports uibpll_refclk_clk]
-@@} else {
+create_clock -name MAIN_CLOCK -period 10 [get_ports fpga_clk_100]
+@@
 @@set hps_emif_ref_clk_freq_ns [expr {floor ( 1/$hps_emif_ref_clk_freq_mhz *1000)}]
-create_clock -name EMIF_REF_CLOCK -period $hps_emif_ref_clk_freq_ns [get_ports emif_hps_pll_ref_clk]
-@@}
-@@if {$hps_sgmii_en == 1} {
-create_clock -name PCS_CLOCK -period 8 [get_ports enet_refclk]
-@@}
-
-@@if {$board == "devkit_fp82" && $hbm_en == 1} {
-set_false_path -from [get_ports {reset_reset_n}]
-@@} else {
+create_clock -name EMIF_REF_CLOCK -period $hps_emif_ref_clk_freq_ns [get_ports emif_hps_emif_ref_clk_0_clk]
+@@
+@@
 @@## This is required as the HPS SDC is not working for hps_user_clk constraints. HSDES: 1507301642
 @@#create_clock -name hps_user_clk -period 2.5 [get_pins {soc_inst|agilex_hps|intel_agilex_hps_inst|fpga_interfaces|hps_inst|s2f_module|s2f_user_clk1_hio}]
 set_false_path -from [get_ports {fpga_reset_n[0]}]
@@ -41,20 +29,11 @@ source ./jtag.sdc
 
 @@if {$fpga_peripheral_en == 1} {
 # FPGA IO port constraints
-@@if {$fpga_sgpio_en == 1} {
-set_false_path -from [get_ports {fpga_button_pio[0]}] -to *
-set_false_path -from [get_ports {fpga_button_pio[1]}] -to *
-set_false_path -from [get_ports {fpga_sgpio_clk}] -to *
-set_false_path -from [get_ports {fpga_sgpi}] -to *
-set_false_path -from [get_ports {fpga_sgpio_sync}] -to *
-set_false_path -from * -to [get_ports {fpga_sgpo}]
-@@} else {
 @@if {$fpga_button_pio_width > 0} {
 set_false_path -from [get_ports {fpga_button_pio[0]}] -to *
 set_false_path -from [get_ports {fpga_button_pio[1]}] -to *
 set_false_path -from [get_ports {fpga_button_pio[2]}] -to *
 set_false_path -from [get_ports {fpga_button_pio[3]}] -to *
-@@}
 @@}
 @@if {$fpga_dipsw_pio_width > 0} {
 set_false_path -from [get_ports {fpga_dipsw_pio[0]}] -to *
@@ -73,6 +52,7 @@ set_false_path -from * -to [get_ports {fpga_led_pio[2]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[3]}]
 @@}
 @@}
+<<<<<<< HEAD
 
 @@if {$hps_sgmii_en == 1} {
 # EMAC MDIO constraints
@@ -88,3 +68,8 @@ set_false_path -from [get_ports {emac${m}_phy_irq}] -to *
 # False Path between debounced and reset synchronizer
 set_false_path -from fpga_reset_n_debounced -to {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain[1]}
 @@}
+=======
+ 
+# False Path between debounced and reset synchronizer
+set_false_path -from fpga_reset_n_debounced -to {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain[1]}
+>>>>>>> 5678b26... Update the EMIF IP parameterization
