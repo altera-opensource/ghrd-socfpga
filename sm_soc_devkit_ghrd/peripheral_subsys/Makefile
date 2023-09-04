@@ -26,9 +26,10 @@ GHRD_CONFIG_FILE   :=  $(PROJECT_ROOT)/build/config.peripheral_subsys
 GHRD_HELP_FILE     :=  $(PROJECT_ROOT)/build/help.peripheral_subsys
 GHRD_SCRIPT_FILE   :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
 
-.PHONY: all
-all:
-	qsys-script --quartus-project=./ghrd_a5ed065bb32ae5sr0.qpf --rev=ghrd_a5ed065bb32ae5sr0 --script=./construct_subsys_hps.tcl
+.PHONY: generate_from_tcl
+generate_from_tcl:
+	@qsys-script --quartus-project=$(PROJECT_ROOT)/ghrd_a5ed065bb32ae5sr0.qpf --rev=ghrd_a5ed065bb32ae5sr0 --script=./construct_subsys_peripheral.tcl
+	@echo "generate_from_tcl for peripheral_subsys done!"
 
 .PHONY: config
 config:
