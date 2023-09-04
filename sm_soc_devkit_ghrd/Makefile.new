@@ -23,10 +23,6 @@
 #
 #   BOARD_REV:
 #       - A1: a1 type [default]
-#
-#   HPS_EN:
-#       - 0: disable
-#       - 1: enable [default]
 
 #   QUARTUS_DEVICE_FAMILY:
 #       - Agilex5: none [default]
@@ -290,7 +286,7 @@ MODULE_BUILD := $(foreach n, $(MODULES), $(n).build)
 
 .PHONY: $(MODULE_BUILD)
 $(MODULE_BUILD):
-	@$(MAKE) $(USER_CONFIG) -C $(subst .build,,$@) generate_from_tcl
+	@$(MAKE) $(USER_CONFIG_UPDATE) -C $(subst .build,,$@) generate_from_tcl
 
 .PHONY: generate_submodule
 generate_submodule: $(MODULE_BUILD)
@@ -612,7 +608,7 @@ generate_from_tcl.HELP := Generate the Quartus Project source files from tcl scr
 
 .PHONY: generate_from_tcl
 generate_from_tcl: generate_submodule $(INTEL_CUSTOM_IP_DIR_TARGET)
-#$(MAKE) $(USER_CONFIG_UPDATE) quartus_generate_qsf_qpf quartus_generate_top qsys_generate_qsys
+#	$(MAKE) $(USER_CONFIG_UPDATE) quartus_generate_qsf_qpf quartus_generate_top qsys_generate_qsys
 	@$(ECHO) "generate_from_tcl done!"
 
 ifeq ($(ENABLE_PARTIAL_RECONFIGURATION),1)
