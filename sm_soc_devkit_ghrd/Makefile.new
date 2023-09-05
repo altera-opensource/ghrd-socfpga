@@ -279,13 +279,12 @@ QSYS_TCL_ARGS += --cmd="$(QSYS_TCL_CMDS)"
 endif
 
 #===============================================
-# Building module control
+# Building modules control
 #===============================================
 MODULES := $(shell cat $(MODULES_FILE))
 MODULE_BUILD := $(foreach n, $(MODULES), $(n).build)
 
-.PHONY: $(MODULE_BUILD)
-$(MODULE_BUILD):
+$(MODULE_BUILD): quartus_generate_qsf_qpf quartus_generate_top 
 	@$(MAKE) $(USER_CONFIG_UPDATE) -C $(subst .build,,$@) generate_from_tcl
 
 .PHONY: generate_submodule
