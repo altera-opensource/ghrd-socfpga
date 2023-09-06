@@ -285,7 +285,7 @@ MODULES := $(shell cat $(MODULES_FILE))
 MODULE_BUILD := $(foreach n, $(MODULES), $(n).build)
 
 $(MODULE_BUILD): quartus_generate_qsf_qpf quartus_generate_top 
-	@$(MAKE) $(USER_CONFIG_UPDATE) -C $(subst .build,,$@) generate_from_tcl
+	@$(MAKE) QSYS_ARGS='$(QSYS_ARGS)' QSYS_TCL_ARGS='$(QSYS_TCL_ARGS)' $(USER_CONFIG_UPDATE) -C $(subst .build,,$@) generate_from_tcl
 
 .PHONY: generate_submodule
 generate_submodule: $(MODULE_BUILD)

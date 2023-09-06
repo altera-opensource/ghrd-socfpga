@@ -41,7 +41,7 @@ GHRD_SCRIPT_FILE   :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
 .PHONY: generate_from_tcl
 generate_from_tcl:
         ifeq ($(HPS_EN), $(ENABLE))
-	    @qsys-script --quartus-project=$(PROJECT_ROOT)/ghrd_a5ed065bb32ae5sr0.qpf --rev=ghrd_a5ed065bb32ae5sr0 --script=./construct_subsys_hps.tcl
+	    @qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_hps.tcl $(QSYS_TCL_ARGS)
         else
 	    @echo "hps_subsys does not be enabled, skip."
         endif
