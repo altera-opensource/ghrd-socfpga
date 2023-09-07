@@ -61,11 +61,11 @@ if {$hps_en == 1} {
 config_sdmio
 
 # Call "board_${board}_config.tcl" Misc config
-if {[expr { [llength [info procs config_misc]]}] > 0} {
-    config_misc
-} else {
-    puts "Warning (GHRD): proc \"config_misc\" is not exist in file:board_${board}_config.tcl"
-}
+#if {[expr { [llength [info procs config_misc]]}] > 0} {
+#    config_misc
+#} else {
+#    puts "Warning (GHRD): proc \"config_misc\" is not exist in file:board_${board}_config.tcl"
+#}
 
 if {$sys_initialization == "hps"} {
 set_global_assignment -name HPS_INITIALIZATION "HPS FIRST"

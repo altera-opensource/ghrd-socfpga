@@ -25,24 +25,24 @@ set fpga_button_pio_width 4
 set hps_emif_bank_gp_default_width 1
 
 # Quartus settings for miscellaneous
-proc config_misc {} {
+#proc config_misc {} {
     #set_global_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AK1
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AL4
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AP1
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AR4
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AV1
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AW4
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BB1
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BC4
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BG4
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BK1
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BL4
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BP1
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BR4
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BV1
-    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BW4
-}
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AK1
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AL4
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AP1
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AR4
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AV1
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to AW4
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BB1
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BC4
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BG4
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BK1
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BL4
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BP1
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BR4
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BV1
+#    set_instance_assignment -name PRESERVE_UNUSED_XCVR_CHANNEL ON -to BW4
+#}
 
 # Quartus settings for SDMIOs
 proc config_sdmio {} {
