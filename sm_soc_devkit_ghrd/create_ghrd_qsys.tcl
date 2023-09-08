@@ -25,19 +25,19 @@ source ./utils.tcl
 
 package require -exact qsys 19.1
 
-if {$fpga_peripheral_en == 1} {
-source ./peripheral_subsys/construct_subsys_peripheral.tcl
-reload_ip_catalog
-}
-
-if {$jtag_ocm_en == 1} {
-source ./jtag_subsys/construct_subsys_jtag_master.tcl
-reload_ip_catalog
-}
-if {$hps_en == 1} {
-source ./hps_subsys/construct_subsys_hps.tcl
-reload_ip_catalog
-}
+#if {$fpga_peripheral_en == 1} {
+#source ./peripheral_subsys/construct_subsys_peripheral.tcl
+#reload_ip_catalog
+#}
+#
+#if {$jtag_ocm_en == 1} {
+#source ./jtag_subsys/construct_subsys_jtag_master.tcl
+#reload_ip_catalog
+#}
+#if {$hps_en == 1} {
+#source ./hps_subsys/construct_subsys_hps.tcl
+#reload_ip_catalog
+#}
 
 create_system $qsys_name
 

@@ -30,7 +30,7 @@ GHRD_SCRIPT_FILE   :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
 
 .PHONY: generate_from_tcl
 generate_from_tcl:
-        ifeq ($(JTAG_EN), $(ENABLE))
+        ifeq ($(SUB_PERI_EN), $(ENABLE))
 	    @qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_peripheral.tcl $(QSYS_TCL_ARGS)
         else
 	    @echo "peripheral_subsys does not be enabled, skip."
