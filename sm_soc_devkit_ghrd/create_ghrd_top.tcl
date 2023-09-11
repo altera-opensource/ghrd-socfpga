@@ -23,7 +23,9 @@ source $::env(QUARTUS_ROOTDIR)/../ip/altera/common/hw_tcl_packages/altera_terp.t
 foreach {key val} $::argv {
   set ${key} $val
 }
-source ./arguments_solver.tcl
+
+puts "prjroot = ${prjroot}"
+source ${prjroot}/arguments_solver.tcl
 
 # construct parameters value used in / affect terp file
 set param(top_name)                     $top_name

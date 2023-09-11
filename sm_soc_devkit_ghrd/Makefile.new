@@ -568,7 +568,7 @@ QUARTUS_QSF_QPF_GEN := $(firstword $(wildcard create_*_quartus.tcl))
 ifneq ($(QUARTUS_QSF_QPF_GEN),)
 quartus_generate_qsf_qpf: $(QUARTUS_QSF_QPF_GEN)
 	@$(RM) $(QUARTUS_QSF) $(QUARTUS_QPF)
-	quartus_sh --script=$< $(QUARTUS_TCL_ARGS)
+	quartus_sh --script=$< $(QUARTUS_TCL_ARGS) prjroot $(PROJECT_ROOT)
 else
 quartus_generate_qsf_qpf:
 	@$(ECHO) "Make target '$@' is not supported for this design"
@@ -580,7 +580,7 @@ QUARTUS_TCL_ARGS += qsys_name $(patsubst %.qsys,%,$(QSYS_FILE_TOP))
 ifneq ($(QUARTUS_TOP_GEN),)
 quartus_generate_top: $(QUARTUS_TOP_GEN)
 	@$(RM) *_top.v
-	quartus_sh --script=$< $(QUARTUS_TCL_ARGS)
+	quartus_sh --script=$< $(QUARTUS_TCL_ARGS) prjroot $(PROJECT_ROOT)
 else
 quartus_generate_top:
 	@$(ECHO) "Make target '$@' is not supported for this design"

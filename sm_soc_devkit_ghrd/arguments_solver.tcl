@@ -102,8 +102,8 @@
 #
 #****************************************************************************
 
-source ./design_config.tcl
-
+puts "prjroot = ${prjroot} "
+source ${prjroot}/design_config.tcl 
 
 proc check_then_accept { param } {
   if {$param == device_family || device || qsys_name || project_name} {
@@ -167,7 +167,7 @@ if { ![ info exists board_pwrmgt ] } {
 }
 
 # Loading Board default configuration settings
-set board_config_file "./board/board_${board}_config.tcl"
+set board_config_file "${prjroot}/board/board_${board}_config.tcl"
 if {[file exist $board_config_file]} {
     source $board_config_file
 } else {
@@ -709,9 +709,10 @@ if {$f2s_address_width > 32 && $f2sdram_width > 0} {
     set cct_en 0
 }
 
-source ./agilex_hps_pinmux_solver.tcl
-source ./agilex_hps_parameter_solver.tcl
-source ./agilex_hps_io48_delay_chain_solver.tcl
+
+source ${prjroot}/agilex_hps_pinmux_solver.tcl
+source ${prjroot}/agilex_hps_parameter_solver.tcl
+source ${prjroot}/agilex_hps_io48_delay_chain_solver.tcl
 
 # Was thinking to enable single TCL entry for flow of TOP RTL, qsys, quartus generation. Ideal still pending implementation
 # exec quartus_sh --script=create_ghrd_quartus.tcl $top_quartus_arg

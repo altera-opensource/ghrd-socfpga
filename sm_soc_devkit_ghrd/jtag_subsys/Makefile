@@ -31,7 +31,8 @@ GHRD_SCRIPT_FILE   :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
 .PHONY: generate_from_tcl
 generate_from_tcl:
         ifeq ($(JTAG_EN), $(ENABLE))
-	    @qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_jtag_master.tcl $(QSYS_TCL_ARGS)
+	    @qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_jtag_master.tcl \
+            $(shell echo "" | awk -v qsys_tcl_args=$(QSYS_TCL_ARGS) -v prjroot=$(PROJECT_ROOT) '{split(qsys_tcl_args, a, "=");printf("%s=\"%s;set prjroot %s\"", a[1], a[2], prjroot)}')
         else
 	    @echo "jtag_subsys does not be enabled, skip."
         endif

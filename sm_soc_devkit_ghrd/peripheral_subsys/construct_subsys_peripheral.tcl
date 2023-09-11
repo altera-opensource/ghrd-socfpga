@@ -11,8 +11,11 @@
 #
 #****************************************************************************
 
-source ./arguments_solver.tcl
-source ./utils.tcl
+puts "prjroot = ${prjroot} "
+source ${prjroot}/arguments_solver.tcl
+source ${prjroot}/utils.tcl
+source ${prjroot}/board/board_hidden_config.tcl
+
 set sub_qsys_periph subsys_periph
 
 package require -exact qsys 19.1
@@ -40,7 +43,7 @@ add_component_param "altera_reset_bridge periph_rst_in
                     "
 
 add_component_param "altera_avalon_sysid_qsys sysid
-                    IP_FILE_PATH ip/$qsys_name/sysid.ip 
+                    IP_FILE_PATH ip/$sub_qsys_periph/sysid.ip 
                     id $SYSID
                     "
 

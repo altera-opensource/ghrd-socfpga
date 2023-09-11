@@ -11,8 +11,10 @@
 #
 #****************************************************************************
 
-source ./arguments_solver.tcl
-source ./utils.tcl
+puts "prjroot = ${prjroot} "
+source ${prjroot}/arguments_solver.tcl
+source ${prjroot}/utils.tcl
+
 set sub_qsys_jtag subsys_jtg_mst
 
 package require -exact qsys 19.1

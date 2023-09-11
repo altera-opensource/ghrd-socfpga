@@ -20,8 +20,9 @@
 #
 #****************************************************************************
 
-source ./arguments_solver.tcl
-source ./utils.tcl
+puts "prjroot = ${prjroot} "
+source ${prjroot}/arguments_solver.tcl
+source ${prjroot}/utils.tcl
 
 package require -exact qsys 19.1
 
