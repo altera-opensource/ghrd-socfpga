@@ -24,8 +24,9 @@ foreach {key val} $::argv {
   set ${key} $val
 }
 
-puts "prjroot = ${prjroot}"
-source ${prjroot}/arguments_solver.tcl
+#puts "prjroot = ${prjroot}"
+#source ${prjroot}/arguments_solver.tcl
+source ./arguments_solver.tcl
 
 # construct parameters value used in / affect terp file
 set param(top_name)                     $top_name

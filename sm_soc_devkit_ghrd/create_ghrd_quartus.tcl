@@ -15,10 +15,13 @@ foreach {key value} $quartus(args) {
   set ${key} $value
 }
 
-puts "prjroot = ${prjroot} "
-source ${prjroot}/arguments_solver.tcl
+#puts "prjroot = ${prjroot} "
+#source ${prjroot}/arguments_solver.tcl
+source ./arguments_solver.tcl
 
-source ${prjroot}/board/board_${board}_pin_assignment_table.tcl
+#source ${prjroot}/board/board_${board}_pin_assignment_table.tcl
+source ./board/board_${board}_pin_assignment_table.tcl
+
 global pin_assignment_table
 
 set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v"
