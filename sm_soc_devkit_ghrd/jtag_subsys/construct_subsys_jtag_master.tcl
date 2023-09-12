@@ -11,6 +11,12 @@
 #
 #****************************************************************************
 
+#puts "prjroot = ${prjroot} "
+#source ${prjroot}/arguments_solver.tcl
+#source ${prjroot}/utils.tcl
+
+source ./arguments_solver.tcl
+source ./utils.tcl
 
 source $proj_root/arguments_solver.tcl
 source $proj_root/utils.tcl

@@ -11,9 +11,12 @@
 #
 #****************************************************************************
 
-source $proj_root/arguments_solver.tcl
-source $proj_root/utils.tcl
+#puts "prjroot = ${prjroot} "
+#source ${prjroot}/arguments_solver.tcl
+#source ${prjroot}/utils.tcl
 
+source ./arguments_solver.tcl
+source ./utils.tcl
 
 set subsys_name subsys_hps
   

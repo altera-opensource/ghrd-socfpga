@@ -11,8 +11,15 @@
 #
 #****************************************************************************
 
-source $proj_root/arguments_solver.tcl
-source $proj_root/utils.tcl
+#puts "prjroot = ${prjroot} "
+#source ${prjroot}/arguments_solver.tcl
+#source ${prjroot}/utils.tcl
+#source ${prjroot}/board/board_hidden_config.tcl
+
+source ./arguments_solver.tcl
+source ./utils.tcl
+source ./board/board_hidden_config.tcl
+
 set sub_qsys_periph subsys_periph
 
 package require -exact qsys 19.1
