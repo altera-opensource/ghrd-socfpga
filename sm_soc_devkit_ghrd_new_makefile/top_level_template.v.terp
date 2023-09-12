@@ -1,0 +1,814 @@
+//****************************************************************************
+//
+// SPDX-License-Identifier: MIT-0
+// Copyright(c) 2019-2021 Intel Corporation.
+//
+//****************************************************************************
+// This is a generated system top level RTL file. 
+
+@@if {$hps_emif_ecc_en == 1} {
+@@   incr hps_emif_width 8
+@@   set hps_ddr_w $hps_emif_width
+@@   set hps_ddr_dm_w [expr $hps_emif_width/8]
+@@   set hps_ddr_dqs_w [expr $hps_emif_width/8]
+@@} else {
+@@   set hps_ddr_w $hps_emif_width
+@@   set hps_ddr_dm_w [expr $hps_emif_width/8]
+@@   set hps_ddr_dqs_w [expr $hps_emif_width/8]
+@@}
+
+@@if {$fpga_emif_ecc_en == 1} {
+@@   incr fpga_emif_width 8
+@@   set fpga_ddr_w $fpga_emif_width
+@@   set fpga_ddr_dm_w [expr $fpga_emif_width/8]
+@@   set fpga_ddr_dqs_w [expr $fpga_emif_width/8]
+@@} else {
+@@   set fpga_ddr_w $fpga_emif_width
+@@   set fpga_ddr_dm_w [expr $fpga_emif_width/8]
+@@   set fpga_ddr_dqs_w [expr $fpga_emif_width/8]
+@@}
+
+module ${top_name} (
+//Additional refclk_bti to preserve Etile XCVR
+@@if {$board == "hidden"} {
+input    wire          refclk_bti,
+@@}
+// Clock and Reset
+@@if {$user0_clk_src_select == 0} {
+input    wire          fpga_clk_100,
+@@}
+
+@@if {$fpga_peripheral_en == 1} {
+@@if {$fpga_led_pio_width > 0 } {
+output   wire [$fpga_led_pio_width-1:0]  fpga_led_pio,
+@@}
+@@if {$fpga_dipsw_pio_width > 0 } {
+input    wire [$fpga_dipsw_pio_width-1:0]  fpga_dipsw_pio,
+@@}
+@@if {$fpga_button_pio_width > 0} {
+input    wire [$fpga_button_pio_width-1:0]  fpga_button_pio,
+@@}
+@@}
+//HPS
+@@if {$hps_en == 1} {
+@@if {$hps_emif_en == 1} {
+// HPS EMIF
+output   wire          emif_hps_emif_mem_0_mem_ck_t,
+output   wire          emif_hps_emif_mem_0_mem_ck_c,
+output   wire [16:0]   emif_hps_emif_mem_0_mem_a,
+output   wire          emif_hps_emif_mem_0_mem_act_n,
+output   wire [1:0]    emif_hps_emif_mem_0_mem_ba,
+output   wire [1:0]    emif_hps_emif_mem_0_mem_bg,
+output   wire          emif_hps_emif_mem_0_mem_cke,
+output   wire          emif_hps_emif_mem_0_mem_cs_n,
+output   wire          emif_hps_emif_mem_0_mem_odt,
+output   wire          emif_hps_emif_mem_0_mem_reset_n,
+output   wire          emif_hps_emif_mem_0_mem_par,
+input    wire          emif_hps_emif_mem_0_mem_alert_n,
+input    wire          emif_hps_emif_oct_0_oct_rzqin,
+input    wire          emif_hps_emif_ref_clk_0_clk,
+inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_t,
+inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_c,
+inout    wire [31:0]   emif_hps_emif_mem_0_mem_dq,
+@@}
+@@if {$hps_jtag_en == 1} {
+input    wire          hps_jtag_tck,
+input    wire          hps_jtag_tms,
+output   wire          hps_jtag_tdo,
+input    wire          hps_jtag_tdi,
+@@}
+@@if {$hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q3_en == 1 || $hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_en == 1} {
+@@# Assumption with only single SDMMC controller to be enabled onto HPS IO at one time 
+output   wire          hps_sdmmc_CCLK, 
+inout    wire          hps_sdmmc_CMD,          
+inout    wire          hps_sdmmc_D0,          
+inout    wire          hps_sdmmc_D1,          
+inout    wire          hps_sdmmc_D2,        
+inout    wire          hps_sdmmc_D3,        
+@@}
+@@if {$hps_sdmmc8b_q3_en == 1 || $hps_sdmmc8b_q1_en == 1} {
+inout    wire          hps_sdmmc_D4,          
+inout    wire          hps_sdmmc_D5,          
+inout    wire          hps_sdmmc_D6,        
+inout    wire          hps_sdmmc_D7,  
+@@}
+@@if {$hps_sdmmc_pwr_q4_en == 1 || $hps_sdmmc_pwr_q2_en == 1} {
+//Temporary no plan for power detect on devkit
+@@}
+@@if {$hps_sdmmc_pupd_q4_en == 1  || $hps_sdmmc_pupd_q2_en == 1} {
+//Temporary no plan for PUPD on devkit
+@@}
+@@if {$hps_sdmmc_dstrb_q4_en == 1 || $hps_sdmmc_dstrb_q2_en == 1} {
+//Temporary no plan for data strobe on devkit
+@@}
+
+@@if {$hps_usb0_en == 1} {
+inout    wire          hps_usb0_DATA0,         
+inout    wire          hps_usb0_DATA1,      
+inout    wire          hps_usb0_DATA2,        
+inout    wire          hps_usb0_DATA3,       
+inout    wire          hps_usb0_DATA4,        
+inout    wire          hps_usb0_DATA5,      
+inout    wire          hps_usb0_DATA6,      
+inout    wire          hps_usb0_DATA7,         
+input    wire          hps_usb0_CLK,         
+output   wire          hps_usb0_STP,       
+input    wire          hps_usb0_DIR,        
+input    wire          hps_usb0_NXT, 
+@@}
+@@if {$hps_usb1_en == 1} {
+inout    wire          hps_usb1_DATA0,         
+inout    wire          hps_usb1_DATA1,      
+inout    wire          hps_usb1_DATA2,        
+inout    wire          hps_usb1_DATA3,       
+inout    wire          hps_usb1_DATA4,        
+inout    wire          hps_usb1_DATA5,      
+inout    wire          hps_usb1_DATA6,      
+inout    wire          hps_usb1_DATA7,         
+input    wire          hps_usb1_CLK,         
+output   wire          hps_usb1_STP,       
+input    wire          hps_usb1_DIR,        
+input    wire          hps_usb1_NXT, 
+@@}
+@@if {$hps_emac0_rmii_en == 1 || $hps_emac0_rgmii_en == 1} {
+output   wire          hps_emac0_TX_CLK,       //TODO: may need to change RMII TX CLK to be input instead, check
+input    wire          hps_emac0_RX_CLK,      
+output   wire          hps_emac0_TX_CTL,
+input    wire          hps_emac0_RX_CTL,      
+output   wire          hps_emac0_TXD0,       
+output   wire          hps_emac0_TXD1,
+input    wire          hps_emac0_RXD0,     
+input    wire          hps_emac0_RXD1,    
+output   wire          hps_emac0_PPS,    
+input    wire          hps_emac0_PPS_TRIG,            
+@@}
+@@if {$hps_emac0_rgmii_en == 1} {
+output   wire          hps_emac0_TXD2,        
+output   wire          hps_emac0_TXD3,
+input    wire          hps_emac0_RXD2,        
+input    wire          hps_emac0_RXD3, 
+@@}
+@@if {$hps_mdio0_q1_en == 1 || $hps_mdio0_q3_en == 1 || $hps_mdio0_q4_en == 1} {
+inout    wire          hps_emac0_MDIO,         
+output   wire          hps_emac0_MDC,
+@@}
+@@if {$hps_emac1_rmii_en == 1 || $hps_emac1_rgmii_en == 1} {
+output   wire          hps_emac1_TX_CLK,       
+input    wire          hps_emac1_RX_CLK,      
+output   wire          hps_emac1_TX_CTL,
+input    wire          hps_emac1_RX_CTL,      
+output   wire          hps_emac1_TXD0,       
+output   wire          hps_emac1_TXD1,
+input    wire          hps_emac1_RXD0,     
+input    wire          hps_emac1_RXD1,   
+output   wire          hps_emac1_PPS,    
+input    wire          hps_emac1_PPS_TRIG,
+@@}
+@@if {$hps_emac1_rgmii_en == 1} {
+output   wire          hps_emac1_TXD2,        
+output   wire          hps_emac1_TXD3,
+input    wire          hps_emac1_RXD2,        
+input    wire          hps_emac1_RXD3,
+@@}
+@@if {$hps_mdio1_q1_en == 1 || $hps_mdio1_q4_en == 1} {
+inout    wire          hps_emac1_MDIO,         
+output   wire          hps_emac1_MDC,
+@@}
+@@if {$hps_emac2_rmii_en == 1 || $hps_emac2_rgmii_en == 1} {
+output   wire          hps_emac2_TX_CLK,       
+input    wire          hps_emac2_RX_CLK,      
+output   wire          hps_emac2_TX_CTL,
+input    wire          hps_emac2_RX_CTL,      
+output   wire          hps_emac2_TXD0,       
+output   wire          hps_emac2_TXD1,
+input    wire          hps_emac2_RXD0,     
+input    wire          hps_emac2_RXD1, 
+output   wire          hps_emac2_PPS,    
+input    wire          hps_emac2_PPS_TRIG,
+@@}
+@@if {$hps_emac2_rgmii_en == 1} {
+output   wire          hps_emac2_TXD2,        
+output   wire          hps_emac2_TXD3,
+input    wire          hps_emac2_RXD2,        
+input    wire          hps_emac2_RXD3,
+@@}
+@@if {$hps_mdio2_q1_en == 1 || $hps_mdio2_q3_en == 1} {
+inout    wire          hps_emac2_MDIO,         
+output   wire          hps_emac2_MDC,
+@@}
+@@if {$hps_spim0_q1_en == 1 || $hps_spim0_q4_en == 1} {
+output   wire          hps_spim0_CLK,
+output   wire          hps_spim0_MOSI,
+input    wire          hps_spim0_MISO,
+output   wire          hps_spim0_SS0_N,
+@@}
+@@if {$hps_spim0_2ss_en == 1} {
+output   wire          hps_spim0_SS1_N,
+@@}
+@@if {$hps_spim1_q1_en == 1 || $hps_spim1_q2_en == 1 || $hps_spim1_q3_en == 1} {
+output   wire          hps_spim1_CLK,
+output   wire          hps_spim1_MOSI,
+input    wire          hps_spim1_MISO,
+output   wire          hps_spim1_SS0_N,
+@@}
+@@if {$hps_spim1_2ss_en == 1} {
+output   wire          hps_spim1_SS1_N,
+@@}
+@@if {$hps_spis0_q1_en == 1 || $hps_spis0_q2_en == 1 || $hps_spis0_q3_en == 1} {
+input    wire          hps_spis0_CLK,
+input    wire          hps_spis0_MOSI,
+output   wire          hps_spis0_MISO,
+input    wire          hps_spis0_SS0_N,
+@@}
+@@if {$hps_spis1_q1_en == 1 || $hps_spis1_q3_en == 1 || $hps_spis1_q4_en == 1} {
+input    wire          hps_spis1_CLK,
+input    wire          hps_spis1_MOSI,
+output   wire          hps_spis1_MISO,
+input    wire          hps_spis1_SS0_N,
+@@}
+@@if {$hps_uart0_q1_en == 1 || $hps_uart0_q2_en == 1 || $hps_uart0_q3_en == 1} {
+input    wire          hps_uart0_RX,       
+output   wire          hps_uart0_TX, 
+@@}
+@@if {$hps_uart0_fc_en == 1} {
+input    wire          hps_uart0_CTS_N,       
+output   wire          hps_uart0_RTS_N, 
+@@}
+@@if {$hps_uart1_q1_en == 1 || $hps_uart1_q3_en == 1 || $hps_uart1_q4_en == 1} {
+input    wire          hps_uart1_RX,       
+output   wire          hps_uart1_TX, 
+@@}
+@@if {$hps_uart1_fc_en == 1} {
+input    wire          hps_uart1_CTS_N,       
+output   wire          hps_uart1_RTS_N, 
+@@}
+@@if {$hps_i2c0_q1_en == 1 || $hps_i2c0_q2_en == 1 || $hps_i2c0_q3_en == 1} {
+inout    wire          hps_i2c0_SDA,        
+inout    wire          hps_i2c0_SCL, 
+@@}
+@@if {$hps_i2c1_q1_en == 1 || $hps_i2c1_q2_en == 1 || $hps_i2c1_q3_en == 1 || $hps_i2c1_q4_en == 1} {
+inout    wire          hps_i2c1_SDA,        
+inout    wire          hps_i2c1_SCL, 
+@@}
+@@if {$hps_i3c0_q1_en == 1 || $hps_i3c0_q2_en == 1 || $hps_i3c0_q3_en == 1 || $hps_i3c0_q4_en == 1} {
+inout    wire          hps_i3c0_SDA,        
+inout    wire          hps_i3c0_SCL, 
+@@}
+@@if {$hps_i3c1_q1_en == 1 || $hps_i3c1_q2_en == 1 || $hps_i3c1_q3_en == 1 || $hps_i3c1_q4_en == 1} {
+inout    wire          hps_i3c1_SDA,        
+inout    wire          hps_i3c1_SCL, 
+@@}
+@@if {$hps_i2c_emac0_q1_en == 1 || $hps_i2c_emac0_q3_en == 1 || $hps_i2c_emac0_q4_en == 1} {
+inout    wire          hps_i2c_emac0_SDA,        
+inout    wire          hps_i2c_emac0_SCL,  
+@@}
+@@if {$hps_i2c_emac1_q1_en == 1 || $hps_i2c_emac1_q4_en == 1} {
+inout    wire          hps_i2c_emac1_SDA,        
+inout    wire          hps_i2c_emac1_SCL,  
+@@}
+@@if {$hps_i2c_emac2_q1_en == 1 || $hps_i2c_emac2_q3_en == 1 || $hps_i2c_emac2_q4_en == 1} {
+inout    wire          hps_i2c_emac2_SDA,        
+inout    wire          hps_i2c_emac2_SCL,  
+@@}
+@@if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
+output   wire          hps_nand_ALE,
+output   wire          hps_nand_CE_N,
+output   wire          hps_nand_CLE,
+output   wire          hps_nand_RE_N,
+input    wire          hps_nand_RB,
+output   wire          hps_nand_WP_N,
+output   wire          hps_nand_WE_N,
+inout    wire          hps_nand_ADQ0,
+inout    wire          hps_nand_ADQ1,
+inout    wire          hps_nand_ADQ2,
+inout    wire          hps_nand_ADQ3,
+inout    wire          hps_nand_ADQ4,
+inout    wire          hps_nand_ADQ5,
+inout    wire          hps_nand_ADQ6,
+inout    wire          hps_nand_ADQ7,
+@@}
+@@if {$hps_nand_16b_en == 1} {
+inout    wire          hps_nand_ADQ8,
+inout    wire          hps_nand_ADQ9,
+inout    wire          hps_nand_ADQ10,
+inout    wire          hps_nand_ADQ11,
+inout    wire          hps_nand_ADQ12,
+inout    wire          hps_nand_ADQ13,
+inout    wire          hps_nand_ADQ14,
+inout    wire          hps_nand_ADQ15,
+@@}
+@@if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1} {
+output   wire          hps_trace_CLK, 
+output   wire          hps_trace_D0, 
+output   wire          hps_trace_D1, 
+output   wire          hps_trace_D2, 
+output   wire          hps_trace_D3,
+@@}
+@@if {$hps_trace_8b_en == 1 || $hps_trace_12b_en ==1 || $hps_trace_16b_en ==1} {
+output   wire          hps_trace_D4,
+output   wire          hps_trace_D5, 
+output   wire          hps_trace_D6, 
+output   wire          hps_trace_D7, 
+@@}
+@@if {$hps_trace_12b_en == 1 || $hps_trace_16b_en ==1} {
+output   wire          hps_trace_D8,
+output   wire          hps_trace_D9, 
+output   wire          hps_trace_D10, 
+output   wire          hps_trace_D11, 
+@@}
+@@if {$hps_trace_16b_en == 1} {
+output   wire          hps_trace_D12,
+output   wire          hps_trace_D13, 
+output   wire          hps_trace_D14, 
+output   wire          hps_trace_D15, 
+@@}
+@@if {$hps_gpio0_en == 1} {
+@@  foreach io_num $hps_gpio0_list {
+inout    wire          hps_gpio0_io${io_num},
+@@  }
+@@}
+@@if {$hps_gpio1_en == 1} {
+@@  foreach io_num $hps_gpio1_list {
+inout    wire          hps_gpio1_io${io_num},
+@@  }
+@@}
+@@if {$hps_pll_out_en == 1} {
+output   wire          hps_pll0_clk,
+output   wire          hps_pll1_clk,
+output   wire          hps_pll2_clk,
+output   wire          hps_pll3_clk,
+@@}
+@@if {$ftrace_en == 1} {
+output   wire [$ftrace_output_width-1:0]   ftrace_data,
+output   wire          ftrace_clk,
+@@}
+@@}
+@@if {$hps_en == 1} {
+@@if {$hps_io_off == 0} {
+input    wire          hps_osc_clk,
+@@}
+@@}
+input    wire [1-1:0]  fpga_reset_n
+);
+
+wire                   system_clk_100;
+wire                   system_clk_100_internal;
+@@if {$clk_gate_en == 1} {
+wire                   system_clk_100_gated;
+@@}
+wire                   ninit_done;
+wire                   fpga_reset_n_debounced_wire;
+reg                    fpga_reset_n_debounced;
+wire                   system_reset_n;
+@@if {$hps_en == 1} {
+//wire                 h2f_reset;
+@@if {$user0_clk_src_select ==1} {
+wire                   user0_clk_src_clk;
+@@}
+//assign               system_reset_n = fpga_reset_n_debounced & ~h2f_reset & ~ninit_done;
+assign                 system_reset_n = fpga_reset_n_debounced & ~ninit_done;
+@@} else {
+assign                 system_reset_n = fpga_reset_n_debounced & ~ninit_done;
+@@}
+
+@@  if {$user0_clk_src_select  == 1} {
+assign                 system_clk_100   = user0_clk_src_clk;
+@@  } else {
+assign                 system_clk_100   = fpga_clk_100;
+@@  }
+
+@@  if {$clk_gate_en == 1} {
+assign                 system_clk_100_internal  = system_clk_100_gated;
+@@  } else {
+assign                 system_clk_100_internal  = system_clk_100;
+@@  }
+
+@@  if {$fpga_peripheral_en ==1} {
+@@  if {$fpga_button_pio_width > 0} {
+wire [$fpga_button_pio_width-1:0]        fpga_debounced_buttons;
+@@  }
+@@  if {$fpga_led_pio_width > 0} {
+wire [$fpga_led_pio_width-2:0]           fpga_led_internal;
+wire                   heartbeat_led;
+reg  [22:0]            heartbeat_count;
+assign                 heartbeat_led = ~heartbeat_count[22];
+@@  }
+@@  }
+
+assign                 fpga_led_pio = {heartbeat_led,fpga_led_internal};
+
+@@if {$hps_en == 1} {
+@@  if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+// Todo no longer needed
+//wire [31:0]            f2h_irq1_irq;
+@@}
+
+@@if {$hps_stm_en == 1} {
+wire [43:0]            stm_hw_events;
+
+@@if {$fpga_peripheral_en == 1 && $cross_trigger_en == 0} {
+@@ set stm_hw_events_option ""
+@@ set stm_hw_events_option_bitcount 0
+@@ if {$fpga_led_pio_width > 0} {
+@@	append stm_hw_events_option ", heartbeat_led, fpga_led_internal"
+@@	incr stm_hw_events_option_bitcount $fpga_led_pio_width
+@@ }
+@@ if {$fpga_dipsw_pio_width != 0} {
+@@	append stm_hw_events_option ", fpga_dipsw_pio"
+@@	incr stm_hw_events_option_bitcount $fpga_dipsw_pio_width
+@@ }
+@@ if {$fpga_button_pio_width != 0} {
+@@	append stm_hw_events_option ", fpga_debounced_buttons"
+@@	incr stm_hw_events_option_bitcount $fpga_button_pio_width
+@@ }
+@@# calculate remaining bit to set '0'
+@@ set stm_hw_events_option_bitcount [expr {32 - $stm_hw_events_option_bitcount}] 
+assign                 stm_hw_events = {{${stm_hw_events_option_bitcount}{1'b0}}${stm_hw_events_option}};
+@@} else {
+assign                 stm_hw_events    = 44'b0;
+@@  }
+@@}
+
+@@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+// Todo no longer needed
+//assign                 f2h_irq1_irq    = {32'b0};
+@@}
+@@}
+
+// Qsys Top module
+${qsys_name} soc_inst (
+@@if {($user0_clk_src_select == 1 && $hps_en == 1)} {
+.user0_clk_src_clk                         (user0_clk_src_clk), 
+@@}
+.clk_100_clk                               (system_clk_100_internal),
+.ninit_done_ninit_done                     (ninit_done),
+@@if {$clk_gate_en == 1} {
+.clkctrl_input_ena                         (~ninit_done),
+.clkctrl_input_inclk                       (system_clk_100),
+.clkctrl_output_outclk                     (system_clk_100_gated),
+@@}
+@@if {$fpga_peripheral_en == 1} {
+@@ if {$fpga_led_pio_width != 0} {
+.led_pio_external_connection_in_port       (fpga_led_internal),
+.led_pio_external_connection_out_port      (fpga_led_internal),
+@@}
+@@ if {$fpga_dipsw_pio_width != 0} {                
+.dipsw_pio_external_connection_export      (fpga_dipsw_pio),
+@@}
+@@ if {$fpga_button_pio_width != 0} {  
+.button_pio_external_connection_export     (fpga_debounced_buttons),
+@@}
+@@}
+
+@@if {$hps_en == 1} {
+@@if {$hps_stm_en == 1} {
+.agilex_hps_f2h_stm_hw_events_stm_hwevents (stm_hw_events),     
+//Terminate the CS_JTAG.
+.agilex_hps_h2f_cs_ntrst                   (1'b1),  
+.agilex_hps_h2f_cs_tck                     (1'b1),    
+.agilex_hps_h2f_cs_tdi                     (1'b1),    
+.agilex_hps_h2f_cs_tdo                     (),    
+.agilex_hps_h2f_cs_tdoen                   (),  
+.agilex_hps_h2f_cs_tms                     (1'b1),    
+@@}
+@@if {$hps_emif_en == 1} {
+@@if {$hps_emif_type == "ddr4"} {
+.emif_hps_emif_mem_0_mem_ck_t              (emif_hps_emif_mem_0_mem_ck_t),
+.emif_hps_emif_mem_0_mem_ck_c              (emif_hps_emif_mem_0_mem_ck_c),
+.emif_hps_emif_mem_0_mem_a                 (emif_hps_emif_mem_0_mem_a),
+.emif_hps_emif_mem_0_mem_act_n             (emif_hps_emif_mem_0_mem_act_n),
+.emif_hps_emif_mem_0_mem_ba                (emif_hps_emif_mem_0_mem_ba),
+.emif_hps_emif_mem_0_mem_bg                (emif_hps_emif_mem_0_mem_bg),
+.emif_hps_emif_mem_0_mem_cke               (emif_hps_emif_mem_0_mem_cke),
+.emif_hps_emif_mem_0_mem_cs_n              (emif_hps_emif_mem_0_mem_cs_n),
+.emif_hps_emif_mem_0_mem_odt               (emif_hps_emif_mem_0_mem_odt),
+.emif_hps_emif_mem_0_mem_reset_n           (emif_hps_emif_mem_0_mem_reset_n),
+.emif_hps_emif_mem_0_mem_par               (emif_hps_emif_mem_0_mem_par),
+.emif_hps_emif_mem_0_mem_alert_n           (emif_hps_emif_mem_0_mem_alert_n),
+.emif_hps_emif_mem_0_mem_dqs_t             (emif_hps_emif_mem_0_mem_dqs_t),
+.emif_hps_emif_mem_0_mem_dqs_c             (emif_hps_emif_mem_0_mem_dqs_c),
+.emif_hps_emif_mem_0_mem_dq                (emif_hps_emif_mem_0_mem_dq),
+.emif_hps_emif_oct_0_oct_rzqin             (emif_hps_emif_oct_0_oct_rzqin),
+.emif_hps_emif_ref_clk_0_clk               (emif_hps_emif_ref_clk_0_clk),
+@@}
+@@}
+@@}
+@@if {$hps_jtag_en == 1} {
+.hps_io_jtag_tck                           (hps_jtag_tck),                
+.hps_io_jtag_tms                           (hps_jtag_tms),                
+.hps_io_jtag_tdo                           (hps_jtag_tdo),                 
+.hps_io_jtag_tdi                           (hps_jtag_tdi),    
+@@}
+@@if {$hps_emac0_rmii_en == 1 || $hps_emac0_rgmii_en == 1} {
+.hps_io_emac0_tx_clk                       (hps_emac0_TX_CLK),     
+.hps_io_emac0_rx_clk                       (hps_emac0_RX_CLK),     
+.hps_io_emac0_tx_ctl                       (hps_emac0_TX_CTL),    
+.hps_io_emac0_rx_ctl                       (hps_emac0_RX_CTL),    
+.hps_io_emac0_txd0                         (hps_emac0_TXD0),     
+.hps_io_emac0_txd1                         (hps_emac0_TXD1),
+.hps_io_emac0_rxd0                         (hps_emac0_RXD0),       
+.hps_io_emac0_rxd1                         (hps_emac0_RXD1),        
+@@}
+@@if {$hps_emac0_rgmii_en == 1} {
+.hps_io_emac0_txd2                         (hps_emac0_TXD2),      
+.hps_io_emac0_txd3                         (hps_emac0_TXD3),   
+.hps_io_emac0_rxd2                         (hps_emac0_RXD2),        
+.hps_io_emac0_rxd3                         (hps_emac0_RXD3),
+@@}
+@@if {$hps_mdio0_q1_en == 1 || $hps_mdio0_q3_en == 1 || $hps_mdio0_q4_en == 1} {
+.hps_io_mdio0_mdio                         (hps_emac0_MDIO),       
+.hps_io_mdio0_mdc                          (hps_emac0_MDC), 
+@@}
+@@if {$hps_emac1_rmii_en == 1 || $hps_emac1_rgmii_en == 1} {
+.hps_io_emac1_tx_clk                       (hps_emac1_TX_CLK),     
+.hps_io_emac1_rx_clk                       (hps_emac1_RX_CLK),     
+.hps_io_emac1_tx_ctl                       (hps_emac1_TX_CTL),    
+.hps_io_emac1_rx_ctl                       (hps_emac1_RX_CTL),    
+.hps_io_emac1_txd0                         (hps_emac1_TXD0),     
+.hps_io_emac1_txd1                         (hps_emac1_TXD1),
+.hps_io_emac1_rxd0                         (hps_emac1_RXD0),       
+.hps_io_emac1_rxd1                         (hps_emac1_RXD1),        
+@@}
+@@if {$hps_emac1_rgmii_en == 1} {
+.hps_io_emac1_txd2                         (hps_emac1_TXD2),      
+.hps_io_emac1_txd3                         (hps_emac1_TXD3),   
+.hps_io_emac1_rxd2                         (hps_emac1_RXD2),        
+.hps_io_emac1_rxd3                         (hps_emac1_RXD3),
+@@}
+@@if {$hps_mdio1_q1_en == 1 || $hps_mdio1_q4_en == 1} {
+.hps_io_mdio1_mdio                         (hps_emac1_MDIO),       
+.hps_io_mdio1_mdc                          (hps_emac1_MDC), 
+@@}
+@@if {$hps_emac2_rmii_en == 1 || $hps_emac2_rgmii_en == 1} {
+.hps_io_emac2_tx_clk                       (hps_emac2_TX_CLK),      
+.hps_io_emac2_rx_clk                       (hps_emac2_RX_CLK),  
+.hps_io_emac2_tx_ctl                       (hps_emac2_TX_CTL),     
+.hps_io_emac2_rx_ctl                       (hps_emac2_RX_CTL),  
+.hps_io_emac2_txd0                         (hps_emac2_TXD0),        
+.hps_io_emac2_txd1                         (hps_emac2_TXD1),  
+.hps_io_emac2_rxd0                         (hps_emac2_RXD0),   
+.hps_io_emac2_rxd1                         (hps_emac2_RXD1),     
+.hps_io_emac2_pps                          (hps_emac2_PPS),      
+.hps_io_emac2_pps_trig                     (hps_emac2_PPS_TRIG), 
+@@}
+@@if {$hps_emac2_rgmii_en == 1} {
+.hps_io_emac2_txd2                         (hps_emac2_TXD2),      
+.hps_io_emac2_txd3                         (hps_emac2_TXD3),  
+.hps_io_emac2_rxd2                         (hps_emac2_RXD2),     
+.hps_io_emac2_rxd3                         (hps_emac2_RXD3),   
+@@}
+@@if {$hps_mdio2_q1_en == 1 || $hps_mdio2_q3_en == 1} {
+.hps_io_mdio2_mdio                         (hps_emac2_MDIO),  
+.hps_io_mdio2_mdc                          (hps_emac2_MDC),  
+@@}
+@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q1_en == 1 || $hps_sdmmc8b_q3_en == 1} {
+.hps_io_sdmmc_cclk                         (hps_sdmmc_CCLK),   
+.hps_io_sdmmc_cmd                          (hps_sdmmc_CMD), 
+.hps_io_sdmmc_data0                        (hps_sdmmc_D0),          
+.hps_io_sdmmc_data1                        (hps_sdmmc_D1),          
+.hps_io_sdmmc_data2                        (hps_sdmmc_D2),         
+.hps_io_sdmmc_data3                        (hps_sdmmc_D3),        
+@@}
+@@if {$hps_sdmmc8b_q1_en == 1 || $hps_sdmmc8b_q3_en == 1} {
+.hps_io_sdmmc_data4                        (hps_sdmmc_D4),          
+.hps_io_sdmmc_data5                        (hps_sdmmc_D5),          
+.hps_io_sdmmc_data6                        (hps_sdmmc_D6),         
+.hps_io_sdmmc_data7                        (hps_sdmmc_D7),
+@@}
+@@if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
+.hps_io_NAND_ALE                           (hps_nand_ALE),
+.hps_io_NAND_CE_N                          (hps_nand_CE_N),
+.hps_io_NAND_CLE                           (hps_nand_CLE),
+.hps_io_NAND_RE_N                          (hps_nand_RE_N),
+.hps_io_NAND_RB                            (hps_nand_RB),
+.hps_io_NAND_WP_N                          (hps_nand_WP_N),
+.hps_io_NAND_WE_N                          (hps_nand_WE_N),
+.hps_io_NAND_ADQ0                          (hps_nand_ADQ0),
+.hps_io_NAND_ADQ1                          (hps_nand_ADQ1),
+.hps_io_NAND_ADQ2                          (hps_nand_ADQ2),
+.hps_io_NAND_ADQ3                          (hps_nand_ADQ3),
+.hps_io_NAND_ADQ4                          (hps_nand_ADQ4),
+.hps_io_NAND_ADQ5                          (hps_nand_ADQ5),
+.hps_io_NAND_ADQ6                          (hps_nand_ADQ6),
+.hps_io_NAND_ADQ7                          (hps_nand_ADQ7),
+@@}
+@@if {$hps_nand_16b_en == 1} {
+.hps_io_NAND_ADQ8                          (hps_nand_ADQ8),
+.hps_io_NAND_ADQ9                          (hps_nand_ADQ9),
+.hps_io_NAND_ADQ10                         (hps_nand_ADQ10),
+.hps_io_NAND_ADQ11                         (hps_nand_ADQ11),
+.hps_io_NAND_ADQ12                         (hps_nand_ADQ12),
+.hps_io_NAND_ADQ13                         (hps_nand_ADQ13),
+.hps_io_NAND_ADQ14                         (hps_nand_ADQ14),
+.hps_io_NAND_ADQ15                         (hps_nand_ADQ15),
+@@}
+@@if {$hps_i2c0_q1_en == 1 || $hps_i2c0_q2_en == 1 || $hps_i2c0_q3_en == 1} {
+.hps_io_I2C0_SDA                           (hps_i2c0_SDA),     
+.hps_io_I2C0_SCL                           (hps_i2c0_SCL),
+@@}
+@@if {$hps_i2c1_q1_en == 1 || $hps_i2c1_q2_en == 1 || $hps_i2c1_q3_en == 1 || $hps_i2c1_q4_en == 1} {
+.hps_io_I2C1_SDA                           (hps_i2c1_SDA),     
+.hps_io_I2C1_SCL                           (hps_i2c1_SCL),
+@@}
+@@if {$hps_i3c0_q1_en == 1 || $hps_i3c0_q2_en == 1 || $hps_i3c0_q3_en == 1 || $hps_i3c0_q4_en == 1} {
+.hps_io_i3c0_sda                           (hps_i3c0_SDA),     
+.hps_io_i3c0_scl                           (hps_i3c0_SCL),
+@@}
+@@if {$hps_i3c1_q1_en == 1 || $hps_i3c1_q2_en == 1 || $hps_i3c1_q3_en == 1 || $hps_i3c1_q4_en == 1} {
+.hps_io_i3c1_sda                           (hps_i3c1_SDA),     
+.hps_io_i3c1_scl                           (hps_i3c1_SCL),
+@@}
+@@if {$hps_i2c_emac0_q1_en == 1 || $hps_i2c_emac0_q3_en == 1 || $hps_i2c_emac0_q4_en == 1} {
+.hps_io_I2CEMAC0_SDA                       (hps_i2c_emac0_SDA),       
+.hps_io_I2CEMAC0_SCL                       (hps_i2c_emac0_SCL),                  
+@@}
+@@if {$hps_i2c_emac1_q1_en == 1 || $hps_i2c_emac1_q4_en == 1} {
+.hps_io_I2CEMAC1_SDA                       (hps_i2c_emac1_SDA),       
+.hps_io_I2CEMAC1_SCL                       (hps_i2c_emac1_SCL),                  
+@@}
+@@if {$hps_i2c_emac2_q1_en == 1 || $hps_i2c_emac2_q3_en == 1 || $hps_i2c_emac2_q4_en == 1} {
+.hps_io_I2CEMAC2_SDA                       (hps_i2c_emac2_SDA),       
+.hps_io_I2CEMAC2_SCL                       (hps_i2c_emac2_SCL),                  
+@@}
+@@if {$hps_uart0_q1_en == 1 || $hps_uart0_q2_en == 1 || $hps_uart0_q3_en == 1} {
+.hps_io_uart0_rx                           (hps_uart0_RX),          
+.hps_io_uart0_tx                           (hps_uart0_TX), 
+@@}                                 
+@@if {$hps_uart0_fc_en == 1} {
+.hps_io_uart0_cts_n                        (hps_uart0_CTS_N),  
+.hps_io_uart0_rts_n                        (hps_uart0_RTS_N),  
+@@}
+@@if {$hps_uart1_q1_en == 1 || $hps_uart1_q3_en == 1 || $hps_uart1_q4_en == 1} {
+.hps_io_uart1_rx                           (hps_uart1_RX),          
+.hps_io_uart1_tx                           (hps_uart1_TX), 
+@@}
+@@if {$hps_uart1_fc_en == 1} {
+.hps_io_uart1_cts_n                        (hps_uart1_CTS_N),  
+.hps_io_uart1_rts_n                        (hps_uart1_RTS_N),  
+@@}
+@@if {$hps_spim0_q1_en == 1 || $hps_spim0_q4_en == 1 } {
+.hps_io_SPIM0_CLK                          (hps_spim0_CLK),
+.hps_io_SPIM0_MOSI                         (hps_spim0_MOSI),
+.hps_io_SPIM0_MISO                         (hps_spim0_MISO), 
+.hps_io_SPIM0_SS0_N                        (hps_spim0_SS0_N),
+@@}
+@@if {$hps_spim0_2ss_en == 1} {
+.hps_io_SPIM0_SS1_N                        (hps_spim0_SS1_N),
+@@}
+@@if {$hps_spim1_q1_en == 1 || $hps_spim1_q2_en == 1 || $hps_spim1_q3_en == 1} {
+.hps_io_SPIM1_CLK                          (hps_spim1_CLK),
+.hps_io_SPIM1_MOSI                         (hps_spim1_MOSI),
+.hps_io_SPIM1_MISO                         (hps_spim1_MISO), 
+.hps_io_SPIM1_SS0_N                        (hps_spim1_SS0_N),
+@@}
+@@if {$hps_spim1_2ss_en == 1} {
+.hps_io_SPIM1_SS1_N                        (hps_spim1_SS1_N),
+@@}
+@@if {$hps_spis0_q1_en == 1 || $hps_spis0_q2_en == 1 || $hps_spis0_q3_en == 1} {
+.hps_io_SPIS0_CLK                          (hps_spis0_CLK),
+.hps_io_SPIS0_MOSI                         (hps_spis0_MOSI),
+.hps_io_SPIS0_MISO                         (hps_spis0_MISO),
+.hps_io_SPIS0_SS0_N                        (hps_spis0_SS0_N),
+@@}
+@@if {$hps_spis1_q1_en == 1 || $hps_spis1_q3_en == 1 || $hps_spis1_q4_en == 1} {
+.hps_io_SPIS1_CLK                          (hps_spis1_CLK),
+.hps_io_SPIS1_MOSI                         (hps_spis1_MOSI),
+.hps_io_SPIS1_MISO                         (hps_spis1_MISO),
+.hps_io_SPIS1_SS0_N                        (hps_spis1_SS0_N),
+@@}
+@@if {$hps_usb0_en == 1} {
+.hps_io_USB0_CLK                           (hps_usb0_CLK), 
+.hps_io_USB0_STP                           (hps_usb0_STP), 
+.hps_io_USB0_DIR                           (hps_usb0_DIR),
+.hps_io_USB0_NXT                           (hps_usb0_NXT),
+.hps_io_USB0_DATA0                         (hps_usb0_DATA0),
+.hps_io_USB0_DATA1                         (hps_usb0_DATA1), 
+.hps_io_USB0_DATA2                         (hps_usb0_DATA2), 
+.hps_io_USB0_DATA3                         (hps_usb0_DATA3), 
+.hps_io_USB0_DATA4                         (hps_usb0_DATA4), 
+.hps_io_USB0_DATA5                         (hps_usb0_DATA5),
+.hps_io_USB0_DATA6                         (hps_usb0_DATA6), 
+.hps_io_USB0_DATA7                         (hps_usb0_DATA7),
+@@}
+@@if {$hps_usb1_en == 1} {
+.hps_io_usb1_clk                           (hps_usb1_CLK), 
+.hps_io_usb1_stp                           (hps_usb1_STP), 
+.hps_io_usb1_dir                           (hps_usb1_DIR),
+// Todo clarify for NXT or NXR
+.hps_io_usb1_nxr                           (hps_usb1_NXT),
+.hps_io_usb1_data0                         (hps_usb1_DATA0),
+.hps_io_usb1_data1                         (hps_usb1_DATA1), 
+.hps_io_usb1_data2                         (hps_usb1_DATA2), 
+.hps_io_usb1_data3                         (hps_usb1_DATA3), 
+.hps_io_usb1_data4                         (hps_usb1_DATA4), 
+.hps_io_usb1_data5                         (hps_usb1_DATA5),
+.hps_io_usb1_data6                         (hps_usb1_DATA6), 
+.hps_io_usb1_data7                         (hps_usb1_DATA7),
+@@}
+@@if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1} {
+.hps_io_TRACE_CLK                          (hps_trace_CLK),  
+.hps_io_TRACE_D0                           (hps_trace_D0),  
+.hps_io_TRACE_D1                           (hps_trace_D1),  
+.hps_io_TRACE_D2                           (hps_trace_D2),  
+.hps_io_TRACE_D3                           (hps_trace_D3),  
+@@}
+@@if {$hps_trace_8b_en == 1 || $hps_trace_12b_en ==1 || $hps_trace_16b_en ==1} {
+.hps_io_TRACE_D4                           (hps_trace_D4),  
+.hps_io_TRACE_D5                           (hps_trace_D5),  
+.hps_io_TRACE_D6                           (hps_trace_D6),  
+.hps_io_TRACE_D7                           (hps_trace_D7),  
+@@}
+@@if {$hps_trace_12b_en ==1 || $hps_trace_16b_en ==1} {
+.hps_io_TRACE_D8                           (hps_trace_D8),  
+.hps_io_TRACE_D9                           (hps_trace_D9),  
+.hps_io_TRACE_D10                          (hps_trace_D10),  
+.hps_io_TRACE_D11                          (hps_trace_D11), 
+@@}
+@@if {$hps_trace_16b_en ==1} {
+.hps_io_TRACE_D12                          (hps_trace_D12),  
+.hps_io_TRACE_D13                          (hps_trace_D13),  
+.hps_io_TRACE_D14                          (hps_trace_D14),  
+.hps_io_TRACE_D15                          (hps_trace_D15), 
+@@}
+@@if {$hps_gpio0_en == 1} {
+@@  foreach io_num $hps_gpio0_list {
+.hps_io_gpio${io_num}                          (hps_gpio0_io${io_num}),
+@@  }
+@@}
+@@if {$hps_gpio1_en == 1} {
+@@  foreach io_num $hps_gpio1_list {
+@@    set io_num_new [expr $io_num + 24]
+.hps_io_gpio${io_num_new}                          (hps_gpio1_io${io_num}),
+@@  }
+@@}
+@@if {$hps_pll_out_en == 1} {
+.hps_io_hps_io_cm_pll0                     (hps_pll0_clk),
+.hps_io_hps_io_cm_pll1                     (hps_pll1_clk),
+.hps_io_hps_io_cm_pll2                     (hps_pll2_clk),
+.hps_io_hps_io_cm_pll3                     (hps_pll3_clk),
+@@}
+@@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+// Todo nolonger export to top 
+//.f2h_irq1_irq                              (f2h_irq1_irq),
+@@}
+@@if {$ftrace_en == 1} {
+.ext_trace_f2h_clk_in_clk_ctl              (1'b1),     // use HPS internal debug trace clock to drive TRACE interface
+.ext_trace_f2h_clk_in_clk                  (1'b0),
+.ext_trace_trace_clk_out_clk               (ftrace_clk),
+.ext_trace_trace_data_out_export           (ftrace_data),
+@@}
+@@if {$hps_io_off == 0} {
+.hps_io_hps_osc_clk                        (hps_osc_clk),
+@@}
+
+//.h2f_reset_reset                           (h2f_reset),
+
+.reset_reset_n                             (system_reset_n)
+); 
+
+// debounce fpga_reset_n
+debounce fpga_reset_n_debounce_inst (
+.clk                                       (system_clk_100_internal),
+.reset_n                                   (~ninit_done),
+.data_in                                   (fpga_reset_n),
+.data_out                                  (fpga_reset_n_debounced_wire)
+);
+defparam fpga_reset_n_debounce_inst.WIDTH = 1;
+defparam fpga_reset_n_debounce_inst.POLARITY = "LOW";
+defparam fpga_reset_n_debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
+defparam fpga_reset_n_debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
+
+always @ (posedge system_clk_100_internal or posedge ninit_done)
+begin
+    if (ninit_done == 1'b1)
+        fpga_reset_n_debounced <= 1'b0;
+    else
+        fpga_reset_n_debounced <= fpga_reset_n_debounced_wire;  
+end
+
+@@if {$fpga_peripheral_en == 1} {
+@@ if {$fpga_button_pio_width != 0} {  
+// Debounce logic to clean out glitches within 1ms
+debounce debounce_inst (
+.clk                                       (system_clk_100_internal),
+.reset_n                                   (system_reset_n),  
+.data_in                                   (fpga_button_pio),
+.data_out                                  (fpga_debounced_buttons)
+);
+defparam debounce_inst.WIDTH = $fpga_button_pio_width;
+defparam debounce_inst.POLARITY = "LOW";
+defparam debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
+defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
+@@}
+
+@@  if {$fpga_led_pio_width > 0} {
+always @(posedge system_clk_100_internal or negedge system_reset_n) begin
+  if (~system_reset_n)
+    heartbeat_count <= 23'd0;
+  else
+    heartbeat_count <= heartbeat_count + 23'd1;
+end
+@@}
+@@}
+
+endmodule
