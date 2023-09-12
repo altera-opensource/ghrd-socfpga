@@ -13,8 +13,8 @@
 #       - 0: disable
 #       - 1: enable [default]
 #   HPS_EMIF_EN :
-#       - 0: disable [default]
-#       - 1: enable 
+#       - 0: disable
+#       - 1: enable [default] 
 #   HPS_EMIF_ECC_EN :
 #       - 0: disable [default]
 #       - 1: enable 

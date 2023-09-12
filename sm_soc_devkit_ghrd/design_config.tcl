@@ -72,7 +72,7 @@ set HPS_EMIF_TYPE ddr4
 # Option to set HPS EMIF RATE
 set HPS_EMIF_RATE RATE_QUARTER
 # Option to set HPS EMIF REF CLK frequency in MHz
-set HPS_EMIF_REF_CLK_FREQ_MHZ 100.0
+set HPS_EMIF_REF_CLK_FREQ_MHZ 166.625
 # Option to set HPS EMIF CLK frequency in MHz
 set HPS_EMIF_MEM_CLK_FREQ_MHZ 1200.0
 # Option to set HPS EMIF width (ignoring extra bits for ECC)

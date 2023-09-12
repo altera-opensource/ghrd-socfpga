@@ -11,10 +11,9 @@
 #
 #****************************************************************************
 
-puts "prjroot = ${prjroot} "
-source ${prjroot}/arguments_solver.tcl
-source ${prjroot}/utils.tcl
 
+source $proj_root/arguments_solver.tcl
+source $proj_root/utils.tcl
 set sub_qsys_jtag subsys_jtg_mst
 
 package require -exact qsys 19.1
@@ -73,3 +72,6 @@ set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
 sync_sysinfo_parameters 
     
 save_system ${sub_qsys_jtag}.qsys
+
+sync_sysinfo_parameters 
+

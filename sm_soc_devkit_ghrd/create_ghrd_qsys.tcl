@@ -117,14 +117,17 @@ add_component_param "altera_address_span_extender ext_hps_m_master
 
 if {$jtag_ocm_en == 1} {
 add_instance jtg_mst subsys_jtg_mst
+reload_ip_catalog
 }
 
 if {$fpga_peripheral_en == 1} {
 add_instance periph_subsys subsys_periph
+reload_ip_catalog
 }
 
 if {$hps_en == 1} {
 add_instance hps_subsys subsys_hps
+reload_ip_catalog
 }
 
 connect "   clk_100.out_clk                    ext_hps_m_master.clock
@@ -283,4 +286,6 @@ set_domain_assignment {$system} {qsys_mm.burstAdapterImplementation} {PER_BURST_
 
 sync_sysinfo_parameters 
 save_system ${qsys_name}.qsys
-sync_sysinfo_parameters 
+sync_sysinfo_parameters
+save_system ${qsys_name}.qsys
+

@@ -135,8 +135,7 @@ for {set i 0} {$i < 12} {incr i} {
     lappend io48_q4_assignment NONE
 }
 
-puts "prjroot = ${prjroot} "
-source ${prjroot}/agilex_io48.tcl
+source $proj_root/hps_subsys/agilex_io48.tcl
 
 # Assigning individual IO48 peripherals
 if {$hps_jtag_en == 1} {

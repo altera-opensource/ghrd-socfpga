@@ -8,7 +8,7 @@
 # This script hosts Default EMIF IP settings for the Agilex SoC Devkit board.
 #
 #****************************************************************************
-source ./utils.tcl
+source $proj_root/utils.tcl
 
 if {$hps_emif_en == 1} {
 set total_hps_emif_width $hps_emif_width

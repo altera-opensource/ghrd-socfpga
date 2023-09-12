@@ -102,8 +102,8 @@
 #
 #****************************************************************************
 
-puts "prjroot = ${prjroot} "
-source ${prjroot}/design_config.tcl 
+source $proj_root/design_config.tcl
+
 
 proc check_then_accept { param } {
   if {$param == device_family || device || qsys_name || project_name} {
@@ -167,11 +167,16 @@ if { ![ info exists board_pwrmgt ] } {
 }
 
 # Loading Board default configuration settings
+<<<<<<< HEAD
 set board_config_file "${prjroot}/board/board_${board}_config.tcl"
+=======
+set board_config_file $proj_root/board/board_${board}_config.tcl
+puts "board path: $board_config_file"
+>>>>>>> b561674... Fix TCL linkage to needed files, reposition Makefile.new as default, enable HPS_EMIF as default on.
 if {[file exist $board_config_file]} {
     source $board_config_file
 } else {
-    error "Error: $board_config_file not exist!! Please make sure the board settings files are included in folder ./board/"
+    error "Error: $board_config_file not exist!! Please make sure the board settings files are included in folder ./boards/"
 }
 
 #qsys generate consume this arguments
@@ -709,10 +714,16 @@ if {$f2s_address_width > 32 && $f2sdram_width > 0} {
     set cct_en 0
 }
 
+<<<<<<< HEAD
 
 source ${prjroot}/agilex_hps_pinmux_solver.tcl
 source ${prjroot}/agilex_hps_parameter_solver.tcl
 source ${prjroot}/agilex_hps_io48_delay_chain_solver.tcl
+=======
+source $proj_root/hps_subsys/agilex_hps_pinmux_solver.tcl
+source $proj_root/hps_subsys/agilex_hps_parameter_solver.tcl
+source $proj_root/hps_subsys/agilex_hps_io48_delay_chain_solver.tcl
+>>>>>>> b561674... Fix TCL linkage to needed files, reposition Makefile.new as default, enable HPS_EMIF as default on.
 
 # Was thinking to enable single TCL entry for flow of TOP RTL, qsys, quartus generation. Ideal still pending implementation
 # exec quartus_sh --script=create_ghrd_quartus.tcl $top_quartus_arg

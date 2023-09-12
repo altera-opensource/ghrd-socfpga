@@ -72,10 +72,10 @@ if {[llength $arguments]%2 == 0} {
     foreach item $arguments {
         if {$lpos %2 == 0} {
             set parameter $item
-            puts "Param:\[$item\]"
+            ##puts "Param:\[$item\]"
         } else {
             set value $item
-            puts "Value:\[$item\]"
+            ##puts "Value:\[$item\]"
         }
         if {$lpos %2 == 1} {set_component_parameter_value $parameter $value}
         incr lpos
@@ -94,7 +94,7 @@ if {[llength $arguments]%2 == 0} {
 proc set_component_param {args} {
     set lpos 0
     set length [llength $args]
-    puts "Length of argument: $length"
+    ##puts "Length of argument: $length"
     # puts "LIST become $args"
 
     # Retrieve fresh argument from sourcing TCL to get all elements
@@ -107,7 +107,7 @@ proc set_component_param {args} {
     # Retrieve the 1st arg as instance name
     set instance_name [lindex $arguments 0]
     set arguments [lreplace $arguments 0 0]
-    puts "Instance Name: $instance_name"
+    ##puts "Instance Name: $instance_name"
 
     # Load component instance into design for parameterization setup
     load_component $instance_name
@@ -119,10 +119,10 @@ proc set_component_param {args} {
         foreach item $arguments {
             if {$lpos %2 == 0} {
                 set parameter $item
-                puts "Param:\[$item\]"
+                ##puts "Param:\[$item\]"
             } else {
                 set value $item
-                puts "Value:\[$item\]"
+                ##puts "Value:\[$item\]"
             }
         if {$lpos %2 == 1} {set_component_parameter_value $parameter $value}
         incr lpos
@@ -181,10 +181,10 @@ if {[llength $arguments]%2 == 0} {
     foreach item $arguments {
         if {$lpos %2 == 0} {
             set parameter $item
-            puts "Param:\[$item\]"
+            ##puts "Param:\[$item\]"
         } else {
             set value $item
-            puts "Value:\[$item\]"
+            ##puts "Value:\[$item\]"
         }
         if {$lpos %2 == 1} {set_instance_parameter_value $instance_name $parameter $value}
         incr lpos
@@ -203,7 +203,7 @@ if {[llength $arguments]%2 == 0} {
 proc set_instance_param {args} {
     set lpos 0
     set length [llength $args]
-    puts "Length of argument: $length"
+    ##puts "Length of argument: $length"
     # puts "LIST become $args"
 
     # Retrieve fresh argument from sourcing TCL to get all elements
@@ -216,7 +216,7 @@ proc set_instance_param {args} {
     # Retrieve the 1st arg as instance name
     set instance_name [lindex $arguments 0]
     set arguments [lreplace $arguments 0 0]
-    puts "Instance Name: $instance_name"
+    ##puts "Instance Name: $instance_name"
 
     # Check if parameter->value pairs matched
     set parameter ""
@@ -225,10 +225,10 @@ proc set_instance_param {args} {
         foreach item $arguments {
             if {$lpos %2 == 0} {
                 set parameter $item
-                puts "Param:\[$item\]"
+                ##puts "Param:\[$item\]"
             } else {
                 set value $item
-                puts "Value:\[$item\]"
+                ##puts "Value:\[$item\]"
             }
         if {$lpos %2 == 1} {set_instance_parameter_value $instance_name $parameter $value}
         incr lpos
@@ -263,10 +263,10 @@ proc connect {args} {
         foreach item $arguments {
             if {$lpos %2 == 0} {
                 set src $item
-                puts "From:\[$item\]"
+                ##puts "From:\[$item\]"
             } else {
                 set dst $item
-                puts "connect To:\[$item\]"
+                ##puts "connect To:\[$item\]"
             }
             if {$lpos %2 == 1} {add_connection $src $dst}
             incr lpos
@@ -284,7 +284,7 @@ proc connect {args} {
 proc connect_map {args} {
     set lpos 0
     set length [llength $args]
-    puts "Length of argument: $length"
+    ##puts "Length of argument: $length"
    # puts "LIST become $args"
 
     # Retrieve fresh argument from sourcing TCL to get all elements
@@ -292,7 +292,7 @@ proc connect_map {args} {
 
     #puts "stripped LIST become $arguments"
     set length [llength $arguments]
-    puts "Length of arguments: $length"
+    ##puts "Length of arguments: $length"
 
     # Check if parameter->value pairs matched
     set parameter ""

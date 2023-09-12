@@ -11,9 +11,9 @@
 #
 #****************************************************************************
 
-puts "prjroot = ${prjroot} "
-source ${prjroot}/arguments_solver.tcl
-source ${prjroot}/utils.tcl
+source $proj_root/arguments_solver.tcl
+source $proj_root/utils.tcl
+
 
 set subsys_name subsys_hps
   
@@ -72,7 +72,7 @@ add_component_param "intel_agilex_5_soc agilex_hps
 # EMIF_DDR_WIDTH $hps_emif_width 
 if {$hps_emif_en == 1} {
     set cpu_instance agilex_hps
-    set board_emif_config_file "./board/board_hidden_emif_setting.tcl"
+    set board_emif_config_file "$proj_root/board/board_hidden_emif_setting.tcl"
     if {[file exist $board_emif_config_file]} {
         source $board_emif_config_file
     } else {
@@ -649,3 +649,8 @@ if {$lwh2f_width > 0} {
 sync_sysinfo_parameters 
     
 save_system ${subsys_name}.qsys
+
+sync_sysinfo_parameters     
+
+save_system ${subsys_name}.qsys
+
