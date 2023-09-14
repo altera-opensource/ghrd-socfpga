@@ -103,9 +103,7 @@
 #****************************************************************************
 
 
-#puts "prjroot = ${prjroot} "
-#source ${prjroot}/design_config.tcl
-source ./design_config.tcl
+source ${prjroot}/design_config.tcl 
 
 proc check_then_accept { param } {
   if {$param == device_family || device || qsys_name || project_name} {
