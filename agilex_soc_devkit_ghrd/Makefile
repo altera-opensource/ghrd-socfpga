@@ -162,25 +162,7 @@ DAUGHTER_CARD = pcie_devkit
 else
 DAUGHTER_CARD ?= devkit_dc_oobe
 endif
-# System initilization mode: fpga, hps
-BOOTS_FIRST ?= hps
-# HPS JTAG MODE: combined, separate
-HPS_JTAG_MODE ?= combined
-# Board Revision: A0, A1
-BOARD_REV ?= A1
-# H2F F2H Loopback Enable: 0, 1
-LOOPBACK_EN ?= 0
-# HPS EMIF Enabled: 0, 1
-HPS_EMIF_EN ?= 1
-# HPS EMIF ECC is not support for REVA Agilex
-ENABLE_HPS_EMIF_ECC ?= 1
-# Enable Watchdog Reset: 0, 1
-ENABLE_WATCHDOG_RST ?= 1
-# Supported watchdog reset action: cold, warm, remote_update
-WATCHDOG_RST_ACTION ?= cold
-# Enable Partial Reconfiguration: 0, 1
-# Not applicable to FM6 RevA (AGFB014R24A3E3VR0)
-ENABLE_PARTIAL_RECONFIGURATION ?= 1
+
 # Enable SGMII (HPS EMAC + TSE PHY)
 HPS_ENABLE_SGMII ?= 1
 # Enable ETILE 1588v2 PTP
