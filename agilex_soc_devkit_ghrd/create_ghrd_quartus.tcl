@@ -156,7 +156,7 @@ if {$pr_enable == 1} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 3
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } else {
-if {$board == "devkit_fm86" | $board == "devkit_fm87" | $board == "DK-SI-AGF014E" && $daughter_card == "devkit_dc_oobe"} {
+if {$board == "devkit_fm86" | $board == "devkit_fm87" | $board == "DK-SI-AGF014E" | $board == "devkit_fp82" && $daughter_card == "devkit_dc_oobe"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 4
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } elseif {$board == "DK-SI-AGF014E" && $daughter_card == "devkit_dc_nand"} {
