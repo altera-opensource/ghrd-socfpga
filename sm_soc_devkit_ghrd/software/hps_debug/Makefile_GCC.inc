@@ -13,7 +13,7 @@ CC:= $(CROSS_COMPILE)as
 OBJCOPY := $(CROSS_COMPILE)objcopy
 OBJDUMP := $(CROSS_COMPILE)objdump
 
-SRC := hps_wipe.s
+SRC := hps_debug.S
 ENTRY_POINT:=0x0
 
 IHEX := $(patsubst %.s,%.ihex,$(SRC))
