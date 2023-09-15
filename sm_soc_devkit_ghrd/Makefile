@@ -537,14 +537,14 @@ endif
 QUARTUS_BASE_QDB := base_static.qdb
 SCRUB_CLEAN_FILES += $(QUARTUS_BASE_QDB)
 
-SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_debug.S software/hps_debug/Makefile software/hps_debug/Makefile_ARMCLANG.inc software/hps_debug/Makefile_GCC.inc software/hps_debug/scatter.scat
+SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_wipe.s software/hps_debug/Makefile software/hps_debug/Makefile_ARMCLANG.inc software/hps_debug/Makefile_GCC.inc software/hps_debug/scatter.scat
 
 software/hps_debug/hps_debug.ihex: $(SPL_DEBUG_GEN_HEX_DEPS)
 	$(MAKE) -C software/hps_debug
 
-$(QUARTUS_SOF_WITH_HPS_DEBUG): $(QUARTUS_SOF) software/hps_debug/hps_debug.ihex
+$(QUARTUS_SOF_WITH_HPS_DEBUG): $(QUARTUS_SOF) software/hps_debug/hps_wipe.ihex
 	@$(MKDIR) $(@D)
-	quartus_pfg -c -o hps_path=software/hps_debug/hps_debug.ihex $< $@
+	quartus_pfg -c -o hps_path=software/hps_debug/hps_wipe.ihex $< $@
 
 $(QUARTUS_PR_RBF): %.rbf: %.pmsf
 	quartus_pfg -c $< $@
