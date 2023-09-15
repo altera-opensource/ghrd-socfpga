@@ -539,7 +539,7 @@ SCRUB_CLEAN_FILES += $(QUARTUS_BASE_QDB)
 
 SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_wipe.s software/hps_debug/Makefile software/hps_debug/Makefile_ARMCLANG.inc software/hps_debug/Makefile_GCC.inc software/hps_debug/scatter.scat
 
-software/hps_debug/hps_debug.ihex: $(SPL_DEBUG_GEN_HEX_DEPS)
+software/hps_debug/hps_wipe.ihex: $(SPL_DEBUG_GEN_HEX_DEPS)
 	$(MAKE) -C software/hps_debug
 
 $(QUARTUS_SOF_WITH_HPS_DEBUG): $(QUARTUS_SOF) software/hps_debug/hps_wipe.ihex
