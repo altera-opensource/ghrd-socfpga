@@ -43,6 +43,7 @@
 #########################################################################
 
 SHELL := /bin/bash
+MAKEFLAGS += --no-print-directory
 
 .SECONDEXPANSION:
 .SUFFIXES: 
@@ -78,7 +79,7 @@ MODULES_FILE     := build.module
 MODULE_VAR_FILE  := module.var
 BUILD_DIR        := build
 HELP_TITLE_FILE  := help.title
-
+USER_CONFIG_FILE := $(BUILD_DIR)/config
 
 
 #===============================================
@@ -100,6 +101,10 @@ SPACE := $(empty) $(empty)
 lc = $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst F,f,$(subst G,g,$(subst H,h,$(subst I,i,$(subst J,j,$(subst K,k,$(subst L,l,$(subst M,m,$(subst N,n,$(subst O,o,$(subst P,p,$(subst Q,q,$(subst R,r,$(subst S,s,$(subst T,t,$(subst U,u,$(subst V,v,$(subst W,w,$(subst X,x,$(subst Y,y,$(subst Z,z,$1))))))))))))))))))))))))))
 
 # load user-specific configuration
+ifeq ($(wildcard $(USER_CONFIG_FILE)),)
+    $(shell touch $(USER_CONFIG_FILE))
+endif
+
 USER_CONFIG := $(shell sed 's/[[:space:]]//g' build/config)
 define LOAD_USER_CONFIG
     $(firstword $(subst =, $(SPACE), $1)) := $(word 2, $(subst =, $(SPACE), $1))
@@ -302,7 +307,7 @@ MODULE_CONFIG := $(foreach n, $(MODULES), $(n).config)
 
 .PHONY: $(MODULE_CONFIG)
 $(MODULE_CONFIG) :
-	$(MAKE) -C $(subst .config,,$@) config
+	@$(MAKE) -C $(subst .config,,$@) config
 
 PROJECT_ROOT          :=  $(PWD)
 GHRD_CONFIG_FILE      :=  $(PROJECT_ROOT)/build/config.global
@@ -310,9 +315,10 @@ GHRD_HELP_FILE        :=  $(PROJECT_ROOT)/build/help.global
 GHRD_SCRIPT_FILE      :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
 config: $(MODULE_CONFIG)
 	$(shell awk -v config_file=$(GHRD_CONFIG_FILE) -v help_file=$(GHRD_HELP_FILE) -f $(GHRD_SCRIPT_FILE) $(firstword $(MAKEFILE_LIST)))
-	@cat $(wildcard build/config.*) > build/config
-	@sed -i '/^\s*$$/d' build/config
-	@rm -rf build/config.*
+	@$(CAT) $(wildcard build/config.*) > build/config
+	@$(SED) -i '/^\s*$$/d' build/config
+	@$(RM) -rf build/config.*
+	@$(ECHO) "done!"
 
 
 ################################################
