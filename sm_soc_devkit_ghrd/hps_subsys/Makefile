@@ -32,20 +32,23 @@ EMPTY     :=
 ENABLE    := 1
 DISABLE   := 0
 
-
+CURRENT_FOLDER     :=  $(lastword $(subst $(SLASH), $(SPACE),$(PWD)))
 PROJECT_ROOT       :=  $(PWD)/../
-GHRD_CONFIG_FILE   :=  $(PROJECT_ROOT)/build/config.hps_subsys
-GHRD_HELP_FILE     :=  $(PROJECT_ROOT)/build/help.hps_subsys
+GHRD_CONFIG_FILE   :=  $(PROJECT_ROOT)/build/config.$(CURRENT_FOLDER)
+GHRD_HELP_FILE     :=  $(PROJECT_ROOT)/build/help.$(CURRENT_FOLDER)
 GHRD_SCRIPT_FILE   :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
+
+$(info folder name is $(CURRENT_FOLDER))
+$(info received qsys_tcl_arg is $(QSYS_TCL_ARGS))
 
 .PHONY: generate_from_tcl
 generate_from_tcl:
         ifeq ($(HPS_EN), $(ENABLE))
-	     @qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_hps.tcl $(QSYS_TCL_ARGS)
+	    @qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_hps.tcl --cmd="$(QSYS_TCL_ARGS)"
         else
-	    @echo "hps_subsys does not be enabled, skip."
+	    @echo "$(CURRENT_FOLDER) does not be enabled, skip."
         endif
-	@echo "generate_from_tcl for hps_subsys done!"
+	@echo "generate_from_tcl for $(CURRENT_FOLDER) done!"
 
 .PHONY: config
 config:

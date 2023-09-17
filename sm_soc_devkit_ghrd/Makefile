@@ -93,7 +93,6 @@ QUARTUS_PGM      :=  quartus_pgm
 QSYS_GENERATE    :=  qsys-generate
 QSYS_SCRIPT      :=  qsys-script
 
-
 # Helpful Macros
 SPACE := $(empty) $(empty)
 
@@ -107,15 +106,15 @@ endif
 
 USER_CONFIG := $(shell sed 's/[[:space:]]//g' build/config)
 define LOAD_USER_CONFIG
-    $(firstword $(subst =, $(SPACE), $1)) := $(word 2, $(subst =, $(SPACE), $1))
+	$(firstword $(subst =, $(SPACE), $1)) := $(word 2, $(subst =, $(SPACE), $1))
 endef
 $(foreach p, $(USER_CONFIG), $(eval $(call LOAD_USER_CONFIG, $p)))
 
 # update user-specific configuration
 USER_CONFIG_UPDATE := 
 define UPDATE_USER_CONFIG
-    $(firstword $(subst =, $(SPACE), $1)) := $$($(firstword $(subst =, $(SPACE), $1)))
-    USER_CONFIG_UPDATE += $(firstword $(subst =, $(SPACE), $1))=$$($(firstword $(subst =, $(SPACE), $1)))
+	$(firstword $(subst =, $(SPACE), $1)) := $$($(firstword $(subst =, $(SPACE), $1)))
+	USER_CONFIG_UPDATE += $(firstword $(subst =, $(SPACE), $1))=$$($(firstword $(subst =, $(SPACE), $1)))
 endef
 $(foreach p, $(USER_CONFIG), $(eval $(call UPDATE_USER_CONFIG, $p)))
 
@@ -283,8 +282,9 @@ QUARTUS_TCL_ARGS += proj_root $(PROJECT_ROOT)
 
 # Merge QSYS_TCL_CMDS into a single QSys arg
 ifneq ($(QSYS_TCL_CMDS),)
-QSYS_TCL_ARGS += --cmd="$(QSYS_TCL_CMDS)"
+QSYS_TCL_ARGS += $(QSYS_TCL_CMDS)
 endif
+#QSYS_TCL_ARGS += --cmd="$(QSYS_TCL_CMDS)"
 
 #===============================================
 # Building modules control
@@ -293,6 +293,8 @@ MODULES := $(shell cat $(MODULES_FILE))
 MODULE_BUILD := $(foreach n, $(MODULES), $(n).build)
 
 $(MODULE_BUILD): quartus_generate_qsf_qpf quartus_generate_top 
+	$(info to send qsys_tcl_arg is $(QSYS_TCL_ARGS))
+	$(info to send user_config_update is $(USER_CONFIG_UPDATE))
 	@$(MAKE) QSYS_ARGS='$(QSYS_ARGS)' QSYS_TCL_ARGS='$(QSYS_TCL_ARGS)' $(USER_CONFIG_UPDATE) -C $(subst .build,,$@) generate_from_tcl
 
 .PHONY: generate_submodule
@@ -616,7 +618,7 @@ QSYS_GEN_QSYS_DEPS += quartus_generate_qsf_qpf
 ifneq ($(QSYS_QSYS_GEN),)
 qsys_generate_qsys: $(QSYS_QSYS_GEN) $(INTEL_CUSTOM_IP_DIR_TARGET)
 	@$(RM) $(QSYS_FILE_TOP)
-	qsys-script $(QSYS_ARGS) --script=$< $(QSYS_TCL_ARGS)
+	qsys-script $(QSYS_ARGS) --script=$< --cmd="$(QSYS_TCL_ARGS)"
 ifeq ($(HPS_ENABLE_SGMII),1)
 	$(MAKE) quartus_add_post_sgmii_sdc
 endif

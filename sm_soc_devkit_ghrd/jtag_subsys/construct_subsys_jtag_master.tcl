@@ -11,33 +11,35 @@
 #
 #****************************************************************************
 
-#puts "prjroot = ${prjroot} "
-#source ${prjroot}/arguments_solver.tcl
-#source ${prjroot}/utils.tcl
+set currentdir [pwd]
+set foldername [file tail $currentdir]
+puts "\[GHRD:info\] Directory name: $foldername"
+ 
+ # set prjroot ${currentdir}/../
+puts "\[GHRD:info\] \$prjroot = $prjroot"
+source ${prjroot}/arguments_solver.tcl
+source ${prjroot}/utils.tcl
 
-source ./arguments_solver.tcl
-source ./utils.tcl
-
-source $proj_root/arguments_solver.tcl
-source $proj_root/utils.tcl
-set sub_qsys_jtag subsys_jtg_mst
+# set foldername [file dirname [file normalize [info construct_subsys_jtag_master.tcl]]]
+# puts "\$foldername got: ${foldername}"
+set subqsys_name $foldername
 
 package require -exact qsys 19.1
 
-create_system $sub_qsys_jtag
+create_system $subqsys_name
 
 set_project_property DEVICE_FAMILY $device_family
 set_project_property DEVICE $device
 set_validation_property AUTOMATIC_VALIDATION false
     
 add_component_param "altera_clock_bridge jtag_clk 
-                    IP_FILE_PATH ip/$sub_qsys_jtag/jtag_clk.ip  
+                    IP_FILE_PATH ip/$subqsys_name/jtag_clk.ip  
                     EXPLICIT_CLOCK_RATE 100000000 
                     NUM_CLOCK_OUTPUTS 1
                     "
 
 add_component_param "altera_reset_bridge jtag_rst_in 
-                    IP_FILE_PATH ip/$sub_qsys_jtag/jtag_rst_in.ip 
+                    IP_FILE_PATH ip/$subqsys_name/jtag_rst_in.ip 
                     ACTIVE_LOW_RESET 1
                     SYNCHRONOUS_EDGES both
                     NUM_RESET_OUTPUTS 1
@@ -45,11 +47,11 @@ add_component_param "altera_reset_bridge jtag_rst_in
                     "
     
 add_component_param "altera_jtag_avalon_master hps_m 
-                    IP_FILE_PATH ip/$sub_qsys_jtag/hps_m.ip 
+                    IP_FILE_PATH ip/$subqsys_name/hps_m.ip 
                     "
 
 add_component_param "altera_jtag_avalon_master fpga_m 
-                    IP_FILE_PATH ip/$sub_qsys_jtag/fpga_m.ip 
+                    IP_FILE_PATH ip/$subqsys_name/fpga_m.ip 
                     "
 
 # connections and connection parameters
@@ -77,7 +79,7 @@ set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
     
 sync_sysinfo_parameters 
     
-save_system ${sub_qsys_jtag}.qsys
+save_system ${subqsys_name}.qsys
 
 sync_sysinfo_parameters 
 

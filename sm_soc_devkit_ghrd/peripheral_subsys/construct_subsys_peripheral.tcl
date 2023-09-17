@@ -10,6 +10,9 @@
 # automatically based on the corresponding parameter argument defined
 #
 #****************************************************************************
+set currentdir [pwd]
+set foldername [file tail $currentdir]
+puts "\[GHRD:info\] Directory name: $foldername"
 
 #puts "prjroot = ${prjroot} "
 #source ${prjroot}/arguments_solver.tcl
@@ -20,26 +23,26 @@ source ./arguments_solver.tcl
 source ./utils.tcl
 source ./board/board_hidden_config.tcl
 
-set sub_qsys_periph subsys_periph
+set subsys_name $foldername
 
 package require -exact qsys 19.1
 
 set SYSID "0xACD5CAFE"
 
-create_system $sub_qsys_periph
+create_system $subsys_name
 
 set_project_property DEVICE_FAMILY $device_family
 set_project_property DEVICE $device
 set_validation_property AUTOMATIC_VALIDATION false
 
 add_component_param "altera_clock_bridge periph_clk 
-                    IP_FILE_PATH ip/$sub_qsys_periph/periph_clk.ip 
+                    IP_FILE_PATH ip/$subsys_name/periph_clk.ip 
                     EXPLICIT_CLOCK_RATE 100000000 
                     NUM_CLOCK_OUTPUTS 1
                     "
 
 add_component_param "altera_reset_bridge periph_rst_in 
-                    IP_FILE_PATH ip/$sub_qsys_periph/periph_rst_in.ip 
+                    IP_FILE_PATH ip/$subsys_name/periph_rst_in.ip 
                     ACTIVE_LOW_RESET 1
                     SYNCHRONOUS_EDGES both
                     NUM_RESET_OUTPUTS 1
@@ -47,13 +50,13 @@ add_component_param "altera_reset_bridge periph_rst_in
                     "
 
 add_component_param "altera_avalon_sysid_qsys sysid
-                    IP_FILE_PATH ip/$sub_qsys_periph/sysid.ip 
+                    IP_FILE_PATH ip/$subsys_name/sysid.ip 
                     id $SYSID
                     "
 
 if {$fpga_button_pio_width >0} {
 add_component_param "altera_avalon_pio button_pio 
-                    IP_FILE_PATH ip/$sub_qsys_periph/button_pio.ip 
+                    IP_FILE_PATH ip/$subsys_name/button_pio.ip 
                     bitClearingEdgeCapReg 1
                     captureEdge 1
                     direction Input
@@ -66,7 +69,7 @@ add_component_param "altera_avalon_pio button_pio
 
 if {$fpga_dipsw_pio_width >0} {
 add_component_param "altera_avalon_pio dipsw_pio 
-                    IP_FILE_PATH ip/$sub_qsys_periph/dipsw_pio.ip 
+                    IP_FILE_PATH ip/$subsys_name/dipsw_pio.ip 
                     bitClearingEdgeCapReg 1
                     captureEdge 1
                     direction Input
@@ -80,7 +83,7 @@ add_component_param "altera_avalon_pio dipsw_pio
 if {$fpga_led_pio_width >0} {
 set led_resetValue [expr {2^$fpga_led_pio_width -1 }]
 add_component_param "altera_avalon_pio led_pio 
-                    IP_FILE_PATH ip/$sub_qsys_periph/led_pio.ip 
+                    IP_FILE_PATH ip/$subsys_name/led_pio.ip 
                     direction InOut
                     width [expr {$fpga_led_pio_width -1}]
                     resetValue $led_resetValue
@@ -89,13 +92,13 @@ add_component_param "altera_avalon_pio led_pio
 
 # Temporary turn off as 23.2.1 no ILC
 #add_component_param "interrupt_latency_counter ILC 
-#                    IP_FILE_PATH ip/$sub_qsys_periph/ILC.ip 
+#                    IP_FILE_PATH ip/$subsys_name/ILC.ip 
 #                    INTR_TYPE 0
 #                    IRQ_PORT_CNT 2
 #                    "
 
 add_component_param "altera_avalon_mm_bridge pb_cpu_0 
-                    IP_FILE_PATH ip/$sub_qsys_periph/pb_cpu_0.ip 
+                    IP_FILE_PATH ip/$subsys_name/pb_cpu_0.ip 
                     DATA_WIDTH 32
                     ADDRESS_WIDTH 20
                     USE_AUTO_ADDRESS_WIDTH 1
@@ -174,4 +177,4 @@ set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
     
 sync_sysinfo_parameters 
     
-save_system ${sub_qsys_periph}.qsys
+save_system ${subsys_name}.qsys

@@ -10,6 +10,9 @@
 # This tcl script basically contained only configuration settings for HPS & HPS EMIF, connections between HPS & HPS EMIF
 #
 #****************************************************************************
+set currentdir [pwd]
+set foldername [file tail $currentdir]
+puts "\[GHRD:info\] Directory name: $foldername"
 
 #puts "prjroot = ${prjroot} "
 #source ${prjroot}/arguments_solver.tcl
@@ -18,7 +21,7 @@
 source ./arguments_solver.tcl
 source ./utils.tcl
 
-set subsys_name subsys_hps
+set subsys_name $foldername
   
 package require -exact qsys 19.1
 
@@ -47,13 +50,13 @@ add_component_param "altera_reset_bridge sub_rst_in
 add_component_param "intel_agilex_5_soc agilex_hps
                      IP_FILE_PATH ip/$subsys_name/agilex_hps.ip 
                      MPU_EVENTS_Enable 0
-					 GP_Enable 0
-					 Debug_APB_Enable 0
+		     GP_Enable 0
+		     Debug_APB_Enable 0
                      STM_Enable 0
-					 JTAG_Enable 0
-					 CTI_Enable 0
-					 DMA_PeriphID 0
-					 DMA_Enable No
+		     JTAG_Enable 0
+		     CTI_Enable 0
+		     DMA_PeriphID 0
+		     DMA_Enable No
                      HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      H2F_Width $h2f_width
 					 H2F_Address_Width $h2f_addr_width
@@ -91,7 +94,8 @@ if {$hps_emif_en == 1} {
 	connect "sub_clk.out_clk               sub_rst_in.clk" 
 	
 	connect "agilex_hps.emif0_csr_axi      emif_hps.s0_axil"
-} 
+}
+
 #load_component agilex_hps
 #for {set i 0} {$i < 48} {incr i} {
 #set_component_parameter_value IO_INPUT_DELAY${i} $input_dly_chain_io48(${i})
