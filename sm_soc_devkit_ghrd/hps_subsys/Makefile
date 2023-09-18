@@ -31,6 +31,8 @@ PWD       := $(shell pwd)
 EMPTY     :=
 ENABLE    := 1
 DISABLE   := 0
+SPACE     :=  
+SLASH     := /
 
 CURRENT_FOLDER     :=  $(lastword $(subst $(SLASH), $(SPACE),$(PWD)))
 PROJECT_ROOT       :=  $(PWD)/../
