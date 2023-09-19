@@ -17,11 +17,11 @@ OBJCOPY := objcopy
 
 TARGET_PROCESSOR := aarch64-arm-none-eabi
 
-AXF := hps_debug.axf
+AXF := hps_wipe.axf
 IHEX := $(patsubst %.axf,%.ihex,$(AXF))
 OBJDUMP_FILE := $(patsubst %.axf,%.objdump,$(AXF))
 
-SRC := hps_debug.S
+SRC := hps_wipe.s
 SCATTER_FILE := scatter.scat
 
 CC_FLAGS := -g --target=$(TARGET_PROCESSOR) -mcpu=Cortex-A53
