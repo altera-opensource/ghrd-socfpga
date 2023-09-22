@@ -269,7 +269,7 @@ set pin_matrix [ list \
       [ list "${emif_name}_emif_mem_0_mem_ba[0]"       "ddr4"      "PIN_AB108"      "PIN_AB108"   "PIN_AB108"   "PIN_AB108"     "PIN_AB108"     "PIN_AB108"     "PIN_AB108"      ] \
       [ list "${emif_name}_emif_mem_0_mem_ba[1]"       "ddr4"      "PIN_Y105"       "PIN_Y105"    "PIN_Y105"    "PIN_Y105"      "PIN_Y105"      "PIN_Y105"      "PIN_Y105"       ] \
       [ list "${emif_name}_emif_mem_0_mem_bg[0]"       "ddr4"      "PIN_AB105"      "PIN_AB105"   "PIN_AB105"   "PIN_AB105"     "PIN_AB105"     "PIN_AB105"     "PIN_AB105"      ] \
-	  [ list "${emif_name}_emif_mem_0_mem_bg[1]"       "ddr4"      "PIN_F117"       "PIN_F117"    "PIN_F117"    "PIN_F117"      "PIN_F117"      "PIN_F117"      "PIN_F117"       ] \
+	  [ list "${emif_name}_emif_mem_0_mem_bg[1]"       "ddr4"      "PIN_CK20"       "PIN_CK20"    "PIN_CK20"    "PIN_CK20"      "PIN_CK20"      "PIN_CK20"      "PIN_CK20"       ] \
       [ list "${emif_name}_emif_mem_0_mem_act_n"       "ddr4"      "PIN_M117"       "PIN_M117"    "PIN_M117"    "PIN_M117"      "PIN_M117"      "PIN_M117"      "PIN_M117"       ] \
       [ list "${emif_name}_emif_mem_0_mem_alert_n"     "ddr4"      "PIN_Y108"       "PIN_Y108"    "PIN_Y108"    "PIN_Y108"      "PIN_Y108"      "PIN_Y108"      "PIN_Y108"       ] \
       [ list "${emif_name}_emif_mem_0_mem_ck_t"        "ddr4"      "PIN_H108"       "PIN_H108"    "PIN_H108"    "PIN_H108"      "PIN_H108"      "PIN_H108"      "PIN_H108"       ] \
@@ -281,46 +281,46 @@ set pin_matrix [ list \
       [ list "${emif_name}_emif_mem_0_mem_reset_n"     "ddr4"      "PIN_H117"       "PIN_H117"    "PIN_H117"    "PIN_H117"      "PIN_H117"      "PIN_H117"      "PIN_H117"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dqs_t[0]"    "ddr4"      "PIN_B122"       "PIN_B122"    "PIN_B122"    "PIN_B122"      "PIN_B122"      "PIN_B122"      "PIN_B122"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dqs_t[1]"    "ddr4"      "PIN_AG90"       "PIN_AG90"    "PIN_AG90"    "PIN_AG90"      "PIN_AG90"      "PIN_AG90"      "PIN_AG90"       ] \
-	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[2]"    "ddr4"      "PIN_K95"        "PIN_K95"     "PIN_K95"     "PIN_K95"       "PIN_K95"       "PIN_K95"       "PIN_K95"       ] \
-	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[3]"    "ddr4"      "PIN_F95"        "PIN_F95"     "PIN_F95"     "PIN_F95"       "PIN_F95"       "PIN_F95"       "PIN_F95"       ] \
-	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[4]"    "ddr4"      "PIN_A101"       "PIN_A101"    "PIN_A101"    "unused"        "PIN_A101"      "PIN_A101"      "PIN_A101"       ] \
+	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[2]"    "ddr4"      "PIN_K95"        "PIN_K95"     "PIN_K95"     "PIN_K95"       "PIN_K95"       "PIN_K95"       "PIN_K95"        ] \
+	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[3]"    "ddr4"      "PIN_F95"        "PIN_F95"     "PIN_F95"     "PIN_F95"       "PIN_F95"       "PIN_F95"       "PIN_F95"        ] \
+	  [ list "${emif_name}_emif_mem_0_mem_dqs_t[4]"    "ddr4"      unused           unused        unused        unused          unused          unused          unused           ] \
       [ list "${emif_name}_emif_mem_0_mem_dqs_c[0]"    "ddr4"      "PIN_A125"       "PIN_A125"    "PIN_A125"    "PIN_A125"      "PIN_A125"      "PIN_A125"      "PIN_A125"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dqs_c[1]"    "ddr4"      "PIN_AG93"       "PIN_AG93"    "PIN_AG93"    "PIN_AG93"      "PIN_AG93"      "PIN_AG93"      "PIN_AG93"       ] \
-	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[2]"    "ddr4"      "PIN_M95"        "PIN_M95"     "PIN_M95"     "PIN_M95"       "PIN_M95"       "PIN_M95"       "PIN_M95"       ] \
-	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[3]"    "ddr4"      "PIN_D95"        "PIN_D95"     "PIN_D95"     "PIN_D95"       "PIN_D95"       "PIN_D95"       "PIN_D95"       ] \
-	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[4]"    "ddr4"      "PIN_B101"       "PIN_B101"    "PIN_B101"    "unused"      "PIN_B101"      "PIN_B101"      "PIN_B101"       ] \
+	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[2]"    "ddr4"      "PIN_M95"        "PIN_M95"     "PIN_M95"     "PIN_M95"       "PIN_M95"       "PIN_M95"       "PIN_M95"        ] \
+	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[3]"    "ddr4"      "PIN_D95"        "PIN_D95"     "PIN_D95"     "PIN_D95"       "PIN_D95"       "PIN_D95"       "PIN_D95"        ] \
+	  [ list "${emif_name}_emif_mem_0_mem_dqs_c[4]"    "ddr4"      unused           unused        unused        unused          unused          unused          unused           ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[0]"       "ddr4"      "PIN_B128"       "PIN_B128"    "PIN_B128"    "PIN_B128"      "PIN_B128"      "PIN_B128"      "PIN_B128"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[1]"       "ddr4"      "PIN_B116"       "PIN_B116"    "PIN_B116"    "PIN_B116"      "PIN_B116"      "PIN_B116"      "PIN_B116"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[2]"       "ddr4"      "PIN_A128"       "PIN_A128"    "PIN_A128"    "PIN_A128"      "PIN_A128"      "PIN_A128"      "PIN_A128"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[3]"       "ddr4"      "PIN_A116"       "PIN_A116"    "PIN_A116"    "PIN_A116"      "PIN_A116"      "PIN_A116"      "PIN_A116"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[4]"       "ddr4"      "PIN_A130"       "PIN_A130"    "PIN_A130"    "PIN_A130"      "PIN_A130"      "PIN_A130"      "PIN_A130"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[5]"       "ddr4"      "PIN_B113"       "PIN_B113"    "PIN_B113"    "PIN_B113"      "PIN_B113"      "PIN_B113"      "PIN_B113"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[6]"       "ddr4"      "PIN_B130"       "PIN_B130"    "PIN_B130"    "PIN_B130"      "PIN_B130"      "PIN_B130"      "PIN_B130"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[1]"       "ddr4"      "PIN_A128"       "PIN_A128"    "PIN_A128"    "PIN_A128"      "PIN_A128"      "PIN_A128"      "PIN_A128"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[2]"       "ddr4"      "PIN_B130"       "PIN_B130"    "PIN_B130"    "PIN_B130"      "PIN_B130"      "PIN_B130"      "PIN_B130"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[3]"       "ddr4"      "PIN_A130"       "PIN_A130"    "PIN_A130"    "PIN_A130"      "PIN_A130"      "PIN_A130"      "PIN_A130"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[4]"       "ddr4"      "PIN_B116"       "PIN_B116"    "PIN_B116"    "PIN_B116"      "PIN_B116"      "PIN_B116"      "PIN_B116"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[5]"       "ddr4"      "PIN_A116"       "PIN_A116"    "PIN_A116"    "PIN_A116"      "PIN_A116"      "PIN_A116"      "PIN_A116"       ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[6]"       "ddr4"      "PIN_B113"       "PIN_B113"    "PIN_B113"    "PIN_B113"      "PIN_B113"      "PIN_B113"      "PIN_B113"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[7]"       "ddr4"      "PIN_A113"       "PIN_A113"    "PIN_A113"    "PIN_A113"      "PIN_A113"      "PIN_A113"      "PIN_A113"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[8]"       "ddr4"      "PIN_AC100"      "PIN_AC100"   "PIN_AC100"   "PIN_AC100"     "PIN_AC100"     "PIN_AC100"     "PIN_AC100"      ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[9]"       "ddr4"      "PIN_Y84"        "PIN_Y84"     "PIN_Y84"     "PIN_Y84"       "PIN_Y84"       "PIN_Y84"       "PIN_Y84"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[10]"      "ddr4"      "PIN_Y95"        "PIN_Y95"     "PIN_Y95"     "PIN_Y95"       "PIN_Y95"       "PIN_Y95"       "PIN_Y95"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[8]"       "ddr4"      "PIN_AG100"      "PIN_AG100"   "PIN_AG100"   "PIN_AG100"     "PIN_AG100"     "PIN_AG100"     "PIN_AG100"      ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[9]"       "ddr4"      "PIN_AG104"      "PIN_AG104"   "PIN_AG104"   "PIN_AG104"     "PIN_AG104"     "PIN_AG104"     "PIN_AG104"      ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[10]"      "ddr4"      "PIN_AC100"      "PIN_AC100"   "PIN_AC100"   "PIN_AC100"     "PIN_AC100"     "PIN_AC100"     "PIN_AC100"      ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[11]"      "ddr4"      "PIN_AC96"       "PIN_AC96"    "PIN_AC96"    "PIN_AC96"      "PIN_AC96"      "PIN_AC96"      "PIN_AC96"       ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[12]"      "ddr4"      "PIN_AG100"      "PIN_AG100"   "PIN_AG100"   "PIN_AG100"     "PIN_AG100"     "PIN_AG100"     "PIN_AG100"      ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[13]"      "ddr4"      "PIN_Y87"        "PIN_Y87"     "PIN_Y87"     "PIN_Y87"       "PIN_Y87"       "PIN_Y87"       "PIN_Y87"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[14]"      "ddr4"      "PIN_Y98"        "PIN_Y98"     "PIN_Y98"     "PIN_Y98"       "PIN_Y98"       "PIN_Y98"       "PIN_Y98"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[15]"      "ddr4"      "PIN_AG104"      "PIN_AG104"   "PIN_AG104"   "PIN_AG104"     "PIN_AG104"     "PIN_AG104"     "PIN_AG104"      ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[16]"      "ddr4"      "PIN_T98"        "PIN_T98"     "PIN_T98"     "PIN_T98"       "PIN_T98"       "PIN_T98"       "PIN_T98"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[17]"      "ddr4"      "PIN_M84"        "PIN_M84"     "PIN_M84"     "PIN_M84"       "PIN_M84"       "PIN_M84"       "PIN_M84"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[12]"      "ddr4"      "PIN_Y98"        "PIN_Y98"     "PIN_Y98"     "PIN_Y98"       "PIN_Y98"       "PIN_Y98"       "PIN_Y98"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[13]"      "ddr4"      "PIN_Y95"        "PIN_Y95"     "PIN_Y95"     "PIN_Y95"       "PIN_Y95"       "PIN_Y95"       "PIN_Y95"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[14]"      "ddr4"      "PIN_Y87"        "PIN_Y87"     "PIN_Y87"     "PIN_Y87"       "PIN_Y87"       "PIN_Y87"       "PIN_Y87"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[15]"      "ddr4"      "PIN_Y84"        "PIN_Y84"     "PIN_Y84"     "PIN_Y84"       "PIN_Y84"       "PIN_Y84"       "PIN_Y84"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[16]"      "ddr4"      "PIN_V98"        "PIN_V98"     "PIN_V98"     "PIN_V98"       "PIN_V98"       "PIN_V98"       "PIN_V98"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[17]"      "ddr4"      "PIN_T98"        "PIN_T98"     "PIN_T98"     "PIN_T98"       "PIN_T98"       "PIN_T98"       "PIN_T98"        ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[18]"      "ddr4"      "PIN_P95"        "PIN_P95"     "PIN_P95"     "PIN_P95"       "PIN_P95"       "PIN_P95"       "PIN_P95"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[19]"      "ddr4"      "PIN_T84"        "PIN_T84"     "PIN_T84"     "PIN_T84"       "PIN_T84"       "PIN_T84"       "PIN_T84"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[20]"      "ddr4"      "PIN_V98"        "PIN_V98"     "PIN_V98"     "PIN_V98"       "PIN_V98"       "PIN_V98"       "PIN_V98"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[21]"      "ddr4"      "PIN_P84"        "PIN_P84"     "PIN_P84"     "PIN_P84"       "PIN_P84"       "PIN_P84"       "PIN_P84"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[22]"      "ddr4"      "PIN_T95"        "PIN_T95"     "PIN_T95"     "PIN_T95"       "PIN_T95"       "PIN_T95"       "PIN_T95"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[23]"      "ddr4"      "PIN_K84"        "PIN_K84"     "PIN_K84"     "PIN_K84"       "PIN_K84"       "PIN_K84"       "PIN_K84"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[24]"      "ddr4"      "PIN_K98"        "PIN_K98"     "PIN_K98"     "PIN_K98"       "PIN_K98"       "PIN_K98"       "PIN_K98"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[25]"      "ddr4"      "PIN_K87"        "PIN_K87"     "PIN_K87"     "PIN_K87"       "PIN_K87"       "PIN_K87"       "PIN_K87"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[26]"      "ddr4"      "PIN_H98"        "PIN_H98"     "PIN_H98"     "PIN_H98"       "PIN_H98"       "PIN_H98"       "PIN_H98"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[27]"      "ddr4"      "PIN_M87"        "PIN_M87"     "PIN_M87"     "PIN_M87"       "PIN_M87"       "PIN_M87"       "PIN_M87"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[28]"      "ddr4"      "PIN_M98"        "PIN_M98"     "PIN_M98"     "PIN_M98"       "PIN_M98"       "PIN_M98"       "PIN_M98"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[29]"      "ddr4"      "PIN_D84"        "PIN_D84"     "PIN_D84"     "PIN_D84"       "PIN_D84"       "PIN_D84"       "PIN_D84"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[30]"      "ddr4"      "PIN_F98"        "PIN_F98"     "PIN_F98"     "PIN_F98"       "PIN_F98"       "PIN_F98"       "PIN_F98"        ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[31]"      "ddr4"      "PIN_F84"        "PIN_F84"     "PIN_F84"     "PIN_F84"       "PIN_F84"       "PIN_F84"       "PIN_F84"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[19]"      "ddr4"      "PIN_T95"        "PIN_T95"     "PIN_T95"     "PIN_T95"       "PIN_T95"       "PIN_T95"       "PIN_T95"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[20]"      "ddr4"      "PIN_K84"        "PIN_K84"     "PIN_K84"     "PIN_K84"       "PIN_K84"       "PIN_K84"       "PIN_K84"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[21]"      "ddr4"      "PIN_M84"        "PIN_M84"     "PIN_M84"     "PIN_M84"       "PIN_M84"       "PIN_M84"       "PIN_M84"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[22]"      "ddr4"      "PIN_T84"        "PIN_T84"     "PIN_T84"     "PIN_T84"       "PIN_T84"       "PIN_T84"       "PIN_T84"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[23]"      "ddr4"      "PIN_P84"        "PIN_P84"     "PIN_P84"     "PIN_P84"       "PIN_P84"       "PIN_P84"       "PIN_P84"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[24]"      "ddr4"      "PIN_H98"        "PIN_H98"     "PIN_H98"     "PIN_H98"       "PIN_H98"       "PIN_H98"       "PIN_H98"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[25]"      "ddr4"      "PIN_F98"        "PIN_F98"     "PIN_F98"     "PIN_F98"       "PIN_F98"       "PIN_F98"       "PIN_F98"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[26]"      "ddr4"      "PIN_M98"        "PIN_M98"     "PIN_M98"     "PIN_M98"       "PIN_M98"       "PIN_M98"       "PIN_M98"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[27]"      "ddr4"      "PIN_K98"        "PIN_K98"     "PIN_K98"     "PIN_K98"       "PIN_K98"       "PIN_K98"       "PIN_K98"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[28]"      "ddr4"      "PIN_K87"        "PIN_K87"     "PIN_K87"     "PIN_K87"       "PIN_K87"       "PIN_K87"       "PIN_K87"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[29]"      "ddr4"      "PIN_M87"        "PIN_M87"     "PIN_M87"     "PIN_M87"       "PIN_M87"       "PIN_M87"       "PIN_M87"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[30]"      "ddr4"      "PIN_F84"        "PIN_F84"     "PIN_F84"     "PIN_F84"       "PIN_F84"       "PIN_F84"       "PIN_F84"        ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[31]"      "ddr4"      "PIN_D84"        "PIN_D84"     "PIN_D84"     "PIN_D84"       "PIN_D84"       "PIN_D84"       "PIN_D84"        ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[32]"      "ddr4"      "PIN_B106"       "PIN_B106"    "PIN_B106"    "PIN_B106"      "PIN_B106"      "PIN_B106"      "PIN_B106"       ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[33]"      "ddr4"      "PIN_A91"        "PIN_A91"     "PIN_A91"     "PIN_A91"       "PIN_A91"       "PIN_A91"       "PIN_A91"        ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[34]"      "ddr4"      "PIN_A106"       "PIN_A106"    "PIN_A106"    "PIN_A106"      "PIN_A106"      "PIN_A106"      "PIN_A106"       ] \
