@@ -53,6 +53,7 @@ input    wire [$fpga_button_pio_width-1:0]  fpga_button_pio,
 @@if {$hps_en == 1} {
 @@if {$hps_emif_en == 1} {
 // HPS EMIF
+@@if {$hps_emif_type == "ddr4"} {
 output   wire          emif_hps_emif_mem_0_mem_ck_t,
 output   wire          emif_hps_emif_mem_0_mem_ck_c,
 output   wire [16:0]   emif_hps_emif_mem_0_mem_a,
@@ -70,6 +71,21 @@ input    wire          emif_hps_emif_ref_clk_0_clk,
 inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_t,
 inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_c,
 inout    wire [31:0]   emif_hps_emif_mem_0_mem_dq,
+@@}
+@@if {$hps_emif_type == "lpddr4"} {
+output   wire          emif_hps_emif_mem_0_mem_ck_t,
+output   wire          emif_hps_emif_mem_0_mem_ck_c,
+output   wire          emif_hps_emif_mem_0_mem_cke,
+output   wire          emif_hps_emif_mem_0_mem_reset_n,
+input    wire          emif_hps_emif_oct_0_oct_rzqin,
+input    wire          emif_hps_emif_ref_clk_0_clk,
+inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_t,
+inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_c,
+inout    wire [31:0]   emif_hps_emif_mem_0_mem_dq,
+output   wire          emif_hps_emif_mem_0_mem_cs,
+output   wire [5:0]    emif_hps_emif_mem_0_mem_ca,
+inout    wire [3:0]    emif_hps_emif_mem_0_mem_dmi,
+@@}
 @@}
 @@if {$hps_jtag_en == 1} {
 input    wire          hps_jtag_tck,
@@ -490,6 +506,20 @@ ${qsys_name} soc_inst (
 .emif_hps_emif_mem_0_mem_dq                (emif_hps_emif_mem_0_mem_dq),
 .emif_hps_emif_oct_0_oct_rzqin             (emif_hps_emif_oct_0_oct_rzqin),
 .emif_hps_emif_ref_clk_0_clk               (emif_hps_emif_ref_clk_0_clk),
+@@}
+@@if {$hps_emif_type == "lpddr4"} {
+.emif_hps_emif_mem_0_mem_ck_t              (emif_hps_emif_mem_0_mem_ck_t),
+.emif_hps_emif_mem_0_mem_ck_c              (emif_hps_emif_mem_0_mem_ck_c),
+.emif_hps_emif_mem_0_mem_cke               (emif_hps_emif_mem_0_mem_cke),
+.emif_hps_emif_mem_0_mem_reset_n           (emif_hps_emif_mem_0_mem_reset_n),
+.emif_hps_emif_mem_0_mem_dqs_t             (emif_hps_emif_mem_0_mem_dqs_t),
+.emif_hps_emif_mem_0_mem_dqs_c             (emif_hps_emif_mem_0_mem_dqs_c),
+.emif_hps_emif_mem_0_mem_dq                (emif_hps_emif_mem_0_mem_dq),
+.emif_hps_emif_oct_0_oct_rzqin             (emif_hps_emif_oct_0_oct_rzqin),
+.emif_hps_emif_ref_clk_0_clk               (emif_hps_emif_ref_clk_0_clk),
+.emif_hps_emif_mem_0_mem_cs                (emif_hps_emif_mem_0_mem_cs),
+.emif_hps_emif_mem_0_mem_ca                (emif_hps_emif_mem_0_mem_ca),
+.emif_hps_emif_mem_0_mem_dmi               (emif_hps_emif_mem_0_mem_dmi),
 @@}
 @@}
 @@}
