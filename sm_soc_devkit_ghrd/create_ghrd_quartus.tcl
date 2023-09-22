@@ -195,7 +195,7 @@ if {$hps_emif_en} {
 #   set ranks r1
 #   set width $hps_emif_width
    set ecc   $hps_emif_ecc_en
-#   set key   x32_r1
+   set key   x32_r1
    }
    if {$ecc} {
       incr width 8
