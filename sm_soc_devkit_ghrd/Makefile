@@ -318,7 +318,7 @@ config: $(MODULE_CONFIG)
 	@$(CAT) $(wildcard build/config.*) > build/config
 	@$(SED) -i '/^\s*$$/d' build/config
 	@$(RM) -rf build/config.*
-	@$(ECHO) "done!"
+	@$(ECHO) "config done!"
 
 
 ################################################
@@ -330,7 +330,7 @@ default: help
 all:
 
 ifeq ($(HAVE_QUARTUS),1)
-all: sof
+all: generate_from_tcl sof
 endif
 
 ################################################

@@ -30,8 +30,6 @@ GHRD_CONFIG_FILE   :=  $(PROJECT_ROOT)/build/config.$(CURRENT_FOLDER)
 GHRD_HELP_FILE     :=  $(PROJECT_ROOT)/build/help.$(CURRENT_FOLDER)
 GHRD_SCRIPT_FILE   :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
 
-$(info folder name is $(CURRENT_FOLDER))
-$(info received qsys_tcl_arg is $(QSYS_TCL_ARGS))
 
 #SUB_QSYS_TCL_ARG  += set current_folder $(CURRENT_FOLDER);
 #QSYS_TCL_ARGS += set current_folder $(CURRENT_FOLDER);

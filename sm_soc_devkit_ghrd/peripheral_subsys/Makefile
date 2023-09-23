@@ -29,8 +29,6 @@ GHRD_CONFIG_FILE   :=  $(PROJECT_ROOT)/build/config.$(CURRENT_FOLDER)
 GHRD_HELP_FILE     :=  $(PROJECT_ROOT)/build/help.$(CURRENT_FOLDER)
 GHRD_SCRIPT_FILE   :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
 
-$(info folder name is $(CURRENT_FOLDER))
-$(info received qsys_tcl_arg is $(QSYS_TCL_ARGS))
 
 .PHONY: generate_from_tcl
 generate_from_tcl:

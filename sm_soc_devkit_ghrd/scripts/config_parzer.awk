@@ -48,24 +48,24 @@ BEGIN{
 #       - 1: disable hps emif module
 # ->
 
-    if ($0 ~/^#\s*<-.*$/) {
+    if ($0 ~/^#\s+<-.*$/) {
         is_block_start = 1;
         next;
     }
 
-    if ($0 ~/^#\s*->.*$/) {
+    if ($0 ~/^#\s+->.*$/) {
         is_block_start = 0;
         exit;
     }
 
     if (is_block_start == 1) {
-        if (match($0, /^#\s*(.+)\s*:\s*$/, var_name)) {
+        if (match($0, /^#\s+(.+)\s*:\s*$/, var_name)) {
             str = get_help_str($0, "name");
             help_str = help_str ""str"\n";
 
             config_str = config_str "" sprintf("%-30s=", var_name[1]);
 
-        } else if (match($0, /^#\s*-\s*([a-zA-Z0-9\.]+)\s*:\s*.+$/, var_val)) {
+        } else if (match($0, /^#\s+-\s*([a-zA-Z0-9\.]+)\s*:\s*.+$/, var_val)) {
             str = get_help_str($0, "val");
             help_str = help_str ""str"\n";
 

@@ -20,12 +20,13 @@
 #   HPS_HBME_EN :
 #       - 0: disable [default]
 #       - 1: enable 
-#   hps_other_var0 :
-#       - val00: val00_description [default]
-#       - val01: val01_description
-#   hps_other_var1 :
-#       - val10: val10_description [default]
-#       - val11: val11_description
+##demo:
+##  hps_other_var0 :
+##      - val00: val00_description [default]
+##      - val01: val01_description
+##  hps_other_var1 :
+##      - val10: val10_description [default]
+##      - val11: val11_description
 #
 # ->
 #
@@ -59,18 +60,20 @@ define append_args
     QSYS_TCL_ARGS_SUB += set $(word 1, $(subst $(EQ), $(EMPTY), $(call filter_userval,$1))) $(word 2, $(subst $(EQ), $(EMPTY), $(call filter_userval,$1)));
 endef
 
-ifneq ($(USER_CONFIG),)
-    $(eval $(call append_args, hps_other_var0))
-    $(eval $(call append_args, hps_other_var1))
-endif
+#demo:
+#ifneq ($(USER_CONFIG),)
+#    $(eval $(call append_args, hps_other_var0))
+#    $(eval $(call append_args, hps_other_var1))
+#endif
 
 .PHONY: generate_from_tcl
 generate_from_tcl:
-        ifeq ($(HPS_EN), $(ENABLE))
-	    @qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_hps.tcl --cmd="$(QSYS_TCL_ARGS_SUB)"
-	    @echo "$(CURRENT_FOLDER) does not be enabled, skip."
-        endif
-	@echo "generate_from_tcl for $(CURRENT_FOLDER) done!"
+ifeq ($(HPS_EN), $(ENABLE))
+	@qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_hps.tcl --cmd="$(QSYS_TCL_ARGS_SUB)"
+	@echo "compilation for from_tcl for $(CURRENT_FOLDER) done!"
+else
+	@echo "$(CURRENT_FOLDER) does not be enabled, skip."
+endif
 
 .PHONY: config
 config:
