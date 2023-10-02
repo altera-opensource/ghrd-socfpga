@@ -400,7 +400,15 @@ output   wire        ftrace_clk,
 input    wire        hps_ref_clk,
 @@}
 @@}
-input    wire [1-1:0]   fpga_reset_n
+input    wire [1-1:0]   fpga_reset_n,
+//HBM enable
+@@if {$hbm_en == 1} {
+input  wire        hbm_core_pll_refclk_clk,       
+input  wire        hbm_cattrip_virtual_i_conduit, 
+input  wire [2:0]  hbm_temp_virtual_i_conduit,    
+input  wire        uibpll_refclk_clk,             
+input  wire        hbm_only_reset_reset
+@@}           
 );
 
 wire         system_clk_100;
@@ -408,7 +416,9 @@ wire         system_clk_100_internal;
 @@if {$clk_gate_en == 1} {
 wire         system_clk_100_gated;
 @@}
+@@if {$hbm_en != 1} {
 wire         ninit_done;
+@@}
 wire         fpga_reset_n_debounced_wire;
 reg          fpga_reset_n_debounced;
 @@if {$jtag_ocm_en == 1} {
@@ -435,7 +445,11 @@ wire         niosv_issp_reset;
 @@if {$jtag_ocm_en == 0} {
 assign system_reset_n = ~h2f_reset & ~ninit_done;
 @@} else {
+@@if {$hbm_en == 1} {
+assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~h2f_reset;
+@@} else {
 assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~h2f_reset & ~ninit_done;
+@@}
 @@}
 @@} else {
 assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~ninit_done;
@@ -631,7 +645,9 @@ ${qsys_name} soc_inst (
 .h2f_user_clk_clk                       (h2f_user_clk_clk), 
 @@}
 .clk_100_clk                            (system_clk_100_internal),
+@@if {$hbm_en != 1} {
 .ninit_done_ninit_done                  (ninit_done),
+@@}
 @@if {$clk_gate_en == 1} {
 .clkctrl_input_ena                      (~ninit_done),
 .clkctrl_input_inclk                    (system_clk_100),
@@ -1077,9 +1093,18 @@ ${qsys_name} soc_inst (
 .niosv_issp_reset_out_source            (niosv_issp_reset),
 .niosv_issp_reset_in_reset              (niosv_issp_reset),
 @@}
+@@if {$hbm_en == 1} {
+.hbm_core_pll_refclk_clk          	(hbm_core_pll_refclk_clk),      
+.hbm_cattrip_virtual_i_conduit	(hbm_cattrip_virtual_i_conduit),
+.hbm_temp_virtual_i_conduit   	(hbm_temp_virtual_i_conduit),   
+.uibpll_refclk_clk                          (uibpll_refclk_clk),
+.hbm_only_reset_reset            (~hbm_only_reset_reset)  
+@@} else {
 .reset_reset_n                          (system_reset_n)
+@@}
 );  
 
+@@if {$hbm_en == 0} {
 // debounce fpga_reset_n
 debounce fpga_reset_n_debounce_inst (
 .clk          (system_clk_100_internal),
@@ -1099,7 +1124,7 @@ begin
     else
         fpga_reset_n_debounced <= fpga_reset_n_debounced_wire;  
 end
-
+@@}
 @@if {$fpga_peripheral_en == 1} {
 @@ if {$fpga_button_pio_width != 0} {  
 // Debounce logic to clean out glitches within 1ms

@@ -481,7 +481,11 @@ if {$h2f_width > 0} {
          connect_map "agilex_hps.h2f_axi_master  intel_cache_coherency_translator_0.s0  0x0"
       }
    } elseif {$h2f_width > 0 && $jtag_ocm_en == 1} {
-      connect_map "agilex_hps.h2f_axi_master ocm.axi_s1 0x0"
+		if {$board == "devkit_fp82" && $hbm_en == 1} {
+			connect_map "agilex_hps.h2f_axi_master fpga_m2ocm_pb.s0 0x40000000"			
+		} else { 
+			connect_map "agilex_hps.h2f_axi_master ocm.axi_s1 0x0"
+		}
    }
 }
 
@@ -527,7 +531,11 @@ if {$lwh2f_width > 0} {
    } 
    
    if {$jtag_ocm_en == 1} {
-      connect_map "agilex_hps.h2f_lw_axi_master sysid.control_slave 0x0"
+		if {$board == "devkit_fp82" && $hbm_en == 1} {
+			connect_map "agilex_hps.h2f_lw_axi_master ocm.axi_s1 0x00010000"	
+		} 
+		connect_map "agilex_hps.h2f_lw_axi_master sysid.control_slave 0x0"
+   
    }
    
    if {$fpga_peripheral_en == 1 || $fpga_sgpio_en == 1} {

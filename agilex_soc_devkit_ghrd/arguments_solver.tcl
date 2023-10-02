@@ -224,6 +224,13 @@ if { $fpga_peripheral_en == 1} {
 }
 
 #qsys generate consume this arguments
+if { ![ info exists hbm_en ] } {
+ set hbm_en $HBM_EN
+} else {
+ puts "-- Accepted parameter \$hbm_en = $hbm_en"
+}
+
+#qsys generate consume this arguments
 if { ![ info exists fpga_sgpio_en ] } {
  set fpga_sgpio_en $FPGA_SGPIO_EN
 } else {

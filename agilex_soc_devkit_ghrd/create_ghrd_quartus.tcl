@@ -223,10 +223,25 @@ if {$board == "devkit_fp82"} {
 	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -entity $top_name
 	set_instance_assignment -name NOC_CONNECTION ON -from soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif|tniu_0|target_0.target_inst_0 -entity $top_name
 	set_instance_assignment -name NOC_TARGET_BASE_ADDRESS 0 -from soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif|tniu_0|target_0.target_inst_0 -entity $top_name
-
+if {$hbm_en == 1} {
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|noc_initiator_with_wstrb|intel_noc_initiator_inst|iniu_0|initiator_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|noc_initiator_with_wstrb|intel_noc_initiator_inst|iniu_1|initiator_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|noc_initiator_with_wstrb|intel_noc_initiator_inst|iniu_2|initiator_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|noc_initiator_with_wstrb|intel_noc_initiator_inst|iniu_3|initiator_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|hbm_fp_0|hbm_fp_inst|tniu_ch0_ch1_sb|target_0.target_lite_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|hbm_fp_0|hbm_fp_inst|tniu_ch0_u0|target_0.target_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|hbm_fp_0|hbm_fp_inst|tniu_ch0_u1|target_0.target_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|hbm_fp_0|hbm_fp_inst|tniu_ch2_ch3_sb|target_0.target_lite_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|hbm_fp_0|hbm_fp_inst|tniu_ch2_u0|target_0.target_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|hbm_fp_0|hbm_fp_inst|tniu_ch2_u1|target_0.target_inst_0 -entity $top_name
+	set_location_assignment PIN_AP33 -to hbm_core_pll_refclk_clk
+	set_instance_assignment -name IO_STANDARD "1.2V TRUE DIFFERENTIAL SIGNALING" -to hbm_core_pll_refclk_clk -entity $top_name
+	set_location_assignment PIN_AR36 -to uibpll_refclk_clk
+	set_instance_assignment -name IO_STANDARD "1.2V TRUE DIFFERENTIAL SIGNALING" -to uibpll_refclk_clk -entity $top_name
+	set_location_assignment PIN_E38 -to hbm_only_reset_reset
 }
 }
-
+}
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_ref_clk
 
 if {$hps_io_off == 0} {

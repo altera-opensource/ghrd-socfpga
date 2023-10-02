@@ -37,6 +37,11 @@ source ./construct_subsys_peripheral.tcl
 reload_ip_catalog
 }
 
+if {$hbm_en == 1} {
+source ./construct_subsys_hbm.tcl
+reload_ip_catalog
+}
+
 if {$jtag_ocm_en == 1} {
 source ./construct_subsys_jtag_master.tcl
 reload_ip_catalog
@@ -99,7 +104,7 @@ add_component_param "altera_reset_bridge rst_in
                     "
 
 add_component_param "altera_s10_user_rst_clkgate user_rst_clkgate_0
-                    IP_FILE_PATH ip/$qsys_name/user_rst_clkgate_0.ip 
+                    IP_FILE_PATH ip/$qsys_name/user_rst_clkgate_0.ip
                     "
 
 if {$clk_gate_en == 1} {
@@ -132,11 +137,19 @@ add_instance jtg_mst subsys_jtg_mst
 add_component_param "intel_onchip_memory ocm
                     IP_FILE_PATH ip/$qsys_name/ocm.ip 
                     dataWidth $ocm_datawidth
-                    memorySize $ocm_memsize
                     singleClockOperation 1
-                    interfaceType 1
-                    idWidth 5
+                    interfaceType 1                    
                     "
+					
+if {$board == "devkit_fp82" && $hbm_en == 1} {
+set_component_param "ocm memorySize 65536"
+set_component_param "ocm idWidth 6"
+set_component_param "user_rst_clkgate_0 outputType {Reset Interface}"
+} else {
+set_component_param "ocm memorySize $ocm_memsize"
+set_component_param "ocm idWidth 5"
+}
+
 
 # if {$ocm_memsize <= 262144} {
 set addr_width [expr { log($ocm_memsize) / log(2)} ]
@@ -146,11 +159,16 @@ add_component_param "altera_avalon_mm_bridge fpga_m2ocm_pb
                     ADDRESS_WIDTH $addr_width
                     USE_AUTO_ADDRESS_WIDTH 0
                     "
+
 # }
 }
 
 if {$fpga_peripheral_en == 1} {
 add_instance periph subsys_periph
+}
+
+if {$hbm_en == 1} {
+add_instance hbm subsys_hbm
 }
 
 if {$niosv_subsys_en ==1} {
@@ -300,6 +318,21 @@ add_component_param "altera_emif_cal emif_calbus_0
 }
 }
 
+if {$board == "devkit_fp82" && $hbm_en == 1} {
+add_component_param "altera_address_span_extender address_span_extender_0
+                    IP_FILE_PATH ip/$qsys_name/address_span_extender_0.ip 
+                    MASTER_ADDRESS_WIDTH 45
+                    SLAVE_ADDRESS_WIDTH 28
+                    ENABLE_SLAVE_PORT 0
+                    "
+
+add_component_param "altera_address_span_extender address_span_extender_1
+                    IP_FILE_PATH ip/$qsys_name/address_span_extender_1.ip 
+                    MASTER_ADDRESS_WIDTH 44
+                    ENABLE_SLAVE_PORT 0
+                    "
+}
+
 # --------------- Connections and connection parameters ------------------#
 #connect "   clk_100.out_clk rst_in.clk
 #"
@@ -324,10 +357,21 @@ connect "   clk_100.out_clk   fpga_m2ocm_pb.clk
             rst_in.out_reset  fpga_m2ocm_pb.reset
 "
 
-connect_map "   fpga_m2ocm_pb.m0        ocm.axi_s1 0x0"
 
+if {$board == "devkit_fp82" && $hbm_en == 1} {
+connect "	clk_100.out_clk   address_span_extender_1.clock
+			rst_in.out_reset	address_span_extender_1.reset
+"
+connect_map "   jtg_mst.fpga_m_master   fpga_m2ocm_pb.s0 0x40000000"
+connect_map "   fpga_m2ocm_pb.m0        ocm.axi_s1 0x00010000"
+connect_map "   jtg_mst.fpga_m_master   address_span_extender_1.windowed_slave 0x80000000"
+connect_map "   address_span_extender_1.expanded_master   hbm.hps_adapter_0_altera_axi4_slave 0x0"
+
+} else {
 #connect_map "  jtg_mst.fpga_m_master   fpga_m2ocm_pb.s0 0x80000"
 connect_map "   jtg_mst.fpga_m_master   fpga_m2ocm_pb.s0 0x80000000"
+connect_map "   fpga_m2ocm_pb.m0        ocm.axi_s1 0x0"
+}
 }
 
 connect_map "   jtg_mst.fpga_m_master   sysid.control_slave 0x0"
@@ -522,6 +566,19 @@ connect     "clk_100.out_clk                       jop.clk
             "
 }
 
+if {$board == "devkit_fp82" && $hbm_en == 1} {
+connect     "clk_100.out_clk                       	hbm.clock_bridge_0_in_clk
+            rst_in.out_reset                       	hbm.core_pll_reset
+			rst_in.out_reset					   	hbm.global_user_reset
+			rst_in.out_reset					   	hbm.hps_adapter_0_reset_sink
+			rst_in.out_reset					   	hbm.noc_initiator_with_wstrb_s0_axi4_aresetn
+			clk_100.out_clk						   	address_span_extender_0.clock
+			rst_in.out_reset					   	address_span_extender_0.reset
+			address_span_extender_0.expanded_master	hbm.hps_adapter_0_altera_axi4_slave
+            "
+connect_map "agilex_hps.h2f_axi_master address_span_extender_0.windowed_slave 0x00000000"
+}
+
 ####################################
 #                exported interfaces
 
@@ -530,8 +587,19 @@ connect     "clk_100.out_clk                       jop.clk
 # export src_prb_rst sources src_prb_rst_sources
 # }
 export clk_100 in_clk clk_100
-export rst_in in_reset reset
+
+if {$board == "devkit_fp82" && $hbm_en == 1} {
+connect "user_rst_clkgate_0.ninit_done 		rst_in.in_reset"
+export	hbm		core_pll_refclk			hbm_core_pll_refclk
+export	hbm		hbm_cattrip_virtual_i	hbm_cattrip_virtual_i
+export  hbm		hbm_temp_virtual_i		hbm_temp_virtual_i
+export  hbm		uibpll_refclk			uibpll_refclk
+export  hbm		hbm_only_reset			hbm_only_reset
+
+} else {
 export user_rst_clkgate_0 ninit_done ninit_done
+export rst_in in_reset reset
+}
 if {$clk_gate_en == 1} {
 export clkctrl_0 clkctrl_input clkctrl_input
 export clkctrl_0 clkctrl_output clkctrl_output
