@@ -45,6 +45,8 @@ set DAUGHTER_CARD "devkit_dc_oobe"
 
 set FPGA_PERIPHERAL_EN 1
 
+set HBM_EN 0
+
 set FPGA_SGPIO_EN 1
 
 set NIOSV_SUBSYS_EN 1
