@@ -269,7 +269,7 @@ set pin_matrix [ list \
       [ list "${emif_name}_emif_mem_0_mem_ba[0]"       "ddr4"      "PIN_AB108"      "PIN_AB108"   "PIN_AB108"   "PIN_AB108"     "PIN_AB108"     "PIN_AB108"     "PIN_AB108"      ] \
       [ list "${emif_name}_emif_mem_0_mem_ba[1]"       "ddr4"      "PIN_Y105"       "PIN_Y105"    "PIN_Y105"    "PIN_Y105"      "PIN_Y105"      "PIN_Y105"      "PIN_Y105"       ] \
       [ list "${emif_name}_emif_mem_0_mem_bg[0]"       "ddr4"      "PIN_AB105"      "PIN_AB105"   "PIN_AB105"   "PIN_AB105"     "PIN_AB105"     "PIN_AB105"     "PIN_AB105"      ] \
-	  [ list "${emif_name}_emif_mem_0_mem_bg[1]"       "ddr4"      "PIN_CK20"       "PIN_CK20"    "PIN_CK20"    "PIN_CK20"      "PIN_CK20"      "PIN_CK20"      "PIN_CK20"       ] \
+	  [ list "${emif_name}_emif_mem_0_mem_bg[1]"       "ddr4"      "PIN_F117"       "PIN_F117"    "PIN_F117"    "PIN_F117"      "PIN_F117"      "PIN_F117"      "PIN_F117"       ] \
       [ list "${emif_name}_emif_mem_0_mem_act_n"       "ddr4"      "PIN_M117"       "PIN_M117"    "PIN_M117"    "PIN_M117"      "PIN_M117"      "PIN_M117"      "PIN_M117"       ] \
       [ list "${emif_name}_emif_mem_0_mem_alert_n"     "ddr4"      "PIN_Y108"       "PIN_Y108"    "PIN_Y108"    "PIN_Y108"      "PIN_Y108"      "PIN_Y108"      "PIN_Y108"       ] \
       [ list "${emif_name}_emif_mem_0_mem_ck_t"        "ddr4"      "PIN_H108"       "PIN_H108"    "PIN_H108"    "PIN_H108"      "PIN_H108"      "PIN_H108"      "PIN_H108"       ] \
