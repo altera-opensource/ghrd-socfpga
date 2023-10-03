@@ -67,7 +67,8 @@ add_component_param "hbm_fp hbm_fp_0
 					CTRL_CH5_EN 0
 					CTRL_CH6_EN 0
 					CTRL_CH7_EN 0
-					CTRL_CH0_HBM_DATA_MODE B256_ECC					
+					CTRL_CH0_HBM_DATA_MODE B256_ECC	
+					CTRL_CH0_PSEUDO_BL8_EN 0
 					"
 
 add_component_param "altera_reset_bridge hbm_only_reset_bridge 
