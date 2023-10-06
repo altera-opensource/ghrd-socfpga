@@ -32,31 +32,31 @@ set_project_property DEVICE $device
 set_validation_property AUTOMATIC_VALIDATION false
 
 if {$hps_emif_en == 1} {
-add_component_param "altera_clock_bridge sub_clk 
-                    IP_FILE_PATH ip/$subsys_name/sub_clk.ip 
-                    EXPLICIT_CLOCK_RATE 100000000 
-                    NUM_CLOCK_OUTPUTS 1
-                    "
-
-add_component_param "altera_reset_bridge sub_rst_in 
-                    IP_FILE_PATH ip/$subsys_name/sub_rst_in.ip 
-                    ACTIVE_LOW_RESET 1
-                    SYNCHRONOUS_EDGES both
-                    NUM_RESET_OUTPUTS 1
-                    USE_RESET_REQUEST 0
-                    "
+add_component_param  "altera_clock_bridge sub_clk 
+                     IP_FILE_PATH ip/$subsys_name/sub_clk.ip 
+                     EXPLICIT_CLOCK_RATE 100000000 
+                     NUM_CLOCK_OUTPUTS 1
+                     "
+					 
+add_component_param  "altera_reset_bridge sub_rst_in 
+                     IP_FILE_PATH ip/$subsys_name/sub_rst_in.ip 
+                     ACTIVE_LOW_RESET 1
+                     SYNCHRONOUS_EDGES both
+                     NUM_RESET_OUTPUTS 1
+                     USE_RESET_REQUEST 0
+                     "
 }
 
 add_component_param "intel_agilex_5_soc agilex_hps
                      IP_FILE_PATH ip/$subsys_name/agilex_hps.ip 
                      MPU_EVENTS_Enable 0
-		     GP_Enable 0
-		     Debug_APB_Enable 0
+		             GP_Enable 0
+		             Debug_APB_Enable 0
                      STM_Enable 0
-		     JTAG_Enable 0
-		     CTI_Enable 0
-		     DMA_PeriphID 0
-		     DMA_Enable No
+		             JTAG_Enable 0
+		             CTI_Enable 0
+		             DMA_PeriphID 0
+		             DMA_Enable No
                      HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      H2F_Width $h2f_width
 					 H2F_Address_Width $h2f_addr_width
@@ -585,6 +585,16 @@ connect "clk_100.out_clk agilex_hps.f2h_free_clock"
 # --------------------    Exported Interfaces     -----------------------#
 export agilex_hps h2f_reset h2f_reset
 export agilex_hps usb31_io usb31_io
+export agilex_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
+export agilex_hps usb31_phy_refclk_p usb31_phy_refclk_p
+export agilex_hps usb31_phy_refclk_n usb31_phy_refclk_n
+export agilex_hps usb31_phy_rx_serial_n usb31_phy_rx_serial_n
+export agilex_hps usb31_phy_rx_serial_p usb31_phy_rx_serial_p
+export agilex_hps usb31_phy_tx_serial_n usb31_phy_tx_serial_n
+export agilex_hps usb31_phy_tx_serial_p usb31_phy_tx_serial_p
+export agilex_hps usb31_phy_reconfig_rst usb31_phy_reconfig_rst
+export agilex_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
+export agilex_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
 
 if {$hps_emif_en == 1} {
 export sub_rst_in in_reset reset

@@ -725,7 +725,7 @@ ${qsys_name} soc_inst (
 .hps_io_usb1_stp                           (hps_usb1_STP), 
 .hps_io_usb1_dir                           (hps_usb1_DIR),
 // Todo clarify for NXT or NXR
-.hps_io_usb1_nxr                           (hps_usb1_NXT),
+.hps_io_usb1_nxt                           (hps_usb1_NXT),
 .hps_io_usb1_data0                         (hps_usb1_DATA0),
 .hps_io_usb1_data1                         (hps_usb1_DATA1), 
 .hps_io_usb1_data2                         (hps_usb1_DATA2), 

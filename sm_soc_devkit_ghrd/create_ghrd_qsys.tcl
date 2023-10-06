@@ -118,61 +118,61 @@ reload_ip_catalog
 }
 
 
-connect "   clk_100.out_clk                    ext_hps_m_master.clock
-            rst_in.out_reset                   ext_hps_m_master.reset"
-
-connect_map "   subsys_debug.hps_m_master              ext_hps_m_master.windowed_slave 0x0 "
-#connect_map "   ext_hps_m_master.expanded_master  subsys_hps.fpga2hps 0x1_0000_0000 "
-connect_map "   ext_hps_m_master.expanded_master  subsys_hps.f2sdram 0x0000 "
-	
-if {$cct_en == 1} {	
-	connect "	clk_100.out_clk        intel_cache_coherency_translator_0.clock
-			    rst_in.out_reset       intel_cache_coherency_translator_0.reset
-		"
-
-    if {$cct_control_interface == 2} {
-        connect "clk_100.out_clk                   intel_cache_coherency_translator_0.csr_clock
-                 rst_in.out_reset                  intel_cache_coherency_translator_0.csr_reset
+connect "         clk_100.out_clk                        ext_hps_m_master.clock
+                  rst_in.out_reset                       ext_hps_m_master.reset"
+													     
+connect_map "     subsys_debug.hps_m_master              ext_hps_m_master.windowed_slave 0x0 "
+#connect_map "     ext_hps_m_master.expanded_master      subsys_hps.fpga2hps 0x1_0000_0000 "
+connect_map "     ext_hps_m_master.expanded_master       subsys_hps.f2sdram 0x0000 "
+													     
+if {$cct_en == 1} {	                                     
+	connect "	  clk_100.out_clk                        intel_cache_coherency_translator_0.clock
+			      rst_in.out_reset                       intel_cache_coherency_translator_0.reset
+		"                                                
+													     
+    if {$cct_control_interface == 2} {                   
+        connect " clk_100.out_clk                        intel_cache_coherency_translator_0.csr_clock
+                  rst_in.out_reset                       intel_cache_coherency_translator_0.csr_reset
                 "
     }
 
     if {$f2s_address_width >32} {
-        connect_map "subsys_debug.hps_m_master               ext_hps_m_master.windowed_slave            0x0"
-        connect_map "ext_hps_m_master.expanded_master   intel_cache_coherency_translator_0.s0      0x0"
-    } else {
-        connect_map "subsys_debug.hps_m_master               intel_cache_coherency_translator_0.s0      0x0"
+        connect_map "subsys_debug.hps_m_master           ext_hps_m_master.windowed_slave            0x0"
+        connect_map "ext_hps_m_master.expanded_master    intel_cache_coherency_translator_0.s0      0x0"
+    } else {                                             
+        connect_map "subsys_debug.hps_m_master           intel_cache_coherency_translator_0.s0      0x0"
     }
 	
-	connect_map " intel_cache_coherency_translator_0.m0              subsys_hps.fpga2hps 0x0000 "
-	connect_map " subsys_hps.lwhps2fpga                              intel_cache_coherency_translator_0.csr "
-	connect_map " subsys_debug.fpga_m_master                              intel_cache_coherency_translator_0.csr 0x10200 "
+	connect_map "intel_cache_coherency_translator_0.m0   subsys_hps.fpga2hps 0x0000 "
+	connect_map "subsys_hps.lwhps2fpga                   intel_cache_coherency_translator_0.csr "
+	connect_map "subsys_debug.fpga_m_master              intel_cache_coherency_translator_0.csr 0x10200 "
 }
 
 # --------------- Connections and connection parameters ------------------#
 
 if {$hps_en == 1} {
   if {$hps_emif_en == 1} {
-  connect "clk_100.out_clk    subsys_hps.clk
-          rst_in.out_reset    subsys_hps.reset 
+  connect " clk_100.out_clk   subsys_hps.clk
+            rst_in.out_reset  subsys_hps.reset 
           "
   }
   if {$f2sdram_width > 0} {
-  connect " clk_100.out_clk subsys_hps.f2sdram_clk
+  connect " clk_100.out_clk   subsys_hps.f2sdram_clk
             rst_in.out_reset  subsys_hps.f2sdram_rst 
           "
   }
   if {$lwh2f_width > 0} {
-  connect " clk_100.out_clk subsys_hps.lwhps2fpga_clk
+  connect " clk_100.out_clk   subsys_hps.lwhps2fpga_clk
             rst_in.out_reset  subsys_hps.lwhps2fpga_rst 
           "
   }
   if {$h2f_width > 0} {
-  connect " clk_100.out_clk subsys_hps.hps2fpga_clk
+  connect " clk_100.out_clk   subsys_hps.hps2fpga_clk
             rst_in.out_reset  subsys_hps.hps2fpga_rst 
           "
   }
   if {$f2s_data_width > 0} {
-  connect " clk_100.out_clk subsys_hps.fpga2hps_clk
+  connect " clk_100.out_clk   subsys_hps.fpga2hps_clk
             rst_in.out_reset  subsys_hps.fpga2hps_rst 
           "
   }
@@ -181,16 +181,16 @@ if {$hps_en == 1} {
 
 if {$jtag_ocm_en == 1} {
    if {$ocm_clk_source == 0} {
-	connect "   clk_100.out_clk   ocm.clk1
-			   rst_in.out_reset  ocm.reset1 
+	connect "clk_100.out_clk   ocm.clk1
+			 rst_in.out_reset  ocm.reset1 
 		   "
-	connect_map " subsys_debug.fpga_m_master ocm.axi_s1 0x40000	"
+	connect_map "subsys_debug.fpga_m_master ocm.axi_s1 0x40000	"
    }
 }
 
 if {$jtag_ocm_en == 1} {
-connect "   clk_100.out_clk   subsys_debug.clk
-            rst_in.out_reset  subsys_debug.reset   
+connect "clk_100.out_clk     subsys_debug.clk
+         rst_in.out_reset    subsys_debug.reset   
 "
 }
 
@@ -241,6 +241,16 @@ export rst_in in_reset reset
 export user_rst_clkgate_0 ninit_done ninit_done
 export subsys_hps usb31_io usb31_io
 export subsys_hps hps_io hps_io
+export subsys_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
+export subsys_hps usb31_phy_refclk_p usb31_phy_refclk_p
+export subsys_hps usb31_phy_refclk_n usb31_phy_refclk_n
+export subsys_hps usb31_phy_rx_serial_n usb31_phy_rx_serial_n
+export subsys_hps usb31_phy_rx_serial_p usb31_phy_rx_serial_p
+export subsys_hps usb31_phy_tx_serial_n usb31_phy_tx_serial_n
+export subsys_hps usb31_phy_tx_serial_p usb31_phy_tx_serial_p
+export subsys_hps usb31_phy_reconfig_rst usb31_phy_reconfig_rst
+export subsys_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
+export subsys_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
 
 if {$hps_emif_en == 1} {
 export subsys_hps emif_hps_emif_mem_0 emif_hps_emif_mem_0
