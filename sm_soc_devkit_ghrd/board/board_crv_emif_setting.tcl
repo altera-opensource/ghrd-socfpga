@@ -56,9 +56,6 @@ if {$hps_emif_mem_part == "custom"} {
   							   
     if {$hps_emif_type == "ddr4"} {    
         load_component emif_hps
-        #apply_component_preset  "DDR4-3200U CL18 Component 1CS 16Gb (1Gb x16)"
-        #apply_component_preset  "DDR4-3200AA CL22 Component 1CS 8Gb (512Mb x16)"
-        #save_component
       
         set_component_param     "emif_hps
 		                        MEM_TECHNOLOGY_AUTO_BOOL             false
@@ -73,28 +70,25 @@ if {$hps_emif_mem_part == "custom"} {
 								MEM_DEVICE_DQ_WIDTH                  16
 								MEM_COMPS_PER_RANK                   2
 								"
-        set_component_param "emif_hps USER_EXTRA_PARAMETERS BYTE_SWIZZLE_CH0=0,X,X,X,1,2,3,X;PIN_SWIZZLE_CH0_DQS0=0,2,6,4,1,3,5,7;PIN_SWIZZLE_CH0_DQS1=12,15,8,11,14,10,13,9;PIN_SWIZZLE_CH0_DQS2=20,16,18,22,23,17,19,21;PIN_SWIZZLE_CH0_DQS3=26,30,28,24,25,27,31,29; "
     } elseif {$hps_emif_type == "lpddr4"} {
 	    load_component emif_hps
 	    
 	    set_component_param     "emif_hps
 	                            MEM_TECHNOLOGY_AUTO_BOOL             false
 	                            MEM_TECHNOLOGY                       MEM_TECHNOLOGY_LPDDR4
-	    						HPS_EMIF_CONFIG_AUTO_BOOL            false
-	                            HPS_EMIF_CONFIG                      HPS_EMIF_1x32
-	    						MEM_FORMAT                           MEM_FORMAT_DISCRETE
-	    						MEM_TOPOLOGY                         MEM_TOPOLOGY_FLYBY
-	    						CTRL_ECC_MODE                        CTRL_ECC_MODE_DISABLED
-	    						PHY_AC_PLACEMENT_AUTO_BOOL           true
-	    						PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_BOT
-	    						MEM_DEVICE_DQ_WIDTH                  16
-	    						MEM_COMPS_PER_RANK                   2
-								MEM_PRESET_ID_AUTO_BOOL              false
-	    						"
-	    apply_component_preset  "LPDDR4-2667 CL24 Component Single-Channel 1R 2CPR 16Gb (32Gb Total) x32 CK 1200.0 MHz"
-        save_component
+	    			    HPS_EMIF_CONFIG_AUTO_BOOL            false
+	                            HPS_EMIF_CONFIG                      HPS_EMIF_1x16
+	    			    MEM_FORMAT                           MEM_FORMAT_DISCRETE
+	    			    MEM_TOPOLOGY                         MEM_TOPOLOGY_FLYBY
+	    			    CTRL_ECC_MODE                        CTRL_ECC_MODE_DISABLED
+	    			    PHY_AC_PLACEMENT_AUTO_BOOL           true
+	    			    PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_BOT
+	    			    MEM_DEVICE_DQ_WIDTH                  16
+				    MEM_NUM_RANKS                        1
+	    			    MEM_COMPS_PER_RANK                   1
+	    			    "
 	}
-	#PHY_MEMCLK_FREQ_MHZ                  199.95    LPDDR4
+
 
         # ------ Connections --------------------------------- #
         connect "${cpu_instance}.emif0_ch0_axi emif_hps.s0_axi4"

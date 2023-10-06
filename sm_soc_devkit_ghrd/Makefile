@@ -13,6 +13,7 @@
 # <-
 #   BOARD_TYPE:
 #       - hidden: hidden type [default]
+#       - crv: crv 
 #
 #   BOOTS_FIRST:
 #       - hps: hps first [default]
@@ -166,7 +167,7 @@ endif
 # QUARTUS_DEVICE to Board Revision Mapping
 
 # User Settings
-# Valid BOARD_TYPE: devkit, pcie_devkit
+# Valid BOARD_TYPE: hidden, crv
 BOARD_TYPE ?= hidden
 #Loading board configuration
 include board/board_$(BOARD_TYPE)_make_config.inc

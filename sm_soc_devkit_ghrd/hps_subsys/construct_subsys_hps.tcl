@@ -32,31 +32,31 @@ set_project_property DEVICE $device
 set_validation_property AUTOMATIC_VALIDATION false
 
 if {$hps_emif_en == 1} {
-add_component_param  "altera_clock_bridge sub_clk 
-                     IP_FILE_PATH ip/$subsys_name/sub_clk.ip 
-                     EXPLICIT_CLOCK_RATE 100000000 
-                     NUM_CLOCK_OUTPUTS 1
-                     "
-					 
-add_component_param  "altera_reset_bridge sub_rst_in 
-                     IP_FILE_PATH ip/$subsys_name/sub_rst_in.ip 
-                     ACTIVE_LOW_RESET 1
-                     SYNCHRONOUS_EDGES both
-                     NUM_RESET_OUTPUTS 1
-                     USE_RESET_REQUEST 0
-                     "
+add_component_param "altera_clock_bridge sub_clk 
+                    IP_FILE_PATH ip/$subsys_name/sub_clk.ip 
+                    EXPLICIT_CLOCK_RATE 100000000 
+                    NUM_CLOCK_OUTPUTS 1
+                    "
+
+add_component_param "altera_reset_bridge sub_rst_in 
+                    IP_FILE_PATH ip/$subsys_name/sub_rst_in.ip 
+                    ACTIVE_LOW_RESET 1
+                    SYNCHRONOUS_EDGES both
+                    NUM_RESET_OUTPUTS 1
+                    USE_RESET_REQUEST 0
+                    "
 }
 
 add_component_param "intel_agilex_5_soc agilex_hps
                      IP_FILE_PATH ip/$subsys_name/agilex_hps.ip 
                      MPU_EVENTS_Enable 0
-		             GP_Enable 0
-		             Debug_APB_Enable 0
+		     GP_Enable 0
+		     Debug_APB_Enable 0
                      STM_Enable 0
-		             JTAG_Enable 0
-		             CTI_Enable 0
-		             DMA_PeriphID 0
-		             DMA_Enable No
+		     JTAG_Enable 0
+		     CTI_Enable 0
+		     DMA_PeriphID 0
+		     DMA_Enable No
                      HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      H2F_Width $h2f_width
 					 H2F_Address_Width $h2f_addr_width
@@ -78,7 +78,11 @@ add_component_param "intel_agilex_5_soc agilex_hps
 # EMIF_DDR_WIDTH $hps_emif_width 
 if {$hps_emif_en == 1} {
     set cpu_instance agilex_hps
-    set board_emif_config_file "$proj_root/board/board_hidden_emif_setting.tcl"
+	if {$board == "crv"} {
+	    set board_emif_config_file "$prjroot/board/board_crv_emif_setting.tcl"
+	} else {
+	set board_emif_config_file "$prjroot/board/board_hidden_emif_setting.tcl"
+	}
     if {[file exist $board_emif_config_file]} {
         source $board_emif_config_file
     } else {

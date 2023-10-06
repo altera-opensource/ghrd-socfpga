@@ -14,14 +14,15 @@ set currentdir [pwd]
 set foldername [file tail $currentdir]
 puts "\[GHRD:info\] Directory name: $foldername"
 
-#puts "prjroot = ${prjroot} "
-#source ${prjroot}/arguments_solver.tcl
-#source ${prjroot}/utils.tcl
-#source ${prjroot}/board/board_hidden_config.tcl
+puts "\[GHRD:info\] \$prjroot = ${prjroot} "
+source ${prjroot}/arguments_solver.tcl
+source ${prjroot}/utils.tcl
 
-source ./arguments_solver.tcl
-source ./utils.tcl
-source ./board/board_hidden_config.tcl
+if {$board == "crv"} {
+	    source $prjroot/board/board_crv_config.tcl
+	} else {
+	    source $prjroot/board/board_hidden_config.tcl
+	}
 
 set subsys_name $foldername
 
