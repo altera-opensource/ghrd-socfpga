@@ -400,15 +400,16 @@ output   wire        ftrace_clk,
 input    wire        hps_ref_clk,
 @@}
 @@}
-input    wire [1-1:0]   fpga_reset_n,
-//HBM enable
 @@if {$hbm_en == 1} {
+// Ports when HBMe enabled
 input  wire        hbm_core_pll_refclk_clk,       
 input  wire        hbm_cattrip_virtual_i_conduit, 
 input  wire [2:0]  hbm_temp_virtual_i_conduit,    
 input  wire        uibpll_refclk_clk,             
-input  wire        hbm_only_reset_reset
-@@}           
+input  wire        hbm_only_reset_reset,
+@@}  
+
+input    wire [1-1:0]   fpga_reset_n      
 );
 
 wire         system_clk_100;
