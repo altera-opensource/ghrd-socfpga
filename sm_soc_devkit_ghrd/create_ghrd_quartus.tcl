@@ -192,8 +192,8 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_osc_clk
 if {$hps_emif_en} {
    if {$board  == "hidden" || $board  == "crv"} {
    
-#   set ranks r1
-#   set width $hps_emif_width
+   set ranks r1
+   set width $hps_emif_width
    set ecc   $hps_emif_ecc_en
    set key   x32_r1
    }
@@ -201,7 +201,7 @@ if {$hps_emif_en} {
       incr width 8
    }
 
-#   set key "x${width}_$ranks"
+   set key "x${width}_$ranks"
 
    # Search for key in the first line
    set key_line [lindex $pin_matrix 0]

@@ -247,41 +247,41 @@ puts "Number of ports: [dict size $pin_assignment_table]"
 set emif_name "emif_hps"
 set pin_matrix [ list \
       [ list "NAME"                                    "MEM"       "LOC"            "x16_r1"     "x32_r1"   ] \
-      [ list "${emif_name}_emif_ref_clk_0_clk"         "lpddr4"    "PIN_BW78"     "PIN_BW78"    "PIN_M105"  ] \
-      [ list "${emif_name}_emif_oct_0_oct_rzqin"       "lpddr4"    "PIN_BH89"     "PIN_BH89"    "PIN_AK111" ] \
-      [ list "${emif_name}_emif_mem_0_mem_ck_t"        "lpddr4"    "PIN_BM81"     "PIN_BM81"    "PIN_AK107" ] \
-      [ list "${emif_name}_emif_mem_0_mem_ck_c"        "lpddr4"    "PIN_BP81"     "PIN_BP81"    "PIN_AK104" ] \
-      [ list "${emif_name}_emif_mem_0_mem_cke"         "lpddr4"    "PIN_BR81"     "PIN_BR81"    "PIN_V108"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_cs"          "lpddr4"    "PIN_BR78"     "PIN_BR78"    "PIN_T105"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_reset_n"     "lpddr4"    "PIN_BH92"     "PIN_BH92"    "PIN_AG111" ] \
-      [ list "${emif_name}_emif_mem_0_mem_dqs_t[0]"    "lpddr4"    "PIN_CH69"     "PIN_CH69"    "PIN_B122"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dqs_t[1]"    "lpddr4"    "PIN_BW69"     "PIN_BW69"    "PIN_F114"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dqs_c[0]"    "lpddr4"    "PIN_CF69"     "PIN_CF69"    "PIN_A125"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dqs_c[1]"    "lpddr4"    "PIN_CA69"     "PIN_CA69"    "PIN_D114"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_ca[0]"       "lpddr4"    "PIN_BR89"     "PIN_BR89"    "PIN_T114"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_ca[1]"       "lpddr4"    "PIN_BU89"     "PIN_BU89"    "PIN_P114"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_ca[2]"       "lpddr4"    "PIN_BR92"     "PIN_BR92"    "PIN_V117"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_ca[3]"       "lpddr4"    "PIN_BU92"     "PIN_BU92"    "PIN_T117"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_ca[4]"       "lpddr4"    "PIN_BW89"     "PIN_BW89"    "PIN_M114"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_ca[5]"       "lpddr4"    "PIN_CA89"     "PIN_CA89"    "PIN_K114"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dmi[0]"      "lpddr4"    "PIN_CA62"     "PIN_CA62"    "PIN_B119"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dmi[1]"      "lpddr4"    "PIN_BU62"     "PIN_BU62"    "PIN_F105"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[0]"       "lpddr4"    "PIN_CA71"     "PIN_CA71"    "PIN_B128"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[1]"       "lpddr4"    "PIN_CC71"     "PIN_CC71"    "PIN_A128"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[2]"       "lpddr4"    "PIN_CH71"     "PIN_CH71"    "PIN_B130"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[3]"       "lpddr4"    "PIN_CF71"     "PIN_CF71"    "PIN_A130"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[4]"       "lpddr4"    "PIN_CH62"     "PIN_CH62"    "PIN_B116"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[5]"       "lpddr4"    "PIN_CF62"     "PIN_CF62"    "PIN_A116"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[6]"       "lpddr4"    "PIN_CH59"     "PIN_CH59"    "PIN_B113"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[7]"       "lpddr4"    "PIN_CF59"     "PIN_CF59"    "PIN_A113"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[8]"       "lpddr4"    "PIN_BR59"     "PIN_BR59"    "PIN_F117"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[9]"       "lpddr4"    "PIN_BU59"     "PIN_BU59"    "PIN_H117"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[10]"      "lpddr4"    "PIN_BW59"     "PIN_BW59"    "PIN_K117"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[11]"      "lpddr4"    "PIN_CA59"     "PIN_CA59"    "PIN_M117"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[12]"      "lpddr4"    "PIN_BU71"     "PIN_BU71"    "PIN_H108"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[13]"      "lpddr4"    "PIN_BU69"     "PIN_BU69"    "PIN_F108"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[14]"      "lpddr4"    "PIN_BR71"     "PIN_BR71"    "PIN_M108"  ] \
-      [ list "${emif_name}_emif_mem_0_mem_dq[15]"      "lpddr4"    "PIN_BR69"     "PIN_BR69"    "PIN_K108"  ] \
+      [ list "${emif_name}_emif_ref_clk_0_clk"         "lpddr4"    "PIN_M105"     "PIN_M105"    "PIN_M105"  ] \
+      [ list "${emif_name}_emif_oct_0_oct_rzqin"       "lpddr4"    "PIN_AK111"    "PIN_AK111"   "PIN_AK111" ] \
+      [ list "${emif_name}_emif_mem_0_mem_ck_t"        "lpddr4"    "PIN_AK107"    "PIN_AK107"   "PIN_AK107" ] \
+      [ list "${emif_name}_emif_mem_0_mem_ck_c"        "lpddr4"    "PIN_AK104"    "PIN_AK104"   "PIN_AK104" ] \
+      [ list "${emif_name}_emif_mem_0_mem_cke"         "lpddr4"    "PIN_V108"     "PIN_V108"    "PIN_V108"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_cs"          "lpddr4"    "PIN_T105"     "PIN_T105"    "PIN_T105"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_reset_n"     "lpddr4"    "PIN_AG111"    "PIN_AG111"   "PIN_AG111" ] \
+      [ list "${emif_name}_emif_mem_0_mem_dqs_t[0]"    "lpddr4"    "PIN_B122"     "PIN_B122"    "PIN_B122"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dqs_t[1]"    "lpddr4"    "PIN_F114"     "PIN_F114"    "PIN_F114"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dqs_c[0]"    "lpddr4"    "PIN_A125"     "PIN_A125"    "PIN_A125"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dqs_c[1]"    "lpddr4"    "PIN_D114"     "PIN_D114"    "PIN_D114"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_ca[0]"       "lpddr4"    "PIN_T114"     "PIN_T114"    "PIN_T114"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_ca[1]"       "lpddr4"    "PIN_P114"     "PIN_P114"    "PIN_P114"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_ca[2]"       "lpddr4"    "PIN_V117"     "PIN_V117"    "PIN_V117"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_ca[3]"       "lpddr4"    "PIN_T117"     "PIN_T117"    "PIN_T117"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_ca[4]"       "lpddr4"    "PIN_M114"     "PIN_M114"    "PIN_M114"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_ca[5]"       "lpddr4"    "PIN_K114"     "PIN_K114"    "PIN_K114"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dmi[0]"      "lpddr4"    "PIN_B119"     "PIN_B119"    "PIN_B119"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dmi[1]"      "lpddr4"    "PIN_F105"     "PIN_F105"    "PIN_F105"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[0]"       "lpddr4"    "PIN_B128"     "PIN_B128"    "PIN_B128"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[1]"       "lpddr4"    "PIN_A128"     "PIN_A128"    "PIN_A128"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[2]"       "lpddr4"    "PIN_B130"     "PIN_B130"    "PIN_B130"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[3]"       "lpddr4"    "PIN_A130"     "PIN_A130"    "PIN_A130"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[4]"       "lpddr4"    "PIN_B116"     "PIN_B116"    "PIN_B116"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[5]"       "lpddr4"    "PIN_A116"     "PIN_A116"    "PIN_A116"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[6]"       "lpddr4"    "PIN_B113"     "PIN_B113"    "PIN_B113"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[7]"       "lpddr4"    "PIN_A113"     "PIN_A113"    "PIN_A113"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[8]"       "lpddr4"    "PIN_F117"     "PIN_F117"    "PIN_F117"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[9]"       "lpddr4"    "PIN_H117"     "PIN_H117"    "PIN_H117"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[10]"      "lpddr4"    "PIN_K117"     "PIN_K117"    "PIN_K117"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[11]"      "lpddr4"    "PIN_M117"     "PIN_M117"    "PIN_M117"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[12]"      "lpddr4"    "PIN_H108"     "PIN_H108"    "PIN_H108"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[13]"      "lpddr4"    "PIN_F108"     "PIN_F108"    "PIN_F108"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[14]"      "lpddr4"    "PIN_M108"     "PIN_M108"    "PIN_M108"  ] \
+      [ list "${emif_name}_emif_mem_0_mem_dq[15]"      "lpddr4"    "PIN_K108"     "PIN_K108"    "PIN_K108"  ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[16]"      "lpddr4"      unused         unused        unused    ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[17]"      "lpddr4"      unused         unused        unused    ] \
       [ list "${emif_name}_emif_mem_0_mem_dq[18]"      "lpddr4"      unused         unused        unused    ] \
