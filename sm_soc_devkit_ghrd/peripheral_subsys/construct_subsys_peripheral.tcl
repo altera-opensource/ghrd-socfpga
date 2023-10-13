@@ -21,7 +21,7 @@ source ${prjroot}/utils.tcl
 if {$board == "crv"} {
 	    source $prjroot/board/board_crv_config.tcl
 	} else {
-	    source $prjroot/board/board_hidden_config.tcl
+	    source $prjroot/board/board_DK-A5E065BB32AES1_config.tcl
 	}
 
 set subsys_name $foldername

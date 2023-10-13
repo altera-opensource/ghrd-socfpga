@@ -65,7 +65,7 @@ BEGIN{
 
             config_str = config_str "" sprintf("%-30s=", var_name[1]);
 
-        } else if (match($0, /^#\s+-\s*([a-zA-Z0-9\.]+)\s*:\s*.+$/, var_val)) {
+        } else if (match($0, /^#\s+-\s*([a-zA-Z0-9\._-]+)\s*:\s*.+$/, var_val)) {
             str = get_help_str($0, "val");
             help_str = help_str ""str"\n";
 

@@ -27,7 +27,7 @@ set CLK_GATE_EN 0
 ## Board
 ## ----------------
 
-set BOARD "hidden"
+set BOARD "DK-A5E065BB32AES1"
 # Only valid for board="DK-SI-AGF014E"; "enpirion" or "linear"
 set BOARD_PWRMGT "linear"
 

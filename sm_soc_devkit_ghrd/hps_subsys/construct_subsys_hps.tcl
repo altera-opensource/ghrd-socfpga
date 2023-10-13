@@ -81,7 +81,7 @@ if {$hps_emif_en == 1} {
 	if {$board == "crv"} {
 	    set board_emif_config_file "$prjroot/board/board_crv_emif_setting.tcl"
 	} else {
-	set board_emif_config_file "$prjroot/board/board_hidden_emif_setting.tcl"
+	set board_emif_config_file "$prjroot/board/board_DK-A5E065BB32AES1_emif_setting.tcl"
 	}
     if {[file exist $board_emif_config_file]} {
         source $board_emif_config_file

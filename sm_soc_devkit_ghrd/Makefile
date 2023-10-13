@@ -12,8 +12,8 @@
 #
 # <-
 #   BOARD_TYPE:
-#       - hidden: hidden type [default]
-#       - crv: crv 
+#       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]
+#       - crv: mUDV Coville Ridge 
 #
 #   BOOTS_FIRST:
 #       - hps: hps first [default]
@@ -168,7 +168,7 @@ endif
 
 # User Settings
 # Valid BOARD_TYPE: hidden, crv
-BOARD_TYPE ?= hidden
+BOARD_TYPE ?= DK-A5E065BB32AES1
 #Loading board configuration
 include board/board_$(BOARD_TYPE)_make_config.inc
 
