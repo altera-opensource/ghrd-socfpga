@@ -13,7 +13,7 @@
 # <-
 #   BOARD_TYPE:
 #       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]
-#       - crv: mUDV Coville Ridge 
+#       - crv: mUDV Coville Ridge
 #
 #   BOOTS_FIRST:
 #       - hps: hps first [default]
@@ -47,7 +47,7 @@ SHELL := /bin/bash
 MAKEFLAGS += --no-print-directory
 
 .SECONDEXPANSION:
-.SUFFIXES: 
+.SUFFIXES:
 .DELETE_ON_ERROR:
 
 
@@ -61,8 +61,7 @@ CHMOD            := chmod
 CP               := cp -rf
 DATE             := date
 ECHO             := echo
-FIND             := find
-GREP             := grep
+FIND             := findGREP             := grep
 HEAD             := head
 MKDIR            := mkdir -p
 MV               := mv
@@ -112,7 +111,7 @@ endef
 $(foreach p, $(USER_CONFIG), $(eval $(call LOAD_USER_CONFIG, $p)))
 
 # update user-specific configuration
-USER_CONFIG_UPDATE := 
+USER_CONFIG_UPDATE :=
 define UPDATE_USER_CONFIG
 	$(firstword $(subst =, $(SPACE), $1)) := $$($(firstword $(subst =, $(SPACE), $1)))
 	USER_CONFIG_UPDATE += $(firstword $(subst =, $(SPACE), $1))=$$($(firstword $(subst =, $(SPACE), $1)))
@@ -293,7 +292,7 @@ endif
 MODULES := $(shell cat $(MODULES_FILE))
 MODULE_BUILD := $(foreach n, $(MODULES), $(n).build)
 
-$(MODULE_BUILD): quartus_generate_qsf_qpf quartus_generate_top 
+$(MODULE_BUILD): quartus_generate_qsf_qpf quartus_generate_top
 	@$(MAKE) QSYS_ARGS='$(QSYS_ARGS)' QSYS_TCL_ARGS='$(QSYS_TCL_ARGS)' USER_CONFIG='$(USER_CONFIG_UPDATE)' $(USER_CONFIG_UPDATE) -C $(subst .build,,$@) generate_from_tcl
 
 .PHONY: generate_submodule
@@ -319,7 +318,11 @@ config: $(MODULE_CONFIG)
 	@$(CAT) $(wildcard build/config.*) > build/config
 	@$(SED) -i '/^\s*$$/d' build/config
 	@$(RM) -rf build/config.*
-	@$(ECHO) "config done!"
+	@cat $(PWD)/$(BUILD_DIR)/$(HELP_TITLE_FILE)
+	$(eval $(call get_help_modules, $(filter-out  %.title, $(wildcard build/help.*))))
+	@cat $(sort $(help_modules)) > build/help
+	@sed -i '/^\s*$$/d' build/help
+	@awk '{print $$0}'  build/help
 
 
 ################################################
@@ -578,7 +581,7 @@ QUARTUS_QSF_QPF_GEN := $(firstword $(wildcard create_*_quartus.tcl))
 ifneq ($(QUARTUS_QSF_QPF_GEN),)
 quartus_generate_qsf_qpf: $(QUARTUS_QSF_QPF_GEN)
 	@$(RM) $(QUARTUS_QSF) $(QUARTUS_QPF)
-	quartus_sh --script=$< $(QUARTUS_TCL_ARGS) prjroot $(PROJECT_ROOT)
+	quartus_sh --script=$< $(QUARTUS_TCL_ARGS)
 else
 quartus_generate_qsf_qpf:
 	@$(ECHO) "Make target '$@' is not supported for this design"
@@ -746,9 +749,10 @@ define get_help_modules
 endef
 
 help:
-	@cat $(PWD)/$(BUILD_DIR)/$(HELP_TITLE_FILE)
-	$(eval $(call get_help_modules, $(filter-out  %.title, $(wildcard build/help.*))))
-	@cat $(sort $(help_modules)) > build/help
-	@sed -i '/^\s*$$/d' build/help
-	@awk '{print $$0}'  build/help
-
+	@$(ECHO) "Summary of Makefile targets"
+	@$(ECHO) "    help              - displays this list"
+	@$(ECHO) "    config            - Retrives all variables in Makefile(s) and displays their value."
+	@$(ECHO) "    generate_from_tcl - Generate qsys from tcl scripts"
+	@$(ECHO) "    sof               - Generate sof based upon the generated qsys files"
+	@$(ECHO) "    all               - Merge of generate_from_tcl and sof"
+	@$(ECHO) "    clean             - Cleareance of interim generated compilation files"
