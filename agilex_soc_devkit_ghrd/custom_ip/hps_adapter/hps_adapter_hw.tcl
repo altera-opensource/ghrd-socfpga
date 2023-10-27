@@ -23,7 +23,6 @@ set_module_property NAME hps_adapter
 set_module_property VERSION 1.0
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
-set_module_property BSP_CPU false
 set_module_property AUTHOR ""
 set_module_property DISPLAY_NAME hps_adapter
 set_module_property DATASHEET_URL false
