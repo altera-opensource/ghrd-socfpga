@@ -89,15 +89,15 @@ if {$hps_emif_en == 1} {
         error "$board_emif_config_file not exist!! Please make sure the board settings files are included in folder ./board/"
     }
 	
-    connect "emif_hps.usr_clk_0            agilex_hps.emif0_ch0_axi_clk
-		     emif_hps.s0_axil_clk          agilex_hps.emif0_csr_axi_clk
-		     emif_hps.usr_rst_n_0          agilex_hps.emif0_ch0_axi_rst
-		     emif_hps.s0_axil_rst_n        agilex_hps.emif0_csr_axi_rst
+    connect "emif_hps.usr_clk_0            agilex_hps.io96b0_ch0_axi_clk
+		     emif_hps.s0_axil_clk          agilex_hps.io96b0_csr_axi_clk
+		     emif_hps.usr_rst_n_0          agilex_hps.io96b0_ch0_axi_rst
+		     emif_hps.s0_axil_rst_n        agilex_hps.io96b0_csr_axi_rst
 		    "
 	
 	connect "sub_clk.out_clk               sub_rst_in.clk" 
 	
-	connect "agilex_hps.emif0_csr_axi      emif_hps.s0_axil"
+	connect "agilex_hps.io96b0_csr_axi      emif_hps.s0_axil"
 }
 
 #load_component agilex_hps
