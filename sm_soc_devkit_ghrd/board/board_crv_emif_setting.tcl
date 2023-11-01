@@ -91,7 +91,7 @@ if {$hps_emif_mem_part == "custom"} {
 
 
         # ------ Connections --------------------------------- #
-        connect "${cpu_instance}.emif0_ch0_axi emif_hps.s0_axi4"
+        connect "${cpu_instance}.io96b0_ch0_axi emif_hps.s0_axi4"
 
         # ------ Ports export -------------------------------- #
         export emif_hps emif_mem_0         emif_hps_emif_mem_0 
