@@ -27,8 +27,14 @@ set hps_emif_bank_gp_default_width 1
 
 # Quartus settings for SDMIOs
 proc config_sdmio {} {
+source ./arguments_solver.tcl
+if {$config_scheme != "AVST X8"} {
     set_global_assignment -name USE_HPS_COLD_RESET SDM_IO12
     set_global_assignment -name USE_CONF_DONE SDM_IO11
+} else {
+	set_global_assignment -name USE_HPS_COLD_RESET SDM_IO9
+    set_global_assignment -name USE_CONF_DONE SDM_IO5
+}
 }
 
 # Quartus settings for Power Management

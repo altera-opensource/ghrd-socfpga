@@ -116,6 +116,18 @@ set_global_assignment -name HPS_INITIALIZATION "HPS FIRST"
 set_global_assignment -name HPS_INITIALIZATION "AFTER INIT_DONE"
 }
 
+if {$config_scheme == "ACTIVE SERIAL X4"} {
+set_global_assignment -name STRATIXV_CONFIGURATION_SCHEME "ACTIVE SERIAL X4"
+} elseif {$config_scheme == "AVST X8"} {
+set_global_assignment -name STRATIXV_CONFIGURATION_SCHEME "AVST X8"
+} elseif {$config_scheme == "AVST X16"} {
+set_global_assignment -name STRATIXV_CONFIGURATION_SCHEME "AVST X16"
+} elseif {$config_scheme == "AVST X32"} {
+set_global_assignment -name STRATIXV_CONFIGURATION_SCHEME "AVST X32"
+}
+
+
+
 if {$hps_dap_mode == 1} {
 set_global_assignment -name HPS_DAP_SPLIT_MODE "HPS PINS"
 } elseif {$hps_dap_mode == 2} {
