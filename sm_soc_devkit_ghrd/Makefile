@@ -61,7 +61,8 @@ CHMOD            := chmod
 CP               := cp -rf
 DATE             := date
 ECHO             := echo
-FIND             := findGREP             := grep
+FIND             := find
+GREP             := grep
 HEAD             := head
 MKDIR            := mkdir -p
 MV               := mv
