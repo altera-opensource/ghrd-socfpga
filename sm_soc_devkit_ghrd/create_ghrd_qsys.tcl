@@ -239,8 +239,9 @@ if {$lwh2f_width > 0} {
 export clk_100 in_clk clk_100
 export rst_in in_reset reset
 export user_rst_clkgate_0 ninit_done ninit_done
-export subsys_hps usb31_io usb31_io
 export subsys_hps hps_io hps_io
+if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
+export subsys_hps usb31_io usb31_io
 export subsys_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
 export subsys_hps usb31_phy_refclk_p usb31_phy_refclk_p
 export subsys_hps usb31_phy_refclk_n usb31_phy_refclk_n
@@ -251,6 +252,7 @@ export subsys_hps usb31_phy_tx_serial_p usb31_phy_tx_serial_p
 export subsys_hps usb31_phy_reconfig_rst usb31_phy_reconfig_rst
 export subsys_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
 export subsys_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
+}
 
 if {$hps_emif_en == 1} {
 export subsys_hps emif_hps_emif_mem_0 emif_hps_emif_mem_0

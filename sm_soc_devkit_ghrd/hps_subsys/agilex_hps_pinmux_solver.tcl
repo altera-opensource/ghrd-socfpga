@@ -401,14 +401,14 @@ set io48_q2_assignment [lreplace $io48_q2_assignment 0 3 NAND:ALE NAND:RB_N NAND
     set io48_q2_assignment [lreplace $io48_q2_assignment 0 11 NAND:ALE NAND:RB_N NAND:CE_N NAND:DQS NAND:DATA8 NAND:DATA9 NAND:DATA10 NAND:DATA11 NAND:DATA12 NAND:DATA13 NAND:DATA14 NAND:DATA15]
   }
 } elseif {$hps_nand_q34_en == 1} {
-set io48_q3_assignment [lreplace $io48_q3_assignment 0 11 NAND:DATA0 NAND:DATA1 NAND:WE_N NAND:RE_N NAND:WP_N NAND:DATA2 NAND:DATA3 NAND:CLE NAND:DATA4 NAND:DATA5 NAND:DATA6 NAND:DATA7]
+set io48_q3_assignment [lreplace $io48_q3_assignment 0 11 NAND:ADQ0 NAND:ADQ1 NAND:WE_N NAND:RE_N NAND:WP_N NAND:ADQ2 NAND:ADQ3 NAND:CLE NAND:ADQ4 NAND:ADQ5 NAND:ADQ6 NAND:ADQ7]
 set io48_q4_assignment [lreplace $io48_q4_assignment 0 3 NAND:ALE NAND:RB_N NAND:CE_N NAND:DQS]
   if {$hps_nand_16b_en == 1} {
     set io48_q4_assignment [lreplace $io48_q4_assignment 0 11 NAND:ALE NAND:RB_N NAND:CE_N NAND:DQS NAND:DATA8 NAND:DATA9 NAND:DATA10 NAND:DATA11 NAND:DATA12 NAND:DATA13 NAND:DATA14 NAND:DATA15]
   }
 }
 
-if {$hps_trace_q12_en} {
+if {$hps_trace_q12_en == 1} {
 set io48_q2_assignment [lreplace $io48_q2_assignment 7 11 TRACE:CLK TRACE:D0 TRACE:D1 TRACE:D2 TRACE:D3]
   if {$hps_trace_alt_en == 1} {
     if {$hps_trace_8b_en == 1} { 

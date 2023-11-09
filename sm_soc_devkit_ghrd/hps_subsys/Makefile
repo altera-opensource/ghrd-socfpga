@@ -20,6 +20,10 @@
 #   HPS_HBME_EN :
 #       - 0: disable [default]
 #       - 1: enable 
+#   DAUGHTER_CARD:
+#      - devkit_dc_oobe: none[default]
+#      - devkit_dc_nand: none 
+#      - devkit_dc_emmc: none
 ##demo:
 ##  hps_other_var0 :
 ##      - val00: val00_description [default]

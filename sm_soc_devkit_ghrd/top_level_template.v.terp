@@ -289,9 +289,10 @@ inout    wire          hps_i2c_emac2_SCL,
 @@if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
 output   wire          hps_nand_ALE,
 output   wire          hps_nand_CE_N,
+inout    wire          hps_nand_DQS,
 output   wire          hps_nand_CLE,
 output   wire          hps_nand_RE_N,
-input    wire          hps_nand_RB,
+input    wire          hps_nand_RB_N,
 output   wire          hps_nand_WP_N,
 output   wire          hps_nand_WE_N,
 inout    wire          hps_nand_ADQ0,
@@ -537,7 +538,9 @@ ${qsys_name} soc_inst (
 .hps_io_emac0_txd0                         (hps_emac0_TXD0),     
 .hps_io_emac0_txd1                         (hps_emac0_TXD1),
 .hps_io_emac0_rxd0                         (hps_emac0_RXD0),       
-.hps_io_emac0_rxd1                         (hps_emac0_RXD1),        
+.hps_io_emac0_rxd1                         (hps_emac0_RXD1),
+.hps_io_emac0_pps						   (hps_emac0_PPS),    
+.hps_io_emac0_pps_trig                     (hps_emac0_PPS_TRIG),
 @@}
 @@if {$hps_emac0_rgmii_en == 1} {
 .hps_io_emac0_txd2                         (hps_emac0_TXD2),      
@@ -606,21 +609,22 @@ ${qsys_name} soc_inst (
 .hps_io_sdmmc_data7                        (hps_sdmmc_D7),
 @@}
 @@if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
-.hps_io_NAND_ALE                           (hps_nand_ALE),
-.hps_io_NAND_CE_N                          (hps_nand_CE_N),
-.hps_io_NAND_CLE                           (hps_nand_CLE),
-.hps_io_NAND_RE_N                          (hps_nand_RE_N),
-.hps_io_NAND_RB                            (hps_nand_RB),
-.hps_io_NAND_WP_N                          (hps_nand_WP_N),
-.hps_io_NAND_WE_N                          (hps_nand_WE_N),
-.hps_io_NAND_ADQ0                          (hps_nand_ADQ0),
-.hps_io_NAND_ADQ1                          (hps_nand_ADQ1),
-.hps_io_NAND_ADQ2                          (hps_nand_ADQ2),
-.hps_io_NAND_ADQ3                          (hps_nand_ADQ3),
-.hps_io_NAND_ADQ4                          (hps_nand_ADQ4),
-.hps_io_NAND_ADQ5                          (hps_nand_ADQ5),
-.hps_io_NAND_ADQ6                          (hps_nand_ADQ6),
-.hps_io_NAND_ADQ7                          (hps_nand_ADQ7),
+.hps_io_nand_ale                           (hps_nand_ALE),
+.hps_io_nand_ce_n                          (hps_nand_CE_N),
+.hps_io_nand_dqs                          (hps_nand_DQS),
+.hps_io_nand_cle                           (hps_nand_CLE),
+.hps_io_nand_re_n                          (hps_nand_RE_N),
+.hps_io_nand_rb_n                           (hps_nand_RB_N),
+.hps_io_nand_wp_n                          (hps_nand_WP_N),
+.hps_io_nand_we_n                          (hps_nand_WE_N),
+.hps_io_nand_data0                          (hps_nand_ADQ0),
+.hps_io_nand_data1                          (hps_nand_ADQ1),
+.hps_io_nand_data2                          (hps_nand_ADQ2),
+.hps_io_nand_data3                          (hps_nand_ADQ3),
+.hps_io_nand_data4                          (hps_nand_ADQ4),
+.hps_io_nand_data5                          (hps_nand_ADQ5),
+.hps_io_nand_data6                          (hps_nand_ADQ6),
+.hps_io_nand_data7                          (hps_nand_ADQ7),
 @@}
 @@if {$hps_nand_16b_en == 1} {
 .hps_io_NAND_ADQ8                          (hps_nand_ADQ8),
@@ -633,12 +637,12 @@ ${qsys_name} soc_inst (
 .hps_io_NAND_ADQ15                         (hps_nand_ADQ15),
 @@}
 @@if {$hps_i2c0_q1_en == 1 || $hps_i2c0_q2_en == 1 || $hps_i2c0_q3_en == 1} {
-.hps_io_I2C0_SDA                           (hps_i2c0_SDA),     
-.hps_io_I2C0_SCL                           (hps_i2c0_SCL),
+.hps_io_i2c0_sda                           (hps_i2c0_SDA),     
+.hps_io_i2c0_scl                           (hps_i2c0_SCL),
 @@}
 @@if {$hps_i2c1_q1_en == 1 || $hps_i2c1_q2_en == 1 || $hps_i2c1_q3_en == 1 || $hps_i2c1_q4_en == 1} {
-.hps_io_I2C1_SDA                           (hps_i2c1_SDA),     
-.hps_io_I2C1_SCL                           (hps_i2c1_SCL),
+.hps_io_i2c1_sda                           (hps_i2c1_SDA),     
+.hps_io_i2c1_scl                           (hps_i2c1_SCL),
 @@}
 @@if {$hps_i3c0_q1_en == 1 || $hps_i3c0_q2_en == 1 || $hps_i3c0_q3_en == 1 || $hps_i3c0_q4_en == 1} {
 .hps_io_i3c0_sda                           (hps_i3c0_SDA),     
@@ -701,10 +705,10 @@ ${qsys_name} soc_inst (
 .hps_io_SPIS0_SS0_N                        (hps_spis0_SS0_N),
 @@}
 @@if {$hps_spis1_q1_en == 1 || $hps_spis1_q3_en == 1 || $hps_spis1_q4_en == 1} {
-.hps_io_SPIS1_CLK                          (hps_spis1_CLK),
-.hps_io_SPIS1_MOSI                         (hps_spis1_MOSI),
-.hps_io_SPIS1_MISO                         (hps_spis1_MISO),
-.hps_io_SPIS1_SS0_N                        (hps_spis1_SS0_N),
+.hps_io_spis1_clk                          (hps_spis1_CLK),
+.hps_io_spis1_mosi                         (hps_spis1_MOSI),
+.hps_io_spis1_miso                         (hps_spis1_MISO),
+.hps_io_spis1_ss0_n                        (hps_spis1_SS0_N),
 @@}
 @@if {$hps_usb0_en == 1} {
 .hps_io_USB0_CLK                           (hps_usb0_CLK), 

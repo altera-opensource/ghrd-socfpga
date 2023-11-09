@@ -588,6 +588,7 @@ connect "clk_100.out_clk agilex_hps.f2h_free_clock"
 
 # --------------------    Exported Interfaces     -----------------------#
 export agilex_hps h2f_reset h2f_reset
+if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 export agilex_hps usb31_io usb31_io
 export agilex_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
 export agilex_hps usb31_phy_refclk_p usb31_phy_refclk_p
@@ -599,6 +600,7 @@ export agilex_hps usb31_phy_tx_serial_p usb31_phy_tx_serial_p
 export agilex_hps usb31_phy_reconfig_rst usb31_phy_reconfig_rst
 export agilex_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
 export agilex_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
+}
 
 if {$hps_emif_en == 1} {
 export sub_rst_in in_reset reset
