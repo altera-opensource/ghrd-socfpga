@@ -72,15 +72,21 @@ TAR              := tar
 TOUCH            := touch
 WHICH            := which
 PWD              := $(shell pwd)
+AWK              := awk
+SORT             := sort
 
 #===============================================
 # configuration
 #===============================================
-MODULES_FILE     := build.module
-MODULE_VAR_FILE  := module.var
-BUILD_DIR        := build
-HELP_TITLE_FILE  := help.title
-USER_CONFIG_FILE := $(BUILD_DIR)/config
+PROJECT_ROOT                  := $(PWD)
+MODULES_FILE                  := build.module
+BUILD_DIR                     := build
+HELP_TITLE_FILE               := help.title
+USER_CONFIG_FILE              := $(BUILD_DIR)/config
+GHRD_CONFIG_FILE              := $(PROJECT_ROOT)/build/config.global
+GHRD_HELP_FILE                := $(PROJECT_ROOT)/build/help.global
+GHRD_SCRIPT_CONFIG_PARZE_FILE := $(PROJECT_ROOT)/scripts/config_parzer.awk
+GHRD_SCRIPT_CONFIG_FTM_FILE   := $(PROJECT_ROOT)/scripts/config_fmt.awk
 
 
 #===============================================
@@ -278,6 +284,8 @@ endif
 QSYS_TCL_CMDS += set proj_root $(PROJECT_ROOT);
 QUARTUS_TCL_ARGS += proj_root $(PROJECT_ROOT)
 
+$(info $(QUARTUS_TCL_ARGS))
+
 ### End of Design Settings ###
 
 
@@ -305,17 +313,12 @@ generate_submodule: $(MODULE_BUILD)
 #===============================================
 MODULE_CONFIG := $(foreach n, $(MODULES), $(n).config)
 
-
 .PHONY: $(MODULE_CONFIG)
 $(MODULE_CONFIG) :
 	@$(MAKE) -C $(subst .config,,$@) config
 
-PROJECT_ROOT          :=  $(PWD)
-GHRD_CONFIG_FILE      :=  $(PROJECT_ROOT)/build/config.global
-GHRD_HELP_FILE        :=  $(PROJECT_ROOT)/build/help.global
-GHRD_SCRIPT_FILE      :=  $(PROJECT_ROOT)/scripts/config_parzer.awk
 config: $(MODULE_CONFIG)
-	$(shell awk -v config_file=$(GHRD_CONFIG_FILE) -v help_file=$(GHRD_HELP_FILE) -f $(GHRD_SCRIPT_FILE) $(firstword $(MAKEFILE_LIST)))
+	$(shell awk -v config_file=$(GHRD_CONFIG_FILE) -v help_file=$(GHRD_HELP_FILE) -f $(GHRD_SCRIPT_CONFIG_PARZE_FILE) $(firstword $(MAKEFILE_LIST)))
 	@$(CAT) $(wildcard build/config.*) > build/config
 	@$(SED) -i '/^\s*$$/d' build/config
 	@$(RM) -rf build/config.*
@@ -637,8 +640,12 @@ generate_from_tcl.HELP := Generate the Quartus Project source files from tcl scr
 
 .PHONY: generate_from_tcl
 generate_from_tcl: generate_submodule $(INTEL_CUSTOM_IP_DIR_TARGET)
-	$(MAKE)  qsys_generate_qsys
-	@$(ECHO) "generate_from_tcl done!"
+	@$(MAKE)  qsys_generate_qsys
+	@$(shell echo $(USER_CONFIG_UPDATE) > $(BUILD_DIR)/config.tmp)
+	@$(AWK) -v output=$(USER_CONFIG_FILE) -f $(GHRD_SCRIPT_CONFIG_FTM_FILE)  $(BUILD_DIR)/config.tmp
+	@$(RM) -rf $(BUILD_DIR)/config.tmp
+	@$(ECHO) "gene rate_from_tcl done!"
+	@$(ECHO) $(USER_CONFIG_UPDATE) > build.user.config.update
 
 ifeq ($(ENABLE_PARTIAL_RECONFIGURATION),1)
 	$(MAKE) quartus_generate_pr_qsf qsys_generate_pr_qsys
