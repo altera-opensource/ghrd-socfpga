@@ -322,8 +322,10 @@ config: $(MODULE_CONFIG)
 	@$(CAT) $(wildcard build/config.*) > build/config
 	@$(SED) -i '/^\s*$$/d' build/config
 	@$(RM) -rf build/config.*
-	@cat $(PWD)/$(BUILD_DIR)/$(HELP_TITLE_FILE)
-	$(eval $(call get_help_modules, $(filter-out  %.title, $(wildcard build/help.*))))
+	@echo "usage       : make <param>=<value> ... module"
+	@echo "example     : make BOARD_TYPE=pcie_devkit all"
+	@echo "parameters  :"
+	$(eval $(call get_help_modules, $(wildcard build/help.*)))
 	@cat $(sort $(help_modules)) > build/help
 	@sed -i '/^\s*$$/d' build/help
 	@awk '{print $$0}'  build/help
@@ -640,12 +642,11 @@ generate_from_tcl.HELP := Generate the Quartus Project source files from tcl scr
 
 .PHONY: generate_from_tcl
 generate_from_tcl: generate_submodule $(INTEL_CUSTOM_IP_DIR_TARGET)
-	@$(MAKE)  qsys_generate_qsys
-	@$(shell echo $(USER_CONFIG_UPDATE) > $(BUILD_DIR)/config.tmp)
+	@$(MAKE) qsys_generate_qsys
+	@$(ECHO) $(USER_CONFIG_UPDATE) > $(BUILD_DIR)/config.tmp)
 	@$(AWK) -v output=$(USER_CONFIG_FILE) -f $(GHRD_SCRIPT_CONFIG_FTM_FILE)  $(BUILD_DIR)/config.tmp
 	@$(RM) -rf $(BUILD_DIR)/config.tmp
 	@$(ECHO) "gene rate_from_tcl done!"
-	@$(ECHO) $(USER_CONFIG_UPDATE) > build.user.config.update
 
 ifeq ($(ENABLE_PARTIAL_RECONFIGURATION),1)
 	$(MAKE) quartus_generate_pr_qsf qsys_generate_pr_qsys
