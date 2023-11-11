@@ -108,6 +108,7 @@ lc = $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst F,f,$(s
 
 # load user-specific configuration
 ifeq ($(wildcard $(USER_CONFIG_FILE)),)
+    $(shell mkdir $(BUILD_DIR))
     $(shell touch $(USER_CONFIG_FILE))
 endif
 
