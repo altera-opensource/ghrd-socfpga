@@ -70,6 +70,18 @@ endef
 #    $(eval $(call append_args, hps_other_var1))
 #endif
 
+ifeq ($(HPS_EN), $(DISABLE))
+  ifeq ($(DAUGHTER_CARD),)
+    HPS_EN=$(ENABLE)
+    $(shell echo "force HPS_EN=1 because DAUGHTER_CARD is not set")
+  endif
+
+  ifeq ($(DAUGHTER_CARD),none)
+    HPS_EN=$(ENABLE)
+    $(shell echo "force HPS_EN=1 because DAUGHTER_CARD is none")
+  endif
+endif
+
 .PHONY: generate_from_tcl
 generate_from_tcl:
 ifeq ($(HPS_EN), $(ENABLE))
