@@ -126,6 +126,7 @@ set param(hps_i2c_emac2_q3_en)          $hps_i2c_emac2_q3_en
 set param(hps_i2c_emac2_q4_en)          $hps_i2c_emac2_q4_en
 set param(hps_nand_q12_en)              $hps_nand_q12_en
 set param(hps_nand_q34_en)              $hps_nand_q34_en
+set param(hps_emmc_q34_en)              $hps_emmc_q34_en
 set param(hps_nand_16b_en)              $hps_nand_16b_en
 set param(hps_trace_q12_en)             $hps_trace_q12_en
 set param(hps_trace_q34_en)             $hps_trace_q34_en

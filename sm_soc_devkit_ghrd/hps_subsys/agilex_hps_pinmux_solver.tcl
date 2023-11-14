@@ -406,6 +406,9 @@ set io48_q4_assignment [lreplace $io48_q4_assignment 0 3 NAND:ALE NAND:RB_N NAND
   if {$hps_nand_16b_en == 1} {
     set io48_q4_assignment [lreplace $io48_q4_assignment 0 11 NAND:ALE NAND:RB_N NAND:CE_N NAND:DQS NAND:DATA8 NAND:DATA9 NAND:DATA10 NAND:DATA11 NAND:DATA12 NAND:DATA13 NAND:DATA14 NAND:DATA15]
   }
+} elseif {$hps_emmc_q34_en == 1} {
+set io48_q3_assignment [lreplace $io48_q3_assignment 0 11 SDMMC:DATA0 SDMMC:DATA1 SDMMC:CCLK NONE SDMMC:WPROT SDMMC:DATA2 SDMMC:DATA3 SDMMC:CMD SDMMC:DATA4 SDMMC:DATA5 SDMMC:DATA6 SDMMC:DATA7]
+set io48_q4_assignment [lreplace $io48_q4_assignment 0 3 SDMMC:PU_PD_DATA2 SDMMC:PWR_ENA NONE SDMMC:DATA_STROBE]
 }
 
 if {$hps_trace_q12_en == 1} {

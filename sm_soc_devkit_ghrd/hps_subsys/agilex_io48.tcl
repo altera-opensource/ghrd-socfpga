@@ -83,6 +83,7 @@ set hps_i3c1_q3_en           0
 set hps_i3c1_q4_en           0
 set hps_nand_q12_en          0
 set hps_nand_q34_en          0
+set hps_emmc_q34_en 		 0
 set hps_sdmmc4b_q1_en        0
 set hps_sdmmc8b_q1_en        0
 set hps_sdmmc_wp_q1_en       0
@@ -122,7 +123,8 @@ set hps_gpio1_list "3 4"
 set hps_jtag_en 1
 set hps_emac2_rgmii_en 1
 
-} elseif {$daughter_card == "devkit_dc_nand"} {
+} elseif {$daughter_card == "devkit_dc_nand" || $daughter_card == "devkit_dc_emmc"  } {
+if {$daughter_card == "devkit_dc_nand"} {
 set hps_emac0_q1_en 1
 set hps_uart0_q1_en 1
 set hps_i2c0_q1_en 1
@@ -137,6 +139,22 @@ set hps_gpio1_list "16 19"
 set hps_cm_q 4
 set hps_cm_io 6
 set hps_spis1_q4_en 1
+} elseif {$daughter_card == "devkit_dc_emmc"} {
+set hps_emac0_q1_en 1
+set hps_uart0_q1_en 1
+set hps_i2c0_q1_en 1
+set hps_gpio0_en 1
+set hps_gpio0_list "6 7"
+set hps_i3c1_q1_en 1
+set hps_mdio0_q1_en 1
+set hps_emac0_rgmii_en 1
+set hps_emmc_q34_en 1
+set hps_gpio1_en 1
+set hps_gpio1_list "16 19"
+set hps_cm_q 4
+set hps_cm_io 6
+set hps_spis1_q4_en 1
+}
 
 } elseif {$daughter_card == "debug2"} {
 set hps_emac0_q1_en 1
