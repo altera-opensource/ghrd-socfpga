@@ -223,6 +223,9 @@ set io48_q4_assignment [lreplace $io48_q4_assignment 0 7 EMAC2:TX_CLK EMAC2:TX_C
 
 if {$hps_emac0_q1_en == 1} {
 set io48_q1_assignment [lreplace $io48_q1_assignment 0 1 EMAC0:PPS0 EMAC0:PPSTRIG0]
+if {$daughter_card == "tsn_aic0"} {
+set io48_q1_assignment [lreplace $io48_q1_assignment 4 5 EMAC2:PPS2 EMAC2:PPSTRIG2]
+}
 } elseif {$hps_emac1_q1_en == 1} {
 set io48_q1_assignment [lreplace $io48_q1_assignment 2 3 EMAC1:PPS1 EMAC1:PPSTRIG1]
 } elseif {$hps_emac2_q1_en == 1} {
