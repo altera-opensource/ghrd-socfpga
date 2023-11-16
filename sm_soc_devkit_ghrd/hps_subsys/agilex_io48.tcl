@@ -183,6 +183,7 @@ set hps_cm_io 10
 set hps_mdio0_q1_en 1
 set hps_emac0_rgmii_en 1
 set hps_sdmmc4b_q3_en 1
+set hps_sdmmc_wp_q3_en 1
 #set hps_sdmmc4b_q1_sel_en 1
 #set hps_sdmmc4b_q1_alt_en 1
 set hps_jtag_en 1

@@ -371,7 +371,7 @@ output   wire          ftrace_clk,
 input    wire          hps_osc_clk,
 @@}
 @@}
-input    wire [1-1:0]  fpga_reset_n
+input    wire          fpga_reset_n
 );
 
 wire                   system_clk_100;

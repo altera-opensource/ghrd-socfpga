@@ -181,6 +181,9 @@ if {$hps_sdmmc4b_q3_en == 1} {
 if {$hps_sdmmc4b_q3_alt_en == 1} {
 		set io48_q3_assignment [lreplace $io48_q3_assignment 4 4 SDMMC:WRITE_PROTECT]
 }
+if {$hps_sdmmc_wp_q3_en == 1} {
+		set io48_q3_assignment [lreplace $io48_q3_assignment 4 4 SDMMC:WPROT]
+}
 if {$hps_sdmmc12b_q3_alt_en == 1} {
 	set io48_q3_assignment [lreplace $io48_q3_assignment 8 11 SDMMC:DATA4 SDMMC:DATA5 SDMMC:DATA6 SDMMC:DATA7]  
 }
