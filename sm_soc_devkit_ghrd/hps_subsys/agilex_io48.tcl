@@ -107,9 +107,9 @@ set hps_gpio1_list ""
 
 if {$daughter_card == "devkit_dc_oobe"} {
 set hps_cm_q 1
-set hps_cm_io 1
+set hps_cm_io 11
 set hps_gpio0_en 1
-set hps_gpio0_list "1 10 11"
+set hps_gpio0_list "0 1 11"
 set hps_uart0_q1_en 1
 set hps_emac2_q1_en 1
 set hps_mdio2_q1_en 1
