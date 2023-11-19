@@ -371,6 +371,16 @@ output   wire          ftrace_clk,
 input    wire          hps_osc_clk,
 @@}
 @@}
+@@if {$sub_fpga_rgmii_en == 1} {
+input    wire          fpga_rgmii_rx_clk,
+input    wire [3:0]    fpga_rgmii_rxd,   
+input    wire          fpga_rgmii_rx_ctl,
+output   wire          fpga_rgmii_tx_clk,
+output   wire [3:0]    fpga_rgmii_txd,   
+output   wire          fpga_rgmii_tx_ctl,
+output   wire          emac0_mdc,
+inout    wire          emac0_mdio,
+@@}
 input    wire          fpga_reset_n
 );
 
@@ -383,6 +393,14 @@ wire                   ninit_done;
 wire                   fpga_reset_n_debounced_wire;
 reg                    fpga_reset_n_debounced;
 wire                   system_reset_n;
+@@if {$sub_fpga_rgmii_en == 1} {
+wire                   emac0_mdi;
+wire                   emac0_mdo;
+wire                   emac0_mdoe;
+
+assign emac0_mdio = emac0_mdoe? emac0_mdo : 1'bz;
+assign emac0_mdi  = emac0_mdio;
+@@}
 @@if {$hps_en == 1} {
 //wire                 h2f_reset;
 @@if {$user0_clk_src_select ==1} {
@@ -530,6 +548,18 @@ ${qsys_name} soc_inst (
 @@}
 @@}
 @@}
+@@if {$sub_fpga_rgmii_en == 1} {
+.phy_rgmii_rgmii_rx_clk                    (fpga_rgmii_rx_clk),
+.phy_rgmii_rgmii_rxd                       (fpga_rgmii_rxd),  
+.phy_rgmii_rgmii_rx_ctl                    (fpga_rgmii_rx_ctl),
+.phy_rgmii_rgmii_tx_clk                    (fpga_rgmii_tx_clk),
+.phy_rgmii_rgmii_txd                       (fpga_rgmii_txd),  
+.phy_rgmii_rgmii_tx_ctl                    (fpga_rgmii_tx_ctl),
+.emac0_mdio_mac_mdc                        (emac0_mdc),
+.emac0_mdio_mac_mdi                        (emac0_mdi),
+.emac0_mdio_mac_mdo                        (emac0_mdo),
+.emac0_mdio_mac_mdoe                       (emac0_mdoe),  
+@@}
 @@if {$hps_jtag_en == 1} {
 .hps_io_jtag_tck                           (hps_jtag_tck),                
 .hps_io_jtag_tms                           (hps_jtag_tms),                
@@ -623,20 +653,20 @@ ${qsys_name} soc_inst (
 @@if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
 .hps_io_nand_ale                           (hps_nand_ALE),
 .hps_io_nand_ce_n                          (hps_nand_CE_N),
-.hps_io_nand_dqs                          (hps_nand_DQS),
+.hps_io_nand_dqs                           (hps_nand_DQS),
 .hps_io_nand_cle                           (hps_nand_CLE),
 .hps_io_nand_re_n                          (hps_nand_RE_N),
-.hps_io_nand_rb_n                           (hps_nand_RB_N),
+.hps_io_nand_rb_n                          (hps_nand_RB_N),
 .hps_io_nand_wp_n                          (hps_nand_WP_N),
 .hps_io_nand_we_n                          (hps_nand_WE_N),
-.hps_io_nand_data0                          (hps_nand_ADQ0),
-.hps_io_nand_data1                          (hps_nand_ADQ1),
-.hps_io_nand_data2                          (hps_nand_ADQ2),
-.hps_io_nand_data3                          (hps_nand_ADQ3),
-.hps_io_nand_data4                          (hps_nand_ADQ4),
-.hps_io_nand_data5                          (hps_nand_ADQ5),
-.hps_io_nand_data6                          (hps_nand_ADQ6),
-.hps_io_nand_data7                          (hps_nand_ADQ7),
+.hps_io_nand_data0                         (hps_nand_ADQ0),
+.hps_io_nand_data1                         (hps_nand_ADQ1),
+.hps_io_nand_data2                         (hps_nand_ADQ2),
+.hps_io_nand_data3                         (hps_nand_ADQ3),
+.hps_io_nand_data4                         (hps_nand_ADQ4),
+.hps_io_nand_data5                         (hps_nand_ADQ5),
+.hps_io_nand_data6                         (hps_nand_ADQ6),
+.hps_io_nand_data7                         (hps_nand_ADQ7),
 @@}
 @@if {$hps_nand_16b_en == 1} {
 .hps_io_NAND_ADQ8                          (hps_nand_ADQ8),

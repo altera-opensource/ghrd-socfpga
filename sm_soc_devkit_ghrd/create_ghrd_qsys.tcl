@@ -56,8 +56,8 @@ add_component_param "intel_onchip_memory ocm
                     dataWidth $ocm_datawidth
                     memorySize $ocm_memsize
                     singleClockOperation 1
-		    interfaceType 1
-		    idWidth 6
+                    interfaceType 1
+                    idWidth 6
                     "
 					
 if {$clk_gate_en == 1} {
@@ -101,7 +101,11 @@ add_component_param "altera_address_span_extender ext_hps_m_master
                     ENABLE_SLAVE_PORT 0
                     MAX_PENDING_READS 1
 		    "
-		
+if {$sub_fpga_rgmii_en == 1} {
+add_instance subsys_fpga_rgmii fpga_rgmii_subsys
+reload_ip_catalog
+}
+
 if {$hps_en == 1} {
 add_instance subsys_hps hps_subsys
 reload_ip_catalog
@@ -232,7 +236,18 @@ if {$lwh2f_width > 0} {
    
    if {$fpga_peripheral_en == 1} {
      connect_map "subsys_hps.lwhps2fpga subsys_periph.pb_cpu_0_s0 0x20000"
+     connect "subsys_hps.f2h_irq_in subsys_periph.button_pio_irq"
+     set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.button_pio_irq irqNumber {0}
+     connect "subsys_hps.f2h_irq_in subsys_periph.dipsw_pio_irq"
+     set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.dipsw_pio_irq irqNumber {1}
    }
+}
+
+if {$sub_fpga_rgmii_en == 1} {
+   connect "subsys_fpga_rgmii.hps_gmii subsys_hps.emac0
+            clk_100.out_clk   subsys_fpga_rgmii.clk
+            rst_in.out_reset  subsys_fpga_rgmii.reset
+           "
 }
 
 # ---------------- Exported Interfaces ----------------------------------------#
@@ -275,6 +290,13 @@ export subsys_periph dipsw_pio_external_connection dipsw_pio_external_connection
 if {$fpga_led_pio_width >0} {
 export subsys_periph led_pio_external_connection led_pio_external_connection
 }
+}
+
+if {$sub_fpga_rgmii_en == 1} {
+export subsys_fpga_rgmii phy_rgmii phy_rgmii
+export subsys_hps emac_timestamp_clk emac_timestamp_clk
+export subsys_hps emac_ptp_clk emac_ptp_clk
+export subsys_hps emac0_mdio emac0_mdio
 }
 
 # interconnect requirements

@@ -1,3 +1,4 @@
 hps_subsys
 jtag_subsys
 peripheral_subsys
+fpga_rgmii_subsys

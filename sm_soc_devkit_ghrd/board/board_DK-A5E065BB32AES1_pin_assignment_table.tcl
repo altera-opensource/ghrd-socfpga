@@ -193,6 +193,22 @@ BJ8
 BH11
 BE8
 }
+
+set fpga_rgmii_rxd_pin {
+A30
+B30
+A33
+A35
+}
+
+set fpga_rgmii_txd_pin {
+A8
+B4
+A11
+B11
+}
+
+
 set qsfpdd_modprsn_pin "CT3"
 set qsfpdd_resetn_pin "CV3"
 set qsfpdd_modseln_pin "CR4"
@@ -228,6 +244,47 @@ dict set pin_assignment_table fpga_button_pio location $fpga_button_pio_pin_list
 dict set pin_assignment_table fpga_button_pio io_standard $fpga_button_pio_iostandard
 dict set pin_assignment_table fpga_button_pio direction input
 dict set pin_assignment_table fpga_button_pio width_in_bits $fpga_button_pio_width
+
+dict set pin_assignment_table fpga_rgmii_rx_clk location "B23"
+dict set pin_assignment_table fpga_rgmii_rx_clk io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table fpga_rgmii_rx_clk direction input
+dict set pin_assignment_table fpga_rgmii_rx_clk width_in_bits 1
+
+dict set pin_assignment_table fpga_rgmii_tx_clk location "B14"
+dict set pin_assignment_table fpga_rgmii_tx_clk io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table fpga_rgmii_tx_clk direction output
+dict set pin_assignment_table fpga_rgmii_tx_clk width_in_bits 1
+
+dict set pin_assignment_table fpga_rgmii_rx_ctl location "B20"
+dict set pin_assignment_table fpga_rgmii_rx_ctl io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table fpga_rgmii_rx_ctl direction input
+dict set pin_assignment_table fpga_rgmii_rx_ctl width_in_bits 1
+
+dict set pin_assignment_table fpga_rgmii_tx_ctl location "A14"
+dict set pin_assignment_table fpga_rgmii_tx_ctl io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table fpga_rgmii_tx_ctl direction output
+dict set pin_assignment_table fpga_rgmii_tx_ctl width_in_bits 1
+
+dict set pin_assignment_table fpga_rgmii_rxd location $fpga_rgmii_rxd_pin
+dict set pin_assignment_table fpga_rgmii_rxd io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table fpga_rgmii_rxd direction input
+dict set pin_assignment_table fpga_rgmii_rxd width_in_bits 4
+
+dict set pin_assignment_table fpga_rgmii_txd location $fpga_rgmii_txd_pin
+dict set pin_assignment_table fpga_rgmii_txd io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table fpga_rgmii_txd direction output
+dict set pin_assignment_table fpga_rgmii_txd width_in_bits 4
+
+dict set pin_assignment_table emac0_mdio location "A39"
+dict set pin_assignment_table emac0_mdio io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table emac0_mdio direction inout
+dict set pin_assignment_table emac0_mdio width_in_bits 1
+
+dict set pin_assignment_table emac0_mdc location "B26"
+dict set pin_assignment_table emac0_mdc io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table emac0_mdc direction output
+dict set pin_assignment_table emac0_mdc width_in_bits 1
+
 
 dict set pin_assignment_table enet_refclk location $enet_refclk_pin
 dict set pin_assignment_table enet_refclk io_standard "TRUE DIFFERENTIAL SIGNALING"

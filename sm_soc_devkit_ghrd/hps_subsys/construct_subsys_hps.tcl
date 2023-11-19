@@ -53,10 +53,11 @@ add_component_param "intel_agilex_5_soc agilex_hps
 		     GP_Enable 0
 		     Debug_APB_Enable 0
                      STM_Enable 0
-		     JTAG_Enable 0
-		     CTI_Enable 0
-		     DMA_PeriphID 0
-		     DMA_Enable No
+                     JTAG_Enable 0
+                     CTI_Enable 0
+                     DMA_PeriphID 0
+                     DMA_Enable No
+                     F2H_IRQ_Enable 1
                      HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      H2F_Width $h2f_width
 					 H2F_Address_Width $h2f_addr_width
@@ -74,6 +75,12 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 # Rst_h2f_cold_en $reset_h2f_cold_en
 					 # Rst_sdm_wd_config $reset_sdm_watchdog_cfg
 
+if {$sub_fpga_rgmii_en == 1} {
+set_component_param "agilex_hps 
+                     EMAC0_PinMuxing FPGA
+                     EMAC0_Mode RGMII_with_MDIO
+                    "
+}
 
 # EMIF_DDR_WIDTH $hps_emif_width 
 if {$hps_emif_en == 1} {
@@ -588,6 +595,7 @@ connect "clk_100.out_clk agilex_hps.f2h_free_clock"
 
 # --------------------    Exported Interfaces     -----------------------#
 export agilex_hps h2f_reset h2f_reset
+export agilex_hps fpga2hps_interrupt f2h_irq_in
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 export agilex_hps usb31_io usb31_io
 export agilex_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
@@ -643,6 +651,15 @@ if {$lwh2f_width > 0} {
     export agilex_hps lwhps2fpga lwhps2fpga
     export agilex_hps lwhps2fpga_axi_clock lwhps2fpga_clk
     export agilex_hps lwhps2fpga_axi_reset lwhps2fpga_rst
+}
+
+if {$sub_fpga_rgmii_en == 1} {
+    export agilex_hps emac0 emac0
+    export agilex_hps emac0_app_rst emac0_app_rst
+    export agilex_hps emac0_mdio emac0_mdio
+    export agilex_hps emac_ptp_clk emac_ptp_clk
+    export agilex_hps emac_timestamp_clk emac_timestamp_clk
+    export agilex_hps emac_timestamp_data emac_timestamp_data
 }
 
 #if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {

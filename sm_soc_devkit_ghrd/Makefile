@@ -218,6 +218,8 @@ HPS_EMIF_EN ?= 0
 # HPS EMIF ECC is not support for REVA Agilex
 ENABLE_HPS_EMIF_ECC ?= 0
 
+SUB_FPGA_RGMII_EN ?= 0
+
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
 QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
 QSYS_TCL_CMDS += set devicefamily $(QUARTUS_DEVICE_FAMILY);
@@ -239,6 +241,11 @@ endif
 ifneq ($(BOARD_PWRMGT),)
 QUARTUS_TCL_ARGS += board_pwrmgt $(BOARD_PWRMGT)
 QSYS_TCL_CMDS += set board_pwrmgt $(BOARD_PWRMGT);
+endif
+
+ifneq ($(SUB_FPGA_RGMII_EN),)
+QUARTUS_TCL_ARGS += sub_fpga_rgmii_en $(SUB_FPGA_RGMII_EN)
+QSYS_TCL_CMDS += set sub_fpga_rgmii_en $(SUB_FPGA_RGMII_EN);
 endif
 
 ifneq ($(BOOTS_FIRST),)
@@ -644,10 +651,7 @@ generate_from_tcl.HELP := Generate the Quartus Project source files from tcl scr
 .PHONY: generate_from_tcl
 generate_from_tcl: generate_submodule $(INTEL_CUSTOM_IP_DIR_TARGET)
 	@$(MAKE) qsys_generate_qsys
-	@$(ECHO) $(USER_CONFIG_UPDATE) > $(BUILD_DIR)/config.tmp)
-	@$(AWK) -v output=$(USER_CONFIG_FILE) -f $(GHRD_SCRIPT_CONFIG_FTM_FILE)  $(BUILD_DIR)/config.tmp
-	@$(RM) -rf $(BUILD_DIR)/config.tmp
-	@$(ECHO) "gene rate_from_tcl done!"
+	@$(ECHO) "generate_from_tcl done!"
 
 ifeq ($(ENABLE_PARTIAL_RECONFIGURATION),1)
 	$(MAKE) quartus_generate_pr_qsf qsys_generate_pr_qsys
