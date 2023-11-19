@@ -55,16 +55,16 @@ proc config_pwrmgt {} {
     global board_pwrmgt
     if {$board_pwrmgt == "linear"} {
         # Linear tech
-        set_global_assignment -name INI_VARS "ASM_ENABLE_ADVANCED_DEVICES=ON;"
+        #set_global_assignment -name INI_VARS "ASM_ENABLE_ADVANCED_DEVICES=ON;"
         set_global_assignment -name VID_OPERATION_MODE "PMBUS MASTER"
         set_global_assignment -name USE_PWRMGT_SCL SDM_IO0
-        set_global_assignment -name USE_PWRMGT_SDA SDM_IO12
+        set_global_assignment -name USE_PWRMGT_SDA SDM_IO16
         set_global_assignment -name PWRMGT_BUS_SPEED_MODE "400 KHZ"
         set_global_assignment -name PWRMGT_PAGE_COMMAND_ENABLE ON
         set_global_assignment -name PWRMGT_SLAVE_DEVICE_TYPE OTHER
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE0_ADDRESS 42
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE1_ADDRESS 43
-        set_global_assignment -name PWRMGT_SLAVE_DEVICE2_ADDRESS 44
+        set_global_assignment -name PWRMGT_SLAVE_DEVICE0_ADDRESS 74
+        set_global_assignment -name PWRMGT_SLAVE_DEVICE1_ADDRESS 75
+        set_global_assignment -name PWRMGT_SLAVE_DEVICE2_ADDRESS 00
         set_global_assignment -name PWRMGT_SLAVE_DEVICE3_ADDRESS 00
         set_global_assignment -name PWRMGT_SLAVE_DEVICE4_ADDRESS 00
         set_global_assignment -name PWRMGT_SLAVE_DEVICE5_ADDRESS 00

@@ -29,10 +29,7 @@
 #       - Agilex5: none [default]
 #
 #   QUARTUS_DEVICE:
-#       - A5ED065BB32AE5SR0: none [default]
-#
-#   BOARD_PWRMGT:
-#       - enpirion: none [default]
+#       - A5ED065BB32AE5SR0: FPGA OPN# [default]
 #
 #   ENABLE_HPS_EMIF_ECC:
 #       - 0: disable [default]
@@ -201,8 +198,8 @@ ENABLE_HPS_EMIF_ECC ?= 0
 QUARTUS_DEVICE_FAMILY := Agilex5
 #SM
 QUARTUS_DEVICE ?= A5ED065BB32AE5SR0
-# Board Power Management. Support board devkit is supported: linear, enpirion
-BOARD_PWRMGT ?= enpirion
+# Board Power Management. temporary set power management IC type here, till an alternative is made available for Agilex5 devkit
+BOARD_PWRMGT ?= linear
 # Publicly Available DC: devkit_dc_oobe, devkit_dc_nand, devkit_dc_emmc
 DAUGHTER_CARD ?= devkit_dc_oobe
 

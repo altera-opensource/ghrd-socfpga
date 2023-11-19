@@ -43,7 +43,6 @@ foreach hdlfile $hdlfilelist {
 set_global_assignment -name IP_SEARCH_PATHS "intel_custom_ip/**/*;custom_ip/**/*"
 
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
-set_global_assignment -name SDC_FILE ghrd_timing.sdc
 
 # #HSDES 2207525670: User Reset Gate IP
 # set_global_assignment -name DISABLE_REGISTER_POWERUP_INITIALIZATION ON
@@ -501,4 +500,6 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_gpio1_io${io_num}
 }
 }
   
+set_global_assignment -name SDC_FILE ghrd_timing.sdc
+
 project_close
