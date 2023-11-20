@@ -130,12 +130,12 @@ if {$hps_emif_en == 1} {
 # "
 # }
 
-if {$f2h_free_clk_en == 1} {
+if {$hps_clk_source == 1} {
 set_component_param "agilex_hps
-                     CLK_MAIN_PLL_SOURCE2 2
-                     CLK_PERI_PLL_SOURCE2 2
-                     F2H_FREE_CLK_Enable 1
-                     F2H_FREE_CLK_FREQ 100"
+                     MPLL_Clock_Source {1:FPGA Free Clock}
+                     PPLL_Clock_Source {1:FPGA Free Clock}
+                     F2H_free_clock_enable 1
+                     F2H_free_clk_mhz 25"
 }
 
 if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
@@ -578,10 +578,6 @@ if {$hps_trace_8b_en == 1} {
          # agilex_hps.trace         ext_trace.h2f_tpiu"
 # }
 
-if {$f2h_free_clk_en == 1} {
-connect "clk_100.out_clk agilex_hps.f2h_free_clock"
-}
-
 #if {$acp_adapter_en == 1} {
 # # temporary commented cause it lock the bridges.
 # connect "pcie_nreset_status_merge.out_reset agilex_hps.h2f_axi_reset
@@ -619,6 +615,9 @@ if {$hps_io_off == 0} {
 export agilex_hps hps_io hps_io
 }
 
+if {$hps_clk_source == 1} {
+export agilex_hps f2h_free_clk f2h_free_clk
+}
 # if {$hps_stm_en == 1} {
 # export agilex_hps stm_hwevents agilex_hps_f2h_stm_hw_events
 # export agilex_hps h2f_cs agilex_hps_h2f_cs

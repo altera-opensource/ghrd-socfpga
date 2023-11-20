@@ -685,10 +685,10 @@ if { ![ info exists hps_f2h_irq_en ] } {
  puts "-- Accepted parameter \$hps_f2h_irq_en = $hps_f2h_irq_en"
 }
 
-if { ![ info exists f2h_free_clk_en ] } {
- set f2h_free_clk_en $F2H_FREE_CLK_EN
+if { ![ info exists hps_clk_source ] } {
+ set hps_clk_source $HPS_CLK_SOURCE
 } else {
- puts "-- Accepted parameter \$f2h_free_clk_en = $f2h_free_clk_en"
+ puts "-- Accepted parameter \$hps_clk_source = $hps_clk_source"
 }
 
 

@@ -269,6 +269,10 @@ export subsys_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
 export subsys_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
 }
 
+if {$hps_clk_source == 1} {
+export subsys_hps f2h_free_clk f2h_free_clk
+}
+
 if {$hps_emif_en == 1} {
 export subsys_hps emif_hps_emif_mem_0 emif_hps_emif_mem_0
 export subsys_hps emif_hps_emif_oct_0 emif_hps_emif_oct_0

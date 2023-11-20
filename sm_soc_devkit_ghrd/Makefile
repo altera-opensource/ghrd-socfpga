@@ -271,6 +271,11 @@ QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)
 QSYS_TCL_CMDS += set daughter_card $(DAUGHTER_CARD);
 endif
 
+ifneq ($(HPS_CLK_SOURCE),)
+QUARTUS_TCL_ARGS += hps_clk_source $(HPS_CLK_SOURCE)
+QSYS_TCL_CMDS += set hps_clk_source $(HPS_CLK_SOURCE);
+endif
+
 QUARTUS_TCL_ARGS += hps_emif_en $(HPS_EMIF_EN)
 QSYS_TCL_CMDS += set hps_emif_en $(HPS_EMIF_EN);
 #QUARTUS_TCL_ARGS += hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC)

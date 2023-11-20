@@ -26,6 +26,10 @@
 #      - devkit_dc_emmc: HPS Daughter Card with eMMC
 #      - tsn_aic0 : HPS Daughter Card with TSN Config 1
 #      - tsn_aic1 : HPS Daughter Card with TSN Config 2
+#
+#	HPS_CLK_SOURCE:
+#      - 0: HPS External Oscillator [default]
+#      - 1: FPGA Free Clock
 ##demo:
 ##  hps_other_var0 :
 ##      - val00: val00_description [default]
