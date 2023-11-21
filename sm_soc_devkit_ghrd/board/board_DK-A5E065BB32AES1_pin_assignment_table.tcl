@@ -27,12 +27,6 @@ set fpga_clk_100_iostandard "3.3-V LVCMOS"
 set fpga_reset_n_pin_list "BR112"
 set fpga_reset_n_iostandard "3.3-V LVCMOS"
 
-## HPS Clock Source Pin 
-if {$hps_clk_source == 1} {
-set hps_clk_source_pin_list "D8"
-set hps_clk_source_iostandard "3.3-V LVCMOS"
-}
-
 ## Peripheral IOs
 set fpga_led_pio_pin_list {
 BM59
@@ -233,14 +227,6 @@ dict set pin_assignment_table fpga_reset_n location $fpga_reset_n_pin_list
 dict set pin_assignment_table fpga_reset_n io_standard $fpga_reset_n_iostandard
 dict set pin_assignment_table fpga_reset_n direction input
 dict set pin_assignment_table fpga_reset_n width 1
-
-## HPS Clock Source Pin configuration
-if {$hps_clk_source == 1} {
-dict set pin_assignment_table f2h_free_clk location $hps_clk_source_pin_list
-dict set pin_assignment_table f2h_free_clk io_standard $hps_clk_source_iostandard
-dict set pin_assignment_table f2h_free_clk direction input
-dict set pin_assignment_table f2h_free_clk width_in_bits 1
-}
 
 dict set pin_assignment_table fpga_led_pio location $fpga_led_pio_pin_list
 dict set pin_assignment_table fpga_led_pio io_standard $fpga_led_pio_iostandard

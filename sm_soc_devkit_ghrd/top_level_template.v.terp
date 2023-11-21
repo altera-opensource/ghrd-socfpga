@@ -370,9 +370,6 @@ output   wire          ftrace_clk,
 @@if {$hps_io_off == 0} {
 input    wire          hps_osc_clk,
 @@}
-@@if {$hps_clk_source == 1} {
-input    wire          f2h_free_clk,
-@@}
 @@}
 @@if {$sub_fpga_rgmii_en == 1} {
 input    wire          fpga_rgmii_rx_clk,
@@ -835,9 +832,6 @@ ${qsys_name} soc_inst (
 .ext_trace_f2h_clk_in_clk                  (1'b0),
 .ext_trace_trace_clk_out_clk               (ftrace_clk),
 .ext_trace_trace_data_out_export           (ftrace_data),
-@@}
-@@if {$hps_clk_source == 1} {
-.f2h_free_clk_clk							(f2h_free_clk),
 @@}
 @@if {$hps_io_off == 0} {
 .hps_io_hps_osc_clk                        (hps_osc_clk),

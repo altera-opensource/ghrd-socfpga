@@ -135,7 +135,7 @@ set_component_param "agilex_hps
                      MPLL_Clock_Source {1:FPGA Free Clock}
                      PPLL_Clock_Source {1:FPGA Free Clock}
                      F2H_free_clock_enable 1
-                     F2H_free_clk_mhz 25"
+                     F2H_free_clk_mhz 100"
 }
 
 if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
@@ -577,6 +577,9 @@ if {$hps_trace_8b_en == 1} {
          # agilex_hps.trace_h2f_clk ext_trace.clock_sink
          # agilex_hps.trace         ext_trace.h2f_tpiu"
 # }
+if {$hps_clk_source == 1} {
+connect "sub_clk.out_clk agilex_hps.f2h_free_clk"
+}
 
 #if {$acp_adapter_en == 1} {
 # # temporary commented cause it lock the bridges.
@@ -615,9 +618,6 @@ if {$hps_io_off == 0} {
 export agilex_hps hps_io hps_io
 }
 
-if {$hps_clk_source == 1} {
-export agilex_hps f2h_free_clk f2h_free_clk
-}
 # if {$hps_stm_en == 1} {
 # export agilex_hps stm_hwevents agilex_hps_f2h_stm_hw_events
 # export agilex_hps h2f_cs agilex_hps_h2f_cs
