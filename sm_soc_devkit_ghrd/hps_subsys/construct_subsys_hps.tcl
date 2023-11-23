@@ -206,8 +206,7 @@ if {$hps_emac2_rmii_en == 1 } {
 }
 
 if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pupd_q4_en == 1 || $hps_sdmmc_pwr_q4_en == 1} {
-   set_component_param "agilex_hps   
-                        CLK_SDMMC_SOURCE 1   
+   set_component_param "agilex_hps      
                         SDMMC_PinMuxing IO"
 }
 

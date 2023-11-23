@@ -723,28 +723,28 @@ ${qsys_name} soc_inst (
 .hps_io_uart1_rts_n                        (hps_uart1_RTS_N),  
 @@}
 @@if {$hps_spim0_q1_en == 1 || $hps_spim0_q4_en == 1 } {
-.hps_io_SPIM0_CLK                          (hps_spim0_CLK),
-.hps_io_SPIM0_MOSI                         (hps_spim0_MOSI),
-.hps_io_SPIM0_MISO                         (hps_spim0_MISO), 
-.hps_io_SPIM0_SS0_N                        (hps_spim0_SS0_N),
+.hps_io_spim0_clk                          (hps_spim0_CLK),
+.hps_io_spim0_mosi                         (hps_spim0_MOSI),
+.hps_io_spim0_miso                         (hps_spim0_MISO), 
+.hps_io_spim0_ss0_n                        (hps_spim0_SS0_N),
 @@}
 @@if {$hps_spim0_2ss_en == 1} {
-.hps_io_SPIM0_SS1_N                        (hps_spim0_SS1_N),
+.hps_io_spim0_ss1_n                        (hps_spim0_SS1_N),
 @@}
 @@if {$hps_spim1_q1_en == 1 || $hps_spim1_q2_en == 1 || $hps_spim1_q3_en == 1} {
-.hps_io_SPIM1_CLK                          (hps_spim1_CLK),
-.hps_io_SPIM1_MOSI                         (hps_spim1_MOSI),
-.hps_io_SPIM1_MISO                         (hps_spim1_MISO), 
-.hps_io_SPIM1_SS0_N                        (hps_spim1_SS0_N),
+.hps_io_spim1_clk                          (hps_spim1_CLK),
+.hps_io_spim1_mosi                         (hps_spim1_MOSI),
+.hps_io_spim1_miso                         (hps_spim1_MISO), 
+.hps_io_spim1_ss0_n                        (hps_spim1_SS0_N),
 @@}
 @@if {$hps_spim1_2ss_en == 1} {
-.hps_io_SPIM1_SS1_N                        (hps_spim1_SS1_N),
+.hps_io_spim1_ss1_n                        (hps_spim1_SS1_N),
 @@}
 @@if {$hps_spis0_q1_en == 1 || $hps_spis0_q2_en == 1 || $hps_spis0_q3_en == 1} {
-.hps_io_SPIS0_CLK                          (hps_spis0_CLK),
-.hps_io_SPIS0_MOSI                         (hps_spis0_MOSI),
-.hps_io_SPIS0_MISO                         (hps_spis0_MISO),
-.hps_io_SPIS0_SS0_N                        (hps_spis0_SS0_N),
+.hps_io_spis0_CLK                          (hps_spis0_CLK),
+.hps_io_spis0_MOSI                         (hps_spis0_MOSI),
+.hps_io_spis0_MISO                         (hps_spis0_MISO),
+.hps_io_spis0_SS0_N                        (hps_spis0_SS0_N),
 @@}
 @@if {$hps_spis1_q1_en == 1 || $hps_spis1_q3_en == 1 || $hps_spis1_q4_en == 1} {
 .hps_io_spis1_clk                          (hps_spis1_CLK),
@@ -782,29 +782,29 @@ ${qsys_name} soc_inst (
 .hps_io_usb1_data7                         (hps_usb1_DATA7),
 @@}
 @@if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1} {
-.hps_io_TRACE_CLK                          (hps_trace_CLK),  
-.hps_io_TRACE_D0                           (hps_trace_D0),  
-.hps_io_TRACE_D1                           (hps_trace_D1),  
-.hps_io_TRACE_D2                           (hps_trace_D2),  
-.hps_io_TRACE_D3                           (hps_trace_D3),  
+.hps_io_trace_clk                          (hps_trace_CLK),  
+.hps_io_trace_data0                           (hps_trace_D0),  
+.hps_io_trace_data1                           (hps_trace_D1),  
+.hps_io_trace_data2                           (hps_trace_D2),  
+.hps_io_trace_data3                           (hps_trace_D3),  
 @@}
 @@if {$hps_trace_8b_en == 1 || $hps_trace_12b_en ==1 || $hps_trace_16b_en ==1} {
-.hps_io_TRACE_D4                           (hps_trace_D4),  
-.hps_io_TRACE_D5                           (hps_trace_D5),  
-.hps_io_TRACE_D6                           (hps_trace_D6),  
-.hps_io_TRACE_D7                           (hps_trace_D7),  
+.hps_io_trace_data4                           (hps_trace_D4),  
+.hps_io_trace_data5                           (hps_trace_D5),  
+.hps_io_trace_data6                           (hps_trace_D6),  
+.hps_io_trace_data7                           (hps_trace_D7),  
 @@}
 @@if {$hps_trace_12b_en ==1 || $hps_trace_16b_en ==1} {
-.hps_io_TRACE_D8                           (hps_trace_D8),  
-.hps_io_TRACE_D9                           (hps_trace_D9),  
-.hps_io_TRACE_D10                          (hps_trace_D10),  
-.hps_io_TRACE_D11                          (hps_trace_D11), 
+.hps_io_trace_data8                           (hps_trace_D8),  
+.hps_io_trace_data9                           (hps_trace_D9),  
+.hps_io_trace_data10                          (hps_trace_D10),  
+.hps_io_trace_data11                          (hps_trace_D11), 
 @@}
 @@if {$hps_trace_16b_en ==1} {
-.hps_io_TRACE_D12                          (hps_trace_D12),  
-.hps_io_TRACE_D13                          (hps_trace_D13),  
-.hps_io_TRACE_D14                          (hps_trace_D14),  
-.hps_io_TRACE_D15                          (hps_trace_D15), 
+.hps_io_trace_data12                          (hps_trace_D12),  
+.hps_io_trace_data13                          (hps_trace_D13),  
+.hps_io_trace_data14                          (hps_trace_D14),  
+.hps_io_trace_data15                          (hps_trace_D15), 
 @@}
 @@if {$hps_gpio0_en == 1} {
 @@  foreach io_num $hps_gpio0_list {

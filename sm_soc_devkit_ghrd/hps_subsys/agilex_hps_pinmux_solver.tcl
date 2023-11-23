@@ -436,7 +436,7 @@ set io48_q2_assignment [lreplace $io48_q2_assignment 7 11 TRACE:CLK TRACE:D0 TRA
       set io48_q1_assignment [lreplace $io48_q1_assignment 11 11 TRACE:D11]
       set io48_q2_assignment [lreplace $io48_q2_assignment 0 6 TRACE:D10 TRACE:D9 TRACE:D8 TRACE:D7 TRACE:D6 TRACE:D5 TRACE:D4]
     } elseif {$hps_trace_16b_en == 1} {
-      set io48_q1_assignment [lreplace $io48_q1_assignment 7 11 TRACE:CLK TRACE:D0 TRACE:D1 TRACE:D2 TRACE:D3]
+      set io48_q1_assignment [lreplace $io48_q1_assignment 7 11 TRACE:D15 TRACE:D14 TRACE:D13 TRACE:D12 TRACE:D11]
       set io48_q2_assignment [lreplace $io48_q2_assignment 0 6 TRACE:D10 TRACE:D9 TRACE:D8 TRACE:D7 TRACE:D6 TRACE:D5 TRACE:D4]
     }
   }
@@ -459,7 +459,7 @@ set io48_q4_assignment [lreplace $io48_q4_assignment 7 11 TRACE:CLK TRACE:D0 TRA
       set io48_q3_assignment [lreplace $io48_q3_assignment 11 11 TRACE:D11]
       set io48_q4_assignment [lreplace $io48_q4_assignment 0 6 TRACE:D10 TRACE:D9 TRACE:D8 TRACE:D7 TRACE:D6 TRACE:D5 TRACE:D4]
     } elseif {$hps_trace_16b_en == 1} {
-      set io48_q3_assignment [lreplace $io48_q3_assignment 7 11 TRACE:CLK TRACE:D0 TRACE:D1 TRACE:D2 TRACE:D3]
+      set io48_q3_assignment [lreplace $io48_q3_assignment 7 11 TRACE:D15 TRACE:D14 TRACE:D13 TRACE:D12 TRACE:D11]
       set io48_q4_assignment [lreplace $io48_q4_assignment 0 6 TRACE:D10 TRACE:D9 TRACE:D8 TRACE:D7 TRACE:D6 TRACE:D5 TRACE:D4]
     }
   }
