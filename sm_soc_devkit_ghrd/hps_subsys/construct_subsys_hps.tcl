@@ -135,7 +135,8 @@ set_component_param "agilex_hps
                      MPLL_Clock_Source {1:FPGA Free Clock}
                      PPLL_Clock_Source {1:FPGA Free Clock}
                      F2H_free_clock_enable 1
-                     F2H_free_clk_mhz 100"
+                     F2H_free_clk_mhz 25"
+# Above F2H_free_clk_mhz is temporary edit to reflect PO need. It shall revert to 100 MHz when release to follow default clock rate on board
 }
 
 if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {
