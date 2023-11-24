@@ -11,6 +11,9 @@
 #   SUB_PERI_EN :
 #       - 0: disable
 #       - 1: enable [default]
+#   DFL_ROM_EN : 
+#       - 0: disable [default]
+#       - 1: enable
 # ->
 #
 #########################################################################

@@ -17,18 +17,13 @@
 #   HPS_EMIF_ECC_EN :
 #       - 0: disable [default]
 #       - 1: enable 
-#   HPS_HBME_EN :
-#       - 0: disable [default]
-#       - 1: enable 
 #   DAUGHTER_CARD:
 #      - devkit_dc_oobe: Out-of-Box Experience HPS Daughter Card [default]
 #      - devkit_dc_nand: HPS Daugther Card with NAND 
 #      - devkit_dc_emmc: HPS Daughter Card with eMMC
 #      - debug2: HPS Daughter Card with debug2
 #      - tsn_aic0 : HPS Daughter Card with TSN Config 1
-#      - tsn_aic1 : HPS Daughter Card with TSN Config 2
-#
-#	HPS_CLK_SOURCE:
+#   HPS_CLK_SOURCE:
 #      - 0: HPS External Oscillator [default]
 #      - 1: FPGA Free Clock
 ##demo:

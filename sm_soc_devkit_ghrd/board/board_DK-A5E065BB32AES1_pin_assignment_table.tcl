@@ -217,7 +217,69 @@ set qsfpdd_initmode_pin "CT5"
 set qsfpdd_i2c_scl_pin "CT1"
 set qsfpdd_i2c_sda_pin "CY5"
 
+set usb31_io_vbus_det                   "CF121"
+set usb31_io_flt_bar                    "CG135"
+set usb31_io_usb_ctrl                   "CL128"
+set usb31_io_usb31_id                   "CF118"
+set usb31_phy_refclk_p_clk              "AP120"
+set usb31_phy_refclk_n_clk              "AP115"
+set usb31_phy_rx_serial_n_i_rx_serial_n "AM133"
+set usb31_phy_rx_serial_p_i_rx_serial_p "AM135"
+set usb31_phy_tx_serial_n_o_tx_serial_n "AN126"
+set usb31_phy_tx_serial_p_o_tx_serial_p "AN129"
+
+
 ## Preparing the dictionary for IOs PIN configuration
+dict set pin_assignment_table usb31_io_vbus_det location $usb31_io_vbus_det
+dict set pin_assignment_table usb31_io_vbus_det io_standard "3.3-V LVCMOS"
+dict set pin_assignment_table usb31_io_vbus_det direction input
+dict set pin_assignment_table usb31_io_vbus_det width_in_bits 1
+
+dict set pin_assignment_table usb31_io_flt_bar location $usb31_io_flt_bar
+dict set pin_assignment_table usb31_io_flt_bar io_standard "3.3-V LVCMOS"
+dict set pin_assignment_table usb31_io_flt_bar direction input
+dict set pin_assignment_table usb31_io_flt_bar width_in_bits 1
+
+dict set pin_assignment_table usb31_io_usb31_id location $usb31_io_usb31_id
+dict set pin_assignment_table usb31_io_usb31_id io_standard "3.3-V LVCMOS"
+dict set pin_assignment_table usb31_io_usb31_id direction input
+dict set pin_assignment_table usb31_io_usb31_id width_in_bits 1
+
+dict set pin_assignment_table usb31_io_usb_ctrl[1] location $usb31_io_usb_ctrl
+dict set pin_assignment_table usb31_io_usb_ctrl[1] io_standard "3.3-V LVCMOS"
+dict set pin_assignment_table usb31_io_usb_ctrl[1] direction output
+dict set pin_assignment_table usb31_io_usb_ctrl[1] width_in_bits 1
+
+dict set pin_assignment_table usb31_phy_refclk_p_clk location $usb31_phy_refclk_p_clk
+dict set pin_assignment_table usb31_phy_refclk_p_clk io_standard "Current Mode Logic (CML)"
+dict set pin_assignment_table usb31_phy_refclk_p_clk direction input
+dict set pin_assignment_table usb31_phy_refclk_p_clk width_in_bits 1
+#FACING placement issue for n pair at AP115, workaround is to avoid assignment in QSF, leave it to Quartus automap
+# dict set pin_assignment_table usb31_phy_refclk_n_clk location $usb31_phy_refclk_n_clk
+# dict set pin_assignment_table usb31_phy_refclk_n_clk io_standard "Current Mode Logic (CML)"
+# dict set pin_assignment_table usb31_phy_refclk_n_clk direction input
+# dict set pin_assignment_table usb31_phy_refclk_n_clk width_in_bits 1
+
+dict set pin_assignment_table usb31_phy_rx_serial_p_i_rx_serial_p location $usb31_phy_rx_serial_p_i_rx_serial_p
+dict set pin_assignment_table usb31_phy_rx_serial_p_i_rx_serial_p io_standard "High Speed Differential I/O"
+dict set pin_assignment_table usb31_phy_rx_serial_p_i_rx_serial_p direction input
+dict set pin_assignment_table usb31_phy_rx_serial_p_i_rx_serial_p width_in_bits 1
+
+dict set pin_assignment_table usb31_phy_rx_serial_n_i_rx_serial_n location $usb31_phy_rx_serial_n_i_rx_serial_n
+dict set pin_assignment_table usb31_phy_rx_serial_n_i_rx_serial_n io_standard "High Speed Differential I/O"
+dict set pin_assignment_table usb31_phy_rx_serial_n_i_rx_serial_n direction input
+dict set pin_assignment_table usb31_phy_rx_serial_n_i_rx_serial_n width_in_bits 1
+
+dict set pin_assignment_table usb31_phy_tx_serial_p_o_tx_serial_p location $usb31_phy_tx_serial_p_o_tx_serial_p
+dict set pin_assignment_table usb31_phy_tx_serial_p_o_tx_serial_p io_standard "High Speed Differential I/O"
+dict set pin_assignment_table usb31_phy_tx_serial_p_o_tx_serial_p direction output
+dict set pin_assignment_table usb31_phy_tx_serial_p_o_tx_serial_p width_in_bits 1
+
+dict set pin_assignment_table usb31_phy_tx_serial_n_o_tx_serial_n location $usb31_phy_tx_serial_n_o_tx_serial_n
+dict set pin_assignment_table usb31_phy_tx_serial_n_o_tx_serial_n io_standard "High Speed Differential I/O"
+dict set pin_assignment_table usb31_phy_tx_serial_n_o_tx_serial_n direction output
+dict set pin_assignment_table usb31_phy_tx_serial_n_o_tx_serial_n width_in_bits 1
+
 dict set pin_assignment_table fpga_clk_100 location $fpga_clk_100_pin_list
 dict set pin_assignment_table fpga_clk_100 io_standard $fpga_clk_100_iostandard
 dict set pin_assignment_table fpga_clk_100 direction input

@@ -235,12 +235,21 @@ if {$lwh2f_width > 0} {
    #}
    
    if {$fpga_peripheral_en == 1} {
-     connect_map "subsys_hps.lwhps2fpga subsys_periph.pb_cpu_0_s0 0x20000"
+     connect_map "subsys_hps.lwhps2fpga subsys_periph.pb_cpu_0_s0 0x0"
      connect "subsys_hps.f2h_irq_in subsys_periph.button_pio_irq"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.button_pio_irq irqNumber {0}
      connect "subsys_hps.f2h_irq_in subsys_periph.dipsw_pio_irq"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.dipsw_pio_irq irqNumber {1}
    }
+   
+   if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
+     connect "clk_100.out_clk subsys_hps.usb31_phy_pma_cpu_clk 
+              rst_in.out_reset subsys_hps.usb31_phy_reconfig_rst 
+              clk_100.out_clk subsys_hps.usb31_phy_reconfig_clk 
+             "
+     connect_map "subsys_hps.lwhps2fpga subsys_hps.usb31_phy_reconfig_slave 0x80_0000"
+}
+
 }
 
 if {$sub_fpga_rgmii_en == 1} {
@@ -257,6 +266,7 @@ export user_rst_clkgate_0 ninit_done ninit_done
 export subsys_hps hps_io hps_io
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 export subsys_hps usb31_io usb31_io
+#pending confirmation if pma_cpu_clk need any connection since compilation claim as virtual port
 export subsys_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
 export subsys_hps usb31_phy_refclk_p usb31_phy_refclk_p
 export subsys_hps usb31_phy_refclk_n usb31_phy_refclk_n
@@ -264,9 +274,9 @@ export subsys_hps usb31_phy_rx_serial_n usb31_phy_rx_serial_n
 export subsys_hps usb31_phy_rx_serial_p usb31_phy_rx_serial_p
 export subsys_hps usb31_phy_tx_serial_n usb31_phy_tx_serial_n
 export subsys_hps usb31_phy_tx_serial_p usb31_phy_tx_serial_p
-export subsys_hps usb31_phy_reconfig_rst usb31_phy_reconfig_rst
-export subsys_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
-export subsys_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
+# export subsys_hps usb31_phy_reconfig_rst usb31_phy_reconfig_rst
+# export subsys_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
+# export subsys_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
 }
 
 if {$hps_emif_en == 1} {

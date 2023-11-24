@@ -98,6 +98,13 @@ add_component_param "altera_avalon_pio led_pio
 #                    IRQ_PORT_CNT 2
 #                    "
 
+if {$dfl_rom_en == 1} {
+add_component_param " dfl_rom dfl_rom_inst
+                    IP_FILE_PATH ip/$subsys_name/dfl_rom_inst.ip
+                    ADDR_WIDTH 12
+                    "
+}
+
 add_component_param "altera_avalon_mm_bridge pb_cpu_0 
                     IP_FILE_PATH ip/$subsys_name/pb_cpu_0.ip 
                     DATA_WIDTH 32
@@ -149,6 +156,12 @@ connect "   periph_clk.out_clk      button_pio.clk
 connect "   periph_rst_in.out_reset pb_cpu_0.reset
 "
 #periph_rst_in.out_reset ILC.reset_n
+
+if {$dfl_rom_en == 1} {
+connect "   periph_clk.out_clk dfl_rom_inst.clk
+            periph_rst_in.out_reset dfl_rom_inst.clk_reset"
+connect_map "  pb_cpu_0.m0 dfl_rom_inst.intel_axi4lite_subordinate 0x0 "
+}
 
 # exported interfaces
 

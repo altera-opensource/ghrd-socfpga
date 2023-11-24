@@ -215,6 +215,8 @@ HPS_EMIF_EN ?= 0
 # HPS EMIF ECC is not support for REVA Agilex
 ENABLE_HPS_EMIF_ECC ?= 0
 
+DFL_ROM_EN ?= 0
+
 SUB_FPGA_RGMII_EN ?= 0
 
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
@@ -295,6 +297,10 @@ QSYS_TCL_CMDS += set proj_root $(PROJECT_ROOT);
 QUARTUS_TCL_ARGS += proj_root $(PROJECT_ROOT)
 
 $(info $(QUARTUS_TCL_ARGS))
+
+QSYS_TCL_CMDS += set dfl_rom_en $(DFL_ROM_EN);
+QUARTUS_TCL_ARGS += dfl_rom_en $(DFL_ROM_EN)
+
 
 ### End of Design Settings ###
 

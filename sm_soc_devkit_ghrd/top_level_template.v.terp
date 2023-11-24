@@ -137,6 +137,17 @@ input    wire          hps_usb0_CLK,
 output   wire          hps_usb0_STP,       
 input    wire          hps_usb0_DIR,        
 input    wire          hps_usb0_NXT, 
+
+input    wire          usb31_io_vbus_det,                  
+input    wire          usb31_io_flt_bar,                   
+output   wire [1:0]    usb31_io_usb_ctrl,
+input    wire          usb31_io_usb31_id,                  
+input    wire          usb31_phy_refclk_p_clk,             
+input    wire          usb31_phy_refclk_n_clk,             
+input    wire          usb31_phy_rx_serial_n_i_rx_serial_n,
+input    wire          usb31_phy_rx_serial_p_i_rx_serial_p,
+output   wire          usb31_phy_tx_serial_n_o_tx_serial_n,
+output   wire          usb31_phy_tx_serial_p_o_tx_serial_p,
 @@}
 @@if {$hps_usb1_en == 1} {
 inout    wire          hps_usb1_DATA0,         
@@ -151,6 +162,17 @@ input    wire          hps_usb1_CLK,
 output   wire          hps_usb1_STP,       
 input    wire          hps_usb1_DIR,        
 input    wire          hps_usb1_NXT, 
+
+input    wire          usb31_io_vbus_det,                  
+input    wire          usb31_io_flt_bar,                   
+output   wire [1:0]    usb31_io_usb_ctrl,
+input    wire          usb31_io_usb31_id,                  
+input    wire          usb31_phy_refclk_p_clk,             
+input    wire          usb31_phy_refclk_n_clk,             
+input    wire          usb31_phy_rx_serial_n_i_rx_serial_n,
+input    wire          usb31_phy_rx_serial_p_i_rx_serial_p,
+output   wire          usb31_phy_tx_serial_n_o_tx_serial_n,
+output   wire          usb31_phy_tx_serial_p_o_tx_serial_p,
 @@}
 @@if {$hps_emac0_rmii_en == 1 || $hps_emac0_rgmii_en == 1} {
 output   wire          hps_emac0_TX_CLK,       //TODO: may need to change RMII TX CLK to be input instead, check
@@ -765,8 +787,19 @@ ${qsys_name} soc_inst (
 .hps_io_USB0_DATA5                         (hps_usb0_DATA5),
 .hps_io_USB0_DATA6                         (hps_usb0_DATA6), 
 .hps_io_USB0_DATA7                         (hps_usb0_DATA7),
+.usb31_io_vbus_det                         (usb31_io_vbus_det), 
+.usb31_io_flt_bar                          (usb31_io_flt_bar),                   
+.usb31_io_usb_ctrl                         (usb31_io_usb_ctrl),
+.usb31_io_usb31_id                         (usb31_io_usb31_id),                  
+.usb31_phy_refclk_p_clk                    (usb31_phy_refclk_p_clk),             
+.usb31_phy_refclk_n_clk                    (usb31_phy_refclk_n_clk),             
+.usb31_phy_rx_serial_n_i_rx_serial_n       (usb31_phy_rx_serial_n_i_rx_serial_n),
+.usb31_phy_rx_serial_p_i_rx_serial_p       (usb31_phy_rx_serial_p_i_rx_serial_p),
+.usb31_phy_tx_serial_n_o_tx_serial_n       (usb31_phy_tx_serial_n_o_tx_serial_n),
+.usb31_phy_tx_serial_p_o_tx_serial_p       (usb31_phy_tx_serial_p_o_tx_serial_p),
 @@}
-@@if {$hps_usb1_en == 1} {
+@@#existence of usb1 and usb0 is exclusive
+@@if {$hps_usb1_en == 1} { 
 .hps_io_usb1_clk                           (hps_usb1_CLK), 
 .hps_io_usb1_stp                           (hps_usb1_STP), 
 .hps_io_usb1_dir                           (hps_usb1_DIR),
@@ -780,6 +813,16 @@ ${qsys_name} soc_inst (
 .hps_io_usb1_data5                         (hps_usb1_DATA5),
 .hps_io_usb1_data6                         (hps_usb1_DATA6), 
 .hps_io_usb1_data7                         (hps_usb1_DATA7),
+.usb31_io_vbus_det                         (usb31_io_vbus_det), 
+.usb31_io_flt_bar                          (usb31_io_flt_bar),                   
+.usb31_io_usb_ctrl                         (usb31_io_usb_ctrl),
+.usb31_io_usb31_id                         (usb31_io_usb31_id),                  
+.usb31_phy_refclk_p_clk                    (usb31_phy_refclk_p_clk),             
+.usb31_phy_refclk_n_clk                    (usb31_phy_refclk_n_clk),             
+.usb31_phy_rx_serial_n_i_rx_serial_n       (usb31_phy_rx_serial_n_i_rx_serial_n),
+.usb31_phy_rx_serial_p_i_rx_serial_p       (usb31_phy_rx_serial_p_i_rx_serial_p),
+.usb31_phy_tx_serial_n_o_tx_serial_n       (usb31_phy_tx_serial_n_o_tx_serial_n),
+.usb31_phy_tx_serial_p_o_tx_serial_p       (usb31_phy_tx_serial_p_o_tx_serial_p),
 @@}
 @@if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1} {
 .hps_io_trace_clk                          (hps_trace_CLK),  
