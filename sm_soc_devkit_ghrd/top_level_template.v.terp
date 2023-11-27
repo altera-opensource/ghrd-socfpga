@@ -455,10 +455,11 @@ wire [$fpga_led_pio_width-2:0]           fpga_led_internal;
 wire                   heartbeat_led;
 reg  [22:0]            heartbeat_count;
 assign                 heartbeat_led = ~heartbeat_count[22];
+assign                 fpga_led_pio = {heartbeat_led,fpga_led_internal};
 @@  }
 @@  }
 
-assign                 fpga_led_pio = {heartbeat_led,fpga_led_internal};
+
 
 @@if {$hps_en == 1} {
 @@  if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {

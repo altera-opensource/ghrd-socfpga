@@ -189,7 +189,7 @@ if {[info exists pin_assignment_table]} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_osc_clk
 
 if {$hps_emif_en} {
-   if {$board  == "DK-A5E065BB32AES1" || $board  == "crv"} {
+   if {$board  == "DK-A5E065BB32AES1" || $board  == "crv" || $board == "lbm" } {
    
    set ranks r1
    set width $hps_emif_width
@@ -199,9 +199,14 @@ if {$hps_emif_en} {
    if {$ecc} {
       incr width 8
    }
-
-   set key "x${width}_$ranks"
-
+    
+   if {$board == "lbm" } {
+    # Hard coded to ch1 for PO. 
+    # TODO : Parameterize based on channel selection.
+    set key "x${width}_${ranks}_1ch"
+   } else {
+    set key "x${width}_$ranks"
+   }
    # Search for key in the first line
    set key_line [lindex $pin_matrix 0]
    set idx [lsearch $key_line $key]

@@ -14,6 +14,7 @@
 #   BOARD_TYPE:
 #       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]
 #       - crv: mUDV Coville Ridge
+#       - lbm: mUCV Little Battle Mountain  
 #
 #   BOOTS_FIRST:
 #       - hps: hps first [default]
@@ -286,6 +287,34 @@ QSYS_TCL_CMDS += set hps_emif_en $(HPS_EMIF_EN);
 ifneq ($(HPS_EN),)
 QUARTUS_TCL_ARGS += hps_en $(HPS_EN) f2s_data_width $(F2S_DATA_WIDTH)
 QSYS_TCL_CMDS += set hps_en $(HPS_EN); set f2s_data_width $(F2S_DATA_WIDTH);
+endif
+
+# EMIF Topology settings, applies only if HPS-EMIF(EMIF_AXI_Enable) is enabled. Set this according to your ddr settings.
+#--------------------------------------------
+#  HPS IP                       EMIF IP      
+#--------------------------------------------
+#0:1x16 bit                     HPS_EMIF_1x16
+#1:1x32 bit (default)           HPS_EMIF_1x32
+#2:2x16 bit - single IO96B
+#3:2x16 bit - dual IO96B
+#4:2x32 bit                     HPS_EMIF_2x32
+#5:4x16 bit
+ifeq ($(HPS_EMIF_WIDTH),0)
+QUARTUS_TCL_ARGS += emif_topology 0
+QSYS_TCL_CMDS += set emif_topology 0;
+QUARTUS_TCL_ARGS += hps_emif_config HPS_EMIF_1x16
+QSYS_TCL_CMDS += set hps_emif_config HPS_EMIF_1x16;
+else ifeq ($(HPS_EMIF_WIDTH),1)
+#default
+QUARTUS_TCL_ARGS += emif_topology 1 
+QSYS_TCL_CMDS += set emif_topology 1;
+QUARTUS_TCL_ARGS += hps_emif_config HPS_EMIF_1x32
+QSYS_TCL_CMDS += set hps_emif_config HPS_EMIF_1x32;
+else ifeq ($(HPS_EMIF_WIDTH),4)
+QUARTUS_TCL_ARGS += emif_topology 4 
+QSYS_TCL_CMDS += set emif_topology 4;
+QUARTUS_TCL_ARGS += hps_emif_config HPS_EMIF_2x32
+QSYS_TCL_CMDS += set hps_emif_config HPS_EMIF_2x32;
 endif
 
 ifeq ($(HPS_EMIF_EN),0)

@@ -94,6 +94,10 @@ set HPS_EMIF_EXPORT_SEQ_AVALON_SLAVE CAL_DEBUG_EXPORT_MODE_DISABLED
 set HPS_EMIF_JTAG_UART_EN false
 set HPS_EMIF_EXTRA_CONFIGS " "
 
+set MEM_PRESET_FILE_EN "True" 
+set MEM_PRESET_FILE_QPRS "/nfs/site/disks/psg_data_19/ahmadazh/sundancemesa/hps_emif/quartus/ddr4_x32_1R_4gb_alloff_933_sync_preset.qprs"
+set MEM_PRESET_ID "ddr4_x32_1R_4gb_933mhz_alloff_sync" 
+
 # only for termination_sweep
 set HPS_EMIF_RTT_WR_ENUM DDR4_RTT_WR_ODT_DISABLED
 set HPS_EMIF_DRV_STR_ENUM DDR4_DRV_STR_RZQ_7

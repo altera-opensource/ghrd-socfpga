@@ -14,6 +14,13 @@
 #   HPS_EMIF_EN :
 #       - 0: disable
 #       - 1: enable [default] 
+#   HPS_EMIF_WIDTH:
+#       - 0: 1x16           (Not supported)
+#       - 1: 1x32 [default] (Supported)
+#       - 2: 2x16 bit - single IO96B (Not supported)
+#       - 3: 2x16 bit - dual IO96B (Not supported)
+#       - 4: 2x32 bit (Not supported)
+#       - 5: 4x16 bit (Not supported)
 #   HPS_EMIF_ECC_EN :
 #       - 0: disable [default]
 #       - 1: enable 

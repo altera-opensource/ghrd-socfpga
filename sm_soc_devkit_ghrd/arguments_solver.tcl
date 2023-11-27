@@ -449,6 +449,22 @@ if { ![ info exists hps_emif_diag_soft_nios_mode ] } {
  puts "-- Accepted parameter \$hps_emif_diag_soft_nios_mode = $hps_emif_diag_soft_nios_mode"
 }
 
+if { ![ info exists mem_preset_file_en ] } {
+ set mem_preset_file_en $MEM_PRESET_FILE_EN
+} else {
+ puts "-- Accepted parameter \$emif_topology = $mem_preset_file_en"
+}
+if { ![ info exists mem_preset_file_qprs ] } {
+ set mem_preset_file_qprs $MEM_PRESET_FILE_QPRS
+} else {
+ puts "-- Accepted parameter \$emif_topology = $mem_preset_file_qprs"
+}
+if { ![ info exists mem_preset_id ] } {
+ set mem_preset_id $MEM_PRESET_ID
+} else {
+ puts "-- Accepted parameter \$emif_topology = $mem_preset_id"
+}
+
 ## ----------------
 ## FPGA EMIF
 ## ----------------

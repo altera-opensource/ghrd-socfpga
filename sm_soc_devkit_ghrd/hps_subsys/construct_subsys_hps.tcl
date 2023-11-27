@@ -69,6 +69,7 @@ add_component_param "intel_agilex_5_soc agilex_hps
                      LWH2F_Width $lwh2f_width
 					 LWH2F_Address_Width $lwh2f_addr_width
                      EMIF_AXI_Enable $hps_emif_en
+                     EMIF_Topology $emif_topology
                      "
                      # Rst_watchdog_en $reset_watchdog_en
 					 # Rst_hps_warm_en $reset_hps_warm_en
@@ -87,8 +88,10 @@ if {$hps_emif_en == 1} {
     set cpu_instance agilex_hps
 	if {$board == "crv"} {
 	    set board_emif_config_file "$prjroot/board/board_crv_emif_setting.tcl"
+	} elseif {$board == "lbm"} {
+	    set board_emif_config_file "$prjroot/board/board_lbm_emif_setting.tcl"
 	} else {
-	set board_emif_config_file "$prjroot/board/board_DK-A5E065BB32AES1_emif_setting.tcl"
+        set board_emif_config_file "$prjroot/board/board_DK-A5E065BB32AES1_emif_setting.tcl"
 	}
     if {[file exist $board_emif_config_file]} {
         source $board_emif_config_file
