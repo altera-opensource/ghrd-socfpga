@@ -148,7 +148,12 @@ set hps_gpio0_list "6 7"
 set hps_i3c1_q1_en 1
 set hps_mdio0_q1_en 1
 set hps_emac0_rgmii_en 1
-set hps_emmc_q34_en 1
+set hps_sdmmc4b_q3_en 1
+set hps_sdmmc12b_q3_alt_en 1
+set hps_sdmmc_wp_q3_en 1
+set hps_sdmmc_pupd_q4_en 1
+set hps_sdmmc_pwr_q4_en 1
+set hps_sdmmc_dstrb_q4_en 1
 set hps_gpio1_en 1
 set hps_gpio1_list "16 19"
 set hps_cm_q 4

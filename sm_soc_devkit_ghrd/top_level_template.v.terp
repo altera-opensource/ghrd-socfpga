@@ -93,7 +93,7 @@ input    wire          hps_jtag_tms,
 output   wire          hps_jtag_tdo,
 input    wire          hps_jtag_tdi,
 @@}
-@@if {$hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q3_en == 1 || $hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_en == 1 || $hps_emmc_q34_en == 1} {
+@@if {$hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q3_en == 1 || $hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_en == 1} {
 @@# Assumption with only single SDMMC controller to be enabled onto HPS IO at one time 
 output   wire          hps_sdmmc_CCLK, 
 inout    wire          hps_sdmmc_CMD,          
@@ -102,26 +102,23 @@ inout    wire          hps_sdmmc_D1,
 inout    wire          hps_sdmmc_D2,        
 inout    wire          hps_sdmmc_D3,        
 @@}
-@@if {$hps_sdmmc8b_q3_en == 1 || $hps_sdmmc8b_q1_en == 1 || $hps_emmc_q34_en == 1} {
+@@if {$hps_sdmmc12b_q3_alt_en == 1 || $hps_sdmmc8b_q1_en == 1} {
 inout    wire          hps_sdmmc_D4,          
 inout    wire          hps_sdmmc_D5,          
 inout    wire          hps_sdmmc_D6,        
 inout    wire          hps_sdmmc_D7,  
 @@}
-@@if {$hps_emmc_q34_en == 1} {
+@@if {$hps_sdmmc_wp_q3_en == 1} {
 input    wire          hps_sdmmc_WPROT,
-output   wire          hps_sdmmc_PUD_DATA2,
-output   wire          hps_sdmmc_PWREN,
-input    wire          hps_sdmmc_STROBE,
 @@}
 @@if {$hps_sdmmc_pwr_q4_en == 1 || $hps_sdmmc_pwr_q2_en == 1} {
-//Temporary no plan for power detect on devkit
+output   wire          hps_sdmmc_PWREN,
 @@}
 @@if {$hps_sdmmc_pupd_q4_en == 1  || $hps_sdmmc_pupd_q2_en == 1} {
-//Temporary no plan for PUPD on devkit
+output   wire          hps_sdmmc_PUD_DATA2,
 @@}
 @@if {$hps_sdmmc_dstrb_q4_en == 1 || $hps_sdmmc_dstrb_q2_en == 1} {
-//Temporary no plan for data strobe on devkit
+input    wire          hps_sdmmc_STROBE,
 @@}
 
 @@if {$hps_usb0_en == 1} {
@@ -653,7 +650,7 @@ ${qsys_name} soc_inst (
 .hps_io_mdio2_mdio                         (hps_emac2_MDIO),  
 .hps_io_mdio2_mdc                          (hps_emac2_MDC),  
 @@}
-@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q1_en == 1 || $hps_sdmmc8b_q3_en == 1 || $hps_emmc_q34_en == 1} {
+@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q1_en == 1 || $hps_sdmmc8b_q3_en == 1} {
 .hps_io_sdmmc_cclk                         (hps_sdmmc_CCLK),   
 .hps_io_sdmmc_cmd                          (hps_sdmmc_CMD), 
 .hps_io_sdmmc_data0                        (hps_sdmmc_D0),          
@@ -661,16 +658,22 @@ ${qsys_name} soc_inst (
 .hps_io_sdmmc_data2                        (hps_sdmmc_D2),         
 .hps_io_sdmmc_data3                        (hps_sdmmc_D3),        
 @@}
-@@if {$hps_sdmmc8b_q1_en == 1 || $hps_sdmmc8b_q3_en == 1 || $hps_emmc_q34_en == 1} {
+@@if {$hps_sdmmc8b_q1_en == 1 || $hps_sdmmc12b_q3_alt_en == 1} {
 .hps_io_sdmmc_data4                        (hps_sdmmc_D4),          
 .hps_io_sdmmc_data5                        (hps_sdmmc_D5),          
 .hps_io_sdmmc_data6                        (hps_sdmmc_D6),         
 .hps_io_sdmmc_data7                        (hps_sdmmc_D7),
 @@}
-@@if {$hps_emmc_q34_en == 1} {
+@@if {$hps_sdmmc_wp_q3_en == 1} {
 .hps_io_sdmmc_wprot                        (hps_sdmmc_WPROT),
+@@}
+@@if {$hps_sdmmc_pupd_q4_en == 1} {
 .hps_io_sdmmc_pud_data2					   (hps_sdmmc_PUD_DATA2),
+@@}
+@@if {$hps_sdmmc_pwr_q4_en == 1} {
 .hps_io_sdmmc_pwren						   (hps_sdmmc_PWREN),
+@@}
+@@if {$hps_sdmmc_dstrb_q4_en == 1} {
 .hps_io_sdmmc_strobe					   (hps_sdmmc_STROBE),
 @@}
 @@if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1} {

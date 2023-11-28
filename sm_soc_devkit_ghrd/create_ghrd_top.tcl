@@ -60,7 +60,8 @@ set param(hps_sdmmc_pupd_q2_en)         $hps_sdmmc_pupd_q2_en
 set param(hps_sdmmc_pwr_q2_en)          $hps_sdmmc_pwr_q2_en
 set param(hps_sdmmc_dstrb_q2_en)        $hps_sdmmc_dstrb_q2_en
 set param(hps_sdmmc4b_q3_en)            $hps_sdmmc4b_q3_en
-set param(hps_sdmmc8b_q3_en)            $hps_sdmmc8b_q3_en
+set param(hps_sdmmc_wp_q3_en)			$hps_sdmmc_wp_q3_en
+set param(hps_sdmmc12b_q3_alt_en)       $hps_sdmmc12b_q3_alt_en
 set param(hps_sdmmc_pupd_q4_en)         $hps_sdmmc_pupd_q4_en
 set param(hps_sdmmc_pwr_q4_en)          $hps_sdmmc_pwr_q4_en
 set param(hps_sdmmc_dstrb_q4_en)        $hps_sdmmc_dstrb_q4_en
@@ -126,7 +127,6 @@ set param(hps_i2c_emac2_q3_en)          $hps_i2c_emac2_q3_en
 set param(hps_i2c_emac2_q4_en)          $hps_i2c_emac2_q4_en
 set param(hps_nand_q12_en)              $hps_nand_q12_en
 set param(hps_nand_q34_en)              $hps_nand_q34_en
-set param(hps_emmc_q34_en)              $hps_emmc_q34_en
 set param(hps_nand_16b_en)              $hps_nand_16b_en
 set param(hps_trace_q12_en)             $hps_trace_q12_en
 set param(hps_trace_q34_en)             $hps_trace_q34_en
