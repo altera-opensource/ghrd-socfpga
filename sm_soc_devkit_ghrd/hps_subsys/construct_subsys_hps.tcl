@@ -70,6 +70,8 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 LWH2F_Address_Width $lwh2f_addr_width
                      EMIF_AXI_Enable $hps_emif_en
                      EMIF_Topology $emif_topology
+					 MPU_clk_ccu_div {2:Div2}
+					 MPU_clk_periph_div {4:Div4}
                      "
                      # Rst_watchdog_en $reset_watchdog_en
 					 # Rst_hps_warm_en $reset_hps_warm_en
