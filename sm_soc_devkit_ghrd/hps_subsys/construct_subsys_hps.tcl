@@ -434,6 +434,13 @@ if {$hps_trace_8b_en == 1} {
    set_component_param "agilex_hps   TRACE_Mode 16-bit"
 }
 
+if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
+add_component_param "intel_srcss_gts gts_inst
+                     IP_FILE_PATH ip/$subsys_name/gts_inst.ip 
+                     SRC_RS_DISABLE 1
+                     NUM_BANKS_SHORELINE 1
+                     "
+}
 
 # --------------- Connections and connection parameters ------------------#
 
@@ -612,6 +619,7 @@ export agilex_hps usb31_phy_tx_serial_p usb31_phy_tx_serial_p
 export agilex_hps usb31_phy_reconfig_rst usb31_phy_reconfig_rst
 export agilex_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
 export agilex_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
+export gts_inst o_pma_cu_clk o_pma_cu_clk 
 }
 
 if {$hps_emif_en == 1} {

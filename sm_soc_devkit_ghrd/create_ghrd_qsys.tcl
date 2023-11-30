@@ -267,6 +267,7 @@ export subsys_hps hps_io hps_io
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 export subsys_hps usb31_io usb31_io
 #pending confirmation if pma_cpu_clk need any connection since compilation claim as virtual port
+export subsys_hps o_pma_cu_clk o_pma_cu_clk
 export subsys_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
 export subsys_hps usb31_phy_refclk_p usb31_phy_refclk_p
 export subsys_hps usb31_phy_refclk_n usb31_phy_refclk_n

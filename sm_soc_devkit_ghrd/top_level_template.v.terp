@@ -463,7 +463,9 @@ assign                 fpga_led_pio = {heartbeat_led,fpga_led_internal};
 // Todo no longer needed
 //wire [31:0]            f2h_irq1_irq;
 @@}
-
+@@if {$hps_usb0_en == 1 || $hps_usb1_en == 1} { 
+wire                   o_pma_cpu_clk;
+@@}
 @@if {$hps_stm_en == 1} {
 wire [43:0]            stm_hw_events;
 
@@ -801,8 +803,12 @@ ${qsys_name} soc_inst (
 .usb31_phy_rx_serial_p_i_rx_serial_p       (usb31_phy_rx_serial_p_i_rx_serial_p),
 .usb31_phy_tx_serial_n_o_tx_serial_n       (usb31_phy_tx_serial_n_o_tx_serial_n),
 .usb31_phy_tx_serial_p_o_tx_serial_p       (usb31_phy_tx_serial_p_o_tx_serial_p),
+.usb31_phy_pma_cpu_clk_clk                 (o_pma_cpu_clk),
 @@}
 @@#existence of usb1 and usb0 is exclusive
+@@if {$hps_usb0_en == 1 || $hps_usb1_en == 1} { 
+.o_pma_cu_clk_clk                          (o_pma_cpu_clk),
+@@}
 @@if {$hps_usb1_en == 1} { 
 .hps_io_usb1_clk                           (hps_usb1_CLK), 
 .hps_io_usb1_stp                           (hps_usb1_STP), 
@@ -827,6 +833,7 @@ ${qsys_name} soc_inst (
 .usb31_phy_rx_serial_p_i_rx_serial_p       (usb31_phy_rx_serial_p_i_rx_serial_p),
 .usb31_phy_tx_serial_n_o_tx_serial_n       (usb31_phy_tx_serial_n_o_tx_serial_n),
 .usb31_phy_tx_serial_p_o_tx_serial_p       (usb31_phy_tx_serial_p_o_tx_serial_p),
+.usb31_phy_pma_cpu_clk_clk                 (o_pma_cpu_clk),
 @@}
 @@if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1} {
 .hps_io_trace_clk                          (hps_trace_CLK),  
