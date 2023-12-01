@@ -189,7 +189,7 @@ if {[info exists pin_assignment_table]} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_osc_clk
 
 if {$hps_emif_en} {
-   if {$board  == "DK-A5E065BB32AES1" || $board  == "crv" || $board == "lbm" } {
+   if {$board  == "DK-A5E065BB32AES1" || $board  == "cvr" || $board == "lbm" } {
    
    set ranks r1
    set width $hps_emif_width

@@ -30,7 +30,7 @@
 
 module ${top_name} (
 //Additional refclk_bti to preserve Etile XCVR
-@@if {$board == "hidden" || $board  == "crv"} {
+@@if {$board == "hidden" || $board  == "cvr"} {
 input    wire          refclk_bti,
 @@}
 // Clock and Reset

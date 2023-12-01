@@ -19,8 +19,8 @@ puts "\[GHRD:info\] \$prjroot = ${prjroot} "
 source ${prjroot}/arguments_solver.tcl
 source ${prjroot}/utils.tcl
 
-if {$board == "crv"} {
-	    source $prjroot/board/board_crv_config.tcl
+if {$board == "cvr"} {
+	    source $prjroot/board/board_cvr_config.tcl
 	} else {
 	    source $prjroot/board/board_DK-A5E065BB32AES1_config.tcl
 	}

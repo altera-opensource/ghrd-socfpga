@@ -13,7 +13,7 @@
 # <-
 #   BOARD_TYPE:
 #       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]
-#       - crv: mUDV Coville Ridge
+#       - cvr: mUDV Coville Ridge
 #       - lbm: mUCV Little Battle Mountain  
 #
 #   BOOTS_FIRST:
@@ -172,7 +172,7 @@ endif
 # QUARTUS_DEVICE to Board Revision Mapping
 
 # User Settings
-# Valid BOARD_TYPE: hidden, crv
+# Valid BOARD_TYPE: hidden, cvr
 BOARD_TYPE ?= DK-A5E065BB32AES1
 #Loading board configuration
 include board/board_$(BOARD_TYPE)_make_config.inc

@@ -88,8 +88,8 @@ set_component_param "agilex_hps
 # EMIF_DDR_WIDTH $hps_emif_width 
 if {$hps_emif_en == 1} {
     set cpu_instance agilex_hps
-	if {$board == "crv"} {
-	    set board_emif_config_file "$prjroot/board/board_crv_emif_setting.tcl"
+	if {$board == "cvr"} {
+	    set board_emif_config_file "$prjroot/board/board_cvr_emif_setting.tcl"
 	} elseif {$board == "lbm"} {
 	    set board_emif_config_file "$prjroot/board/board_lbm_emif_setting.tcl"
 	} else {
