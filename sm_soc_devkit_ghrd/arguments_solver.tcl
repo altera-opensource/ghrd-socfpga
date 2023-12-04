@@ -61,7 +61,7 @@
 # fpga_emif_width                   : 16, 32, 64 (irrespective of ECC)
 # fpga_emif_ecc_en                  : 1 or 0 
 # hps_en                            : 1 or 0
-# sys_initialization                : HPS initialization sequence. HPS_FIRST or FPGA_FIRST
+# initialization_first                : HPS initialization sequence. HPS_FIRST or FPGA_FIRST
 # hps_dap_mode                      : HPS debug split mode. 2(SDM Pins),1(HPS Pins),0(disabled)
 # user0_clk_src_select              : 7-PeriphC3 or 1-MainC1 (Select H2F User0 clock source)
 # user0_clk_freq                    : Default 500.Specify desired frequency for H2F User0 clock
@@ -105,32 +105,32 @@
 
 source ${prjroot}/design_config.tcl 
 
-proc check_then_accept { param } {
-  if {$param == device_family || device || qsys_name || project_name} {
-    puts "-- Accepted paramter \$param = $param"
-  } else {
-    puts "Warning: Inserted parameter \"$param\" is not supported for this script. "
-  }
-}
+# proc check_then_accept { param } {
+  # if {$param == device_family || device || qsys_name || project_name} {
+    # puts "-- Accepted paramter \$param = $param"
+  # } else {
+    # puts "Warning: Inserted parameter \"$param\" is not supported for this script. "
+  # }
+# }
 
 
-if { ![ info exists device_family ] } {
- set device_family $DEVICE_FAMILY
-} else {
- puts "-- Accepted parameter \$device_family = $device_family"
-}
+# if { ![ info exists device_family ] } {
+ # set device_family $DEVICE_FAMILY
+# } else {
+ # puts "-- Accepted parameter \$device_family = $device_family"
+# }
     
-if { ![ info exists device ] } {
- set device $DEVICE
-} else {
- puts "-- Accepted parameter \$device = $device"
-}
+# if { ![ info exists device ] } {
+ # set device $DEVICE
+# } else {
+ # puts "-- Accepted parameter \$device = $device"
+# }
     
-if { ![ info exists qsys_name ] } {
- set qsys_name $QSYS_NAME
-} else {
- puts "-- Accepted parameter \$qsys_name = $qsys_name"
-}
+# if { ![ info exists qsys_name ] } {
+ # set qsys_name $QSYS_NAME
+# } else {
+ # puts "-- Accepted parameter \$qsys_name = $qsys_name"
+# }
     
 if { ![ info exists project_name ] } {
  set project_name $PROJECT_NAME
@@ -493,10 +493,10 @@ if { ![ info exists hps_en ] } {
  puts "-- Accepted parameter \$hps_en = $hps_en"
 }
 
-if { ![ info exists sys_initialization ] } {
- set sys_initialization $SYS_INITIALIZATION
+if { ![ info exists initialization_first ] } {
+ set initialization_first $SYS_INITIALIZATION
 } else {
- puts "-- Accepted parameter \$sys_initialization = $sys_initialization"
+ puts "-- Accepted parameter \$initialization_first = $initialization_first"
 }
 
 if { ![ info exists hps_dap_mode ] } {

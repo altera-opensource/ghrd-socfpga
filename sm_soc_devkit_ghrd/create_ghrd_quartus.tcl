@@ -13,6 +13,7 @@
 
 foreach {key value} $quartus(args) {
   set ${key} $value
+  puts "Quartus script got $key = $value"
 }
 
 #puts "prjroot = ${prjroot} "
@@ -59,7 +60,7 @@ set_global_assignment -name USE_SIGNALTAP_FILE cti_tapping.stp
 set_global_assignment -name SIGNALTAP_FILE cti_tapping.stp
 }
 
-if {$hps_en == 1} {
+if {$sub_hps_en == 1} {
 # Call "board_${board}_config.tcl" SDMIO config
 config_sdmio
 
@@ -70,7 +71,7 @@ config_sdmio
 #    puts "Warning (GHRD): proc \"config_misc\" is not exist in file:board_${board}_config.tcl"
 #}
 
-if {$sys_initialization == "hps"} {
+if {$initialization_first == "hps"} {
 set_global_assignment -name HPS_INITIALIZATION "HPS FIRST"
 } else {
 set_global_assignment -name HPS_INITIALIZATION "AFTER INIT_DONE"

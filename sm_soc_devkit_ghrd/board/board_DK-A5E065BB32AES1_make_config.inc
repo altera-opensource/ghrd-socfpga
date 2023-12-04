@@ -10,9 +10,8 @@
 #
 ################################################
 
-#FM61 (devkit, mUDV1, mUDV2, char)
-QUARTUS_DEVICE ?= AGFB014R24A2E2V
-#QUARTUS_DEVICE ?= AGFB014R24A2E2VR1
+#SM
+DEVICE ?= A5ED065BB32AE5SR0
 
 #HPS EMIF Reference Clock
 HPS_EMIF_REF_CLK_FREQ_MHZ ?= "33.333"

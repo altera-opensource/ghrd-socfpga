@@ -8,12 +8,21 @@
 #
 # <-
 #
-#   HPS_EN:
+#   SUB_HPS_EN:
 #       - 0: disable
 #       - 1: enable [default]
+#
+#   DAUGHTER_CARD:
+#      - devkit_dc_oobe: Out-of-Box Experience HPS Daughter Card [default]
+#      - devkit_dc_nand: HPS Daugther Card with NAND 
+#      - devkit_dc_emmc: HPS Daughter Card with eMMC
+#      - debug2: HPS Daughter Card with debug2
+#      - tsn_aic0 : HPS Daughter Card with TSN Config 1
+#
 #   HPS_EMIF_EN :
 #       - 0: disable
 #       - 1: enable [default] 
+#
 #   HPS_EMIF_WIDTH:
 #       - 0: 1x16           (Not supported)
 #       - 1: 1x32 [default] (Supported)
@@ -21,18 +30,15 @@
 #       - 3: 2x16 bit - dual IO96B (Not supported)
 #       - 4: 2x32 bit (Not supported)
 #       - 5: 4x16 bit (Not supported)
+#
 #   HPS_EMIF_ECC_EN :
 #       - 0: disable [default]
 #       - 1: enable 
-#   DAUGHTER_CARD:
-#      - devkit_dc_oobe: Out-of-Box Experience HPS Daughter Card [default]
-#      - devkit_dc_nand: HPS Daugther Card with NAND 
-#      - devkit_dc_emmc: HPS Daughter Card with eMMC
-#      - debug2: HPS Daughter Card with debug2
-#      - tsn_aic0 : HPS Daughter Card with TSN Config 1
+#
 #   HPS_CLK_SOURCE:
 #      - 0: HPS External Oscillator [default]
 #      - 1: FPGA Free Clock
+#
 ##demo:
 ##  hps_other_var0 :
 ##      - val00: val00_description [default]
@@ -79,21 +85,21 @@ endef
 #    $(eval $(call append_args, hps_other_var1))
 #endif
 
-ifeq ($(HPS_EN), $(DISABLE))
+ifeq ($(SUB_HPS_EN), $(DISABLE))
   ifeq ($(DAUGHTER_CARD),)
-    HPS_EN=$(ENABLE)
-    $(shell echo "force HPS_EN=1 because DAUGHTER_CARD is not set")
+    SUB_HPS_EN=$(ENABLE)
+    $(shell echo "force SUB_HPS_EN=1 because DAUGHTER_CARD is not set")
   endif
 
   ifeq ($(DAUGHTER_CARD),none)
-    HPS_EN=$(ENABLE)
-    $(shell echo "force HPS_EN=1 because DAUGHTER_CARD is none")
+    SUB_HPS_EN=$(ENABLE)
+    $(shell echo "force SUB_HPS_EN=1 because DAUGHTER_CARD is none")
   endif
 endif
 
 .PHONY: generate_from_tcl
 generate_from_tcl:
-ifeq ($(HPS_EN), $(ENABLE))
+ifeq ($(SUB_HPS_EN), $(ENABLE))
 	@qsys-script $(shell echo $(QSYS_ARGS) | sed 's/quartus-project=/quartus-project=..\//g') --script=./construct_subsys_hps.tcl --cmd="$(QSYS_TCL_ARGS_SUB)"
 	@echo "compilation for from_tcl for $(CURRENT_FOLDER) done!"
 else

@@ -467,7 +467,7 @@ add_component_param "intel_srcss_gts gts_inst
 #      connect_map "agilex_hps.lwhps2fpga sysid.control_slave 0x0"
 #   }
 #   
-#   if {$fpga_peripheral_en == 1} {
+#   if {$sub_peri_en == 1} {
 #     connect_map "agilex_hps.lwhps2fpga periph.pb_cpu_0_s0 0x1000"
 #   }
 #}
@@ -567,7 +567,7 @@ add_component_param "intel_srcss_gts gts_inst
 #         connect "agilex_hps.f2h_irq0 agilex_hps.h2f_usb1_interrupt"
 #      }
 #   } else {
-#      if {$fpga_peripheral_en == 1} {
+#      if {$sub_peri_en == 1} {
 #         if {$fpga_button_pio_width >0} {
 #            connect "agilex_hps.f2h_irq0      periph.button_pio_irq"
 #            set_connection_parameter_value agilex_hps.f2h_irq0/periph.button_pio_irq irqNumber {1}

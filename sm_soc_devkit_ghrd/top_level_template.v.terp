@@ -38,7 +38,7 @@ input    wire          refclk_bti,
 input    wire          fpga_clk_100,
 @@}
 
-@@if {$fpga_peripheral_en == 1} {
+@@if {$sub_peri_en == 1} {
 @@if {$fpga_led_pio_width > 0 } {
 output   wire [$fpga_led_pio_width-1:0]  fpga_led_pio,
 @@}
@@ -50,7 +50,7 @@ input    wire [$fpga_button_pio_width-1:0]  fpga_button_pio,
 @@}
 @@}
 //HPS
-@@if {$hps_en == 1} {
+@@if {$sub_hps_en == 1} {
 @@if {$hps_emif_en == 1} {
 // HPS EMIF
 @@if {$hps_emif_type == "ddr4"} {
@@ -385,7 +385,7 @@ output   wire [$ftrace_output_width-1:0]   ftrace_data,
 output   wire          ftrace_clk,
 @@}
 @@}
-@@if {$hps_en == 1} {
+@@if {$sub_hps_en == 1} {
 @@if {$hps_io_off == 0} {
 input    wire          hps_osc_clk,
 @@}
@@ -420,7 +420,7 @@ wire                   emac0_mdoe;
 assign emac0_mdio = emac0_mdoe? emac0_mdo : 1'bz;
 assign emac0_mdi  = emac0_mdio;
 @@}
-@@if {$hps_en == 1} {
+@@if {$sub_hps_en == 1} {
 //wire                 h2f_reset;
 @@if {$user0_clk_src_select ==1} {
 wire                   user0_clk_src_clk;
@@ -443,7 +443,7 @@ assign                 system_clk_100_internal  = system_clk_100_gated;
 assign                 system_clk_100_internal  = system_clk_100;
 @@  }
 
-@@  if {$fpga_peripheral_en ==1} {
+@@  if {$sub_peri_en ==1} {
 @@  if {$fpga_button_pio_width > 0} {
 wire [$fpga_button_pio_width-1:0]        fpga_debounced_buttons;
 @@  }
@@ -458,7 +458,7 @@ assign                 fpga_led_pio = {heartbeat_led,fpga_led_internal};
 
 
 
-@@if {$hps_en == 1} {
+@@if {$sub_hps_en == 1} {
 @@  if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
 // Todo no longer needed
 //wire [31:0]            f2h_irq1_irq;
@@ -469,7 +469,7 @@ wire                   o_pma_cpu_clk;
 @@if {$hps_stm_en == 1} {
 wire [43:0]            stm_hw_events;
 
-@@if {$fpga_peripheral_en == 1 && $cross_trigger_en == 0} {
+@@if {$sub_peri_en == 1 && $cross_trigger_en == 0} {
 @@ set stm_hw_events_option ""
 @@ set stm_hw_events_option_bitcount 0
 @@ if {$fpga_led_pio_width > 0} {
@@ -500,7 +500,7 @@ assign                 stm_hw_events    = 44'b0;
 
 // Qsys Top module
 ${qsys_name} soc_inst (
-@@if {($user0_clk_src_select == 1 && $hps_en == 1)} {
+@@if {($user0_clk_src_select == 1 && $sub_hps_en == 1)} {
 .user0_clk_src_clk                         (user0_clk_src_clk), 
 @@}
 .clk_100_clk                               (system_clk_100_internal),
@@ -510,7 +510,7 @@ ${qsys_name} soc_inst (
 .clkctrl_input_inclk                       (system_clk_100),
 .clkctrl_output_outclk                     (system_clk_100_gated),
 @@}
-@@if {$fpga_peripheral_en == 1} {
+@@if {$sub_peri_en == 1} {
 @@ if {$fpga_led_pio_width != 0} {
 .led_pio_external_connection_in_port       (fpga_led_internal),
 .led_pio_external_connection_out_port      (fpga_led_internal),
@@ -523,7 +523,7 @@ ${qsys_name} soc_inst (
 @@}
 @@}
 
-@@if {$hps_en == 1} {
+@@if {$sub_hps_en == 1} {
 @@if {$hps_stm_en == 1} {
 .agilex_hps_f2h_stm_hw_events_stm_hwevents (stm_hw_events),     
 //Terminate the CS_JTAG.
@@ -916,7 +916,7 @@ begin
         fpga_reset_n_debounced <= fpga_reset_n_debounced_wire;  
 end
 
-@@if {$fpga_peripheral_en == 1} {
+@@if {$sub_peri_en == 1} {
 @@ if {$fpga_button_pio_width != 0} {  
 // Debounce logic to clean out glitches within 1ms
 debounce debounce_inst (

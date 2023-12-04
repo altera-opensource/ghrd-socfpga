@@ -16,27 +16,16 @@
 #       - cvr: mUDV Coville Ridge
 #       - lbm: mUCV Little Battle Mountain  
 #
-#   BOOTS_FIRST:
-#       - hps: hps first [default]
-#       - fpga: fpga first
+#   DEVICE:
+#       - A5ED065BB32AE5SR0: FPGA OPN# [default]
+#
+#   INITIALIZATION_FIRST:
+#       - hps: HPS initialization first [default]
+#       - fpga: FPGA fabric initialization first
 #
 #   HPS_JTAG_MODE:
 #       - combined: combined mode [default]
 #
-#   BOARD_REV:
-#       - A1: a1 type [default]
-
-#   QUARTUS_DEVICE_FAMILY:
-#       - Agilex5: none [default]
-#
-#   QUARTUS_DEVICE:
-#       - A5ED065BB32AE5SR0: FPGA OPN# [default]
-#
-#   ENABLE_HPS_EMIF_ECC:
-#       - 0: disable [default]
-#
-#   HPS_EMIF_REF_CLK_FREQ_MHZ:
-#       - 33.333: unit mhz [default]
 # ->
 #
 #########################################################################
@@ -157,11 +146,10 @@ HAVE_QSYS := 1
 endif
 
 ################################################
-# Design Settings
-#  If you change and design settings, you need
-#  to run "make scrub_clean" followed by
-#  "make generate_from_tcl" for the settings
-#  to be applied
+# Prefix Settings
+#  Following section defines/derives parameters
+#  that is not parameterizable via command line 
+#  
 ################################################
 
 # Dependency
@@ -169,25 +157,24 @@ endif
 #INTEL_CUSTOM_IP_LINK = "https://releases.rocketboards.org/release/intel_custom_ip/$(INTEL_CUSTOM_IP_TARBALL)"
 
 # Family and Device
-# QUARTUS_DEVICE to Board Revision Mapping
+# DEVICE to Board Revision Mapping
+
+HPS_EMIF_REF_CLK_FREQ_MHZ ?= 33.333
 
 # User Settings
 # Valid BOARD_TYPE: hidden, cvr
-BOARD_TYPE ?= DK-A5E065BB32AES1
+###BOARD_TYPE ?= DK-A5E065BB32AES1
 #Loading board configuration
 include board/board_$(BOARD_TYPE)_make_config.inc
 
 # System initilization mode: fpga, hps
-BOOTS_FIRST ?= hps
+INITIALIZATION_FIRST ?= hps
 
 # HPS JTAG MODE: combined, separate
 HPS_JTAG_MODE ?= combined
 
-# Board Revision: A0, A1
-#BOARD_REV ?= A1
-
 # Option to enable Hard Processor System
-HPS_EN ?= 1
+SUB_HPS_EN ?= 1
 
 # HPS EMIF Enabled: 0, 1
 HPS_EMIF_EN ?= 0
@@ -196,20 +183,21 @@ HPS_EMIF_EN ?= 0
 ENABLE_HPS_EMIF_ECC ?= 0
 
 # Default Assignment (Do not modify)
-QUARTUS_DEVICE_FAMILY := Agilex5
+DEVICE_FAMILY := Agilex5
 #SM
-QUARTUS_DEVICE ?= A5ED065BB32AE5SR0
+DEVICE ?= A5ED065BB32AE5SR0
 # Board Power Management. temporary set power management IC type here, till an alternative is made available for Agilex5 devkit
+
+PROJECT_NAME ?= ghrd_$(call lc,$(DEVICE))
+ 
 BOARD_PWRMGT ?= linear
 # Publicly Available DC: devkit_dc_oobe, devkit_dc_nand, devkit_dc_emmc
 DAUGHTER_CARD ?= devkit_dc_oobe
 
-# System initilization mode: fpga, hps
-BOOTS_FIRST ?= hps
 # HPS JTAG MODE: combined, separate
 HPS_JTAG_MODE ?= combined
 # Option to enable Hard Processor System
-HPS_EN ?= 1
+SUB_HPS_EN ?= 1
 F2S_DATA_WIDTH ?= 0
 # HPS EMIF Enabled: 0, 1
 HPS_EMIF_EN ?= 0
@@ -220,17 +208,17 @@ DFL_ROM_EN ?= 0
 
 SUB_FPGA_RGMII_EN ?= 0
 
-ifneq ($(QUARTUS_DEVICE_FAMILY),)
-QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
-QSYS_TCL_CMDS += set devicefamily $(QUARTUS_DEVICE_FAMILY);
+ifneq ($(DEVICE_FAMILY),)
+QUARTUS_TCL_ARGS += device_family $(DEVICE_FAMILY)
+QSYS_TCL_CMDS += set device_family $(DEVICE_FAMILY);
 
-QUARTUS_TCL_ARGS += project_name ghrd_$(call lc,$(QUARTUS_DEVICE))
-QSYS_TCL_CMDS += set project_name ghrd_$(call lc,$(QUARTUS_DEVICE));
+QUARTUS_TCL_ARGS += project_name $(PROJECT_NAME)
+QSYS_TCL_CMDS += set project_name $(PROJECT_NAME);
 endif
 
-ifneq ($(QUARTUS_DEVICE),)
-QUARTUS_TCL_ARGS += device $(QUARTUS_DEVICE)
-QSYS_TCL_CMDS += set device $(QUARTUS_DEVICE);
+ifneq ($(DEVICE),)
+QUARTUS_TCL_ARGS += device $(DEVICE)
+QSYS_TCL_CMDS += set device $(DEVICE);
 endif
 
 ifneq ($(BOARD_TYPE),)
@@ -248,9 +236,9 @@ QUARTUS_TCL_ARGS += sub_fpga_rgmii_en $(SUB_FPGA_RGMII_EN)
 QSYS_TCL_CMDS += set sub_fpga_rgmii_en $(SUB_FPGA_RGMII_EN);
 endif
 
-ifneq ($(BOOTS_FIRST),)
-QUARTUS_TCL_ARGS += sys_initialization $(BOOTS_FIRST)
-QSYS_TCL_CMDS += set sys_initialization $(BOOTS_FIRST);
+ifneq ($(INITIALIZATION_FIRST),)
+QUARTUS_TCL_ARGS += initialization_first $(INITIALIZATION_FIRST)
+QSYS_TCL_CMDS += set initialization_first $(INITIALIZATION_FIRST);
 endif
 
 ifeq ($(HPS_JTAG_MODE),separate)
@@ -274,6 +262,11 @@ QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)
 QSYS_TCL_CMDS += set daughter_card $(DAUGHTER_CARD);
 endif
 
+ifneq ($(SUB_PERI_EN),)
+QUARTUS_TCL_ARGS += sub_peri_en $(SUB_PERI_EN)
+QSYS_TCL_CMDS += set sub_peri_en $(SUB_PERI_EN);
+endif
+
 ifneq ($(HPS_CLK_SOURCE),)
 QUARTUS_TCL_ARGS += hps_clk_source $(HPS_CLK_SOURCE)
 QSYS_TCL_CMDS += set hps_clk_source $(HPS_CLK_SOURCE);
@@ -284,9 +277,9 @@ QSYS_TCL_CMDS += set hps_emif_en $(HPS_EMIF_EN);
 #QUARTUS_TCL_ARGS += hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC)
 #QSYS_TCL_CMDS += set hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC);
 
-ifneq ($(HPS_EN),)
-QUARTUS_TCL_ARGS += hps_en $(HPS_EN) f2s_data_width $(F2S_DATA_WIDTH)
-QSYS_TCL_CMDS += set hps_en $(HPS_EN); set f2s_data_width $(F2S_DATA_WIDTH);
+ifneq ($(SUB_HPS_EN),)
+QUARTUS_TCL_ARGS += sub_hps_en $(SUB_HPS_EN) f2s_data_width $(F2S_DATA_WIDTH)
+QSYS_TCL_CMDS += set sub_hps_en $(SUB_HPS_EN); set f2s_data_width $(F2S_DATA_WIDTH);
 endif
 
 # EMIF Topology settings, applies only if HPS-EMIF(EMIF_AXI_Enable) is enabled. Set this according to your ddr settings.
@@ -346,12 +339,12 @@ endif
 MODULES := $(shell cat $(MODULES_FILE))
 MODULE_BUILD := $(foreach n, $(MODULES), $(n).build)
 
-$(MODULE_BUILD): quartus_generate_qsf_qpf quartus_generate_top
+$(MODULE_BUILD): quartus_generate_qsf_qpf 
 	@$(MAKE) QSYS_ARGS='$(QSYS_ARGS)' QSYS_TCL_ARGS='$(QSYS_TCL_ARGS)' USER_CONFIG='$(USER_CONFIG_UPDATE)' $(USER_CONFIG_UPDATE) -C $(subst .build,,$@) generate_from_tcl
 
 .PHONY: generate_submodule
 generate_submodule: $(MODULE_BUILD)
-
+	@$(MAKE) quartus_generate_top
 
 #===============================================
 # Config
@@ -465,9 +458,9 @@ AR_FILTER_OUT += %_tb.qsys
 #
 
 #############
-# QSys
+# Name the top level QSys file 
 QSYS_FILE_TOP := qsys_top.qsys
-QSYS_FILE_TOP ?= $(firstword $(wildcard *top*.qsys) $(wildcard ghrd*.qsys) $(wildcard *main*.qsys) $(wildcard *soc*.qsys) $(wildcard *.qsys))
+#QSYS_FILE_TOP ?= $(firstword $(wildcard *top*.qsys) $(wildcard ghrd*.qsys) $(wildcard *main*.qsys) $(wildcard *soc*.qsys) $(wildcard *.qsys))
 
 OTHER_QSYS_FILES :=
 
@@ -536,7 +529,7 @@ endif
 #############
 # Quartus Prime
 
-QUARTUS_QPF := ghrd_$(call lc,$(QUARTUS_DEVICE)).qpf
+QUARTUS_QPF := ghrd_$(call lc,$(DEVICE)).qpf
 
 ifeq ($(QUARTUS_QPF),)
 $(error ERROR: QUARTUS_QPF *.qpf file not set and could not be discovered)
@@ -644,7 +637,8 @@ QUARTUS_TCL_ARGS += qsys_name $(patsubst %.qsys,%,$(QSYS_FILE_TOP))
 ifneq ($(QUARTUS_TOP_GEN),)
 quartus_generate_top: $(QUARTUS_TOP_GEN)
 	@$(RM) *_top.v
-	quartus_sh --script=$< $(QUARTUS_TCL_ARGS) prjroot $(PROJECT_ROOT)
+	quartus_sh --script=$< $(QUARTUS_TCL_ARGS)
+	@$(ECHO) "quartus_generate_top done!"
 else
 quartus_generate_top:
 	@$(ECHO) "Make target '$@' is not supported for this design"
@@ -657,7 +651,7 @@ QSYS_GEN_QSYS_DEPS += quartus_generate_qsf_qpf
 #qsys_generate_qsys: $(QSYS_QSYS_GEN) $(QSYS_GEN_QSYS_DEPS) $(INTEL_CUSTOM_IP_DIR_TARGET)
 #	@$(RM) $(QSYS_FILE_TOP)
 #	qsys-script $(QSYS_ARGS) --script=$< $(QSYS_TCL_ARGS)
-#ifeq ($(HPS_ENABLE_SGMII),1)
+#ifeq ($(SUB_HPS_ENABLE_SGMII),1)
 #	$(MAKE) quartus_add_post_sgmii_sdc
 #endif
 #	$(stamp_target)
@@ -666,13 +660,14 @@ QSYS_GEN_QSYS_DEPS += quartus_generate_qsf_qpf
 #	@$(ECHO) "Make target '$@' is not supported for this design"
 #endif
 
+QSYS_TCL_CMDS += set qsys_name $(patsubst %.qsys,%,$(QSYS_FILE_TOP));
 
 .PHONY: qsys_generate_qsys
 ifneq ($(QSYS_QSYS_GEN),)
 qsys_generate_qsys: $(QSYS_QSYS_GEN) $(INTEL_CUSTOM_IP_DIR_TARGET)
 	@$(RM) $(QSYS_FILE_TOP)
 	qsys-script $(QSYS_ARGS) --script=$< --cmd="$(QSYS_TCL_ARGS)"
-ifeq ($(HPS_ENABLE_SGMII),1)
+ifeq ($(SUB_HPS_ENABLE_SGMII),1)
 	$(MAKE) quartus_add_post_sgmii_sdc
 endif
 	$(stamp_target)
@@ -683,7 +678,7 @@ endif
 
 
 HELP_TARGETS += generate_from_tcl
-generate_from_tcl.HELP := Generate the Quartus Project source files from tcl script source
+generate_from_tcl.HELP := Generate the Quartus Project and Qsys design files from tcl script source
 
 .PHONY: generate_from_tcl
 generate_from_tcl: generate_submodule $(INTEL_CUSTOM_IP_DIR_TARGET)

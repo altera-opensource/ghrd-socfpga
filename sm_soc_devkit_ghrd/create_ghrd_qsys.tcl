@@ -106,12 +106,12 @@ add_instance subsys_fpga_rgmii fpga_rgmii_subsys
 reload_ip_catalog
 }
 
-if {$hps_en == 1} {
+if {$sub_hps_en == 1} {
 add_instance subsys_hps hps_subsys
 reload_ip_catalog
 }
 
-if {$fpga_peripheral_en == 1} {
+if {$sub_peri_en == 1} {
 add_instance subsys_periph peripheral_subsys
 reload_ip_catalog
 }
@@ -154,7 +154,7 @@ if {$cct_en == 1} {
 
 # --------------- Connections and connection parameters ------------------#
 
-if {$hps_en == 1} {
+if {$sub_hps_en == 1} {
   if {$hps_emif_en == 1} {
   connect " clk_100.out_clk   subsys_hps.clk
             rst_in.out_reset  subsys_hps.reset 
@@ -198,17 +198,17 @@ connect "clk_100.out_clk     subsys_debug.clk
 "
 }
 
-#if {$fpga_peripheral_en == 1} {
+#if {$sub_peri_en == 1} {
 #	connect_map "   subsys_debug.fpga_m_master   subsys_periph.control_slave 0x10000"
 #}
 
-if {$fpga_peripheral_en == 1} {
+if {$sub_peri_en == 1} {
 connect "clk_100.out_clk   subsys_periph.clk
          rst_in.out_reset  subsys_periph.reset
          "
 }
 
-if {$fpga_peripheral_en == 1} {
+if {$sub_peri_en == 1} {
     if {$fpga_button_pio_width >0} {
 #       connect "agilex_hps.f2h_irq0      periph.button_pio_irq"
 #       set_connection_parameter_value agilex_hps.f2h_irq0/periph.button_pio_irq irqNumber {1}
@@ -234,7 +234,7 @@ if {$lwh2f_width > 0} {
    #   connect_map "subsys_hps.lwhps2fpga subsys_periph.control_slave 0x1_0000"
    #}
    
-   if {$fpga_peripheral_en == 1} {
+   if {$sub_peri_en == 1} {
      connect_map "subsys_hps.lwhps2fpga subsys_periph.pb_cpu_0_s0 0x0"
      connect "subsys_hps.f2h_irq_in subsys_periph.button_pio_irq"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.button_pio_irq irqNumber {0}
@@ -291,7 +291,7 @@ export clkctrl_0 clkctrl_input clkctrl_input
 export clkctrl_0 clkctrl_output clkctrl_output
 }
 
-if {$fpga_peripheral_en == 1} {
+if {$sub_peri_en == 1} {
 if {$fpga_button_pio_width >0} {
 export subsys_periph button_pio_external_connection button_pio_external_connection
 }

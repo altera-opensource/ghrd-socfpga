@@ -33,7 +33,7 @@ set param(top_name)                     $top_name
 set param(qsys_name)                    $qsys_name
 set param(daughter_card)                $daughter_card
 set param(clk_gate_en)                  $clk_gate_en
-set param(hps_en)                       $hps_en
+set param(sub_hps_en)                       $sub_hps_en
 set param(hps_emif_ecc_en)              $hps_emif_ecc_en
 set param(hps_emif_en)                  $hps_emif_en
 set param(hps_emif_rate)                $hps_emif_rate
@@ -46,12 +46,9 @@ set param(hps_emif_type)                $hps_emif_type
 set param(fpga_emif_ecc_en)             $fpga_emif_ecc_en
 set param(fpga_emif_en)                 $fpga_emif_en
 set param(fpga_emif_width)              $fpga_emif_width
-set param(fpga_peripheral_en)           $fpga_peripheral_en
-set param(hbm_en)						$hbm_en
-set param(fpga_sgpio_en)                $fpga_sgpio_en
-set param(hps_en)                       $hps_en
-set param(h2f_user0_clk_en)             $h2f_user0_clk_en
-set param(board_rev)                    $board_rev
+set param(sub_peri_en)           $sub_peri_en
+set param(user0_clk_src_select)         $user0_clk_src_select
+set param(user1_clk_src_select)         $user1_clk_src_select
 set param(cross_trigger_en)             $cross_trigger_en
 set param(hps_stm_en)                   $hps_stm_en
 set param(hps_sdmmc4b_q1_en)            $hps_sdmmc4b_q1_en
