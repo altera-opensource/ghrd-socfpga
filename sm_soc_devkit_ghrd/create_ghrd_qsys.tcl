@@ -6,15 +6,10 @@
 #****************************************************************************
 #
 # This script construct top level qsys for the GHRD
-# to use this script, 
-# example command to execute this script file
-#   qsys-script --script=create_ghrd_qsys.tcl
+# The value of the variables is passed in through Makefile flow argument (QSYS_TCL_CMDS).
 #
-# The value of the arguments is resolved from arguments_solver.tcl. The default value is defined in design_config.tcl.
-#
-# --- alternatively, input arguments could be passed in to select other FPGA variant. 
-#     Refer arguments_solver.tcl for list of acceptable arguments
-
+# To use this script independently from Makefile flow, following command can be used 
+#   qsys-script --script=create_ghrd_qsys.tcl --cmd="<TCL command to set variables' value>"
 # example command to execute this script file
 #   qsys-script --script=create_ghrd_qsys.tcl --cmd="set qsys_name soc_system; set devicefamily STRATIX10; set device 1SX280LU3F50E3VG"
 #
@@ -33,6 +28,11 @@ set_project_property DEVICE_FAMILY $device_family
 set_project_property DEVICE $device
 set_validation_property AUTOMATIC_VALIDATION false
 
+# Following IP components are present as basic of GHRD in FPGA fabric
+#   - Clock Bridge
+#   - Reset Bridge
+#   - Reset Release IP
+#   - Onchip Memory 
 add_component_param "altera_clock_bridge clk_100
                     IP_FILE_PATH ip/$qsys_name/clk_100.ip 
                     EXPLICIT_CLOCK_RATE 100000000 
@@ -71,25 +71,25 @@ add_component_param "stratix10_clkctrl clkctrl_0
 }
 
 if {$f2s_address_width > 32} {
-	if {$cct_en == 1} {
-	add_component_param "intel_cache_coherency_translator intel_cache_coherency_translator_0
-						IP_FILE_PATH ip/$qsys_name/intel_cache_coherency_translator_0.ip
-						CONTROL_INTERFACE $cct_control_interface
-						ADDR_WIDTH $f2s_address_width
-						AXM_ID_WIDTH 5
-						AXS_ID_WIDTH 5
-						ARDOMAIN_OVERRIDE 0
-						ARBAR_OVERRIDE 0
-						ARSNOOP_OVERRIDE 0
-						ARCACHE_OVERRIDE 2
-						AWDOMAIN_OVERRIDE 0
-						AWBAR_OVERRIDE 0
-						AWSNOOP_OVERRIDE 0
-						AWCACHE_OVERRIDE 2
-						AxUSER_OVERRIDE 0xE0
-						AxPROT_OVERRIDE 1
-						DATA_WIDTH $f2s_data_width
-						"
+    if {$cct_en == 1} {
+    add_component_param "intel_cache_coherency_translator intel_cache_coherency_translator_0
+                    IP_FILE_PATH ip/$qsys_name/intel_cache_coherency_translator_0.ip
+                    CONTROL_INTERFACE $cct_control_interface
+                    ADDR_WIDTH $f2s_address_width
+                    AXM_ID_WIDTH 5
+                    AXS_ID_WIDTH 5
+                    ARDOMAIN_OVERRIDE 0
+                    ARBAR_OVERRIDE 0
+                    ARSNOOP_OVERRIDE 0
+                    ARCACHE_OVERRIDE 2
+                    AWDOMAIN_OVERRIDE 0
+                    AWBAR_OVERRIDE 0
+                    AWSNOOP_OVERRIDE 0
+                    AWCACHE_OVERRIDE 2
+                    AxUSER_OVERRIDE 0xE0
+                    AxPROT_OVERRIDE 1
+                    DATA_WIDTH $f2s_data_width
+                    "
 	}
 }
 
@@ -100,7 +100,7 @@ add_component_param "altera_address_span_extender ext_hps_m_master
                     SLAVE_ADDRESS_WIDTH 30
                     ENABLE_SLAVE_PORT 0
                     MAX_PENDING_READS 1
-		    "
+                    "
 if {$sub_fpga_rgmii_en == 1} {
 add_instance subsys_fpga_rgmii fpga_rgmii_subsys
 reload_ip_catalog
@@ -116,7 +116,7 @@ add_instance subsys_periph peripheral_subsys
 reload_ip_catalog
 }
 
-if {$jtag_ocm_en == 1} {
+if {$sub_debug_en == 1} {
 add_instance subsys_debug jtag_subsys
 reload_ip_catalog
 }
@@ -154,6 +154,11 @@ if {$cct_en == 1} {
 
 # --------------- Connections and connection parameters ------------------#
 
+
+connect "clk_100.out_clk   ocm.clk1
+         rst_in.out_reset  ocm.reset1 
+        "
+           
 if {$sub_hps_en == 1} {
   if {$hps_emif_en == 1} {
   connect " clk_100.out_clk   subsys_hps.clk
@@ -183,19 +188,14 @@ if {$sub_hps_en == 1} {
 
 }
 
-if {$jtag_ocm_en == 1} {
-   if {$ocm_clk_source == 0} {
-	connect "clk_100.out_clk   ocm.clk1
-			 rst_in.out_reset  ocm.reset1 
-		   "
-	connect_map "subsys_debug.fpga_m_master ocm.axi_s1 0x40000	"
-   }
-}
 
-if {$jtag_ocm_en == 1} {
-connect "clk_100.out_clk     subsys_debug.clk
-         rst_in.out_reset    subsys_debug.reset   
-"
+           
+if {$sub_debug_en == 1} {
+    connect_map "subsys_debug.fpga_m_master ocm.axi_s1 0x40000	"
+
+    connect "clk_100.out_clk     subsys_debug.clk
+             rst_in.out_reset    subsys_debug.reset   
+            "
 }
 
 #if {$sub_peri_en == 1} {
@@ -224,16 +224,10 @@ if {$sub_peri_en == 1} {
 }
 
 if {$h2f_width > 0} {
-   if {$h2f_width > 0 && $jtag_ocm_en == 1} {
-      connect_map "subsys_hps.hps2fpga ocm.axi_s1 0x0000"
-   }
+    connect_map "subsys_hps.hps2fpga ocm.axi_s1 0x0000"
 }
 
 if {$lwh2f_width > 0} {
-   #if {$jtag_ocm_en == 1} {
-   #   connect_map "subsys_hps.lwhps2fpga subsys_periph.control_slave 0x1_0000"
-   #}
-   
    if {$sub_peri_en == 1} {
      connect_map "subsys_hps.lwhps2fpga subsys_periph.pb_cpu_0_s0 0x0"
      connect "subsys_hps.f2h_irq_in subsys_periph.button_pio_irq"
@@ -241,16 +235,14 @@ if {$lwh2f_width > 0} {
      connect "subsys_hps.f2h_irq_in subsys_periph.dipsw_pio_irq"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.dipsw_pio_irq irqNumber {1}
    }
-   
-   if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
-     connect "clk_100.out_clk subsys_hps.usb31_phy_pma_cpu_clk 
-              rst_in.out_reset subsys_hps.usb31_phy_reconfig_rst 
+}
+if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
+     connect "rst_in.out_reset subsys_hps.usb31_phy_reconfig_rst 
               clk_100.out_clk subsys_hps.usb31_phy_reconfig_clk 
              "
      connect_map "subsys_hps.lwhps2fpga subsys_hps.usb31_phy_reconfig_slave 0x80_0000"
 }
 
-}
 
 if {$sub_fpga_rgmii_en == 1} {
    connect "subsys_fpga_rgmii.hps_gmii subsys_hps.emac0

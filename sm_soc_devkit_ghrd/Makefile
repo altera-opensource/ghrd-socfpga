@@ -151,21 +151,28 @@ endif
 #  that is not parameterizable via command line 
 #  
 ################################################
-
 # Dependency
 #INTEL_CUSTOM_IP_TARBALL = "intel_custom_ip_20210323_04233.tar.gz"
 #INTEL_CUSTOM_IP_LINK = "https://releases.rocketboards.org/release/intel_custom_ip/$(INTEL_CUSTOM_IP_TARBALL)"
 
-# Family and Device
-# DEVICE to Board Revision Mapping
-
 HPS_EMIF_REF_CLK_FREQ_MHZ ?= 33.333
+
+OCM_MEMSIZE ?= 262144
 
 # User Settings
 # Valid BOARD_TYPE: hidden, cvr
 ###BOARD_TYPE ?= DK-A5E065BB32AES1
 #Loading board configuration
-include board/board_$(BOARD_TYPE)_make_config.inc
+#include board/board_$(BOARD_TYPE)_make_config.inc
+
+
+
+# Construct internal/non-parameterizable variables 
+QUARTUS_TCL_ARGS_INTERNAL += ocm_memsize $(OCM_MEMSIZE)
+QSYS_TCL_CMDS_INTERNAL += set ocm_memsize $(OCM_MEMSIZE);
+
+QUARTUS_TCL_ARGS += $(QUARTUS_TCL_ARGS_INTERNAL)
+QSYS_TCL_CMDS += $(QSYS_TCL_CMDS_INTERNAL)
 
 # System initilization mode: fpga, hps
 INITIALIZATION_FIRST ?= hps
@@ -186,6 +193,7 @@ ENABLE_HPS_EMIF_ECC ?= 0
 DEVICE_FAMILY := Agilex5
 #SM
 DEVICE ?= A5ED065BB32AE5SR0
+
 # Board Power Management. temporary set power management IC type here, till an alternative is made available for Agilex5 devkit
 
 PROJECT_NAME ?= ghrd_$(call lc,$(DEVICE))
@@ -260,6 +268,11 @@ endif
 ifneq ($(DAUGHTER_CARD),)
 QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)
 QSYS_TCL_CMDS += set daughter_card $(DAUGHTER_CARD);
+endif
+
+ifneq ($(SUB_DEBUG_EN),)
+QUARTUS_TCL_ARGS += sub_debug_en $(SUB_DEBUG_EN)
+QSYS_TCL_CMDS += set sub_debug_en $(SUB_DEBUG_EN);
 endif
 
 ifneq ($(SUB_PERI_EN),)
