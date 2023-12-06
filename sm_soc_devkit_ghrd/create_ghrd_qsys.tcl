@@ -191,7 +191,9 @@ if {$sub_hps_en == 1} {
 
            
 if {$sub_debug_en == 1} {
-    connect_map "subsys_debug.fpga_m_master ocm.axi_s1 0x40000	"
+    connect_map "subsys_debug.fpga_m_master ocm.axi_s1 0x40000
+                 subsys_debug.fpga_m_master subsys_hps.usb31_phy_reconfig_slave 0x800000
+                "
 
     connect "clk_100.out_clk     subsys_debug.clk
              rst_in.out_reset    subsys_debug.reset   
