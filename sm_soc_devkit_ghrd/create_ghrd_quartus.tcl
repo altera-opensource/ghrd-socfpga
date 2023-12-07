@@ -101,41 +101,13 @@ set_global_assignment -name HPS_DAP_SPLIT_MODE DISABLED
 # Call "board_${board}_config.tcl" PWRMGT config
 config_pwrmgt
 
-if {$pr_enable == 1} {
-set_global_assignment -name REVISION_TYPE PR_BASE
-set_instance_assignment -name GLOBAL_SIGNAL GLOBAL_CLOCK -to fpga_clk_100
-
-for {set n 0} {$n < $pr_region_count} {incr n} {
-#PR partition reserved area region
-set place_lower_x_coord $pr_x_origin
-set place_lower_y_coord [expr $pr_y_origin + 77*$n]
-set place_upper_x_coord [expr $pr_x_origin + $pr_width - 1]
-set place_upper_y_coord [expr $pr_y_origin + 77*$n + $pr_height - 1]
-set route_lower_x_coord [expr $pr_x_origin - 1]
-set route_lower_y_coord [expr $pr_y_origin + 77*$n - 1]
-set route_upper_x_coord [expr $pr_x_origin + $pr_width]
-set route_upper_y_coord [expr $pr_y_origin + 77*$n + $pr_height]
-set_instance_assignment -name PARTITION pr_partition_${n} -to soc_inst|pr_region_${n}
-set_instance_assignment -name PARTIAL_RECONFIGURATION_PARTITION ON -to soc_inst|pr_region_${n}
-set_instance_assignment -name PLACE_REGION "$place_lower_x_coord $place_lower_y_coord $place_upper_x_coord $place_upper_y_coord" -to soc_inst|pr_region_${n}
-set_instance_assignment -name ROUTE_REGION "$route_lower_x_coord $route_lower_y_coord $route_upper_x_coord $route_upper_y_coord" -to soc_inst|pr_region_${n}
-set_instance_assignment -name RESERVE_PLACE_REGION ON -to soc_inst|pr_region_${n}
-set_instance_assignment -name CORE_ONLY_PLACE_REGION ON -to soc_inst|pr_region_${n}
-}
-}
-
-if {$pr_enable == 1} {
-# Temporary until PR is merged into combine GHRD
-set_global_assignment -name STRATIX_JTAG_USER_CODE 3
-set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
-} else {
-if {$board == "devkit_fm86" | $board == "devkit_fm87" | $board == "DK-SI-AGF014E" | $board == "devkit_fp82" && $daughter_card == "devkit_dc_oobe"} {
+if {$board == "devkit_fm86" | $board == "devkit_fm87" | $board == "DK-A5E065BB32AES1" && $daughter_card == "devkit_dc_oobe"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 4
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
-} elseif {$board == "DK-SI-AGF014E" && $daughter_card == "devkit_dc_nand"} {
+} elseif {$board == "DK-A5E065BB32AES1" && $daughter_card == "devkit_dc_nand"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 1
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
-} elseif {$board == "DK-SI-AGF014E" && $daughter_card == "devkit_dc_emmc"} {
+} elseif {$board == "DK-A5E065BB32AES1" && $daughter_card == "devkit_dc_emmc"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 2
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 }
