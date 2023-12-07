@@ -160,6 +160,7 @@ endif
 HPS_EMIF_REF_CLK_FREQ_MHZ ?= 33.333
 
 OCM_MEMSIZE ?= 262144
+F2S_DATA_WIDTH ?= 256-bit
 
 # User Settings
 # Valid BOARD_TYPE: hidden, cvr

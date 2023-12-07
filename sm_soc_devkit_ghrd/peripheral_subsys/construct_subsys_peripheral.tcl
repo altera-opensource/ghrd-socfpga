@@ -99,7 +99,7 @@ add_component_param "altera_avalon_pio led_pio
 #                    "
 
 if {$dfl_rom_en == 1} {
-add_component_param " dfl_rom dfl_rom_inst
+add_component_param "dfl_rom dfl_rom_inst
                     IP_FILE_PATH ip/$subsys_name/dfl_rom_inst.ip
                     ADDR_WIDTH 12
                     "
@@ -114,10 +114,23 @@ add_component_param "altera_avalon_mm_bridge pb_cpu_0
                     MAX_PENDING_RESPONSES 1
                     "                           
 
+add_component_param "intel_ssgdma ssgdma_0 
+                    IP_FILE_PATH ip/$subsys_name/ssgdma_0.ip 
+                    DMA_MODE {DMA SoC mode}
+                    AXI_ST_PORT_FREQ_SOC_MODE_AGILEX5 100
+                    NUM_H2D_MM_PORTS 1
+                    NUM_H2D_ST_PORTS 0
+                    NUM_D2H_ST_PORTS 0
+                    "
+
 # --------------- Connections and connection parameters ------------------#
 connect "   periph_clk.out_clk sysid.clk
             periph_rst_in.out_reset sysid.reset
-"
+            periph_clk.out_clk ssgdma_0.axi_lite_clk
+            periph_rst_in.out_reset ssgdma_0.axi_lite_areset_n
+        "
+
+connect_map "  pb_cpu_0.m0 ssgdma_0.host_csr 0x400000 "
 
 #connect_map "   pb_cpu_0.m0 ILC.avalon_slave 0x10100 "
 
@@ -167,7 +180,14 @@ connect_map "  pb_cpu_0.m0 dfl_rom_inst.intel_axi4lite_subordinate 0x0 "
 
 export periph_rst_in in_reset reset
 export periph_clk in_clk clk
-#export sysid control_slave control_slave
+export ssgdma_0 host_clk ssgdma_host_clk
+export ssgdma_0 host_aresetn ssgdma_host_aresetn
+export ssgdma_0 host ssgdma_host
+export ssgdma_0 interrupt ssgdma_interrupt
+export ssgdma_0 h2d0_mm_clk ssgdma_h2d0_mm_clk
+export ssgdma_0 h2d0_mm_resetn ssgdma_h2d0_mm_resetn
+export ssgdma_0 h2d0 ssgdma_h2d0
+
 
 if {$fpga_button_pio_width >0} {
 export button_pio external_connection button_pio_external_connection

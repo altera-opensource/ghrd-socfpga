@@ -50,8 +50,8 @@ add_component_param "altera_reset_bridge sub_rst_in
 add_component_param "intel_agilex_5_soc agilex_hps
                      IP_FILE_PATH ip/$subsys_name/agilex_hps.ip 
                      MPU_EVENTS_Enable 0
-		     GP_Enable 0
-		     Debug_APB_Enable 0
+                     GP_Enable 0
+                     Debug_APB_Enable 0
                      STM_Enable 0
                      JTAG_Enable 0
                      CTI_Enable 0

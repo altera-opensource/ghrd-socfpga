@@ -57,7 +57,7 @@ add_component_param "intel_onchip_memory ocm
                     memorySize $ocm_memsize
                     singleClockOperation 1
                     interfaceType 1
-                    idWidth 6
+                    idWidth 10
                     "
 					
 if {$clk_gate_en == 1} {
@@ -160,11 +160,11 @@ connect "clk_100.out_clk   ocm.clk1
         "
            
 if {$sub_hps_en == 1} {
-  if {$hps_emif_en == 1} {
+  
   connect " clk_100.out_clk   subsys_hps.clk
             rst_in.out_reset  subsys_hps.reset 
           "
-  }
+
   if {$f2sdram_width > 0} {
   connect " clk_100.out_clk   subsys_hps.f2sdram_clk
             rst_in.out_reset  subsys_hps.f2sdram_rst 
@@ -209,6 +209,10 @@ if {$sub_debug_en == 1} {
 if {$sub_peri_en == 1} {
 connect "clk_100.out_clk   subsys_periph.clk
          rst_in.out_reset  subsys_periph.reset
+         clk_100.out_clk   subsys_periph.ssgdma_host_clk
+         rst_in.out_reset  subsys_periph.ssgdma_host_aresetn
+         clk_100.out_clk   subsys_periph.ssgdma_h2d0_mm_clk
+         rst_in.out_reset  subsys_periph.ssgdma_h2d0_mm_resetn
          "
 }
 
@@ -231,15 +235,23 @@ if {$h2f_width > 0} {
     connect_map "subsys_hps.hps2fpga ocm.axi_s1 0x0000"
 }
 
-if {$lwh2f_width > 0} {
-   if {$sub_peri_en == 1} {
+if {$sub_peri_en == 1} {
+   if {$lwh2f_width > 0} {
      connect_map "subsys_hps.lwhps2fpga subsys_periph.pb_cpu_0_s0 0x0"
+     
      connect "subsys_hps.f2h_irq_in subsys_periph.button_pio_irq"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.button_pio_irq irqNumber {0}
      connect "subsys_hps.f2h_irq_in subsys_periph.dipsw_pio_irq"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.dipsw_pio_irq irqNumber {1}
+     connect "subsys_hps.f2h_irq_in subsys_periph.ssgdma_interrupt"
+     set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.ssgdma_interrupt irqNumber {2}
    }
+   if {$f2s_data_width > 0} {
+     connect_map "subsys_periph.ssgdma_host subsys_hps.fpga2hps 0x0"
+   }
+   connect_map "subsys_periph.ssgdma_h2d0 ocm.axi_s1 0x0"
 }
+
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
      connect "rst_in.out_reset subsys_hps.usb31_phy_reconfig_rst 
               clk_100.out_clk subsys_hps.usb31_phy_reconfig_clk 
@@ -262,7 +274,6 @@ export user_rst_clkgate_0 ninit_done ninit_done
 export subsys_hps hps_io hps_io
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 export subsys_hps usb31_io usb31_io
-#pending confirmation if pma_cpu_clk need any connection since compilation claim as virtual port
 export subsys_hps o_pma_cu_clk o_pma_cu_clk
 export subsys_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
 export subsys_hps usb31_phy_refclk_p usb31_phy_refclk_p
@@ -271,9 +282,6 @@ export subsys_hps usb31_phy_rx_serial_n usb31_phy_rx_serial_n
 export subsys_hps usb31_phy_rx_serial_p usb31_phy_rx_serial_p
 export subsys_hps usb31_phy_tx_serial_n usb31_phy_tx_serial_n
 export subsys_hps usb31_phy_tx_serial_p usb31_phy_tx_serial_p
-# export subsys_hps usb31_phy_reconfig_rst usb31_phy_reconfig_rst
-# export subsys_hps usb31_phy_reconfig_clk usb31_phy_reconfig_clk
-# export subsys_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
 }
 
 if {$hps_emif_en == 1} {
