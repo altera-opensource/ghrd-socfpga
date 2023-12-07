@@ -101,7 +101,7 @@ set_global_assignment -name HPS_DAP_SPLIT_MODE DISABLED
 # Call "board_${board}_config.tcl" PWRMGT config
 config_pwrmgt
 
-if {$board == "devkit_fm86" | $board == "devkit_fm87" | $board == "DK-A5E065BB32AES1" && $daughter_card == "devkit_dc_oobe"} {
+if {$board == "DK-A5E065BB32AES1" && $daughter_card == "devkit_dc_oobe"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 4
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } elseif {$board == "DK-A5E065BB32AES1" && $daughter_card == "devkit_dc_nand"} {
