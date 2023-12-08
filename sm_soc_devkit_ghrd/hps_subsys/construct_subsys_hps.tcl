@@ -31,7 +31,7 @@ set_project_property DEVICE_FAMILY $device_family
 set_project_property DEVICE $device
 set_validation_property AUTOMATIC_VALIDATION false
 
-if {$hps_emif_en == 1} {
+if {$hps_clk_source == 1} {
 add_component_param "altera_clock_bridge sub_clk 
                     IP_FILE_PATH ip/$subsys_name/sub_clk.ip 
                     EXPLICIT_CLOCK_RATE 100000000 
@@ -106,8 +106,6 @@ if {$hps_emif_en == 1} {
 		     emif_hps.usr_rst_n_0          agilex_hps.io96b0_ch0_axi_rst
 		     emif_hps.s0_axil_rst_n        agilex_hps.io96b0_csr_axi_rst
 		    "
-	
-	connect "sub_clk.out_clk               sub_rst_in.clk" 
 	
 	connect "agilex_hps.io96b0_csr_axi      emif_hps.s0_axil"
 }
@@ -590,7 +588,9 @@ add_component_param "intel_srcss_gts gts_inst
          # agilex_hps.trace         ext_trace.h2f_tpiu"
 # }
 if {$hps_clk_source == 1} {
-connect "sub_clk.out_clk agilex_hps.f2h_free_clk"
+connect "sub_clk.out_clk agilex_hps.f2h_free_clk
+         sub_clk.out_clk sub_rst_in.clk 
+        "
 }
 
 #if {$acp_adapter_en == 1} {
@@ -622,7 +622,7 @@ export agilex_hps usb31_phy_reconfig_slave usb31_phy_reconfig_slave
 export gts_inst o_pma_cu_clk o_pma_cu_clk 
 }
 
-if {$hps_emif_en == 1} {
+if {$hps_clk_source == 1} {
 export sub_rst_in in_reset reset
 export sub_clk in_clk clk
 }

@@ -161,10 +161,11 @@ connect "clk_100.out_clk   ocm.clk1
            
 if {$sub_hps_en == 1} {
   
+  if {$hps_clk_source == 1} {
   connect " clk_100.out_clk   subsys_hps.clk
             rst_in.out_reset  subsys_hps.reset 
           "
-
+  }
   if {$f2sdram_width > 0} {
   connect " clk_100.out_clk   subsys_hps.f2sdram_clk
             rst_in.out_reset  subsys_hps.f2sdram_rst 
