@@ -68,7 +68,7 @@ if {$hps_emif_mem_part == "custom"} {
 								MEM_FORMAT                           MEM_FORMAT_DISCRETE
 								MEM_TOPOLOGY                         MEM_TOPOLOGY_FLYBY
 								CTRL_ECC_MODE                        CTRL_ECC_MODE_DISABLED
-								PHY_AC_PLACEMENT_AUTO_BOOL           true
+								PHY_AC_PLACEMENT_AUTO_BOOL           false
 								PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_BOT
 								MEM_DEVICE_DQ_WIDTH                  16
 								MEM_COMPS_PER_RANK                   2
