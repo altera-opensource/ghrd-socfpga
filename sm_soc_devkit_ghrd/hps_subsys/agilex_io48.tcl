@@ -91,7 +91,6 @@ set hps_sdmmc_pupd_q2_en     0
 set hps_sdmmc_pwr_q2_en      0
 set hps_sdmmc_dstrb_q2_en    0
 set hps_sdmmc4b_q3_en        0
-set hps_sdmmc8b_q3_en        0
 set hps_sdmmc_wp_q3_en       0
 set hps_sdmmc_pupd_q4_en     0
 set hps_sdmmc_pwr_q4_en      0

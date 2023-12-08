@@ -93,7 +93,7 @@ input    wire          hps_jtag_tms,
 output   wire          hps_jtag_tdo,
 input    wire          hps_jtag_tdi,
 @@}
-@@if {$hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q3_en == 1 || $hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_en == 1} {
+@@if {$hps_sdmmc4b_q3_en == 1 || $hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_en == 1} {
 @@# Assumption with only single SDMMC controller to be enabled onto HPS IO at one time 
 output   wire          hps_sdmmc_CCLK, 
 inout    wire          hps_sdmmc_CMD,          
@@ -652,7 +652,7 @@ ${qsys_name} soc_inst (
 .hps_io_mdio2_mdio                         (hps_emac2_MDIO),  
 .hps_io_mdio2_mdc                          (hps_emac2_MDC),  
 @@}
-@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q1_en == 1 || $hps_sdmmc8b_q3_en == 1} {
+@@if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc4b_q3_en == 1 || $hps_sdmmc8b_q1_en == 1} {
 .hps_io_sdmmc_cclk                         (hps_sdmmc_CCLK),   
 .hps_io_sdmmc_cmd                          (hps_sdmmc_CMD), 
 .hps_io_sdmmc_data0                        (hps_sdmmc_D0),          
