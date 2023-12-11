@@ -72,9 +72,21 @@ if {$hps_emif_mem_part == "custom"} {
 								PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_BOT
 								MEM_DEVICE_DQ_WIDTH                  16
 								MEM_COMPS_PER_RANK                   2
+								PHY_REFCLK_FREQ_MHZ_AUTO_BOOL		 false
+								PHY_MEMCLK_FREQ_MHZ_AUTO_BOOL		 false
+								PHY_MEMCLK_FREQ_MHZ 				 $hps_emif_mem_clk_freq_mhz
+								PHY_REFCLK_FREQ_MHZ 				 $hps_emif_ref_clk_freq_mhz
 								"
         set_component_param "emif_hps USER_EXTRA_PARAMETERS BYTE_SWIZZLE_CH0=0,X,X,X,1,2,3,X;PIN_SWIZZLE_CH0_DQS0=0,2,6,4,1,3,5,7;PIN_SWIZZLE_CH0_DQS1=12,15,8,11,14,10,13,9;PIN_SWIZZLE_CH0_DQS2=20,16,18,22,23,17,19,21;PIN_SWIZZLE_CH0_DQS3=26,30,28,24,25,27,31,29; "
-    }
+		if {$hps_emif_mem_clk_freq_mhz == 800.0} {
+			set_component_param     "emif_hps
+									MEM_PRESET_FILE_EN   		True
+									MEM_PRESET_ID_AUTO_BOOL   	False
+									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1600L_800MHz_CL12_alloff_component_1CS_1D_16Gb_1Gx16.qprs
+									MEM_PRESET_ID   			DDR4-1600L_800MHz_CL12_alloff_component_1CS_1D_16Gb_1Gx16
+									"
+		}
+	}
 
         # ------ Connections --------------------------------- #
         connect "${cpu_instance}.io96b0_ch0_axi emif_hps.s0_axi4"

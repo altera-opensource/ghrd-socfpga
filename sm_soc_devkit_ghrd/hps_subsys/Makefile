@@ -33,6 +33,16 @@
 #       - 4: 2x32 bit (Not supported)
 #       - 5: 4x16 bit (Not supported)
 #
+#   HPS_EMIF_MEM_CLK_FREQ_MHZ:
+#       - 800: 800Mhz
+#       - 933: 933Mhz [default]
+#       - 1066: 1066Mhz
+#       - 1200: 1200Mhz
+#
+#   HPS_EMIF_REF_CLK_FREQ_MHZ:
+#       - 100: 100Mhz
+#       - 116.625: 116.625Mhz [default]
+#
 #   HPS_EMIF_ECC_EN :
 #       - 0: disable [default]
 #       - 1: enable 
