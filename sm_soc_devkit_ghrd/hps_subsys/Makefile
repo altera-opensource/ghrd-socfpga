@@ -51,6 +51,23 @@
 #      - 0: HPS External Oscillator [default]
 #      - 1: FPGA Free Clock
 #
+#   RESET_WATCHDOG_EN:
+#       - 0: disable [default]
+#       - 1: enable
+#
+#   RESET_HPS_WARM_EN :
+#       - 0: disable [default]
+#       - 1: enable 
+#
+#   RESET_H2F_COLD_EN :
+#       - 0: disable [default]
+#       - 1: enable 
+#
+#   RESET_SDM_WATCHDOG_CFG :
+#       - 0: HPS Cold Reset [default]
+#       - 1: HPS Warm Reset
+#       - 2: Trigger Remote Update
+#
 ##demo:
 ##  hps_other_var0 :
 ##      - val00: val00_description [default]

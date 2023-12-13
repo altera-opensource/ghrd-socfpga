@@ -28,6 +28,7 @@
 #   HPS_JTAG_MODE:
 #       - combined: combined mode [default]
 #
+#
 # ->
 #
 #########################################################################
@@ -157,10 +158,9 @@ endif
 #INTEL_CUSTOM_IP_TARBALL = "intel_custom_ip_20210323_04233.tar.gz"
 #INTEL_CUSTOM_IP_LINK = "https://releases.rocketboards.org/release/intel_custom_ip/$(INTEL_CUSTOM_IP_TARBALL)"
 
-HPS_EMIF_REF_CLK_FREQ_MHZ ?= 33.333
-
 OCM_MEMSIZE ?= 262144
 F2S_DATA_WIDTH ?= 256-bit
+#RESET_WATCHDOG_EN ?= 1
 
 # User Settings
 # Valid BOARD_TYPE: hidden, cvr
@@ -306,6 +306,26 @@ endif
 ifneq ($(SUB_HPS_EN),)
 QUARTUS_TCL_ARGS += sub_hps_en $(SUB_HPS_EN) f2s_data_width $(F2S_DATA_WIDTH)
 QSYS_TCL_CMDS += set sub_hps_en $(SUB_HPS_EN); set f2s_data_width $(F2S_DATA_WIDTH);
+endif
+
+ifneq ($(RESET_WATCHDOG_EN),)
+QUARTUS_TCL_ARGS += reset_watchdog_en $(RESET_WATCHDOG_EN)
+QSYS_TCL_CMDS += set reset_watchdog_en $(RESET_WATCHDOG_EN);
+endif
+
+ifneq ($(RESET_HPS_WARM_EN),)
+QUARTUS_TCL_ARGS += reset_hps_warm_en $(RESET_HPS_WARM_EN)
+QSYS_TCL_CMDS += set reset_hps_warm_en $(RESET_HPS_WARM_EN);
+endif
+
+ifneq ($(RESET_H2F_COLD_EN),)
+QUARTUS_TCL_ARGS += reset_h2f_cold_en $(RESET_H2F_COLD_EN)
+QSYS_TCL_CMDS += set reset_h2f_cold_en $(RESET_H2F_COLD_EN);
+endif
+
+ifneq ($(RESET_SDM_WATCHDOG_CFG),)
+QUARTUS_TCL_ARGS += reset_sdm_watchdog_cfg $(RESET_SDM_WATCHDOG_CFG)
+QSYS_TCL_CMDS += set reset_sdm_watchdog_cfg $(RESET_SDM_WATCHDOG_CFG);
 endif
 
 # EMIF Topology settings, applies only if HPS-EMIF(EMIF_AXI_Enable) is enabled. Set this according to your ddr settings.

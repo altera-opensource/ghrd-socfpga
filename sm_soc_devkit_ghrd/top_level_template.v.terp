@@ -425,12 +425,31 @@ assign emac0_mdi  = emac0_mdio;
 @@if {$user0_clk_src_select ==1} {
 wire                   user0_clk_src_clk;
 @@}
-//assign               system_reset_n = fpga_reset_n_debounced & ~h2f_reset & ~ninit_done;
-assign                 system_reset_n = fpga_reset_n_debounced & ~ninit_done;
-@@} else {
-assign                 system_reset_n = fpga_reset_n_debounced & ~ninit_done;
+@@if {$reset_watchdog_en == 1} {
+wire                   h2f_watchdog_reset;
+@@}
+@@if {$reset_hps_warm_en == 1} {
+wire                   h2f_warm_reset_handshake;
+@@}
+@@if {$reset_h2f_cold_en == 1} {
+wire                   h2f_cold_reset;
 @@}
 
+assign                 system_reset_n = fpga_reset_n_debounced \
+@@if {$reset_watchdog_en == 1} {
+& ~h2f_watchdog_reset \
+@@}
+@@if {$reset_hps_warm_en == 1} {
+& ~h2f_warm_reset_handshake \
+@@}
+@@if {$reset_h2f_cold_en == 1} {
+& ~h2f_cold_reset \
+@@}
+& ~ninit_done;
+
+//assign               system_reset_n = fpga_reset_n_debounced & ~h2f_reset & ~ninit_done;
+
+@@}
 @@  if {$user0_clk_src_select  == 1} {
 assign                 system_clk_100   = user0_clk_src_clk;
 @@  } else {

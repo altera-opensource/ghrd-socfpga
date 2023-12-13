@@ -285,6 +285,18 @@ export subsys_hps usb31_phy_tx_serial_n usb31_phy_tx_serial_n
 export subsys_hps usb31_phy_tx_serial_p usb31_phy_tx_serial_p
 }
 
+if {$reset_watchdog_en == 1} {
+export subsys_hps h2f_watchdog_reset h2f_watchdog_reset
+}
+
+if {$reset_hps_warm_en == 1} {
+export subsys_hps h2f_warm_reset_handshake h2f_warm_reset_handshake
+}
+					 
+if {$reset_h2f_cold_en == 1} {
+export subsys_hps h2f_cold_reset h2f_cold_reset
+}
+
 if {$hps_emif_en == 1} {
 export subsys_hps emif_hps_emif_mem_0 emif_hps_emif_mem_0
 export subsys_hps emif_hps_emif_oct_0 emif_hps_emif_oct_0

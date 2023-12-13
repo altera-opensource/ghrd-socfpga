@@ -72,11 +72,26 @@ add_component_param "intel_agilex_5_soc agilex_hps
                      EMIF_Topology $emif_topology
 					 MPU_clk_ccu_div {2:Div2}
 					 MPU_clk_periph_div {4:Div4}
+					 Rst_sdm_wd_config $reset_sdm_watchdog_cfg
                      "
-                     # Rst_watchdog_en $reset_watchdog_en
-					 # Rst_hps_warm_en $reset_hps_warm_en
-					 # Rst_h2f_cold_en $reset_h2f_cold_en
-					 # Rst_sdm_wd_config $reset_sdm_watchdog_cfg
+
+if {$reset_watchdog_en == 1} {
+set_component_param "agilex_hps 
+                     Rst_watchdog_en $reset_watchdog_en
+					 "
+}
+
+if {$reset_hps_warm_en == 1} {
+set_component_param "agilex_hps 
+                     Rst_hps_warm_en $reset_hps_warm_en
+					 "
+}
+					 
+if {$reset_h2f_cold_en == 1} {
+set_component_param "agilex_hps 
+                     Rst_h2f_cold_en $reset_h2f_cold_en
+					 "
+}
 
 if {$sub_fpga_rgmii_en == 1} {
 set_component_param "agilex_hps 
@@ -629,6 +644,18 @@ export sub_clk in_clk clk
 
 if {$hps_io_off == 0} {
 export agilex_hps hps_io hps_io
+}
+
+if {$reset_watchdog_en == 1} {
+export agilex_hps h2f_watchdog_reset h2f_watchdog_reset
+}
+
+if {$reset_hps_warm_en == 1} {
+export agilex_hps h2f_warm_reset_handshake h2f_warm_reset_handshake
+}
+					 
+if {$reset_h2f_cold_en == 1} {
+export agilex_hps h2f_cold_reset h2f_cold_reset
 }
 
 # if {$hps_stm_en == 1} {

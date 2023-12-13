@@ -159,6 +159,9 @@ set param(hps_peri_irq_loopback_en)     $hps_peri_irq_loopback_en
 set param(hps_f2s_irq_en)               $hps_f2s_irq_en
 set param(board)                        $board
 set param(sub_fpga_rgmii_en)            $sub_fpga_rgmii_en
+set param(reset_watchdog_en)            $reset_watchdog_en
+set param(reset_hps_warm_en)            $reset_hps_warm_en
+set param(reset_h2f_cold_en)            $reset_h2f_cold_en
 
 if {[info exists fpga_led_pio_width ]} {
     set param(fpga_led_pio_width)           $fpga_led_pio_width
