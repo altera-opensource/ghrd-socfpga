@@ -65,15 +65,27 @@ if {$hps_emif_mem_part == "custom"} {
 								PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_AUTO
 								MEM_DEVICE_DQ_WIDTH                  16
 								MEM_COMPS_PER_RANK                   2
+								PHY_MEMCLK_FREQ_MHZ_AUTO_BOOL        false
+								PHY_MEMCLK_FREQ_MHZ                  $hps_emif_mem_clk_freq_mhz
+								PHY_REFCLK_FREQ_MHZ_AUTO_BOOL        false
+								PHY_REFCLK_FREQ_MHZ                  $hps_emif_ref_clk_freq_mhz
 								"
-        if {$mem_preset_file_en == "True" } {
-            set_component_param " emif_hps
-                                  MEM_PRESET_FILE_EN True
-                                  MEM_PRESET_ID_AUTO_BOOL False
-                                  MEM_PRESET_FILE_QPRS $mem_preset_file_qprs
-                                  MEM_PRESET_ID $mem_preset_id
-                                "  
-        }
+		if {$hps_emif_mem_clk_freq_mhz == 933.0} {
+			set_component_param     "emif_hps
+									MEM_PRESET_FILE_EN   		True
+									MEM_PRESET_ID_AUTO_BOOL   	False
+									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1866M_933MHz_CL13_alloff_component_1CS_1D_16Gb_1Gx16.qprs
+									MEM_PRESET_ID   			DDR4-1866M_933MHz_CL13_alloff_component_1CS_1D_16Gb_1Gx16
+									"
+		}
+        # if {$mem_preset_file_en == "True" } {
+            # set_component_param " emif_hps
+                                  # MEM_PRESET_FILE_EN True
+                                  # MEM_PRESET_ID_AUTO_BOOL False
+                                  # MEM_PRESET_FILE_QPRS $mem_preset_file_qprs
+                                  # MEM_PRESET_ID $mem_preset_id
+                                # "  
+        # }
     }
 
         # ------ Connections --------------------------------- #
