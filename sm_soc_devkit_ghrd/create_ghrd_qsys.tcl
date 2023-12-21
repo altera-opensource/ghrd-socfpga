@@ -47,7 +47,7 @@ add_component_param "altera_reset_bridge rst_in
                     USE_RESET_REQUEST 0
                     "
 
-add_component_param "altera_s10_user_rst_clkgate user_rst_clkgate_0
+add_component_param "intel_user_rst_clkgate user_rst_clkgate_0
                     IP_FILE_PATH ip/$qsys_name/user_rst_clkgate_0.ip 
                     "
 					
