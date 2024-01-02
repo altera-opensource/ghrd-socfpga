@@ -630,7 +630,7 @@ endif
 #############
 # Quartus Prime
 
-QUARTUS_QPF := ghrd_$(call lc,$(DEVICE)).qpf
+QUARTUS_QPF := $(PROJECT_NAME).qpf
 
 ifeq ($(QUARTUS_QPF),)
 $(error ERROR: QUARTUS_QPF *.qpf file not set and could not be discovered)
