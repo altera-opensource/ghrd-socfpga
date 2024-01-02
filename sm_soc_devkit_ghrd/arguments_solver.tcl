@@ -707,6 +707,21 @@ if { ![ info exists hps_clk_source ] } {
  puts "-- Accepted parameter \$hps_clk_source = $hps_clk_source"
 }
 
+if { ![ info exists pwr_mpu_l3_cache_size ] } {
+ puts "-- Accepted parameter \$pwr_mpu_l3_cache_size = $pwr_mpu_l3_cache_size"
+}
+
+if { ![ info exists pwr_a55_core0_1_on ] } {
+ puts "-- Accepted parameter \$pwr_a55_core0_1_on = $pwr_a55_core0_1_on"
+}
+
+if { ![ info exists pwr_a76_core2_on ] } {
+ puts "-- Accepted parameter \$pwr_a76_core2_on = $pwr_a76_core2_on"
+}
+
+if { ![ info exists pwr_a76_core3_on ] } {
+ puts "-- Accepted parameter \$pwr_a76_core3_on = $pwr_a76_core3_on"
+}
 
 # ----------------
 # Parameter Auto Derivation

@@ -701,6 +701,31 @@ if {$sub_fpga_rgmii_en == 1} {
     export agilex_hps emac_timestamp_data emac_timestamp_data
 }
 
+if {$pwr_mpu_l3_cache_size < 2} {
+   set_component_param "agilex_hps   
+                        Pwr_mpu_l3_cache_size $pwr_mpu_l3_cache_size
+                        "
+}
+
+if {$pwr_a55_core0_1_on == 0} {
+   set_component_param "agilex_hps   
+                        Pwr_a55_core0_1_on false
+                        Pwr_boot_core_sel  2
+                        "
+}
+
+if {$pwr_a76_core2_on == 0} {
+   set_component_param "agilex_hps   
+                        Pwr_a76_core2_on false
+                        "
+}
+
+if {$pwr_a76_core3_on == 0} {
+   set_component_param "agilex_hps   
+                        Pwr_a76_core3_on false
+                        "
+}
+
 #if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
 #export agilex_hps fpga2hps_interrupt fpga2hps_interrupt
 #}
