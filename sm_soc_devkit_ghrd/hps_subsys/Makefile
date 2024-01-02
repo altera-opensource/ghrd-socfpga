@@ -68,6 +68,61 @@
 #       - 1: HPS Warm Reset
 #       - 2: Trigger Remote Update
 #
+#   F2S_DATA_WIDTH :
+#       - 0: disable [default]
+#       - 256: 256-bit
+#
+#   F2S_ADDRESS_WIDTH :
+#       - 20: 20-bit 1MB minimum
+#       - 32: 32-bit 4GB [default]
+#       - 40: 40-bit 1TB maximum
+#
+#   F2SDRAM_DATA_WIDTH : 
+#       - 0: disable
+#       - 64: 64-bit
+#       - 128: 128-bit
+#       - 256: 256-bit [default]
+#
+#   F2SDRAM_ADDR_WIDTH :
+#       - 20: 20-bit 1MB minimum
+#       - 32: 32-bit 4GB [default]
+#       - 40: 40-bit 1TB maximum
+#
+#   H2F_WIDTH :
+#       - 0: disable
+#       - 32: 32-bit
+#       - 64: 64-bit
+#       - 128: 128-bit [default]
+#       
+#   H2F_ADDR_WIDTH :
+#       - 20: 20-bit 1MB minimum
+#       - 38: 38-bit 256GB maximum [default]
+#
+#   LWH2F_WIDTH :
+#       - 0: disable
+#       - 32: 32-bit [default]
+#
+#   LWH2F_ADDR_WIDTH :
+#       - 20: 20-bit 1MB minimum
+#       - 29: 29-bit 512MB maximum [default]
+#
+#   PWR_MPU_L3_CACHE_SIZE :
+#       - 0: disabled
+#       - 1: 1MB
+#       - 2: 2MB [default]
+#
+#   PWR_A55_CORE0_1_ON:
+#       - 0: disabled
+#       - 1: enabled [default]
+#
+#   PWR_A76_CORE2_ON:
+#       - 0: disabled
+#       - 1: enabled [default]
+#
+#   PWR_A76_CORE3_ON:
+#       - 0: disabled
+#       - 1: enabled [default]
+#
 ##demo:
 ##  hps_other_var0 :
 ##      - val00: val00_description [default]

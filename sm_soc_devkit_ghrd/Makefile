@@ -328,6 +328,61 @@ QUARTUS_TCL_ARGS += reset_sdm_watchdog_cfg $(RESET_SDM_WATCHDOG_CFG)
 QSYS_TCL_CMDS += set reset_sdm_watchdog_cfg $(RESET_SDM_WATCHDOG_CFG);
 endif
 
+ifneq ($(F2S_ADDRESS_WIDTH),)
+QUARTUS_TCL_ARGS += f2s_address_width $(F2S_ADDRESS_WIDTH)
+QSYS_TCL_CMDS += set f2s_address_width $(F2S_ADDRESS_WIDTH);
+endif
+
+ifneq ($(F2SDRAM_DATA_WIDTH),)
+QUARTUS_TCL_ARGS += f2sdram_width $(F2SDRAM_DATA_WIDTH)
+QSYS_TCL_CMDS += set f2sdram_width $(F2SDRAM_DATA_WIDTH);
+endif
+
+ifneq ($(F2SDRAM_ADDR_WIDTH),)
+QUARTUS_TCL_ARGS += f2sdram_addr_width  $(F2SDRAM_ADDR_WIDTH)
+QSYS_TCL_CMDS += set f2sdram_addr_width $(F2SDRAM_ADDR_WIDTH);
+endif
+
+ifneq ($(H2F_WIDTH),)
+QUARTUS_TCL_ARGS += h2f_width $(H2F_WIDTH)
+QSYS_TCL_CMDS += set h2f_width $(H2F_WIDTH);
+endif
+
+ifneq ($(H2F_ADDR_WIDTH),)
+QUARTUS_TCL_ARGS += h2f_addr_width $(H2F_ADDR_WIDTH)
+QSYS_TCL_CMDS += set h2f_addr_width $(H2F_ADDR_WIDTH);
+endif
+
+ifneq ($(LWH2F_WIDTH),)
+QUARTUS_TCL_ARGS += lwh2f_width $(LWH2F_WIDTH)
+QSYS_TCL_CMDS += set lwh2f_width $(LWH2F_WIDTH);
+endif
+
+ifneq ($(LWH2F_ADDR_WIDTH),)
+QUARTUS_TCL_ARGS += lwh2f_addr_width $(LWH2F_ADDR_WIDTH)
+QSYS_TCL_CMDS += set lwh2f_addr_width $(LWH2F_ADDR_WIDTH);
+endif
+
+ifneq ($(PWR_MPU_L3_CACHE_SIZE),)
+QUARTUS_TCL_ARGS += pwr_mpu_l3_cache_size $(PWR_MPU_L3_CACHE_SIZE)
+QSYS_TCL_CMDS += set pwr_mpu_l3_cache_size $(PWR_MPU_L3_CACHE_SIZE);
+endif
+
+ifneq ($(PWR_A55_CORE0_1_ON),)
+QUARTUS_TCL_ARGS += pwr_a55_core0_1_on $(PWR_A55_CORE0_1_ON)
+QSYS_TCL_CMDS += set pwr_a55_core0_1_on $(PWR_A55_CORE0_1_ON);
+endif
+
+ifneq ($(PWR_A76_CORE2_ON),)
+QUARTUS_TCL_ARGS += pwr_a76_core2_on $(PWR_A76_CORE2_ON)
+QSYS_TCL_CMDS += set pwr_a76_core2_on $(PWR_A76_CORE2_ON);
+endif
+
+ifneq ($(PWR_A76_CORE3_ON),)
+QUARTUS_TCL_ARGS += pwr_a76_core3_on $(PWR_A76_CORE3_ON)
+QSYS_TCL_CMDS += set pwr_a76_core3_on $(PWR_A76_CORE3_ON);
+endif
+
 # EMIF Topology settings, applies only if HPS-EMIF(EMIF_AXI_Enable) is enabled. Set this according to your ddr settings.
 #--------------------------------------------
 #  HPS IP                       EMIF IP      
