@@ -137,7 +137,7 @@ set hps_nand_q34_en 1
 set hps_gpio1_en 1
 set hps_gpio1_list "16 19"
 set hps_cm_q 4
-set hps_cm_io 6
+set hps_cm_io 7
 set hps_spis1_q4_en 1
 } elseif {$daughter_card == "devkit_dc_emmc"} {
 set hps_emac0_q1_en 1
@@ -174,7 +174,7 @@ set hps_gpio1_list "3 4"
 set hps_jtag_en 1
 set hps_sdmmc_pupd_q4_en 1
 set hps_cm_q 4
-set hps_cm_io 2
+set hps_cm_io 3
 set hps_trace_q34_en 1
 set hps_trace_8b_en 1
 
