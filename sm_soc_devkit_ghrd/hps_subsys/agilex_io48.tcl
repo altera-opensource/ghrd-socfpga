@@ -170,7 +170,7 @@ set hps_mdio0_q1_en 1
 set hps_emac0_rgmii_en 1
 set hps_sdmmc4b_q3_en 1
 set hps_gpio1_en 1
-set hps_gpio1_list "3 4"
+set hps_gpio1_list "3 4 13"
 set hps_jtag_en 1
 set hps_sdmmc_pupd_q4_en 1
 set hps_cm_q 4
