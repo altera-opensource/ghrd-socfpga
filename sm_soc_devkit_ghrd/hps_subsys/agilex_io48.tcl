@@ -157,7 +157,7 @@ set hps_sdmmc_dstrb_q4_en 1
 set hps_gpio1_en 1
 set hps_gpio1_list "16 19"
 set hps_cm_q 4
-set hps_cm_io 6
+set hps_cm_io 7
 set hps_spis1_q4_en 1
 }
 
