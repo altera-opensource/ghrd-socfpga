@@ -86,6 +86,14 @@ if {$hps_emif_mem_part == "custom"} {
 									MEM_PRESET_ID   			DDR4-1600L_800MHz_CL12_alloff_component_1CS_1D_16Gb_1Gx16
 									"
 		}
+		if {$hps_emif_mem_clk_freq_mhz == 933.0} {
+			set_component_param     "emif_hps
+									MEM_PRESET_FILE_EN   		True
+									MEM_PRESET_ID_AUTO_BOOL   	False
+									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1866M_933MHz_CL13_alloff_component_1CS_DDP_32Gb_2Gx16.qprs
+									MEM_PRESET_ID   			DDR4-1866M_933MHz_CL13_alloff_component_1CS_DDP_32Gb_2Gx16
+									"
+		}
 	}
 
         # ------ Connections --------------------------------- #

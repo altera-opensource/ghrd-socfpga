@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ip><presets version="12.1">
-	<preset name="Custom Preset" kind="emif_ph2_phy_arch_fp" version="All" description="Custom Preset">
+	<preset name="DDR4-1866M_933MHz_CL13_alloff_component_1CS_DDP_32Gb_2Gx16" kind="emif_ph2_phy_arch_fp" version="All" description="Custom Preset">
 		<parameter name="SHOW_INTERNAL_SETTINGS" value="false" />
 		<parameter name="MEM_TECHNOLOGY" value="MEM_TECHNOLOGY_DDR4" />
 		<parameter name="MEM_FORMAT" value="MEM_FORMAT_DISCRETE" />
