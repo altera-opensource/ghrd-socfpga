@@ -76,17 +76,59 @@ if {$hps_emif_mem_part == "custom"} {
 	    set_component_param     "emif_hps
 	                            MEM_TECHNOLOGY_AUTO_BOOL             false
 	                            MEM_TECHNOLOGY                       MEM_TECHNOLOGY_LPDDR4
-	    			    HPS_EMIF_CONFIG_AUTO_BOOL            false
+								HPS_EMIF_CONFIG_AUTO_BOOL            false
 	                            HPS_EMIF_CONFIG                      HPS_EMIF_1x16
-	    			    MEM_FORMAT                           MEM_FORMAT_DISCRETE
-	    			    MEM_TOPOLOGY                         MEM_TOPOLOGY_FLYBY
-	    			    CTRL_ECC_MODE                        CTRL_ECC_MODE_DISABLED
-	    			    PHY_AC_PLACEMENT_AUTO_BOOL           true
-	    			    PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_BOT
-	    			    MEM_DEVICE_DQ_WIDTH                  16
-				    MEM_NUM_RANKS                        1
-	    			    MEM_COMPS_PER_RANK                   1
-	    			    "
+								MEM_FORMAT                           MEM_FORMAT_DISCRETE
+								MEM_TOPOLOGY                         MEM_TOPOLOGY_FLYBY
+								CTRL_ECC_MODE                        CTRL_ECC_MODE_DISABLED
+								PHY_AC_PLACEMENT_AUTO_BOOL           true
+								PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_BOT
+								MEM_DEVICE_DQ_WIDTH                  16
+								MEM_NUM_RANKS                        1
+								MEM_COMPS_PER_RANK                   1
+								PHY_MEMCLK_FREQ_MHZ_AUTO_BOOL        false
+								PHY_MEMCLK_FREQ_MHZ                  $hps_emif_mem_clk_freq_mhz
+								PHY_REFCLK_FREQ_MHZ_AUTO_BOOL        false
+								PHY_REFCLK_FREQ_MHZ                  $hps_emif_ref_clk_freq_mhz
+								"
+								
+		if {$hps_emif_mem_clk_freq_mhz== 1066.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2133_CL20_Component_Single-Channel-1R-1CPR-8Gb(8Gb_Total)_x8_CK_1066MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-2133_CL20_Component_Single-Channel-1R-1CPR-8Gb(8Gb_Total)_x8_CK_1066MHz
+								"
+		} elseif {$hps_emif_mem_clk_freq_mhz== 933.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-1866_CL20_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_933MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-1866_CL20_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_933MHz
+								"
+		} elseif {$hps_emif_mem_clk_freq_mhz== 1200.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2400_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1200MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-2400_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1200MHz
+								"
+		} elseif {$hps_emif_mem_clk_freq_mhz== 1333.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2667_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1333MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-2667_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1333MHz
+								"
+		} elseif {$hps_emif_mem_clk_freq_mhz== 800.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-1600_CL14_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_800MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-1600_CL14_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_800MHz
+								"
+		}
+				
 	}
 
 
