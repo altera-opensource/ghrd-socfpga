@@ -19,7 +19,8 @@
 #       - lbm: mUCV Little Battle Mountain  
 #
 #   DEVICE:
-#       - A5ED065BB32AE5SR0: FPGA OPN# [default]
+#       - A5ED065BB32AE5SR0: 5s FPGA OPN# [default]
+#       - A5ED065BB32AE6SR0: 6s
 #
 #   INITIALIZATION_FIRST:
 #       - hps: HPS initialization first [default]
