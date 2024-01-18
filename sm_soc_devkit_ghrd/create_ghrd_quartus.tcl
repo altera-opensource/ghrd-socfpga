@@ -16,6 +16,23 @@ foreach {key value} $quartus(args) {
   puts "Quartus script got $key = $value"
 }
 
+# Derive channel and width from hps_emif_topology
+set mystring $hps_emif_topology
+set pattern {[0-9]+}
+
+# Find and print each number individually
+set start 0
+while {[regexp $pattern [string range $mystring $start end] match]} {
+    set number $match
+if {$number <=5} {
+    set hps_emif_channel $number
+} else {
+	set hps_emif_width $number
+}
+    set start [expr {[string first $match $mystring] + [string length $match]}]
+}
+
+
 #puts "prjroot = ${prjroot} "
 #source ${prjroot}/arguments_solver.tcl
 source ./arguments_solver.tcl
@@ -162,7 +179,7 @@ if {[info exists pin_assignment_table]} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_osc_clk
 
 if {$hps_emif_en} {
-   if {$board  == "DK-A5E065BB32AES1" || $board  == "cvr" || $board == "lbm" } {
+   if {$board  == "DK-A5E065BB32AES1" || $board  == "cvr" || $board == "lbm" || $board == "bbr" } {
    
    set ranks r1
    set width $hps_emif_width
@@ -176,7 +193,18 @@ if {$hps_emif_en} {
    if {$board == "lbm" } {
     # Hard coded to ch1 for PO. 
     # TODO : Parameterize based on channel selection.
-    set key "x${width}_${ranks}_1ch"
+	if { ( $hps_emif_width == 32 ) && ( $hps_emif_channel == 1 ) } {
+	set key   x32_r1_1ch
+	} elseif { ( $hps_emif_width == 16 ) && ( $hps_emif_channel == 1 ) } {
+	set key   x16_r1_1ch
+	}
+    # set key "x${width}_${ranks}_1ch"
+   } elseif {$board == "bbr"} {
+		if { ( $hps_emif_width == 16 ) && ( $hps_emif_channel == 1 ) } {
+			set key   x16_r1_1ch
+		} elseif { ( $hps_emif_width == 16 ) && ( $hps_emif_channel == 2 ) } {
+			set key   x16_r1_2ch
+		}
    } else {
     set key "x${width}_$ranks"
    }

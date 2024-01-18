@@ -25,10 +25,10 @@
 #       - 0: disable
 #       - 1: enable [default] 
 #
-#   HPS_EMIF_WIDTH:
-#       - 0: 1x16           (Not supported)
-#       - 1: 1x32 [default] (Supported)
-#       - 2: 2x16 bit - single IO96B (Not supported)
+#   HPS_EMIF_TOPOLOGY:
+#       - 0: 1x16           
+#       - 1: 1x32 [default] 
+#       - 2: 2x16 bit - single IO96B
 #       - 3: 2x16 bit - dual IO96B (Not supported)
 #       - 4: 2x32 bit (Not supported)
 #       - 5: 4x16 bit (Not supported)
@@ -42,6 +42,7 @@
 #   HPS_EMIF_REF_CLK_FREQ_MHZ:
 #       - 100: 100Mhz
 #       - 116.625: 116.625Mhz [default]
+#       - 133.25: 133.25MHz
 #
 #   HPS_EMIF_ECC_EN :
 #       - 0: disable [default]

@@ -20,7 +20,21 @@ source ${prjroot}/arguments_solver.tcl
 source ${prjroot}/utils.tcl
 
 package require -exact qsys 19.1
+# Derive channel and width from hps_emif_topology
+set mystring $hps_emif_topology
+set pattern {[0-9]+}
 
+# Find and print each number individually
+set start 0
+while {[regexp $pattern [string range $mystring $start end] match]} {
+    set number $match
+if {$number <=5} {
+    set hps_emif_channel $number
+} else {
+	set hps_emif_width $number
+}
+    set start [expr {[string first $match $mystring] + [string length $match]}]
+}
 
 create_system $qsys_name
 
@@ -301,6 +315,10 @@ if {$hps_emif_en == 1} {
 export subsys_hps emif_hps_emif_mem_0 emif_hps_emif_mem_0
 export subsys_hps emif_hps_emif_oct_0 emif_hps_emif_oct_0
 export subsys_hps emif_hps_emif_ref_clk_0 emif_hps_emif_ref_clk_0
+if {($hps_emif_channel == 2) && ($emif_topology == 2)} {
+export subsys_hps emif_hps_emif_mem_1 emif_hps_emif_mem_1
+export subsys_hps emif_hps_emif_oct_1 emif_hps_emif_oct_1
+}
 }
 
 if {$clk_gate_en == 1} {

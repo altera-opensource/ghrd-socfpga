@@ -10,6 +10,22 @@
 #****************************************************************************
 source  ${prjroot}/utils.tcl
 
+# Derive channel and width from hps_emif_topology
+set mystring $hps_emif_topology
+set pattern {[0-9]+}
+
+# Find and print each number individually
+set start 0
+while {[regexp $pattern [string range $mystring $start end] match]} {
+    set number $match
+if {$number <=5} {
+    set hps_emif_channel $number
+} else {
+	set hps_emif_width $number
+}
+    set start [expr {[string first $match $mystring] + [string length $match]}]
+}
+
 if {$hps_emif_en == 1} {
 set total_hps_emif_width $hps_emif_width
 if {$hps_emif_ecc_en} {
@@ -58,7 +74,7 @@ if {$hps_emif_mem_part == "custom"} {
                                 MEM_TECHNOLOGY_AUTO_BOOL             false
                                 MEM_TECHNOLOGY                       MEM_TECHNOLOGY_DDR4
                                 HPS_EMIF_CONFIG_AUTO_BOOL            false
-                                HPS_EMIF_CONFIG                      $hps_emif_config
+                                HPS_EMIF_CONFIG                      HPS_EMIF_$hps_emif_topology
 								MEM_FORMAT                           MEM_FORMAT_DISCRETE
 								MEM_TOPOLOGY                         MEM_TOPOLOGY_FLYBY
 								CTRL_ECC_MODE                        CTRL_ECC_MODE_DISABLED
@@ -77,7 +93,29 @@ if {$hps_emif_mem_part == "custom"} {
 									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1866M_933MHz_CL13_alloff_component_1CS_1D_16Gb_1Gx16.qprs
 									MEM_PRESET_ID   			DDR4-1866M_933MHz_CL13_alloff_component_1CS_1D_16Gb_1Gx16
 									"
+		# } elseif {$hps_emif_mem_clk_freq_mhz == 1066.0 } {
+			# set_component_param 	"emif_hps
+									# MEM_PRESET_FILE_EN   		True
+									# MEM_PRESET_ID_AUTO_BOOL   	False
+									# MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-2133R_1066MHz_CL16_alloff_component_1CS_1D_16Gb_1Gx16.qprs
+									# MEM_PRESET_ID   			DDR4-2133R_1066MHz_CL16_alloff_component_1CS_1D_16Gb_1Gx16
+									# "
+		# } elseif {$hps_emif_mem_clk_freq_mhz== 1200.0} {
+			# set_component_param "emif_hps
+								# MEM_PRESET_FILE_EN   True
+								# MEM_PRESET_ID_AUTO_BOOL   False
+								# MEM_PRESET_FILE_QPRS   ${prjroot}/board/preset_files/ddr4/DDR4-2400P_1200MHz_CL15_alloff_component_1CS_1D_16Gb_1Gx16.qprs
+								# MEM_PRESET_ID   DDR4-2400P_1200MHz_CL15_alloff_component_1CS_1D_16Gb_1Gx16
+								# "
+		} elseif {$hps_emif_mem_clk_freq_mhz== 800.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   True
+								MEM_PRESET_ID_AUTO_BOOL   False
+								MEM_PRESET_FILE_QPRS   ${prjroot}/board/preset_files/ddr4/DDR4-1600L_800MHz_CL12_alloff_component_1CS_1D_16Gb_1Gx16.qprs
+								MEM_PRESET_ID   DDR4-1600L_800MHz_CL12_alloff_component_1CS_1D_16Gb_1Gx16
+								"
 		}
+		
         # if {$mem_preset_file_en == "True" } {
             # set_component_param " emif_hps
                                   # MEM_PRESET_FILE_EN True

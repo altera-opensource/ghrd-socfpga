@@ -17,6 +17,7 @@
 #       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]
 #       - cvr: mUDV Coville Ridge
 #       - lbm: mUCV Little Battle Mountain  
+#       - bbr: mUDV Backbone Ridge
 #
 #   DEVICE:
 #       - A5ED065BB32AE5SR0: 5s FPGA OPN# [default]
@@ -394,22 +395,32 @@ endif
 #3:2x16 bit - dual IO96B
 #4:2x32 bit                     HPS_EMIF_2x32
 #5:4x16 bit
-ifeq ($(HPS_EMIF_WIDTH),0)
+ifeq ($(HPS_EMIF_TOPOLOGY),0)
 QUARTUS_TCL_ARGS += emif_topology 0
 QSYS_TCL_CMDS += set emif_topology 0;
-QUARTUS_TCL_ARGS += hps_emif_config HPS_EMIF_1x16
-QSYS_TCL_CMDS += set hps_emif_config HPS_EMIF_1x16;
-else ifeq ($(HPS_EMIF_WIDTH),1)
+QUARTUS_TCL_ARGS += hps_emif_topology 1x16
+QSYS_TCL_CMDS += set hps_emif_topology 1x16;
+else ifeq ($(HPS_EMIF_TOPOLOGY),1)
 #default
 QUARTUS_TCL_ARGS += emif_topology 1 
 QSYS_TCL_CMDS += set emif_topology 1;
-QUARTUS_TCL_ARGS += hps_emif_config HPS_EMIF_1x32
-QSYS_TCL_CMDS += set hps_emif_config HPS_EMIF_1x32;
-else ifeq ($(HPS_EMIF_WIDTH),4)
+QUARTUS_TCL_ARGS += hps_emif_topology 1x32
+QSYS_TCL_CMDS += set hps_emif_topology 1x32;
+else ifeq ($(HPS_EMIF_TOPOLOGY),2)
+QUARTUS_TCL_ARGS += emif_topology 2 
+QSYS_TCL_CMDS += set emif_topology 2;
+QUARTUS_TCL_ARGS += hps_emif_topology 2x16
+QSYS_TCL_CMDS += set hps_emif_topology 2x16;
+else ifeq ($(HPS_EMIF_TOPOLOGY),4)
 QUARTUS_TCL_ARGS += emif_topology 4 
 QSYS_TCL_CMDS += set emif_topology 4;
-QUARTUS_TCL_ARGS += hps_emif_config HPS_EMIF_2x32
-QSYS_TCL_CMDS += set hps_emif_config HPS_EMIF_2x32;
+QUARTUS_TCL_ARGS += hps_emif_topology 2x32
+QSYS_TCL_CMDS += set hps_emif_topology 2x32;
+else ifeq ($(HPS_EMIF_TOPOLOGY),5)
+QUARTUS_TCL_ARGS += emif_topology 5 
+QSYS_TCL_CMDS += set emif_topology 5;
+QUARTUS_TCL_ARGS += hps_emif_topology 4x16
+QSYS_TCL_CMDS += set hps_emif_topology 4x16;
 endif
 
 ifeq ($(HPS_EMIF_EN),0)

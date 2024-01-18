@@ -6,6 +6,21 @@
 //****************************************************************************
 // This is a generated system top level RTL file. 
 
+// Derive channel and width from hps_emif_topology
+@@set mystring $hps_emif_topology
+@@set pattern {[0-9]+}
+
+// Find and print each number individually
+@@set start 0
+@@while {[regexp $pattern [string range $mystring $start end] match]} {
+@@    set number $match
+@@if {$number <=5} {
+@@    set hps_emif_channel $number
+@@} else {
+@@	set hps_emif_width $number
+@@}
+@@    set start [expr {[string first $match $mystring] + [string length $match]}]
+@@}
 @@if {$hps_emif_ecc_en == 1} {
 @@   incr hps_emif_width 8
 @@   set hps_ddr_w $hps_emif_width
@@ -85,6 +100,34 @@ inout    wire [15:0]   emif_hps_emif_mem_0_mem_dq,
 output   wire          emif_hps_emif_mem_0_mem_cs,
 output   wire [5:0]    emif_hps_emif_mem_0_mem_ca,
 inout    wire [1:0]    emif_hps_emif_mem_0_mem_dmi,
+@@}
+@@if {$hps_emif_type == "lpddr5"} {
+output   wire          emif_hps_emif_mem_0_mem_ck_t,
+output   wire          emif_hps_emif_mem_0_mem_ck_c,
+output   wire [1:0]    emif_hps_emif_mem_0_mem_wck_t,
+output   wire [1:0]    emif_hps_emif_mem_0_mem_wck_c,
+output   wire          emif_hps_emif_mem_0_mem_reset_n,
+input    wire          emif_hps_emif_oct_0_oct_rzqin,
+input    wire          emif_hps_emif_ref_clk_0_clk,
+inout    wire [1:0]    emif_hps_emif_mem_0_mem_rdqs_t,
+inout    wire [1:0]    emif_hps_emif_mem_0_mem_rdqs_c,
+inout    wire [15:0]   emif_hps_emif_mem_0_mem_dq,
+output   wire          emif_hps_emif_mem_0_mem_cs,
+output   wire [6:0]    emif_hps_emif_mem_0_mem_ca,
+inout    wire [1:0]    emif_hps_emif_mem_0_mem_dmi,
+@@if {$hps_emif_channel == 2 && $hps_emif_width == 16} {
+output   wire          emif_hps_emif_mem_1_mem_ck_t,
+output   wire          emif_hps_emif_mem_1_mem_ck_c,
+output   wire [1:0]    emif_hps_emif_mem_1_mem_wck_t,
+output   wire [1:0]    emif_hps_emif_mem_1_mem_wck_c,
+input    wire          emif_hps_emif_oct_1_oct_rzqin,
+inout    wire [1:0]    emif_hps_emif_mem_1_mem_rdqs_t,
+inout    wire [1:0]    emif_hps_emif_mem_1_mem_rdqs_c,
+inout    wire [15:0]   emif_hps_emif_mem_1_mem_dq,
+output   wire          emif_hps_emif_mem_1_mem_cs,
+output   wire [6:0]    emif_hps_emif_mem_1_mem_ca,
+inout    wire [1:0]    emif_hps_emif_mem_1_mem_dmi,
+@@}
 @@}
 @@}
 @@if {$hps_jtag_en == 1} {
@@ -586,6 +629,34 @@ ${qsys_name} soc_inst (
 .emif_hps_emif_mem_0_mem_cs                (emif_hps_emif_mem_0_mem_cs),
 .emif_hps_emif_mem_0_mem_ca                (emif_hps_emif_mem_0_mem_ca),
 .emif_hps_emif_mem_0_mem_dmi               (emif_hps_emif_mem_0_mem_dmi),
+@@}
+@@if {$hps_emif_type == "lpddr5"} {
+.emif_hps_emif_mem_0_mem_ck_t              (emif_hps_emif_mem_0_mem_ck_t),
+.emif_hps_emif_mem_0_mem_ck_c              (emif_hps_emif_mem_0_mem_ck_c),
+.emif_hps_emif_mem_0_mem_wck_t             (emif_hps_emif_mem_0_mem_wck_t),
+.emif_hps_emif_mem_0_mem_wck_c             (emif_hps_emif_mem_0_mem_wck_c),
+.emif_hps_emif_mem_0_mem_reset_n           (emif_hps_emif_mem_0_mem_reset_n),
+.emif_hps_emif_mem_0_mem_rdqs_t            (emif_hps_emif_mem_0_mem_rdqs_t),
+.emif_hps_emif_mem_0_mem_rdqs_c            (emif_hps_emif_mem_0_mem_rdqs_c),
+.emif_hps_emif_mem_0_mem_dq                (emif_hps_emif_mem_0_mem_dq),
+.emif_hps_emif_oct_0_oct_rzqin             (emif_hps_emif_oct_0_oct_rzqin),
+.emif_hps_emif_ref_clk_0_clk               (emif_hps_emif_ref_clk_0_clk),
+.emif_hps_emif_mem_0_mem_cs                (emif_hps_emif_mem_0_mem_cs),
+.emif_hps_emif_mem_0_mem_ca                (emif_hps_emif_mem_0_mem_ca),
+.emif_hps_emif_mem_0_mem_dmi               (emif_hps_emif_mem_0_mem_dmi),
+@@if {$hps_emif_channel == 2 && $hps_emif_width == 16} {
+.emif_hps_emif_mem_1_mem_ck_t              (emif_hps_emif_mem_1_mem_ck_t),
+.emif_hps_emif_mem_1_mem_ck_c              (emif_hps_emif_mem_1_mem_ck_c),
+.emif_hps_emif_mem_1_mem_wck_t             (emif_hps_emif_mem_1_mem_wck_t),
+.emif_hps_emif_mem_1_mem_wck_c             (emif_hps_emif_mem_1_mem_wck_c),
+.emif_hps_emif_mem_1_mem_rdqs_t            (emif_hps_emif_mem_1_mem_rdqs_t),
+.emif_hps_emif_mem_1_mem_rdqs_c            (emif_hps_emif_mem_1_mem_rdqs_c),
+.emif_hps_emif_mem_1_mem_dq                (emif_hps_emif_mem_1_mem_dq),
+.emif_hps_emif_oct_1_oct_rzqin             (emif_hps_emif_oct_1_oct_rzqin),
+.emif_hps_emif_mem_1_mem_cs                (emif_hps_emif_mem_1_mem_cs),
+.emif_hps_emif_mem_1_mem_ca                (emif_hps_emif_mem_1_mem_ca),
+.emif_hps_emif_mem_1_mem_dmi               (emif_hps_emif_mem_1_mem_dmi),
+@@}
 @@}
 @@}
 @@}

@@ -25,6 +25,23 @@ set subsys_name $foldername
   
 package require -exact qsys 19.1
 
+# Derive channel and width from hps_emif_topology
+set mystring $hps_emif_topology
+set pattern {[0-9]+}
+
+# Find and print each number individually
+set start 0
+while {[regexp $pattern [string range $mystring $start end] match]} {
+    set number $match
+if {$number <=5} {
+    set hps_emif_channel $number
+} else {
+	set hps_emif_width $number
+}
+    set start [expr {[string first $match $mystring] + [string length $match]}]
+}
+
+
 create_system $subsys_name
 
 set_project_property DEVICE_FAMILY $device_family
@@ -103,19 +120,13 @@ set_component_param "agilex_hps
 # EMIF_DDR_WIDTH $hps_emif_width 
 if {$hps_emif_en == 1} {
     set cpu_instance agilex_hps
-	if {$board == "cvr"} {
-	    set board_emif_config_file "$prjroot/board/board_cvr_emif_setting.tcl"
-	} elseif {$board == "lbm"} {
-	    set board_emif_config_file "$prjroot/board/board_lbm_emif_setting.tcl"
-	} else {
-        set board_emif_config_file "$prjroot/board/board_DK-A5E065BB32AES1_emif_setting.tcl"
-	}
+	set board_emif_config_file "$prjroot/board/board_${board}_emif_setting.tcl"
     if {[file exist $board_emif_config_file]} {
         source $board_emif_config_file
     } else {
         error "$board_emif_config_file not exist!! Please make sure the board settings files are included in folder ./board/"
     }
-	
+	if {($hps_emif_channel == 1)} {
     connect "emif_hps.usr_clk_0            agilex_hps.io96b0_ch0_axi_clk
 		     emif_hps.s0_axil_clk          agilex_hps.io96b0_csr_axi_clk
 		     emif_hps.usr_rst_n_0          agilex_hps.io96b0_ch0_axi_rst
@@ -123,6 +134,28 @@ if {$hps_emif_en == 1} {
 		    "
 	
 	connect "agilex_hps.io96b0_csr_axi      emif_hps.s0_axil"
+	} elseif {($hps_emif_channel == 2) && ($emif_topology == 2)} {
+		connect "emif_hps.usr_clk_0            agilex_hps.io96b0_ch0_axi_clk
+				 emif_hps.usr_clk_1            agilex_hps.io96b0_ch1_axi_clk
+				 emif_hps.s0_axil_clk          agilex_hps.io96b0_csr_axi_clk
+				 emif_hps.usr_rst_n_0          agilex_hps.io96b0_ch0_axi_rst
+				 emif_hps.usr_rst_n_1          agilex_hps.io96b0_ch1_axi_rst
+				 emif_hps.s0_axil_rst_n        agilex_hps.io96b0_csr_axi_rst
+				"
+		connect "agilex_hps.io96b0_csr_axi      emif_hps.s0_axil"
+	} elseif {(($hps_emif_channel == 2) && ($emif_topology == 3)) || (($hps_emif_channel == 2) && ($emif_topology == 4))} {
+		connect "emif_hps.usr_clk_0            agilex_hps.io96b0_ch0_axi_clk
+				 emif_hps.usr_clk_1            agilex_hps.io96b1_ch0_axi_clk
+				 emif_hps.s0_axil_clk          agilex_hps.io96b0_csr_axi_clk
+				 emif_hps.s1_axil_clk          agilex_hps.io96b1_csr_axi_clk
+				 emif_hps.usr_rst_n_0          agilex_hps.io96b0_ch0_axi_rst
+				 emif_hps.s0_axil_rst_n        agilex_hps.io96b0_csr_axi_rst
+				 emif_hps.s1_axil_rst_n        agilex_hps.io96b1_csr_axi_rst
+				"
+		connect "agilex_hps.io96b0_csr_axi      emif_hps.s0_axil
+				 agilex_hps.io96b1_csr_axi      emif_hps.s1_axil
+				"	
+	}
 }
 
 #load_component agilex_hps
