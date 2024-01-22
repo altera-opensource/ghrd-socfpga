@@ -261,10 +261,8 @@ if {$sub_peri_en == 1} {
      connect "subsys_hps.f2h_irq_in subsys_periph.ssgdma_interrupt"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.ssgdma_interrupt irqNumber {2}
    }
-   if {$f2s_data_width > 0} {
-     connect_map "subsys_periph.ssgdma_host subsys_hps.fpga2hps 0x0"
-   }
-   connect_map "subsys_periph.ssgdma_h2d0 ocm.axi_s1 0x0"
+   connect_map "subsys_periph.ssgdma_host ext_hps_m_master.windowed_slave 0x0"
+   connect_map "subsys_periph.ssgdma_h2d0 ext_hps_m_master.windowed_slave 0x0"
 }
 
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
