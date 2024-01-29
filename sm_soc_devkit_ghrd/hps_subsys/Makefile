@@ -124,6 +124,10 @@
 #       - 0: disabled
 #       - 1: enabled [default]
 #
+#   PWR_BOOT_CORE_SEL:
+#       - 0: Core0 [default]
+#       - 1: Core2 
+#
 ##demo:
 ##  hps_other_var0 :
 ##      - val00: val00_description [default]

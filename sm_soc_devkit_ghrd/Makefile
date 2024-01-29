@@ -385,6 +385,11 @@ QUARTUS_TCL_ARGS += pwr_a76_core3_on $(PWR_A76_CORE3_ON)
 QSYS_TCL_CMDS += set pwr_a76_core3_on $(PWR_A76_CORE3_ON);
 endif
 
+ifneq ($(PWR_BOOT_CORE_SEL),)
+QUARTUS_TCL_ARGS += pwr_boot_core_sel $(PWR_BOOT_CORE_SEL)
+QSYS_TCL_CMDS += set pwr_boot_core_sel $(PWR_BOOT_CORE_SEL);
+endif
+
 # EMIF Topology settings, applies only if HPS-EMIF(EMIF_AXI_Enable) is enabled. Set this according to your ddr settings.
 #--------------------------------------------
 #  HPS IP                       EMIF IP      

@@ -742,8 +742,7 @@ if {$pwr_mpu_l3_cache_size < 2} {
 
 if {$pwr_a55_core0_1_on == 0} {
    set_component_param "agilex_hps   
-                        Pwr_a55_core0_1_on false
-                        Pwr_boot_core_sel  2
+                        Pwr_a55_core0_1_on false                        
                         "
 }
 
@@ -756,6 +755,18 @@ if {$pwr_a76_core2_on == 0} {
 if {$pwr_a76_core3_on == 0} {
    set_component_param "agilex_hps   
                         Pwr_a76_core3_on false
+                        "
+}
+
+if {$pwr_boot_core_sel == 0} {
+   set_component_param "agilex_hps   
+                        Pwr_boot_core_sel  0
+                        "
+}
+
+if {$pwr_boot_core_sel == 1} {
+   set_component_param "agilex_hps   
+                        Pwr_boot_core_sel  2
                         "
 }
 
