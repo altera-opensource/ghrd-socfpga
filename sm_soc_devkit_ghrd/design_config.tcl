@@ -55,11 +55,6 @@ set USER0_CLK_SRC_SELECT 0
 set USER1_CLK_SRC_SELECT 0
 set USER0_CLK_FREQ 500
 set USER1_CLK_FREQ 500
-
-## ----------------
-## HPS EMIF
-## ----------------
-
 set HPS_F2H_IRQ_EN 0
 set F2H_FREE_CLK_EN 0
 # Option to enable HPS EMIF

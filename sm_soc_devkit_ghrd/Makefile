@@ -433,10 +433,8 @@ QUARTUS_TCL_ARGS += f2h_width 0
 QSYS_TCL_CMDS += set f2h_width 0;
 endif
 
-QSYS_TCL_CMDS += set proj_root $(PROJECT_ROOT);
-QUARTUS_TCL_ARGS += proj_root $(PROJECT_ROOT)
-
-$(info $(QUARTUS_TCL_ARGS))
+QSYS_TCL_CMDS += set prjroot $(PROJECT_ROOT);
+QUARTUS_TCL_ARGS += prjroot $(PROJECT_ROOT)
 
 QSYS_TCL_CMDS += set dfl_rom_en $(DFL_ROM_EN);
 QUARTUS_TCL_ARGS += dfl_rom_en $(DFL_ROM_EN)
@@ -798,8 +796,14 @@ endif
 HELP_TARGETS += generate_from_tcl
 generate_from_tcl.HELP := Generate the Quartus Project and Qsys design files from tcl script source
 
+.PHONY: writeback_user_config
+writeback_user_config:
+	@$(ECHO) $(USER_CONFIG_UPDATE) > $(BUILD_DIR)/config.tmp
+	@$(AWK) -v output=$(USER_CONFIG_FILE) -f $(GHRD_SCRIPT_CONFIG_FTM_FILE)  $(BUILD_DIR)/config.tmp
+	@$(RM) -rf $(BUILD_DIR)/config.tmp
+
 .PHONY: generate_from_tcl
-generate_from_tcl: generate_submodule $(INTEL_CUSTOM_IP_DIR_TARGET)
+generate_from_tcl: writeback_user_config generate_submodule $(INTEL_CUSTOM_IP_DIR_TARGET)
 	@$(MAKE) qsys_generate_qsys
 	@$(ECHO) "generate_from_tcl done!"
 

@@ -1,7 +1,7 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2020 Intel Corporation.
+# Copyright(c) 2019-2023 Intel Corporation.
 #
 #****************************************************************************
 #
@@ -135,9 +135,7 @@ for {set i 0} {$i < 12} {incr i} {
     lappend io48_q4_assignment NONE
 }
 
-#puts "prjroot = ${prjroot} "
-#source ${prjroot}/agilex_io48.tcl
-source ./agilex_io48.tcl
+source ${prjroot}/hps_subsys/agilex_io48.tcl
 
 # Assigning individual IO48 peripherals
 if {$hps_jtag_en == 1} {
@@ -150,7 +148,7 @@ if {$hps_sdmmc4b_q1_en == 1} {
 	set io48_q1_assignment [lreplace $io48_q1_assignment 0 2 SDMMC:DATA0 SDMMC:DATA1 SDMMC:CLK]
 }
 if {$hps_sdmmc4b_q1_sel_en == 1} {
-		set io48_q1_assignment [lreplace $io48_q1_assignment 3 3 SDMMC:LVL_SEL]
+	set io48_q1_assignment [lreplace $io48_q1_assignment 3 3 SDMMC:LVL_SEL]
 }
 if {$hps_sdmmc4b_q1_alt_en == 1} {
 	set io48_q1_assignment [lreplace $io48_q1_assignment 4 4 SDMMC:WRITE_PROTECT]
@@ -510,6 +508,6 @@ if {$hps_io_custom != ""} {
 }
 
 #puts "[llength $io48_q1_assignment]"
-puts "Sorted IO48 assignment:\n$io48_q1_assignment\n$io48_q2_assignment\n$io48_q3_assignment\n$io48_q4_assignment\n"
+puts "\[GHRD:info\] Sorted IO48 assignment:\n$io48_q1_assignment\n$io48_q2_assignment\n$io48_q3_assignment\n$io48_q4_assignment\n"
 
 

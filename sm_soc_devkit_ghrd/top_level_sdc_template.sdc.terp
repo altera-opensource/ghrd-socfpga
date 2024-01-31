@@ -20,9 +20,9 @@ create_clock -name EMIF_REF_CLOCK -period $hps_emif_ref_clk_freq_ns [get_ports e
 @@
 @@## This is required as the HPS SDC is not working for hps_user_clk constraints. HSDES: 1507301642
 @@#create_clock -name hps_user_clk -period 2.5 [get_pins {soc_inst|agilex_hps|intel_agilex_hps_inst|fpga_interfaces|hps_inst|s2f_module|s2f_user_clk1_hio}]
+
 set_false_path -from [get_ports {fpga_reset_n[0]}]
 @@#set_input_delay -clock MAIN_CLOCK 1 [get_ports {fpga_reset_n[0]}]
-@@}
 
 # sourcing JTAG related SDC
 source ./jtag.sdc
@@ -52,24 +52,6 @@ set_false_path -from * -to [get_ports {fpga_led_pio[2]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[3]}]
 @@}
 @@}
-<<<<<<< HEAD
-
-@@if {$hps_sgmii_en == 1} {
-# EMAC MDIO constraints
-@@  for {set m $hps_sgmii_emac_start_node} {$m<=$hps_sgmii_emac_end_node} {incr m} {
-set_max_skew -to [get_ports "emac${m}_mdc"] 2
-set_max_skew -to [get_ports "emac${m}_mdio"] 2
-set_false_path -from * -to [ get_ports emac${m}_phy_rst_n ]
-set_false_path -from [get_ports {emac${m}_phy_irq}] -to *
-@@  }
-@@}
-
-@@if {$hbm_en != 1} { 
-# False Path between debounced and reset synchronizer
-set_false_path -from fpga_reset_n_debounced -to {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain[1]}
-@@}
-=======
  
 # False Path between debounced and reset synchronizer
 set_false_path -from fpga_reset_n_debounced -to {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain[1]}
->>>>>>> 5678b26... Update the EMIF IP parameterization

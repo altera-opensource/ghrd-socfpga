@@ -1,13 +1,14 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2021 Intel Corporation.
+# Copyright(c) 2019-2023 Intel Corporation.
 #
 #****************************************************************************
 #
-# This script construct sub system of PCIe for higher level integration
-# The GHRD create_ghrd_qsys.tcl will call each of those subsystem construct script
-# automatically based on the corresponding parameter argument defined
+# This script construct Peripherals subsystem for higher level integration later.
+# The Makefile in $prjroot folder will pass in variable needed by this TCL as defined
+# in the subsystem Makefile automatically. User will have the ability to modify the 
+# defined variable dynamically during (MAKE) target flow of generate_from_tcl.
 #
 #****************************************************************************
 set currentdir [pwd]

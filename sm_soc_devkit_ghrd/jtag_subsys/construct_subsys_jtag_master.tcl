@@ -1,16 +1,16 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2020 Intel Corporation.
+# Copyright(c) 2019-2023 Intel Corporation.
 #
 #****************************************************************************
 #
-# This script construct JTAG AVMM MAster sub system for higher level integration
-# The GHRD create_ghrd_qsys.tcl will call each of those subsystem construct script
-# automatically based on the corresponding parameter argument defined
+# This script construct JTAG AVMM MAster subsystem for higher level integration later.
+# The Makefile in $prjroot folder will pass in variable needed by this TCL as defined
+# in the subsystem Makefile automatically. User will have the ability to modify the 
+# defined variable dynamically during (MAKE) target flow of generate_from_tcl.
 #
 #****************************************************************************
-
 set currentdir [pwd]
 set foldername [file tail $currentdir]
 puts "\[GHRD:info\] Directory name: $foldername"
@@ -72,10 +72,10 @@ export hps_m master hps_m_master
 
 
 # interconnect requirements
-set_domain_assignment {$system} {qsys_mm.clockCrossingAdapter} {AUTO}
-set_domain_assignment {$system} {qsys_mm.maxAdditionalLatency} {1}
-set_domain_assignment {$system} {qsys_mm.enableEccProtection} {FALSE}
-set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
+#set_domain_assignment {$system} {qsys_mm.clockCrossingAdapter} {AUTO}
+#set_domain_assignment {$system} {qsys_mm.maxAdditionalLatency} {1}
+#set_domain_assignment {$system} {qsys_mm.enableEccProtection} {FALSE}
+#set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
     
 sync_sysinfo_parameters 
     

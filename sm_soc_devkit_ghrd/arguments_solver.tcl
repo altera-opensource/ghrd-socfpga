@@ -102,7 +102,6 @@
 #
 #****************************************************************************
 
-
 source ${prjroot}/design_config.tcl 
 
 # proc check_then_accept { param } {
@@ -167,17 +166,9 @@ if { ![ info exists board_pwrmgt ] } {
 }
 
 # Loading Board default configuration settings
-<<<<<<< HEAD
-<<<<<<< HEAD
-set board_config_file "${prjroot}/board/board_${board}_config.tcl"
-=======
-set board_config_file $proj_root/board/board_${board}_config.tcl
-puts "board path: $board_config_file"
->>>>>>> b561674... Fix TCL linkage to needed files, reposition Makefile.new as default, enable HPS_EMIF as default on.
-=======
-#set board_config_file "${prjroot}/board/board_${board}_config.tcl"
-set board_config_file "./board/board_${board}_config.tcl"
->>>>>>> 31c9302... For old makefile flow
+set board_config_file ${prjroot}/board/board_${board}_config.tcl
+puts "\[GHRD:info\] \$board_config_file: $board_config_file"
+
 if {[file exist $board_config_file]} {
     source $board_config_file
 } else {
@@ -750,26 +741,8 @@ if {$f2s_address_width > 32 && $f2sdram_width > 0} {
     set cct_en 0
 }
 
-<<<<<<< HEAD
+source $prjroot/hps_subsys/agilex_hps_pinmux_solver.tcl
+source $prjroot/hps_subsys/agilex_hps_parameter_solver.tcl
+source $prjroot/hps_subsys/agilex_hps_io48_delay_chain_solver.tcl
 
-<<<<<<< HEAD
-source ${prjroot}/agilex_hps_pinmux_solver.tcl
-source ${prjroot}/agilex_hps_parameter_solver.tcl
-source ${prjroot}/agilex_hps_io48_delay_chain_solver.tcl
-=======
-source $proj_root/hps_subsys/agilex_hps_pinmux_solver.tcl
-source $proj_root/hps_subsys/agilex_hps_parameter_solver.tcl
-source $proj_root/hps_subsys/agilex_hps_io48_delay_chain_solver.tcl
->>>>>>> b561674... Fix TCL linkage to needed files, reposition Makefile.new as default, enable HPS_EMIF as default on.
-=======
-#source ${prjroot}/agilex_hps_pinmux_solver.tcl
-#source ${prjroot}/agilex_hps_parameter_solver.tcl
-#source ${prjroot}/agilex_hps_io48_delay_chain_solver.tcl
-source ./agilex_hps_pinmux_solver.tcl
-source ./agilex_hps_parameter_solver.tcl
-source ./agilex_hps_io48_delay_chain_solver.tcl
->>>>>>> 31c9302... For old makefile flow
 
-# Was thinking to enable single TCL entry for flow of TOP RTL, qsys, quartus generation. Ideal still pending implementation
-# exec quartus_sh --script=create_ghrd_quartus.tcl $top_quartus_arg
-# exec qsys-script --script=create_ghrd_qsys.tcl --quartus-project=$project_name.qpf --cmd="$qsys_arg"

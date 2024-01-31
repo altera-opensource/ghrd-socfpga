@@ -1,25 +1,23 @@
 #****************************************************************************
 #
 # SPDX-License-Identifier: MIT-0
-# Copyright(c) 2019-2021 Intel Corporation.
+# Copyright(c) 2019-2023 Intel Corporation.
 #
 #****************************************************************************
 #
-# This script construct sub system of HPS for higher level integration
-# This tcl will be invoke by create_ghrd_qsys.tcl 
-# This tcl script basically contained only configuration settings for HPS & HPS EMIF, connections between HPS & HPS EMIF
+# This script construct Hard Processor subsystem for higher level integration later.
+# The Makefile in $prjroot folder will pass in variable needed by this TCL as defined
+# in the subsystem Makefile automatically. User will have the ability to modify the 
+# defined variable dynamically during (MAKE) target flow of generate_from_tcl.
 #
 #****************************************************************************
 set currentdir [pwd]
 set foldername [file tail $currentdir]
 puts "\[GHRD:info\] Directory name: $foldername"
 
-#puts "prjroot = ${prjroot} "
-#source ${prjroot}/arguments_solver.tcl
-#source ${prjroot}/utils.tcl
-
-source ./arguments_solver.tcl
-source ./utils.tcl
+puts "\[GHRD:info\] \$prjroot = ${prjroot}"
+source ${prjroot}/arguments_solver.tcl
+source ${prjroot}/utils.tcl
 
 set subsys_name $foldername
   
