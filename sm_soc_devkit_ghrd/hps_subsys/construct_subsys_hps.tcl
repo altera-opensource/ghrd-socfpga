@@ -111,10 +111,11 @@ set_component_param "agilex_hps
 }
 
 if {$sub_fpga_rgmii_en == 1} {
-set_component_param "agilex_hps 
-                     EMAC0_PinMuxing FPGA
-                     EMAC0_Mode RGMII_with_MDIO
-                    "
+   set_component_param "agilex_hps 
+                     EMAC1_PinMuxing FPGA
+                     EMAC1_Mode RGMII_with_MDIO
+	             "
+  
 }
 
 # EMIF_DDR_WIDTH $hps_emif_width 
@@ -726,13 +727,15 @@ if {$lwh2f_width > 0} {
 }
 
 if {$sub_fpga_rgmii_en == 1} {
-    export agilex_hps emac0 emac0
-    export agilex_hps emac0_app_rst emac0_app_rst
-    export agilex_hps emac0_mdio emac0_mdio
+    export agilex_hps emac1 emac1
+    export agilex_hps emac1_app_rst emac1_app_rst
+    export agilex_hps emac1_mdio emac1_mdio
     export agilex_hps emac_ptp_clk emac_ptp_clk
     export agilex_hps emac_timestamp_clk emac_timestamp_clk
     export agilex_hps emac_timestamp_data emac_timestamp_data
+   
 }
+
 
 if {$pwr_mpu_l3_cache_size < 2} {
    set_component_param "agilex_hps   

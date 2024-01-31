@@ -274,7 +274,7 @@ if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 
 
 if {$sub_fpga_rgmii_en == 1} {
-   connect "subsys_fpga_rgmii.hps_gmii subsys_hps.emac0
+   connect "subsys_fpga_rgmii.hps_gmii subsys_hps.emac1
             clk_100.out_clk   subsys_fpga_rgmii.clk
             rst_in.out_reset  subsys_fpga_rgmii.reset
            "
@@ -340,7 +340,7 @@ if {$sub_fpga_rgmii_en == 1} {
 export subsys_fpga_rgmii phy_rgmii phy_rgmii
 export subsys_hps emac_timestamp_clk emac_timestamp_clk
 export subsys_hps emac_ptp_clk emac_ptp_clk
-export subsys_hps emac0_mdio emac0_mdio
+export subsys_hps emac1_mdio emac1_mdio
 }
 
 # interconnect requirements
