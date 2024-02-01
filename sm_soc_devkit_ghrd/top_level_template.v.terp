@@ -440,7 +440,7 @@ input    wire          fpga_rgmii_rx_ctl,
 output   wire          fpga_rgmii_tx_clk,
 output   wire [3:0]    fpga_rgmii_txd,   
 output   wire          fpga_rgmii_tx_ctl,
-output   wire          emac0_mdc,
+output   wire          emac1_mdc,
 inout    wire          emac0_mdio,
 @@}
 input    wire          fpga_reset_n
@@ -456,12 +456,12 @@ wire                   fpga_reset_n_debounced_wire;
 reg                    fpga_reset_n_debounced;
 wire                   system_reset_n;
 @@if {$sub_fpga_rgmii_en == 1} {
-wire                   emac0_mdi;
-wire                   emac0_mdo;
-wire                   emac0_mdoe;
+wire                   emac1_mdi;
+wire                   emac1_mdo;
+wire                   emac1_mdoe;
 
-assign emac0_mdio = emac0_mdoe? emac0_mdo : 1'bz;
-assign emac0_mdi  = emac0_mdio;
+assign emac0_mdio = emac1_mdoe? emac1_mdo : 1'bz;
+assign emac1_mdi  = emac0_mdio;
 @@}
 @@if {$sub_hps_en == 1} {
 //wire                 h2f_reset;
@@ -667,10 +667,10 @@ ${qsys_name} soc_inst (
 .phy_rgmii_rgmii_tx_clk                    (fpga_rgmii_tx_clk),
 .phy_rgmii_rgmii_txd                       (fpga_rgmii_txd),  
 .phy_rgmii_rgmii_tx_ctl                    (fpga_rgmii_tx_ctl),
-.emac0_mdio_mac_mdc                        (emac0_mdc),
-.emac0_mdio_mac_mdi                        (emac0_mdi),
-.emac0_mdio_mac_mdo                        (emac0_mdo),
-.emac0_mdio_mac_mdoe                       (emac0_mdoe),  
+.emac1_mdio_mac_mdc                        (emac1_mdc),
+.emac1_mdio_mac_mdi                        (emac1_mdi),
+.emac1_mdio_mac_mdo                        (emac1_mdo),
+.emac1_mdio_mac_mdoe                       (emac1_mdoe),  
 @@}
 @@if {$hps_jtag_en == 1} {
 .hps_io_jtag_tck                           (hps_jtag_tck),                
