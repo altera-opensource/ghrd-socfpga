@@ -64,6 +64,11 @@ set HPS_EMIF_EN 0
 set HPS_EMIF_MEM_PART "default_part"
 # Option to specify HPS EMIF memory type
 set HPS_EMIF_TYPE ddr4
+if {$board == "cvr"} {
+set HPS_EMIF_TYPE lpddr4
+} elseif {$board == "bbr"} {
+set HPS_EMIF_TYPE lpddr5
+}
 # Option to set HPS EMIF RATE
 set HPS_EMIF_RATE RATE_QUARTER
 # Option to set HPS EMIF REF CLK frequency in MHz
