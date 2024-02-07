@@ -141,7 +141,7 @@ connect "         clk_100.out_clk                        ext_hps_m_master.clock
 													     
 connect_map "     subsys_debug.hps_m_master              ext_hps_m_master.windowed_slave 0x0 "
 #connect_map "     ext_hps_m_master.expanded_master      subsys_hps.fpga2hps 0x1_0000_0000 "
-connect_map "     ext_hps_m_master.expanded_master       subsys_hps.f2sdram 0x0000 "
+connect_map "     ext_hps_m_master.expanded_master       subsys_hps.f2sdram_adapter_axi4_sub 0x0000 "
 													     
 if {$cct_en == 1} {	                                     
 	connect "	  clk_100.out_clk                        intel_cache_coherency_translator_0.clock
@@ -182,7 +182,9 @@ if {$sub_hps_en == 1} {
   }
   if {$f2sdram_width > 0} {
   connect " clk_100.out_clk   subsys_hps.f2sdram_clk
-            rst_in.out_reset  subsys_hps.f2sdram_rst 
+            rst_in.out_reset  subsys_hps.f2sdram_rst
+			clk_100.out_clk   subsys_hps.f2sdram_adapter_clk
+            rst_in.out_reset  subsys_hps.f2sdram_adapter_rst
           "
   }
   if {$lwh2f_width > 0} {

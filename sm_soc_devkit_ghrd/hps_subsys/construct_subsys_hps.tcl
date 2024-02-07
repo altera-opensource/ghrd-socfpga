@@ -89,6 +89,14 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 MPU_clk_periph_div {4:Div4}
 					 Rst_sdm_wd_config $reset_sdm_watchdog_cfg
                      "
+if {$f2sdram_width > 0} {
+reload_ip_catalog
+add_component_param "f2sdram_adapter f2sdram_adapter
+					 IP_FILE_PATH ip/$subsys_name/f2sdram_adapter.ip 
+					 DATA_WIDTH $f2sdram_width
+					"
+				
+}
 
 if {$reset_watchdog_en == 1} {
 set_component_param "agilex_hps 
@@ -156,6 +164,7 @@ if {$hps_emif_en == 1} {
 				"	
 	}
 }
+
 
 #load_component agilex_hps
 #for {set i 0} {$i < 48} {incr i} {
@@ -640,6 +649,10 @@ connect "sub_clk.out_clk agilex_hps.f2h_free_clk
         "
 }
 
+if {$f2sdram_width > 0} {
+connect "f2sdram_adapter.axi4_man agilex_hps.f2sdram
+		"
+}
 #if {$acp_adapter_en == 1} {
 # # temporary commented cause it lock the bridges.
 # connect "pcie_nreset_status_merge.out_reset agilex_hps.h2f_axi_reset
@@ -707,9 +720,11 @@ if {$f2s_data_width > 0} {
 }
 
 if {$f2sdram_width > 0} {
-    export agilex_hps f2sdram f2sdram
     export agilex_hps f2sdram_axi_clock f2sdram_clk
     export agilex_hps f2sdram_axi_reset f2sdram_rst
+	export f2sdram_adapter clock f2sdram_adapter_clk
+	export f2sdram_adapter reset f2sdram_adapter_rst
+	export f2sdram_adapter axi4_sub f2sdram_adapter_axi4_sub
 }
 
 if {$h2f_width > 0} {
@@ -794,10 +809,6 @@ if {$pwr_boot_core_sel == 1} {
 # set_domain_assignment {$system} {qsys_mm.maxAdditionalLatency} {1}
 # set_domain_assignment {$system} {qsys_mm.enableEccProtection} {FALSE}
 # set_domain_assignment {$system} {qsys_mm.insertDefaultSlave} {FALSE}
-    
-sync_sysinfo_parameters 
-    
-save_system ${subsys_name}.qsys
 
 sync_sysinfo_parameters     
 
