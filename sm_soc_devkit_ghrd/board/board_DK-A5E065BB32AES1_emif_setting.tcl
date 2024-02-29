@@ -77,7 +77,7 @@ if {$hps_emif_mem_part == "custom"} {
 								PHY_MEMCLK_FREQ_MHZ 				 $hps_emif_mem_clk_freq_mhz
 								PHY_REFCLK_FREQ_MHZ 				 $hps_emif_ref_clk_freq_mhz
 								"
-        set_component_param "emif_hps USER_EXTRA_PARAMETERS BYTE_SWIZZLE_CH0=0,X,X,X,1,2,3,X;PIN_SWIZZLE_CH0_DQS0=0,2,6,4,1,3,5,7;PIN_SWIZZLE_CH0_DQS1=12,15,8,11,14,10,13,9;PIN_SWIZZLE_CH0_DQS2=20,16,18,22,23,17,19,21;PIN_SWIZZLE_CH0_DQS3=26,30,28,24,25,27,31,29; "
+        # set_component_param "emif_hps USER_EXTRA_PARAMETERS BYTE_SWIZZLE_CH0=0,X,X,X,1,2,3,X;PIN_SWIZZLE_CH0_DQS0=0,2,6,4,1,3,5,7;PIN_SWIZZLE_CH0_DQS1=12,15,8,11,14,10,13,9;PIN_SWIZZLE_CH0_DQS2=20,16,18,22,23,17,19,21;PIN_SWIZZLE_CH0_DQS3=26,30,28,24,25,27,31,29; "
 		if {$hps_emif_mem_clk_freq_mhz == 800.0} {
 			if {$device == "A5ED065BB32AE5SR0"} {
 			set_component_param     "emif_hps
