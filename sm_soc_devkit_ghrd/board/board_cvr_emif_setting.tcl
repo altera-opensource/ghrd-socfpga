@@ -75,27 +75,27 @@ if {$hps_emif_mem_part == "custom"} {
 								PHY_REFCLK_FREQ_MHZ                  $hps_emif_ref_clk_freq_mhz
 								"
 # Remove the preset due to emif IP update in 24.1								
-		# if {$hps_emif_mem_clk_freq_mhz== 1066.0} {
-			# set_component_param "emif_hps
-								# MEM_PRESET_FILE_EN   		True
-								# MEM_PRESET_ID_AUTO_BOOL   	False
-								# MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2133_CL20_Component_Single-Channel-1R-1CPR-8Gb(8Gb_Total)_x8_CK_1066MHz.qprs
-								# MEM_PRESET_ID   			LPDDR4-2133_CL20_Component_Single-Channel-1R-1CPR-8Gb(8Gb_Total)_x8_CK_1066MHz
-								# "
-		# } elseif {$hps_emif_mem_clk_freq_mhz== 933.0} {
-			# set_component_param "emif_hps
-								# MEM_PRESET_FILE_EN   		True
-								# MEM_PRESET_ID_AUTO_BOOL   	False
-								# MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-1866_CL20_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_933MHz.qprs
-								# MEM_PRESET_ID   			LPDDR4-1866_CL20_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_933MHz
-								# "
-		# } elseif {$hps_emif_mem_clk_freq_mhz== 1200.0} {
-			# set_component_param "emif_hps
-								# MEM_PRESET_FILE_EN   		True
-								# MEM_PRESET_ID_AUTO_BOOL   	False
-								# MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2400_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1200MHz.qprs
-								# MEM_PRESET_ID   			LPDDR4-2400_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1200MHz
-								# "
+		if {$hps_emif_mem_clk_freq_mhz== 1066.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2133_CL20_Component_Single-Channel-1R-1CPR-8Gb(8Gb_Total)_x8_CK_1066MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-2133_CL20_Component_Single-Channel-1R-1CPR-8Gb(8Gb_Total)_x8_CK_1066MHz
+								"
+		} elseif {$hps_emif_mem_clk_freq_mhz== 933.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2133_CL20_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_933MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-2133_CL20_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_933MHz
+								"
+		} elseif {$hps_emif_mem_clk_freq_mhz== 1200.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2667_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1200MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-2667_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1200MHz
+								"
 		# } elseif {$hps_emif_mem_clk_freq_mhz== 1333.0} {
 			# set_component_param "emif_hps
 								# MEM_PRESET_FILE_EN   		True
@@ -103,14 +103,14 @@ if {$hps_emif_mem_part == "custom"} {
 								# MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-2667_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1333MHz.qprs
 								# MEM_PRESET_ID   			LPDDR4-2667_CL24_Component_Single-Channel_1R_1CPR_8Gb(8Gb_Total)x8_CK_1333MHz
 								# "
-		# } elseif {$hps_emif_mem_clk_freq_mhz== 800.0} {
-			# set_component_param "emif_hps
-								# MEM_PRESET_FILE_EN   		True
-								# MEM_PRESET_ID_AUTO_BOOL   	False
-								# MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-1600_CL14_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_800MHz.qprs
-								# MEM_PRESET_ID   			LPDDR4-1600_CL14_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_800MHz
-								# "
-		# }
+		} elseif {$hps_emif_mem_clk_freq_mhz== 800.0} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN   		True
+								MEM_PRESET_ID_AUTO_BOOL   	False
+								MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/lpddr4/LPDDR4-1600_CL14_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_800MHz.qprs
+								MEM_PRESET_ID   			LPDDR4-1600_CL14_Component_Single-Channel_1R_1CPR_8Gb(8GbTotal)_x8_CK_800MHz
+								"
+		}
 
 
         # ------ Connections --------------------------------- #

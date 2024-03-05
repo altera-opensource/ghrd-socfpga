@@ -5,14 +5,14 @@
 		<parameter name="MEM_TECHNOLOGY" value="MEM_TECHNOLOGY_LPDDR4" />
 		<parameter name="MEM_FORMAT" value="MEM_FORMAT_DISCRETE" />
 		<parameter name="PHY_MEMCLK_FREQ_MHZ" value="1200.0" />
-		<parameter name="LPDDR4_MEM_DEVICE_NUM_CHANNELS" value="1" />
-		<parameter name="LPDDR4_MEM_DEVICE_NUM_RANKS_PER_CHANNEL" value="1" />
-		<parameter name="LPDDR4_MEM_DEVICE_NUM_COMPS_PER_RANK" value="2" />
+		<parameter name="MEM_NUM_CHANNELS" value="1" />
+		<parameter name="MEM_NUM_RANKS" value="1" />
+		<parameter name="MEM_COMPS_PER_RANK" value="2" />
 		<parameter name="LPDDR4_MEM_DEVICE_DQ_WIDTH" value="16" />
 		<parameter name="LPDDR4_MEM_DEVICE_TOTAL_DQ_WIDTH_PER_CHANNEL" value="32" />
 		<parameter name="LPDDR4_MEM_DEVICE_DQ_PER_DQS" value="8" />
 		<parameter name="LPDDR4_MEM_DEVICE_DENSITY_GBITS" value="8" />
-		<parameter name="LPDDR4_MEM_DEVICE_ROW_ADDR_WIDTH" value="17" />
+		<parameter name="LPDDR4_MEM_DEVICE_ROW_ADDR_WIDTH" value="16" />
 		<parameter name="LPDDR4_MEM_DEVICE_BANK_ADDR_WIDTH" value="3" />
 		<parameter name="LPDDR4_MEM_DEVICE_COL_ADDR_WIDTH" value="10" />
 		<parameter name="LPDDR4_MEM_DEVICE_WR_DBI_EN" value="false" />
@@ -20,11 +20,11 @@
 		<parameter name="LPDDR4_MEM_DEVICE_DM_EN" value="false" />
 		<parameter name="LPDDR4_MEM_DEVICE_BURST_LENGTH" value="16" />
 		<parameter name="LPDDR4_MEM_DEVICE_JEDEC_VALIDATION_EN" value="true" />
-		<parameter name="LPDDR4_MEM_DEVICE_SPEEDBIN" value="2400" />
+		<parameter name="LPDDR4_MEM_DEVICE_SPEEDBIN" value="2667" />
 		<parameter name="LPDDR4_MEM_DEVICE_WLS" value="1" />
 		<parameter name="LPDDR4_MEM_DEVICE_CL_CYC" value="24" />
 		<parameter name="LPDDR4_MEM_DEVICE_CWL_CYC" value="22" />
-		<parameter name="LPDDR4_MEM_DEVICE_RD_PREAMBLE_CYC" value="1" />
+		<parameter name="LPDDR4_MEM_DEVICE_RD_PREAMBLE_CYC" value="0" />
 		<parameter name="LPDDR4_MEM_DEVICE_RD_POSTAMBLE_CYC" value="0" />
 		<parameter name="LPDDR4_MEM_DEVICE_WR_POSTAMBLE_CYC" value="0" />
 		<parameter name="LPDDR4_MEM_DEVICE_TSR_NS" value="15.0" />
