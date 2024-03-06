@@ -73,8 +73,7 @@ if {$hps_emif_mem_part == "custom"} {
 								PHY_MEMCLK_FREQ_MHZ                  $hps_emif_mem_clk_freq_mhz
 								PHY_REFCLK_FREQ_MHZ_AUTO_BOOL        false
 								PHY_REFCLK_FREQ_MHZ                  $hps_emif_ref_clk_freq_mhz
-								"
-# Remove the preset due to emif IP update in 24.1								
+								"							
 		if {$hps_emif_mem_clk_freq_mhz== 1066.0} {
 			set_component_param "emif_hps
 								MEM_PRESET_FILE_EN   		True

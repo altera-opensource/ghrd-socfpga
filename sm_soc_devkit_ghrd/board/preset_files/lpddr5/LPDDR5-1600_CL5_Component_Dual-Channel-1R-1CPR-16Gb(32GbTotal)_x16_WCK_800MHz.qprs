@@ -5,9 +5,9 @@
 		<parameter name="MEM_TECHNOLOGY" value="MEM_TECHNOLOGY_LPDDR5" />
 		<parameter name="MEM_FORMAT" value="MEM_FORMAT_DISCRETE" />
 		<parameter name="PHY_MEMCLK_FQD_FREQ_MHZ" value="800.0" />
-		<parameter name="LPDDR5_MEM_DEVICE_NUM_CHANNELS" value="2" />
-		<parameter name="LPDDR5_MEM_DEVICE_NUM_RANKS_PER_CHANNEL" value="1" />
-		<parameter name="LPDDR5_MEM_DEVICE_NUM_COMPS_PER_RANK" value="1" />
+		<parameter name="MEM_NUM_CHANNELS" value="2" />
+		<parameter name="MEM_NUM_RANKS" value="1" />
+		<parameter name="MEM_COMPS_PER_RANK" value="1" />
 		<parameter name="LPDDR5_MEM_DEVICE_DQ_WIDTH" value="16" />
 		<parameter name="LPDDR5_MEM_DEVICE_TOTAL_DQ_WIDTH_PER_CHANNEL" value="16" />
 		<parameter name="LPDDR5_MEM_DEVICE_DQ_PER_DQS" value="8" />
@@ -23,6 +23,7 @@
 		<parameter name="LPDDR5_MEM_DEVICE_WR_DBI_EN" value="false" />
 		<parameter name="LPDDR5_MEM_DEVICE_RD_DBI_EN" value="false" />
 		<parameter name="LPDDR5_MEM_DEVICE_DM_EN" value="false" />
+		<parameter name="LPDDR5_MEM_DEVICE_PER_BANK_REF_EN" value="false" />
 		<parameter name="LPDDR5_MEM_DEVICE_BURST_LENGTH" value="16" />
 		<parameter name="LPDDR5_MEM_DEVICE_BANK_MODE" value="LPDDR5_BANK_MODE_16B_BG_AUTO" />
 		<parameter name="LPDDR5_MEM_DEVICE_JEDEC_VALIDATION_EN" value="true" />
