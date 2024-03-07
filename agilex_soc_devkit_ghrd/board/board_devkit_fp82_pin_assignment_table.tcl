@@ -590,38 +590,38 @@ set pin_matrix [ list \
       [ list "${emif_name}_mem_mem_dqs[6]"      		"ddr5"      unused                 ] \
       [ list "${emif_name}_mem_mem_dqs[7]"      		"ddr5"      unused                 ] \
       [ list "${emif_name}_mem_mem_dqs[8]"      		"ddr5"      unused                 ] \
-      [ list "${emif_name}_mem_mem_dq[0]"       		"ddr5"      "PIN_H25"              ] \
-      [ list "${emif_name}_mem_mem_dq[1]"       		"ddr5"      "PIN_G24"              ] \
-      [ list "${emif_name}_mem_mem_dq[2]"       		"ddr5"      "PIN_L24"              ] \
-      [ list "${emif_name}_mem_mem_dq[3]"       		"ddr5"      "PIN_K25"              ] \
-      [ list "${emif_name}_mem_mem_dq[4]"       		"ddr5"      "PIN_G20"              ] \
-      [ list "${emif_name}_mem_mem_dq[5]"       		"ddr5"      "PIN_H21"              ] \
-      [ list "${emif_name}_mem_mem_dq[6]"       		"ddr5"      "PIN_K21"              ] \
-      [ list "${emif_name}_mem_mem_dq[7]"       		"ddr5"      "PIN_L20"              ] \
-      [ list "${emif_name}_mem_mem_dq[8]"       		"ddr5"      "PIN_A22"              ] \
-      [ list "${emif_name}_mem_mem_dq[9]"       		"ddr5"      "PIN_B23"              ] \
-      [ list "${emif_name}_mem_mem_dq[10]"      		"ddr5"      "PIN_D23"              ] \
-      [ list "${emif_name}_mem_mem_dq[11]"      		"ddr5"      "PIN_E22"              ] \
-      [ list "${emif_name}_mem_mem_dq[12]"      		"ddr5"      "PIN_A18"              ] \
-      [ list "${emif_name}_mem_mem_dq[13]"      		"ddr5"      "PIN_B19"              ] \
-      [ list "${emif_name}_mem_mem_dq[14]"      		"ddr5"      "PIN_D19"              ] \
-      [ list "${emif_name}_mem_mem_dq[15]"      		"ddr5"      "PIN_E18"              ] \
-      [ list "${emif_name}_mem_mem_dq[16]"      		"ddr5"      "PIN_N18"              ] \
-      [ list "${emif_name}_mem_mem_dq[17]"      		"ddr5"      "PIN_P19"              ] \
-      [ list "${emif_name}_mem_mem_dq[18]"     			"ddr5"      "PIN_U18"              ] \
-      [ list "${emif_name}_mem_mem_dq[19]"      		"ddr5"      "PIN_T19"              ] \
-      [ list "${emif_name}_mem_mem_dq[20]"      		"ddr5"      "PIN_N14"              ] \
-      [ list "${emif_name}_mem_mem_dq[21]"      		"ddr5"      "PIN_P15"              ] \
-      [ list "${emif_name}_mem_mem_dq[22]"      		"ddr5"      "PIN_T15"              ] \
-      [ list "${emif_name}_mem_mem_dq[23]"      		"ddr5"      "PIN_U14"              ] \
-      [ list "${emif_name}_mem_mem_dq[24]"      		"ddr5"      "PIN_G18"              ] \
-      [ list "${emif_name}_mem_mem_dq[25]"      		"ddr5"      "PIN_H19"              ] \
-      [ list "${emif_name}_mem_mem_dq[26]"      		"ddr5"      "PIN_L18"              ] \
-      [ list "${emif_name}_mem_mem_dq[27]"      		"ddr5"      "PIN_K19"              ] \
-      [ list "${emif_name}_mem_mem_dq[28]"      		"ddr5"      "PIN_G14"              ] \
-      [ list "${emif_name}_mem_mem_dq[29]"      		"ddr5"      "PIN_H15"              ] \
-      [ list "${emif_name}_mem_mem_dq[30]"      		"ddr5"      "PIN_L14"              ] \
-      [ list "${emif_name}_mem_mem_dq[31]"      		"ddr5"      "PIN_K15"              ] \
+      [ list "${emif_name}_mem_mem_dq[0]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[1]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[2]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[3]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[4]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[5]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[6]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[7]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[8]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[9]"       		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[10]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[11]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[12]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[13]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[14]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[15]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[16]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[17]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[18]"     			"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[19]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[20]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[21]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[22]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[23]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[24]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[25]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[26]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[27]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[28]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[29]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[30]"      		"ddr5"      unused                 ] \
+      [ list "${emif_name}_mem_mem_dq[31]"      		"ddr5"      unused                 ] \
       [ list "${emif_name}_mem_mem_dq[32]"      		"ddr5"      unused                 ] \
       [ list "${emif_name}_mem_mem_dq[33]"      		"ddr5"      unused                 ] \
       [ list "${emif_name}_mem_mem_dq[34]"      		"ddr5"      unused                 ] \
