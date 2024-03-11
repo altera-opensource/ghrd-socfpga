@@ -814,16 +814,16 @@ ${qsys_name} soc_inst (
 .hps_io_i3c1_scl                           (hps_i3c1_SCL),
 @@}
 @@if {$hps_i2c_emac0_q1_en == 1 || $hps_i2c_emac0_q3_en == 1 || $hps_i2c_emac0_q4_en == 1} {
-.hps_io_I2CEMAC0_SDA                       (hps_i2c_emac0_SDA),       
-.hps_io_I2CEMAC0_SCL                       (hps_i2c_emac0_SCL),                  
+.hps_io_i2c_emac0_sda                       (hps_i2c_emac0_SDA),       
+.hps_io_i2c_emac0_scl                       (hps_i2c_emac0_SCL),                  
 @@}
 @@if {$hps_i2c_emac1_q1_en == 1 || $hps_i2c_emac1_q4_en == 1} {
-.hps_io_I2CEMAC1_SDA                       (hps_i2c_emac1_SDA),       
-.hps_io_I2CEMAC1_SCL                       (hps_i2c_emac1_SCL),                  
+.hps_io_i2c_emac1_sda                       (hps_i2c_emac1_SDA),       
+.hps_io_i2c_emac1_scl                       (hps_i2c_emac1_SCL),                  
 @@}
 @@if {$hps_i2c_emac2_q1_en == 1 || $hps_i2c_emac2_q3_en == 1 || $hps_i2c_emac2_q4_en == 1} {
-.hps_io_I2CEMAC2_SDA                       (hps_i2c_emac2_SDA),       
-.hps_io_I2CEMAC2_SCL                       (hps_i2c_emac2_SCL),                  
+.hps_io_i2c_emac2_sda                       (hps_i2c_emac2_SDA),       
+.hps_io_i2c_emac2_scl                       (hps_i2c_emac2_SCL),                  
 @@}
 @@if {$hps_uart0_q1_en == 1 || $hps_uart0_q2_en == 1 || $hps_uart0_q3_en == 1} {
 .hps_io_uart0_rx                           (hps_uart0_RX),          
