@@ -12,6 +12,8 @@
 		<parameter name="DDR4_MEM_DEVICE_NUM_RANK_PER_COMP" value="1" />
 		<parameter name="DDR4_MEM_DEVICE_IS_3DS" value="false" />
 		<parameter name="DDR4_MEM_DEVICE_DIE_DENSITY_GBITS" value="16" />
+		<parameter name="DDR4_MEM_DEVICE_SPD137_RCD_CA_DRV" value="0" />
+		<parameter name="DDR4_MEM_DEVICE_SPD138_RCD_CK_DRV" value="0" />
 		<parameter name="DDR4_MEM_DEVICE_DIE_DQ_WIDTH" value="8" />
 		<parameter name="DDR4_MEM_DEVICE_DQ_WIDTH" value="16" />
 		<parameter name="DDR4_MEM_DEVICE_COMPONENT_DQ_WIDTH" value="16" />
@@ -41,6 +43,8 @@
 		<parameter name="DDR4_MEM_DEVICE_GEARDOWN_MODE" value="" />
 		<parameter name="DDR4_MEM_DEVICE_DATA_RATE_BIN" value="1866" />
 		<parameter name="DDR4_MEM_DEVICE_AC_PARITY_LATENCY_MODE" value="0" />
+		<parameter name="DDR4_MEM_DEVICE_RCD_PARITY_CONTROL_WORD" value="13" />
+		<parameter name="DDR4_MEM_DEVICE_RCD_PARITY_LATENCY_CYC" value="0" />
 		<parameter name="DDR4_MEM_DEVICE_TREFI_US" value="7.8" />
 		<parameter name="DDR4_MEM_DEVICE_TRAS_NS" value="34.0" />
 		<parameter name="DDR4_MEM_DEVICE_TRCD_NS" value="13.92" />

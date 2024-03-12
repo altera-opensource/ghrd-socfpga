@@ -14,8 +14,7 @@ set_time_format -unit ns -decimal_places 3
 # 100MHz board input clock, 133.3333MHz for EMIF refclk
 create_clock -name MAIN_CLOCK -period 10 [get_ports fpga_clk_100]
 @@
-@@set hps_emif_ref_clk_freq_ns [expr {floor ( 1/$hps_emif_ref_clk_freq_mhz *1000)}]
-create_clock -name EMIF_REF_CLOCK -period $hps_emif_ref_clk_freq_ns [get_ports emif_hps_emif_ref_clk_0_clk]
+create_clock -name EMIF_REF_CLOCK -period ${hps_emif_ref_clk_freq_mhz}MHz [get_ports emif_hps_emif_ref_clk_0_clk] 
 @@
 @@
 @@## This is required as the HPS SDC is not working for hps_user_clk constraints. HSDES: 1507301642

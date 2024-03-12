@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ip><presets version="12.1">
-	<preset name="Custom Preset" kind="emif_ph2_phy_arch_fp" version="All" description="Custom Preset">
+	<preset name="DDR4-2133R_1066MHz_CL16_alloff_component_1CS_DDP_32Gb_2Gx16" kind="emif_ph2_phy_arch_fp" version="All" description="Custom Preset">
 		<parameter name="SHOW_INTERNAL_SETTINGS" value="false" />
 		<parameter name="MEM_TECHNOLOGY" value="MEM_TECHNOLOGY_DDR4" />
 		<parameter name="MEM_FORMAT" value="MEM_FORMAT_DISCRETE" />
@@ -12,6 +12,8 @@
 		<parameter name="DDR4_MEM_DEVICE_NUM_RANK_PER_COMP" value="1" />
 		<parameter name="DDR4_MEM_DEVICE_IS_3DS" value="false" />
 		<parameter name="DDR4_MEM_DEVICE_DIE_DENSITY_GBITS" value="16" />
+		<parameter name="DDR4_MEM_DEVICE_SPD137_RCD_CA_DRV" value="0" />
+		<parameter name="DDR4_MEM_DEVICE_SPD138_RCD_CK_DRV" value="0" />
 		<parameter name="DDR4_MEM_DEVICE_DIE_DQ_WIDTH" value="8" />
 		<parameter name="DDR4_MEM_DEVICE_DQ_WIDTH" value="16" />
 		<parameter name="DDR4_MEM_DEVICE_COMPONENT_DQ_WIDTH" value="16" />
@@ -41,6 +43,8 @@
 		<parameter name="DDR4_MEM_DEVICE_GEARDOWN_MODE" value="" />
 		<parameter name="DDR4_MEM_DEVICE_DATA_RATE_BIN" value="2133" />
 		<parameter name="DDR4_MEM_DEVICE_AC_PARITY_LATENCY_MODE" value="0" />
+		<parameter name="DDR4_MEM_DEVICE_RCD_PARITY_CONTROL_WORD" value="13" />
+		<parameter name="DDR4_MEM_DEVICE_RCD_PARITY_LATENCY_CYC" value="0" />
 		<parameter name="DDR4_MEM_DEVICE_TREFI_US" value="7.8" />
 		<parameter name="DDR4_MEM_DEVICE_TRAS_NS" value="33.0" />
 		<parameter name="DDR4_MEM_DEVICE_TRCD_NS" value="15.0" />
