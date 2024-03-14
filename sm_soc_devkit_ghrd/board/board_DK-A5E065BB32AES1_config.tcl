@@ -47,7 +47,7 @@ set hps_emif_bank_gp_default_width 1
 # Quartus settings for SDMIOs
 proc config_sdmio {} {
     set_global_assignment -name USE_HPS_COLD_RESET SDM_IO11
-    set_global_assignment -name USE_CONF_DONE SDM_IO16
+    set_global_assignment -name USE_CONF_DONE SDM_IO12
 }
 
 # Quartus settings for Power Management
