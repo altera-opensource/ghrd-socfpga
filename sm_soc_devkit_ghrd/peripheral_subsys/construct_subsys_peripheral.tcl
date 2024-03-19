@@ -99,13 +99,6 @@ add_component_param "altera_avalon_pio led_pio
 #                    IRQ_PORT_CNT 2
 #                    "
 
-if {$dfl_rom_en == 1} {
-add_component_param "dfl_rom dfl_rom_inst
-                    IP_FILE_PATH ip/$subsys_name/dfl_rom_inst.ip
-                    ADDR_WIDTH 12
-                    "
-}
-
 add_component_param "altera_avalon_mm_bridge pb_cpu_0 
                     IP_FILE_PATH ip/$subsys_name/pb_cpu_0.ip 
                     DATA_WIDTH 32
@@ -114,7 +107,7 @@ add_component_param "altera_avalon_mm_bridge pb_cpu_0
                     MAX_BURST_SIZE 1
                     MAX_PENDING_RESPONSES 1
                     "                           
-
+if {$fpga_data_mover_en == 1} {
 add_component_param "intel_ssgdma ssgdma_0 
                     IP_FILE_PATH ip/$subsys_name/ssgdma_0.ip 
                     DMA_MODE {DMA SoC mode}
@@ -123,16 +116,19 @@ add_component_param "intel_ssgdma ssgdma_0
                     NUM_H2D_ST_PORTS 0
                     NUM_D2H_ST_PORTS 0
                     "
-
+}
 # --------------- Connections and connection parameters ------------------#
 connect "   periph_clk.out_clk sysid.clk
             periph_rst_in.out_reset sysid.reset
-            periph_clk.out_clk ssgdma_0.axi_lite_clk
+		"
+		
+if {$fpga_data_mover_en == 1} {		
+connect "   periph_clk.out_clk ssgdma_0.axi_lite_clk
             periph_rst_in.out_reset ssgdma_0.axi_lite_areset_n
         "
 
 connect_map "  pb_cpu_0.m0 ssgdma_0.host_csr 0x400000 "
-
+}
 #connect_map "   pb_cpu_0.m0 ILC.avalon_slave 0x10100 "
 
 if {$fpga_led_pio_width >0} {
@@ -171,16 +167,11 @@ connect "   periph_rst_in.out_reset pb_cpu_0.reset
 "
 #periph_rst_in.out_reset ILC.reset_n
 
-if {$dfl_rom_en == 1} {
-connect "   periph_clk.out_clk dfl_rom_inst.clk
-            periph_rst_in.out_reset dfl_rom_inst.clk_reset"
-connect_map "  pb_cpu_0.m0 dfl_rom_inst.intel_axi4lite_subordinate 0x0 "
-}
-
 # exported interfaces
 
 export periph_rst_in in_reset reset
 export periph_clk in_clk clk
+if {$fpga_data_mover_en == 1} {	
 export ssgdma_0 host_clk ssgdma_host_clk
 export ssgdma_0 host_aresetn ssgdma_host_aresetn
 export ssgdma_0 host ssgdma_host
@@ -188,7 +179,7 @@ export ssgdma_0 interrupt ssgdma_interrupt
 export ssgdma_0 h2d0_mm_clk ssgdma_h2d0_mm_clk
 export ssgdma_0 h2d0_mm_resetn ssgdma_h2d0_mm_resetn
 export ssgdma_0 h2d0 ssgdma_h2d0
-
+}
 
 if {$fpga_button_pio_width >0} {
 export button_pio external_connection button_pio_external_connection

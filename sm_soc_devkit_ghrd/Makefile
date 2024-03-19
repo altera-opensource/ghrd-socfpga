@@ -217,8 +217,6 @@ HPS_EMIF_EN ?= 0
 # HPS EMIF ECC is not support for REVA Agilex
 ENABLE_HPS_EMIF_ECC ?= 0
 
-DFL_ROM_EN ?= 0
-
 SUB_FPGA_RGMII_EN ?= 0
 
 ifneq ($(DEVICE_FAMILY),)
@@ -283,6 +281,11 @@ endif
 ifneq ($(SUB_PERI_EN),)
 QUARTUS_TCL_ARGS += sub_peri_en $(SUB_PERI_EN)
 QSYS_TCL_CMDS += set sub_peri_en $(SUB_PERI_EN);
+endif
+
+ifneq ($(FPGA_DATA_MOVER_EN),)
+QUARTUS_TCL_ARGS += fpga_data_mover_en $(FPGA_DATA_MOVER_EN)
+QSYS_TCL_CMDS += set fpga_data_mover_en $(FPGA_DATA_MOVER_EN);
 endif
 
 ifneq ($(HPS_CLK_SOURCE),)
@@ -435,9 +438,6 @@ endif
 
 QSYS_TCL_CMDS += set prjroot $(PROJECT_ROOT);
 QUARTUS_TCL_ARGS += prjroot $(PROJECT_ROOT)
-
-QSYS_TCL_CMDS += set dfl_rom_en $(DFL_ROM_EN);
-QUARTUS_TCL_ARGS += dfl_rom_en $(DFL_ROM_EN)
 
 
 ### End of Design Settings ###

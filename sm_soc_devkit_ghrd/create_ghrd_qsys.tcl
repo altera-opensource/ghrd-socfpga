@@ -204,8 +204,6 @@ if {$sub_hps_en == 1} {
   }
 
 }
-
-
            
 if {$sub_debug_en == 1} {
     connect_map "subsys_debug.fpga_m_master ocm.axi_s1 0x40000"
@@ -226,11 +224,14 @@ if {$sub_debug_en == 1} {
 if {$sub_peri_en == 1} {
 connect "clk_100.out_clk   subsys_periph.clk
          rst_in.out_reset  subsys_periph.reset
-         clk_100.out_clk   subsys_periph.ssgdma_host_clk
+		"
+if {$fpga_data_mover_en == 1} {			 
+connect "clk_100.out_clk   subsys_periph.ssgdma_host_clk
          rst_in.out_reset  subsys_periph.ssgdma_host_aresetn
          clk_100.out_clk   subsys_periph.ssgdma_h2d0_mm_clk
          rst_in.out_reset  subsys_periph.ssgdma_h2d0_mm_resetn
          "
+}
 }
 
 if {$sub_peri_en == 1} {
@@ -260,11 +261,16 @@ if {$sub_peri_en == 1} {
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.button_pio_irq irqNumber {0}
      connect "subsys_hps.f2h_irq_in subsys_periph.dipsw_pio_irq"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.dipsw_pio_irq irqNumber {1}
-     connect "subsys_hps.f2h_irq_in subsys_periph.ssgdma_interrupt"
+     
+	 if {$fpga_data_mover_en == 1} {	
+	 connect "subsys_hps.f2h_irq_in subsys_periph.ssgdma_interrupt"
      set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.ssgdma_interrupt irqNumber {2}
+     }
    }
+   if {$fpga_data_mover_en == 1} {	
    connect_map "subsys_periph.ssgdma_host ext_hps_m_master.windowed_slave 0x0"
    connect_map "subsys_periph.ssgdma_h2d0 ext_hps_m_master.windowed_slave 0x0"
+   }
 }
 
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
