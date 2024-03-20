@@ -15,9 +15,6 @@
 # <-
 #   BOARD_TYPE:
 #       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]
-#       - cvr: mUDV Coville Ridge
-#       - lbm: mUCV Little Battle Mountain  
-#       - bbr: mUDV Backbone Ridge
 #
 #   DEVICE:
 #       - A5ED065BB32AE5SR0: 5s FPGA OPN# [default]

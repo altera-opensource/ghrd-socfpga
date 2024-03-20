@@ -85,9 +85,7 @@
 #       - 256: 256-bit [default]
 #
 #   F2SDRAM_ADDR_WIDTH :
-#       - 20: 20-bit 1MB minimum
 #       - 32: 32-bit 4GB [default]
-#       - 40: 40-bit 1TB maximum
 #
 #   H2F_WIDTH :
 #       - 0: disable
@@ -104,7 +102,7 @@
 #       - 32: 32-bit [default]
 #
 #   LWH2F_ADDR_WIDTH :
-#       - 20: 20-bit 1MB minimum
+#       - 24: 24-bit 16MB minimum
 #       - 29: 29-bit 512MB maximum [default]
 #
 #   PWR_MPU_L3_CACHE_SIZE :

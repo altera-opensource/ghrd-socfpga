@@ -107,8 +107,8 @@ if {$f2s_address_width > 32} {
 	}
 }
 
-add_component_param "altera_address_span_extender ext_hps_m_master
-                    IP_FILE_PATH ip/$qsys_name/ext_hps_m_master.ip
+add_component_param "altera_address_span_extender ext_hps_f2sdram_master
+                    IP_FILE_PATH ip/$qsys_name/ext_hps_f2sdram_master.ip
                     BURSTCOUNT_WIDTH 1
                     MASTER_ADDRESS_WIDTH 33
                     SLAVE_ADDRESS_WIDTH 30
@@ -133,21 +133,21 @@ reload_ip_catalog
 if {$sub_debug_en == 1} {
 add_instance subsys_debug jtag_subsys
 reload_ip_catalog
+
+if { $f2sdram_width > 0 } {	
+connect "         clk_100.out_clk                        ext_hps_f2sdram_master.clock
+                  rst_in.out_reset                       ext_hps_f2sdram_master.reset"
+											     
+connect_map "     subsys_debug.hps_f2sdram_master              ext_hps_f2sdram_master.windowed_slave 0x0 "
+connect_map "     ext_hps_f2sdram_master.expanded_master       subsys_hps.f2sdram_adapter_axi4_sub 0x0000 "
 }
 
-
-connect "         clk_100.out_clk                        ext_hps_m_master.clock
-                  rst_in.out_reset                       ext_hps_m_master.reset"
-													     
-connect_map "     subsys_debug.hps_m_master              ext_hps_m_master.windowed_slave 0x0 "
-#connect_map "     ext_hps_m_master.expanded_master      subsys_hps.fpga2hps 0x1_0000_0000 "
-connect_map "     ext_hps_m_master.expanded_master       subsys_hps.f2sdram_adapter_axi4_sub 0x0000 "
 													     
 if { $f2s_data_width > 0 } {												 
-connect_map "     subsys_debug.hps_m_0_master            subsys_hps.fpga2hps 0x0000 "
+connect_map "     subsys_debug.hps_m_master            subsys_hps.fpga2hps 0x0000 "
 
 }												 
-														 
+}													 
 														 
 if {$cct_en == 1} {	                                     
 	connect "	  clk_100.out_clk                        intel_cache_coherency_translator_0.clock
@@ -283,7 +283,9 @@ if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
      connect "rst_in.out_reset subsys_hps.usb31_phy_reconfig_rst 
               clk_100.out_clk subsys_hps.usb31_phy_reconfig_clk 
              "
+	if {$lwh2f_width > 0} {		 
      connect_map "subsys_hps.lwhps2fpga subsys_hps.usb31_phy_reconfig_slave 0x80_0000"
+}
 }
 
 

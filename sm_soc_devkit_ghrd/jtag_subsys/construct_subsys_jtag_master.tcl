@@ -45,17 +45,18 @@ add_component_param "altera_reset_bridge jtag_rst_in
                     NUM_RESET_OUTPUTS 1
                     USE_RESET_REQUEST 0
                     "
-    
-add_component_param "altera_jtag_avalon_master hps_m 
-                    IP_FILE_PATH ip/$subqsys_name/hps_m.ip 
+if { $f2sdram_width > 0 } {	    
+add_component_param "altera_jtag_avalon_master hps_f2sdram 
+                    IP_FILE_PATH ip/$subqsys_name/hps_f2sdram.ip 
                     "
+}
 
 add_component_param "altera_jtag_avalon_master fpga_m 
                     IP_FILE_PATH ip/$subqsys_name/fpga_m.ip 
                     "
 if { $f2s_data_width > 0 } {
-add_component_param "altera_jtag_avalon_master hps_m_0 
-                    IP_FILE_PATH ip/$subqsys_name/hps_m_0.ip 
+add_component_param "altera_jtag_avalon_master hps_m 
+                    IP_FILE_PATH ip/$subqsys_name/hps_m.ip 
                     "
 }
 # connections and connection parameters
@@ -63,14 +64,15 @@ connect "   jtag_clk.out_clk fpga_m.clk
             jtag_clk.out_clk jtag_rst_in.clk
             jtag_rst_in.out_reset fpga_m.clk_reset
 "
-
-connect "   jtag_clk.out_clk hps_m.clk
-            jtag_rst_in.out_reset hps_m.clk_reset
+if { $f2sdram_width > 0 } {	
+connect "   jtag_clk.out_clk hps_f2sdram.clk
+            jtag_rst_in.out_reset hps_f2sdram.clk_reset
 "
+}
 
 if { $f2s_data_width > 0 } {
-connect "   jtag_clk.out_clk hps_m_0.clk
-            jtag_rst_in.out_reset hps_m_0.clk_reset
+connect "   jtag_clk.out_clk hps_m.clk
+            jtag_rst_in.out_reset hps_m.clk_reset
 "
 }
 
@@ -78,9 +80,11 @@ connect "   jtag_clk.out_clk hps_m_0.clk
 export jtag_rst_in in_reset reset
 export jtag_clk in_clk clk
 export fpga_m master fpga_m_master
-export hps_m master hps_m_master
+if { $f2sdram_width > 0 } {
+export hps_f2sdram master hps_f2sdram_master
+}
 if { $f2s_data_width > 0 } {
-export hps_m_0 master hps_m_0_master
+export hps_m master hps_m_master
 }
 
 # interconnect requirements
