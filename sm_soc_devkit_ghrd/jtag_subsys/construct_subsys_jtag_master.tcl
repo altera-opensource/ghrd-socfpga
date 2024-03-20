@@ -53,7 +53,11 @@ add_component_param "altera_jtag_avalon_master hps_m
 add_component_param "altera_jtag_avalon_master fpga_m 
                     IP_FILE_PATH ip/$subqsys_name/fpga_m.ip 
                     "
-
+if { $f2s_data_width > 0 } {
+add_component_param "altera_jtag_avalon_master hps_m_0 
+                    IP_FILE_PATH ip/$subqsys_name/hps_m_0.ip 
+                    "
+}
 # connections and connection parameters
 connect "   jtag_clk.out_clk fpga_m.clk
             jtag_clk.out_clk jtag_rst_in.clk
@@ -64,12 +68,20 @@ connect "   jtag_clk.out_clk hps_m.clk
             jtag_rst_in.out_reset hps_m.clk_reset
 "
 
+if { $f2s_data_width > 0 } {
+connect "   jtag_clk.out_clk hps_m_0.clk
+            jtag_rst_in.out_reset hps_m_0.clk_reset
+"
+}
+
 # exported interfaces
 export jtag_rst_in in_reset reset
 export jtag_clk in_clk clk
 export fpga_m master fpga_m_master
 export hps_m master hps_m_master
-
+if { $f2s_data_width > 0 } {
+export hps_m_0 master hps_m_0_master
+}
 
 # interconnect requirements
 #set_domain_assignment {$system} {qsys_mm.clockCrossingAdapter} {AUTO}
