@@ -24,24 +24,24 @@ if {$fpga_emif_ecc_en} {
 }
 
 # Derive TCL and WTCL for default DDR4 mode
-if {$hps_emif_mem_part == "default_part"} {
-   if {$hps_emif_mem_clk_freq_mhz == 800} {
-      set selected_tcl 14
-      set selected_wtcl 11
-   } elseif {$hps_emif_mem_clk_freq_mhz == 1200} {
-      if {$board == "DK-SI-AGF014E" } {
-         set selected_tcl 20
-         set selected_wtcl 16
-      } else {
-         set selected_tcl 21
-         set selected_wtcl 16
-      }
-   } else {
-      puts "\"$hps_emif_mem_clk_freq_mhz\"is not a Not Supported DDR4 MEM CLK FREQ"
-      set selected_tcl 0
-      set selected_wtcl 0
-   }
-}
+# if {$hps_emif_mem_part == "default_part"} {
+   # if {$hps_emif_mem_clk_freq_mhz == 800} {
+      # set selected_tcl 14
+      # set selected_wtcl 11
+   # } elseif {$hps_emif_mem_clk_freq_mhz == 1200} {
+      # if {$board == "DK-SI-AGF014E" } {
+         # set selected_tcl 20
+         # set selected_wtcl 16
+      # } else {
+         # set selected_tcl 21
+         # set selected_wtcl 16
+      # }
+   # } else {
+      # puts "\"$hps_emif_mem_clk_freq_mhz\"is not a Not Supported DDR4 MEM CLK FREQ"
+      # set selected_tcl 0
+      # set selected_wtcl 0
+   # }
+# }
   ## DEVKIT
   # ------ Component configuration --------------------- #
   

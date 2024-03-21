@@ -107,14 +107,6 @@ if {$f2s_address_width > 32} {
 	}
 }
 
-add_component_param "altera_address_span_extender ext_hps_f2sdram_master
-                    IP_FILE_PATH ip/$qsys_name/ext_hps_f2sdram_master.ip
-                    BURSTCOUNT_WIDTH 1
-                    MASTER_ADDRESS_WIDTH 33
-                    SLAVE_ADDRESS_WIDTH 30
-                    ENABLE_SLAVE_PORT 0
-                    MAX_PENDING_READS 1
-                    "
 if {$sub_fpga_rgmii_en == 1} {
 add_instance subsys_fpga_rgmii fpga_rgmii_subsys
 reload_ip_catalog
@@ -135,6 +127,15 @@ add_instance subsys_debug jtag_subsys
 reload_ip_catalog
 
 if { $f2sdram_width > 0 } {	
+add_component_param "altera_address_span_extender ext_hps_f2sdram_master
+                    IP_FILE_PATH ip/$qsys_name/ext_hps_f2sdram_master.ip
+                    BURSTCOUNT_WIDTH 1
+                    MASTER_ADDRESS_WIDTH 33
+                    SLAVE_ADDRESS_WIDTH 30
+                    ENABLE_SLAVE_PORT 0
+                    MAX_PENDING_READS 1
+                    "
+					
 connect "         clk_100.out_clk                        ext_hps_f2sdram_master.clock
                   rst_in.out_reset                       ext_hps_f2sdram_master.reset"
 											     
