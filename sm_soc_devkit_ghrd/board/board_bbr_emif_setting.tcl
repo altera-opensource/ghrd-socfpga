@@ -112,20 +112,54 @@ if {$hps_emif_mem_part == "custom"} {
 								"
 			}
 		} elseif { $hps_emif_mem_clk_freq_mhz== 1066.0 } {
+			if { $hps_emif_channel == 1} {
 			set_component_param "emif_hps
 								MEM_PRESET_FILE_EN_FSP0              true
 								MEM_PRESET_ID_FSP0_AUTO_BOOL         false
 								MEM_PRESET_FILE_QPRS_FSP0            ${prjroot}/board/preset_files/lpddr5/LPDDR5-2133_CL6_Component_Single-Channel-1R-1CPR-16Gb_(16GbTotal)_x16_WCK_1066MHz.qprs
 								MEM_PRESET_ID_FSP0                   LPDDR5-2133_CL6_Component_Single-Channel-1R-1CPR-16Gb_(16GbTotal)_x16_WCK_1066MHz
 								"
+			} elseif { $hps_emif_channel == 2} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN_FSP0              true
+								MEM_PRESET_ID_FSP0_AUTO_BOOL         false
+								MEM_PRESET_FILE_QPRS_FSP0            ${prjroot}/board/preset_files/lpddr5/LPDDR5-2133_CL6_Component_Dual-Channel-1R-1CPR-16Gb_(32GbTotal)_x16_WCK_1066MHz.qprs
+								MEM_PRESET_ID_FSP0                   LPDDR5-2133_CL6_Component_Dual-Channel-1R-1CPR-16Gb_(32GbTotal)_x16_WCK_1066MHz
+								"
+			}
 		} elseif { $hps_emif_mem_clk_freq_mhz== 1200.0 } {
+			if { $hps_emif_channel == 1} {
 			set_component_param "emif_hps
 								MEM_PRESET_FILE_EN_FSP0              true
 								MEM_PRESET_ID_FSP0_AUTO_BOOL         false
 								MEM_PRESET_FILE_QPRS_FSP0            ${prjroot}/board/preset_files/lpddr5/LPDDR5-2750_CL8_Component_Single-Channel-1R-1CPR-16Gb_(16GbTotal)_x16_WCK_1200MHz.qprs
 								MEM_PRESET_ID_FSP0                   LPDDR5-2750_CL8_Component_Single-Channel-1R-1CPR-16Gb_(16GbTotal)_x16_WCK_1200MHz
 								"
-		} 
+			} elseif { $hps_emif_channel == 2} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN_FSP0              true
+								MEM_PRESET_ID_FSP0_AUTO_BOOL         false
+								MEM_PRESET_FILE_QPRS_FSP0            ${prjroot}/board/preset_files/lpddr5/LPDDR5-2750_CL8_Component_Dual-Channel-1R-1CPR-16Gb_(32GbTotal)_x16_WCK_1200MHz.qprs
+								MEM_PRESET_ID_FSP0                   LPDDR5-2750_CL8_Component_Dual-Channel-1R-1CPR-16Gb_(32GbTotal)_x16_WCK_1200MHz
+								"
+			}
+		} elseif { $hps_emif_mem_clk_freq_mhz== 933.0 } {
+			if { $hps_emif_channel == 1} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN_FSP0              true
+								MEM_PRESET_ID_FSP0_AUTO_BOOL         false
+								MEM_PRESET_FILE_QPRS_FSP0            ${prjroot}/board/preset_files/lpddr5/LPDDR5-2133_CL6_Component_Single-Channel-1R-1CPR-16Gb_(16GbTotal)_x16_WCK_933MHz.qprs
+								MEM_PRESET_ID_FSP0                   LPDDR5-2133_CL6_Component_Single-Channel-1R-1CPR-16Gb_(16GbTotal)_x16_WCK_933MHz
+								"
+			} elseif { $hps_emif_channel == 2} {
+			set_component_param "emif_hps
+								MEM_PRESET_FILE_EN_FSP0              true
+								MEM_PRESET_ID_FSP0_AUTO_BOOL         false
+								MEM_PRESET_FILE_QPRS_FSP0            ${prjroot}/board/preset_files/lpddr5/LPDDR5-2133_CL6_Component_Dual-Channel-1R-1CPR-16Gb_(32GbTotal)_x16_WCK_933MHz.qprs
+								MEM_PRESET_ID_FSP0                   LPDDR5-2133_CL6_Component_Dual-Channel-1R-1CPR-16Gb_(32GbTotal)_x16_WCK_933MHz
+								"
+			}
+		}
 
 	}
 

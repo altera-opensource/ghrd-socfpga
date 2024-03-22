@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ip><presets version="12.1">
-	<preset name="LPDDR5-2133_CL6_Component_Dual-Channel-1R-1CPR-16Gb_(32GbTotal)_x16_WCK_1066MHz" kind="emif_ph2_phy_arch_fp" version="All" description="Custom Preset">
+	<preset name="LPDDR5-2133_CL6_Component_Dual-Channel-1R-1CPR-16Gb_(32GbTotal)_x16_WCK_933MHz" kind="emif_ph2_phy_arch_fp" version="All" description="Custom Preset">
 		<parameter name="SHOW_INTERNAL_SETTINGS" value="false" />
 		<parameter name="MEM_TECHNOLOGY" value="MEM_TECHNOLOGY_LPDDR5" />
 		<parameter name="MEM_FORMAT" value="MEM_FORMAT_DISCRETE" />
-		<parameter name="PHY_MEMCLK_FQD_FREQ_MHZ" value="1066.0" />
+		<parameter name="PHY_MEMCLK_FQD_FREQ_MHZ" value="933.0" />
 		<parameter name="MEM_NUM_CHANNELS" value="2" />
 		<parameter name="MEM_NUM_RANKS" value="1" />
 		<parameter name="MEM_COMPS_PER_RANK" value="1" />
