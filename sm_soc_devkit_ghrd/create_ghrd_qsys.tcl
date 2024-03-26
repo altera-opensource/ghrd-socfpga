@@ -162,8 +162,8 @@ if {$cct_en == 1} {
     }
 
     if {$f2s_address_width >32} {
-        connect_map "subsys_debug.hps_m_master           ext_hps_m_master.windowed_slave            0x0"
-        connect_map "ext_hps_m_master.expanded_master    intel_cache_coherency_translator_0.s0      0x0"
+        connect_map "subsys_debug.hps_m_master           ext_hps_f2sdram_master.windowed_slave            0x0"
+        connect_map "ext_hps_f2sdram_master.expanded_master    intel_cache_coherency_translator_0.s0      0x0"
     } else {                                             
         connect_map "subsys_debug.hps_m_master           intel_cache_coherency_translator_0.s0      0x0"
     }
@@ -275,8 +275,8 @@ if {$sub_peri_en == 1} {
      }
    }
    if {$fpga_data_mover_en == 1} {	
-   connect_map "subsys_periph.ssgdma_host ext_hps_m_master.windowed_slave 0x0"
-   connect_map "subsys_periph.ssgdma_h2d0 ext_hps_m_master.windowed_slave 0x0"
+   connect_map "subsys_periph.ssgdma_host ext_hps_f2sdram_master.windowed_slave 0x0"
+   connect_map "subsys_periph.ssgdma_h2d0 ext_hps_f2sdram_master.windowed_slave 0x0"
    }
 }
 
