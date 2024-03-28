@@ -69,4 +69,3 @@ The GHRD is built with Makefile. Here are the supported Make Targets:
 4) Compile Quartus Project and generate the configuration file
    - $ make sof or 
    - $ make all
-   - Note: The "software/hps_debug/hps_debug.ihex" will have dependency of armclang. If armclang is not available, the generation of *_hps_debug.sof will be skipped.
