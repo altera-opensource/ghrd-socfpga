@@ -62,13 +62,11 @@ The GHRD is built with Makefile. Here are the supported Make Targets:
 ## Build Steps
 1) Retrive available parameterization of GHRD and knowing the default parameterization
    - $ make config
-2) Customize the GHRD settings via 'make config' command. Multiple \<PARAMETER\> may be customized at one time [Not necessary if the default option is good]
-   - $ make \<PARAMETER\>\=\<value\> config
-3) Optional way to customize the GHRD setting along with 'make generate_from_tcl' command as well.
+2) Customize the GHRD settings via 'make' command along with 'generate_from_tcl' command as well. Multiple \<PARAMETER\> may be customized at one time [Not necessary if the default option is good]
    - $ make \<PARAMETER\>\=\<value\> generate_from_tcl
-4) Generate the Quartus Project and source files. [Not neccesary if step 3 is applied]
+3) Optional way to generate default Quartus Project and source files. [Not neccesary if step 2 is applied]
    - $ make generate_from_tcl
-5) Compile Quartus Project and generate the configuration file
+4) Compile Quartus Project and generate the configuration file
    - $ make sof or 
    - $ make all
    - Note: The "software/hps_debug/hps_debug.ihex" will have dependency of armclang. If armclang is not available, the generation of *_hps_debug.sof will be skipped.
