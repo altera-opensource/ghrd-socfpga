@@ -337,15 +337,15 @@ dict set pin_assignment_table fpga_rgmii_txd io_standard "1.8-V LVCMOS"
 dict set pin_assignment_table fpga_rgmii_txd direction output
 dict set pin_assignment_table fpga_rgmii_txd width_in_bits 4
 
-dict set pin_assignment_table emac0_mdio location "A39"
-dict set pin_assignment_table emac0_mdio io_standard "1.8-V LVCMOS"
-dict set pin_assignment_table emac0_mdio direction inout
-dict set pin_assignment_table emac0_mdio width_in_bits 1
+dict set pin_assignment_table emac1_mdio location "A39"
+dict set pin_assignment_table emac1_mdio io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table emac1_mdio direction inout
+dict set pin_assignment_table emac1_mdio width_in_bits 1
 
-dict set pin_assignment_table emac0_mdc location "B26"
-dict set pin_assignment_table emac0_mdc io_standard "1.8-V LVCMOS"
-dict set pin_assignment_table emac0_mdc direction output
-dict set pin_assignment_table emac0_mdc width_in_bits 1
+dict set pin_assignment_table emac1_mdc location "B26"
+dict set pin_assignment_table emac1_mdc io_standard "1.8-V LVCMOS"
+dict set pin_assignment_table emac1_mdc direction output
+dict set pin_assignment_table emac1_mdc width_in_bits 1
 
 
 dict set pin_assignment_table enet_refclk location $enet_refclk_pin

@@ -442,7 +442,7 @@ output   wire          fpga_rgmii_tx_clk,
 output   wire [3:0]    fpga_rgmii_txd,   
 output   wire          fpga_rgmii_tx_ctl,
 output   wire          emac1_mdc,
-inout    wire          emac0_mdio,
+inout    wire          emac1_mdio,
 @@}
 input    wire          fpga_reset_n
 );
