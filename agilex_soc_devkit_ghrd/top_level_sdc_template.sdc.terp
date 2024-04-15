@@ -42,9 +42,9 @@ source ./jtag.sdc
 @@if {$fpga_peripheral_en == 1} {
 # FPGA IO port constraints
 @@if {$fpga_sgpio_en == 1} {
+create_clock -name SGPIO_CLOCK -period 1MHz [get_ports fpga_sgpio_clk]
 set_false_path -from [get_ports {fpga_button_pio[0]}] -to *
 set_false_path -from [get_ports {fpga_button_pio[1]}] -to *
-set_false_path -from [get_ports {fpga_sgpio_clk}] -to *
 set_false_path -from [get_ports {fpga_sgpi}] -to *
 set_false_path -from [get_ports {fpga_sgpio_sync}] -to *
 set_false_path -from * -to [get_ports {fpga_sgpo}]
