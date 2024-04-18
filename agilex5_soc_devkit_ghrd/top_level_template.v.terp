@@ -461,8 +461,8 @@ wire                   emac1_mdi;
 wire                   emac1_mdo;
 wire                   emac1_mdoe;
 
-assign emac0_mdio = emac1_mdoe? emac1_mdo : 1'bz;
-assign emac1_mdi  = emac0_mdio;
+assign emac1_mdio = emac1_mdoe? emac1_mdo : 1'bz;
+assign emac1_mdi  = emac1_mdio;
 @@}
 @@if {$sub_hps_en == 1} {
 //wire                 h2f_reset;

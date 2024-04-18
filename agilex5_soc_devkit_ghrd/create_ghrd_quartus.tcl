@@ -39,7 +39,6 @@ source ./arguments_solver.tcl
 
 #source ${prjroot}/board/board_${board}_pin_assignment_table.tcl
 source ./board/board_${board}_pin_assignment_table.tcl
-
 global pin_assignment_table
 
 set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v"
@@ -93,7 +92,7 @@ set_global_assignment -name HPS_INITIALIZATION "HPS FIRST"
 } else {
 set_global_assignment -name HPS_INITIALIZATION "AFTER INIT_DONE"
 }
-
+set_global_assignment -name DEVICE_INITIALIZATION_CLOCK OSC_CLK_1_125MHZ
 if {$hps_dap_mode == 1} {
 set_global_assignment -name HPS_DAP_SPLIT_MODE "HPS PINS"
 } elseif {$hps_dap_mode == 2} {
