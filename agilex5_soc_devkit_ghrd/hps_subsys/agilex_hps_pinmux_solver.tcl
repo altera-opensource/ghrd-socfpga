@@ -354,25 +354,25 @@ set io48_q4_assignment [lreplace $io48_q4_assignment 0 1 I2C1:SDA I2C1:SCL]
 } 
 
 if {$hps_i2c_emac0_q1_en == 1} {
-set io48_q1_assignment [lreplace $io48_q1_assignment 10 11 I2CEMAC0:SDA I2CEMAC0:SCL]
+set io48_q1_assignment [lreplace $io48_q1_assignment 10 11 I2C_EMAC0:SDA I2C_EMAC0:SCL]
 } elseif {$hps_i2c_emac0_q3_en == 1} {
-set io48_q3_assignment [lreplace $io48_q3_assignment 10 11 I2CEMAC0:SDA I2CEMAC0:SCL]
+set io48_q3_assignment [lreplace $io48_q3_assignment 10 11 I2C_EMAC0:SDA I2C_EMAC0:SCL]
 } elseif {$hps_i2c_emac0_q4_en == 1} {
-set io48_q4_assignment [lreplace $io48_q4_assignment 10 11 I2CEMAC0:SDA I2CEMAC0:SCL]
+set io48_q4_assignment [lreplace $io48_q4_assignment 10 11 I2C_EMAC0:SDA I2C_EMAC0:SCL]
 } 
 
 if {$hps_i2c_emac1_q1_en == 1} {
-set io48_q1_assignment [lreplace $io48_q1_assignment 8 9 I2CEMAC1:SDA I2CEMAC1:SCL]
+set io48_q1_assignment [lreplace $io48_q1_assignment 8 9 I2C_EMAC1:SDA I2C_EMAC1:SCL]
 } elseif {$hps_i2c_emac1_q4_en == 1} {
-set io48_q4_assignment [lreplace $io48_q4_assignment 6 7 I2CEMAC1:SDA I2CEMAC1:SCL]
+set io48_q4_assignment [lreplace $io48_q4_assignment 6 7 I2C_EMAC1:SDA I2C_EMAC1:SCL]
 } 
 
 if {$hps_i2c_emac2_q1_en == 1} {
-set io48_q1_assignment [lreplace $io48_q1_assignment 6 7 I2CEMAC2:SDA I2CEMAC2:SCL]
+set io48_q1_assignment [lreplace $io48_q1_assignment 6 7 I2C_EMAC2:SDA I2C_EMAC2:SCL]
 } elseif {$hps_i2c_emac2_q3_en == 1} {
-set io48_q3_assignment [lreplace $io48_q3_assignment 8 9 I2CEMAC2:SDA I2CEMAC2:SCL]
+set io48_q3_assignment [lreplace $io48_q3_assignment 8 9 I2C_EMAC2:SDA I2C_EMAC2:SCL]
 } elseif {$hps_i2c_emac2_q4_en == 1} {
-set io48_q4_assignment [lreplace $io48_q4_assignment 8 9 I2CEMAC2:SDA I2CEMAC2:SCL]
+set io48_q4_assignment [lreplace $io48_q4_assignment 8 9 I2C_EMAC2:SDA I2C_EMAC2:SCL]
 } 
 
 if {$hps_i3c0_q1_en == 1} {

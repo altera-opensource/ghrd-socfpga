@@ -105,7 +105,7 @@ set_global_assignment -name HPS_DAP_SPLIT_MODE DISABLED
 # Call "board_${board}_config.tcl" PWRMGT config
 config_pwrmgt
 
-if {$daughter_card == "devkit_dc_oobe"} {
+if {$daughter_card == "devkit_dc_oobe" || $daughter_card == "mod_som" } {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 4
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } elseif {$daughter_card == "devkit_dc_nand"} {
@@ -166,7 +166,7 @@ if {[info exists pin_assignment_table]} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_osc_clk
 
 if {$hps_emif_en} {
-   if {$board  == "DK-A5E065BB32AES1" || $board  == "cvr" || $board == "lbm" || $board == "bbr" } {
+   if {$board  == "DK-A5E065BB32AES1" || $board  == "cvr" || $board == "lbm" || $board == "bbr" || $board == "DK-MODULAR"} {
    
    set ranks r1
    set width $hps_emif_width

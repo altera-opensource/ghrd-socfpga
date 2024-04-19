@@ -72,6 +72,7 @@ set hps_mdio0_q3_en          0
 set hps_mdio0_q4_en          0
 set hps_mdio1_q1_en          0
 set hps_mdio1_q4_en          0
+set hps_mdio2_q1_en          0
 set hps_mdio2_q3_en          0
 set hps_i3c0_q1_en           0
 set hps_i3c0_q2_en           0
@@ -91,6 +92,7 @@ set hps_sdmmc_pupd_q2_en     0
 set hps_sdmmc_pwr_q2_en      0
 set hps_sdmmc_dstrb_q2_en    0
 set hps_sdmmc4b_q3_en        0
+set hps_sdmmc8b_q3_en        0
 set hps_sdmmc_wp_q3_en       0
 set hps_sdmmc_pupd_q4_en     0
 set hps_sdmmc_pwr_q4_en      0
@@ -205,6 +207,33 @@ set hps_emac0_rgmii_en 1
 set hps_emac1_rgmii_en 1
 set hps_emac2_rgmii_en 1
 
+} elseif {$daughter_card == "mod_som"} {
+set hps_cm_q 1
+# Modular SOM board has been reworked to use IO12 as hps clock source, and IO1 becomes heart bead LED
+set hps_cm_io 12  
+set hps_uart0_q1_en 1
+set hps_pps_emac2_q1_en 1
+set hps_mdio2_q1_en 1
+set hps_i2c_emac1_q1_en 1
+set hps_gpio0_en 1
+set hps_gpio0_list "0 10"
+set hps_usb1_en 1
+set hps_sdmmc4b_q3_en 1
+set hps_gpio1_en 1
+set hps_gpio1_list "3 4"
+set hps_jtag_en 1
+set hps_emac2_q1_en 1
+set hps_emac2_rgmii_en 1
+
+} elseif {$daughter_card == "hps_dc8"} {
+set hps_cm_q 4
+set hps_cm_io 7
+set hps_uart0_q3_en 1
+set hps_usb0_en 1
+set hps_usb1_en 1
+set hps_gpio1_en 1
+set hps_gpio1_list "4 5"
+set hps_jtag_en 1
 } elseif {$daughter_card == "none"} {
 puts "Disable all HPS IO48 IO"
 set hps_io_off 1

@@ -20,6 +20,8 @@
 #      - devkit_dc_emmc: HPS Daughter Card with eMMC
 #      - debug2: HPS Daughter Card with debug2
 #      - tsn_aic0 : HPS Daughter Card with TSN Config 1
+#      - mod_som : Modular Devkit SOM Card
+
 #
 #   HPS_EMIF_EN :
 #       - 0: disable
@@ -85,7 +87,9 @@
 #       - 256: 256-bit [default]
 #
 #   F2SDRAM_ADDR_WIDTH :
+#       - 20: 20-bit 1MB minimum
 #       - 32: 32-bit 4GB [default]
+#       - 40: 40-bit 1TB maximum
 #
 #   H2F_WIDTH :
 #       - 0: disable
@@ -102,7 +106,7 @@
 #       - 32: 32-bit [default]
 #
 #   LWH2F_ADDR_WIDTH :
-#       - 24: 24-bit 16MB minimum
+#       - 20: 20-bit 1MB minimum
 #       - 29: 29-bit 512MB maximum [default]
 #
 #   PWR_MPU_L3_CACHE_SIZE :
