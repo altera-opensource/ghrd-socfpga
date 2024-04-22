@@ -488,7 +488,7 @@ if {$hps_gpio1_en == 1} {
 foreach io_num $hps_gpio1_list {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_gpio1_io${io_num}
 set_instance_assignment -name CURRENT_STRENGTH_NEW 2MA -to hps_gpio1_io${io_num}
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_gpio1_io${io_num}
+# set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_gpio1_io${io_num}
 }
 }
 }
