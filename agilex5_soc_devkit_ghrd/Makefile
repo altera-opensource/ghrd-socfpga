@@ -14,7 +14,8 @@
 #
 # <-
 #   BOARD_TYPE:
-#       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]
+#       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]+
+#       - DK-MODULAR: Agilex5 Modular Devkit
 #
 #   DEVICE:
 #       - A5ED065BB32AE5SR0: 5s FPGA OPN# [default]
