@@ -302,6 +302,7 @@ export clk_100 in_clk clk_100
 export rst_in in_reset reset
 export user_rst_clkgate_0 ninit_done ninit_done
 export subsys_hps hps_io hps_io
+export subsys_hps h2f_reset h2f_reset
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 export subsys_hps usb31_io usb31_io
 export subsys_hps o_pma_cu_clk o_pma_cu_clk

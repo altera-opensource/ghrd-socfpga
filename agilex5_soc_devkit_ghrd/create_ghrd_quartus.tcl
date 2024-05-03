@@ -41,7 +41,7 @@ source ./arguments_solver.tcl
 source ./board/board_${board}_pin_assignment_table.tcl
 global pin_assignment_table
 
-set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v"
+set hdlfiles "${top_name}.v,custom_ip/debounce/debounce.v,custom_ip/reset_sync/altera_reset_synchronizer.v"
 
 if {[regexp {,} $hdlfiles]} {
     set hdlfilelist [split $hdlfiles ,]
@@ -171,7 +171,6 @@ if {$hps_emif_en} {
    set ranks r1
    set width $hps_emif_width
    set ecc   $hps_emif_ecc_en
-   set key   x32_r1
    }
    if {$ecc} {
       incr width 8
@@ -193,7 +192,7 @@ if {$hps_emif_en} {
 			set key   x16_r1_2ch
 		}
    } else {
-    set key "x${width}_$ranks"
+    set key "x${width}_${ranks}"
    }
    # Search for key in the first line
    set key_line [lindex $pin_matrix 0]

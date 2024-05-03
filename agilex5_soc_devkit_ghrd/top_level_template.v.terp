@@ -83,9 +83,15 @@ output   wire          emif_hps_emif_mem_0_mem_par,
 input    wire          emif_hps_emif_mem_0_mem_alert_n,
 input    wire          emif_hps_emif_oct_0_oct_rzqin,
 input    wire          emif_hps_emif_ref_clk_0_clk,
+@@if {$hps_emif_ecc_en == 1} {
+inout    wire [4:0]    emif_hps_emif_mem_0_mem_dqs_t,
+inout    wire [4:0]    emif_hps_emif_mem_0_mem_dqs_c,
+inout    wire [39:0]   emif_hps_emif_mem_0_mem_dq,
+@@} else {
 inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_t,
 inout    wire [3:0]    emif_hps_emif_mem_0_mem_dqs_c,
 inout    wire [31:0]   emif_hps_emif_mem_0_mem_dq,
+@@}
 @@}
 @@if {$hps_emif_type == "lpddr4"} {
 output   wire          emif_hps_emif_mem_0_mem_ck_t,
@@ -448,14 +454,13 @@ input    wire          fpga_reset_n
 );
 
 wire                   system_clk_100;
-wire                   system_clk_100_internal;
 @@if {$clk_gate_en == 1} {
 wire                   system_clk_100_gated;
 @@}
 wire                   ninit_done;
 wire                   fpga_reset_n_debounced_wire;
 reg                    fpga_reset_n_debounced;
-wire                   system_reset_n;
+wire                   system_reset;
 @@if {$sub_fpga_rgmii_en == 1} {
 wire                   emac1_mdi;
 wire                   emac1_mdo;
@@ -465,7 +470,7 @@ assign emac1_mdio = emac1_mdoe? emac1_mdo : 1'bz;
 assign emac1_mdi  = emac1_mdio;
 @@}
 @@if {$sub_hps_en == 1} {
-//wire                 h2f_reset;
+wire                 h2f_reset;
 @@if {$user0_clk_src_select ==1} {
 wire                   user0_clk_src_clk;
 @@}
@@ -479,7 +484,7 @@ wire                   h2f_warm_reset_handshake;
 wire                   h2f_cold_reset;
 @@}
 
-assign                 system_reset_n = fpga_reset_n_debounced
+assign                combined_reset_n = fpga_reset_n & ~h2f_reset
 @@if {$reset_watchdog_en == 1} {
 & ~h2f_watchdog_reset
 @@}
@@ -491,19 +496,20 @@ assign                 system_reset_n = fpga_reset_n_debounced
 @@}
 & ~ninit_done;
 
-//assign               system_reset_n = fpga_reset_n_debounced & ~h2f_reset & ~ninit_done;
-
+altera_reset_synchronizer #(
+    .ASYNC_RESET (1),
+    .DEPTH       (2)
+) sys_rst_inst (
+    .reset_in  (~combined_reset_n),
+    .clk       (system_clk_100),
+    .reset_out (system_reset)
+);
+             
 @@}
 @@  if {$user0_clk_src_select  == 1} {
 assign                 system_clk_100   = user0_clk_src_clk;
 @@  } else {
 assign                 system_clk_100   = fpga_clk_100;
-@@  }
-
-@@  if {$clk_gate_en == 1} {
-assign                 system_clk_100_internal  = system_clk_100_gated;
-@@  } else {
-assign                 system_clk_100_internal  = system_clk_100;
 @@  }
 
 @@  if {$sub_peri_en ==1} {
@@ -566,7 +572,7 @@ ${qsys_name} soc_inst (
 @@if {($user0_clk_src_select == 1 && $sub_hps_en == 1)} {
 .user0_clk_src_clk                         (user0_clk_src_clk), 
 @@}
-.clk_100_clk                               (system_clk_100_internal),
+.clk_100_clk                               (system_clk_100),
 .ninit_done_ninit_done                     (ninit_done),
 @@if {$clk_gate_en == 1} {
 .clkctrl_input_ena                         (~ninit_done),
@@ -985,37 +991,17 @@ ${qsys_name} soc_inst (
 .hps_io_hps_osc_clk                        (hps_osc_clk),
 @@}
 
-//.h2f_reset_reset                           (h2f_reset),
+.h2f_reset_reset                           (h2f_reset),
 
-.reset_reset_n                             (system_reset_n)
+.reset_reset_n                             (~system_reset)
 ); 
-
-// debounce fpga_reset_n
-debounce fpga_reset_n_debounce_inst (
-.clk                                       (system_clk_100_internal),
-.reset_n                                   (~ninit_done),
-.data_in                                   (fpga_reset_n),
-.data_out                                  (fpga_reset_n_debounced_wire)
-);
-defparam fpga_reset_n_debounce_inst.WIDTH = 1;
-defparam fpga_reset_n_debounce_inst.POLARITY = "LOW";
-defparam fpga_reset_n_debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
-defparam fpga_reset_n_debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
-
-always @ (posedge system_clk_100_internal or posedge ninit_done)
-begin
-    if (ninit_done == 1'b1)
-        fpga_reset_n_debounced <= 1'b0;
-    else
-        fpga_reset_n_debounced <= fpga_reset_n_debounced_wire;  
-end
 
 @@if {$sub_peri_en == 1} {
 @@ if {$fpga_button_pio_width != 0} {  
 // Debounce logic to clean out glitches within 1ms
 debounce debounce_inst (
-.clk                                       (system_clk_100_internal),
-.reset_n                                   (system_reset_n),  
+.clk                                       (system_clk_100),
+.reset_n                                   (~system_reset),  
 .data_in                                   (fpga_button_pio),
 .data_out                                  (fpga_debounced_buttons)
 );
@@ -1026,8 +1012,8 @@ defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
 @@}
 
 @@  if {$fpga_led_pio_width > 0} {
-always @(posedge system_clk_100_internal or negedge system_reset_n) begin
-  if (~system_reset_n)
+always @(posedge system_clk_100 or posedge system_reset) begin
+  if (system_reset)
     heartbeat_count <= 23'd0;
   else
     heartbeat_count <= heartbeat_count + 23'd1;

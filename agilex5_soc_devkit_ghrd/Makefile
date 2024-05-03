@@ -14,7 +14,7 @@
 #
 # <-
 #   BOARD_TYPE:
-#       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]+
+#       - DK-A5E065BB32AES1: Agilex5 Premium Devkit [default]
 #       - DK-MODULAR: Agilex5 Modular Devkit
 #
 #   DEVICE:
@@ -293,8 +293,8 @@ endif
 
 QUARTUS_TCL_ARGS += hps_emif_en $(HPS_EMIF_EN)
 QSYS_TCL_CMDS += set hps_emif_en $(HPS_EMIF_EN);
-#QUARTUS_TCL_ARGS += hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC)
-#QSYS_TCL_CMDS += set hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC);
+QUARTUS_TCL_ARGS += hps_emif_ecc_en $(HPS_EMIF_ECC_EN)
+QSYS_TCL_CMDS += set hps_emif_ecc_en $(HPS_EMIF_ECC_EN);
 
 ifneq ($(HPS_EMIF_MEM_CLK_FREQ_MHZ),)
 QUARTUS_TCL_ARGS += hps_emif_mem_clk_freq_mhz $(HPS_EMIF_MEM_CLK_FREQ_MHZ)
