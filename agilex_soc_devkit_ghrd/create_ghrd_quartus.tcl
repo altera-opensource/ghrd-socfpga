@@ -115,7 +115,7 @@ set_global_assignment -name HPS_INITIALIZATION "HPS FIRST"
 } else {
 set_global_assignment -name HPS_INITIALIZATION "AFTER INIT_DONE"
 }
-
+set_global_assignment -name DEVICE_INITIALIZATION_CLOCK OSC_CLK_1_125MHZ
 if {$config_scheme == "ACTIVE SERIAL X4"} {
 set_global_assignment -name STRATIXV_CONFIGURATION_SCHEME "ACTIVE SERIAL X4"
 } elseif {$config_scheme == "AVST X8"} {
