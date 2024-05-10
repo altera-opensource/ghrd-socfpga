@@ -114,6 +114,9 @@ set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } elseif {$daughter_card == "devkit_dc_emmc"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 2
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
+} elseif {$daughter_card == "debug2"} {
+set_global_assignment -name STRATIX_JTAG_USER_CODE 5
+set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 }
 }
 
