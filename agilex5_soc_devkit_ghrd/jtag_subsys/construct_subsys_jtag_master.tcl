@@ -41,7 +41,7 @@ add_component_param "altera_clock_bridge jtag_clk
 add_component_param "altera_reset_bridge jtag_rst_in 
                     IP_FILE_PATH ip/$subqsys_name/jtag_rst_in.ip 
                     ACTIVE_LOW_RESET 1
-                    SYNCHRONOUS_EDGES both
+                    SYNCHRONOUS_EDGES none
                     NUM_RESET_OUTPUTS 1
                     USE_RESET_REQUEST 0
                     "
@@ -61,7 +61,6 @@ add_component_param "altera_jtag_avalon_master hps_m
 }
 # connections and connection parameters
 connect "   jtag_clk.out_clk fpga_m.clk
-            jtag_clk.out_clk jtag_rst_in.clk
             jtag_rst_in.out_reset fpga_m.clk_reset
 "
 if { $f2sdram_width > 0 } {	

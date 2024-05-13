@@ -46,7 +46,7 @@ add_component_param "altera_clock_bridge periph_clk
 add_component_param "altera_reset_bridge periph_rst_in 
                     IP_FILE_PATH ip/$subsys_name/periph_rst_in.ip 
                     ACTIVE_LOW_RESET 1
-                    SYNCHRONOUS_EDGES both
+                    SYNCHRONOUS_EDGES none
                     NUM_RESET_OUTPUTS 1
                     USE_RESET_REQUEST 0
                     "
@@ -146,7 +146,6 @@ connect_map "   pb_cpu_0.m0 button_pio.s1 0x10060"
 connect_map "   pb_cpu_0.m0 sysid.control_slave 0x1_0000 "
 
 connect "   periph_clk.out_clk pb_cpu_0.clk
-            periph_clk.out_clk periph_rst_in.clk
 "
 #            periph_clk.out_clk ILC.clk
 

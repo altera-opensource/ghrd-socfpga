@@ -49,6 +49,7 @@ set_false_path -from * -to [get_ports {fpga_led_pio[0]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[1]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[2]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[3]}]
+set_output_delay -clock MAIN_CLOCK 5 [get_ports {fpga_led_pio[3]}] 
 @@}
 @@}
  
