@@ -206,6 +206,26 @@ QUARTUS_TCL_ARGS += hps_emif_width $(HPS_EMIF_WIDTH)
 QSYS_TCL_CMDS += set hps_emif_width $(HPS_EMIF_WIDTH);
 endif
 
+ifneq ($(F2H_WIDTH),)
+QUARTUS_TCL_ARGS += f2h_width $(F2H_WIDTH)
+QSYS_TCL_CMDS += set f2h_width $(F2H_WIDTH);
+endif
+
+ifneq ($(HPS_F2S_IRQ_EN),)
+QUARTUS_TCL_ARGS += hps_f2s_irq_en $(HPS_F2S_IRQ_EN)
+QSYS_TCL_CMDS += set hps_f2s_irq_en $(HPS_F2S_IRQ_EN);
+endif
+
+ifneq ($(HPS_STM_EN),)
+QUARTUS_TCL_ARGS += hps_stm_en $(HPS_STM_EN)
+QSYS_TCL_CMDS += set hps_stm_en $(HPS_STM_EN);
+endif
+
+ifneq ($(FPGA_SGPIO_EN),)
+QUARTUS_TCL_ARGS += fpga_sgpio_en $(FPGA_SGPIO_EN)
+QSYS_TCL_CMDS += set fpga_sgpio_en $(FPGA_SGPIO_EN);
+endif
+
 QUARTUS_TCL_ARGS += hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC)
 QSYS_TCL_CMDS += set hps_emif_ecc_en $(ENABLE_HPS_EMIF_ECC);
 
