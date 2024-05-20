@@ -27,7 +27,7 @@ proc set_jtag_timing_constraints { } {
     # ---customize here---
     set use_fitter_specific_constraint 1
     
-    if { $use_fitter_specific_constraint && [string equal quartus_fit $::TimeQuestInfo(nameofexecutable)] } {
+    if { $use_fitter_specific_constraint && [string equal quartus_fit $::TimingAnalyzerInfo(nameofexecutable)] } {
         # Define a different set of timing spec to influence place-and-route 
         # result in the jtag clock domain. The slacks outside of FPGA are 
         # maximized.
@@ -35,7 +35,7 @@ proc set_jtag_timing_constraints { } {
         set_default_quartus_fit_timing_directive
     }  else {
         # Define a set of timing constraints that describe the JTAG paths 
-        # for TimeQuest to analyze. TimeQuest timing reports show whether 
+        # for the Timing Analyzer to analyze. The Timing Analyzer timing reports show whether 
         # the JTAG logic in the FPGA core will operates in this setup.
 
         set_jtag_timing_spec_for_timing_analysis
