@@ -115,6 +115,7 @@ add_component_param "intel_ssgdma ssgdma_0
                     NUM_H2D_MM_PORTS 1
                     NUM_H2D_ST_PORTS 0
                     NUM_D2H_ST_PORTS 0
+                    HOST_CSR_RESP_EN 0
                     "
 }
 # --------------- Connections and connection parameters ------------------#
