@@ -60,21 +60,29 @@ if {$hps_emif_mem_part == "custom"} {
 								"
         set_component_param "emif_hps USER_EXTRA_PARAMETERS BYTE_SWIZZLE_CH0=0,X,X,X,1,2,3,X;PIN_SWIZZLE_CH0_DQS3=26,30,28,24,25,27,29,31;PIN_SWIZZLE_CH0_DQS2=16,20,22,18,23,21,19,17;PIN_SWIZZLE_CH0_DQS1=14,11,12,8,10,9,13,15;PIN_SWIZZLE_CH0_DQS0=2,0,6,4,7,5,3,1; "
 		if {$hps_emif_mem_clk_freq_mhz == 800.0} {
-			if {$device == "A5ED065BB32AE5SR0"} {
-			set_component_param     "emif_hps
-									MEM_PRESET_FILE_EN   		True
-									MEM_PRESET_ID_AUTO_BOOL   	False
-									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1600L_800MHz_CL12_alloff_component_1CS_1D_16Gb_1Gx16.qprs
-									MEM_PRESET_ID   			DDR4-1600L_800MHz_CL12_alloff_component_1CS_1D_16Gb_1Gx16
-									"
-			} elseif {$device == "A5ED065BB32AE6SR0"} {
 			set_component_param     "emif_hps
 									MEM_PRESET_FILE_EN   		True
 									MEM_PRESET_ID_AUTO_BOOL   	False
 									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1600L_800MHz_CL12_alloff_component_1CS_DDP_32Gb_2Gx16.qprs
 									MEM_PRESET_ID   			DDR4-1600L_800MHz_CL12_alloff_component_1CS_DDP_32Gb_2Gx16
 									"			
-			}
+		}
+		if {$hps_emif_mem_clk_freq_mhz == 933.0} {
+			set_component_param     "emif_hps
+									MEM_PRESET_FILE_EN   		True
+									MEM_PRESET_ID_AUTO_BOOL   	False
+									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1866M_933MHz_CL13_alloff_component_1CS_DDP_32Gb_2Gx16.qprs
+									MEM_PRESET_ID   			DDR4-1866M_933MHz_CL13_alloff_component_1CS_DDP_32Gb_2Gx16
+									"
+		}
+		if {$hps_emif_mem_clk_freq_mhz == 1066.0} {
+			set_component_param     "emif_hps
+									MEM_PRESET_FILE_EN   		True
+									MEM_PRESET_ID_AUTO_BOOL   	False
+									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-2133R_1066MHz_CL16_alloff_component_1CS_DDP_32Gb_2Gx16.qprs
+									MEM_PRESET_ID   			DDR4-2133R_1066MHz_CL16_alloff_component_1CS_DDP_32Gb_2Gx16
+									"
+			
 		}
 	}
 
