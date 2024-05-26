@@ -97,7 +97,16 @@ INTEL_CUSTOM_IP_LINK = "https://releases.rocketboards.org/release/intel_custom_i
 # User Settings
 # Valid BOARD_TYPE: devkit, pcie_devkit
 BOARD_TYPE ?= DK-SI-AGF014E
+
 #Loading board configuration
+ifeq ($(BOARD_TYPE), DK-DEV-AGM039FES)
+BOARD_TYPE = devkit_fp82
+else ifeq ($(BOARD_TYPE), DK-SI-AGI027FB)
+BOARD_TYPE = devkit_fm87
+else ifeq ($(BOARD_TYPE), DK-DEV-AGF027F1ES)
+BOARD_TYPE = devkit_fm86
+endif
+
 include board/board_$(BOARD_TYPE)_make_config.inc
 
 # System initilization mode: fpga, hps

@@ -68,7 +68,12 @@ Here are the list of custom settings support in Makefile.
 
    - File: ./Makefile
    - `BOARD_TYPE`          : Board Type
-     - "DK-SI-AGF014E" -> F-Series SoC Devkit (Default), "DK-DEV-AGF014E" (F-Series FPGA Devkit)
+     - "DK-SI-AGF014E" -> F-Series SoC Devkit (Default), 
+     - "DK-DEV-AGF014E" -> F-Series FPGA Devkit, 
+     - "DK-DEV-AGM039FES" -> M-Series HBM2e Devkit, 
+     - "DK-SI-AGI027FB" -> I-Series Transceiver-SoC Devkit,
+     - "DK-DEV-AGF027F1ES" -> F-Series FPGA (Two F-Tiles) Devkit
+
    - `BOOTS_FIRST`         : System initialization mode.
      - "fpga", "hps" (Default)
    - `HPS_JTAG_MODE`       : HPS JTAG mode.
@@ -95,8 +100,23 @@ Here are the list of custom settings support in Makefile.
        - 1 (Default), 0
      - `ENABLE_ETILE_1588`  : Etile 1588v2 PTP Enablement
        - 1, 0 (Default)
-   - Board Related Settings - board "DK-DEV-AGF014E" (F-Series FPGA Devkit)
+
+   - board "DK-DEV-AGF014E" (F-Series FPGA Devkit)
      - File: ./board/board_DK-DEV-AGF014E_make_config.inc
      - `QUARTUS_DEVICE`      : Device OPN
-       - AGFB027R24C2E2VR2 (Default)
+       - AGFB014R24A2E2V (Default)
 
+   - board "DK-DEV-AGM039FES" (M-Series HBM2e Devkit)
+     - File: ./board/board_devkit_fp82_make_config.inc
+     - `QUARTUS_DEVICE`      : Device OPN
+       - AGMF039R47A1E2VR0 (Default)
+
+   - board "DK-DEV-AGI027FB" (I-Series Transceiver-SoC Devkit)
+     - File: ./board/board_devkit_fm87_make_config.inc
+     - `QUARTUS_DEVICE`      : Device OPN
+       - AGIB027R31B1E1VAA (Default)
+
+   - board "DK-DEV-AGF027F1ES" (F-Series FPGA (Two F-Tiles) Devkit)
+     - File: ./board/board_devkit_fm86_make_config.inc
+     - `QUARTUS_DEVICE`      : Device OPN
+       - AGFB027R24C2E2VR2 (Default)
