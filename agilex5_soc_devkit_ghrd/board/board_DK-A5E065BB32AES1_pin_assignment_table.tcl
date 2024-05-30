@@ -145,22 +145,6 @@ set pcie_perst_iostandard "1.8 V"
 # Use in devkit for remote PERST assertion
 set fpga_gpio0_pin "V45"
 
-
-## SGMII Related IOs
-if {$board_pwrmgt == "linear"} {
-set enet_refclk_pin "CG24"
-} else {
-set enet_refclk_pin "CN22"
-}
-set emac_sgmii_rxp_pin "CH21"
-set emac_sgmii_rxn_pin "CF21"
-set emac_sgmii_txp_pin "CG22"
-set emac_sgmii_txn_pin "CE22"
-set emac_mdio_pin "CE46"
-set emac_mdc_pin "CL50"
-set emac_phy_rst_n_pin "CL56"
-set emac_phy_irq_n_pin "CN56"
-
 #Etile 25GbE
 # REFCLK_GXEp0 156.25MHz
 set etile_clk_ref_pin "AT13"
@@ -217,6 +201,7 @@ set qsfpdd_initmode_pin "CT5"
 set qsfpdd_i2c_scl_pin "CT1"
 set qsfpdd_i2c_sda_pin "CY5"
 
+if {$daughter_card == "devkit_dc_oobe"} {
 set usb31_io_vbus_det                   "CF121"
 set usb31_io_flt_bar                    "CG135"
 set usb31_io_usb_ctrl                   "CL128"
@@ -279,7 +264,7 @@ dict set pin_assignment_table usb31_phy_tx_serial_n_o_tx_serial_n location $usb3
 dict set pin_assignment_table usb31_phy_tx_serial_n_o_tx_serial_n io_standard "High Speed Differential I/O"
 dict set pin_assignment_table usb31_phy_tx_serial_n_o_tx_serial_n direction output
 dict set pin_assignment_table usb31_phy_tx_serial_n_o_tx_serial_n width_in_bits 1
-
+}
 dict set pin_assignment_table fpga_clk_100 location $fpga_clk_100_pin_list
 dict set pin_assignment_table fpga_clk_100 io_standard $fpga_clk_100_iostandard
 dict set pin_assignment_table fpga_clk_100 direction input
@@ -307,6 +292,7 @@ dict set pin_assignment_table fpga_button_pio io_standard $fpga_button_pio_iosta
 dict set pin_assignment_table fpga_button_pio direction input
 dict set pin_assignment_table fpga_button_pio width_in_bits $fpga_button_pio_width
 
+if {$sub_fpga_rgmii_en == 1} {
 dict set pin_assignment_table fpga_rgmii_rx_clk location "B23"
 dict set pin_assignment_table fpga_rgmii_rx_clk io_standard "1.8-V LVCMOS"
 dict set pin_assignment_table fpga_rgmii_rx_clk direction input
@@ -346,13 +332,7 @@ dict set pin_assignment_table emac1_mdc location "B26"
 dict set pin_assignment_table emac1_mdc io_standard "1.8-V LVCMOS"
 dict set pin_assignment_table emac1_mdc direction output
 dict set pin_assignment_table emac1_mdc width_in_bits 1
-
-
-dict set pin_assignment_table enet_refclk location $enet_refclk_pin
-dict set pin_assignment_table enet_refclk io_standard "TRUE DIFFERENTIAL SIGNALING"
-dict set pin_assignment_table enet_refclk direction input
-dict set pin_assignment_table enet_refclk width_in_bits 1
-dict set pin_assignment_table enet_refclk qsys_exported_port "enet_refclk"
+}
 
 puts "Number of ports: [dict size $pin_assignment_table]"
 
