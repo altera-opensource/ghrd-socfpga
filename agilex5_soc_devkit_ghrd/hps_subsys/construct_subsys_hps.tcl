@@ -695,7 +695,8 @@ if {$reset_watchdog_en == 1} {
 export agilex_hps h2f_watchdog_reset h2f_watchdog_reset
 }
 
-if {$reset_hps_warm_en == 1} {
+# h2f_warm_reset_handshake conduit is exposed when the f2sdram bridge is enabled
+if {$f2sdram_width > 0} {
 export agilex_hps h2f_warm_reset_handshake h2f_warm_reset_handshake
 }
 					 
