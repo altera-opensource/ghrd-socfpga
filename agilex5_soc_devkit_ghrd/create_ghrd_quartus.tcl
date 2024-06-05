@@ -92,7 +92,7 @@ set_global_assignment -name HPS_INITIALIZATION "HPS FIRST"
 } else {
 set_global_assignment -name HPS_INITIALIZATION "AFTER INIT_DONE"
 }
-set_global_assignment -name DEVICE_INITIALIZATION_CLOCK OSC_CLK_1_125MHZ
+set_global_assignment -name DEVICE_INITIALIZATION_CLOCK OSC_CLK_1_100MHZ
 if {$hps_dap_mode == 1} {
 set_global_assignment -name HPS_DAP_SPLIT_MODE "HPS PINS"
 } elseif {$hps_dap_mode == 2} {
