@@ -30,7 +30,7 @@ array set input_dly_chain_io48 []
 foreach io_quadrant $io48_pinmux_assignment {
     foreach io_pin $io_quadrant {
         if [string match [lindex $io48_output_pin 3] $io_pin] {
-        set output_dly_chain_io48($count) 45
+        set output_dly_chain_io48($count) 21
         set input_dly_chain_io48($count) 0
         } elseif [string match [lindex $io48_input_pin 3] $io_pin] {
         set output_dly_chain_io48($count) 0

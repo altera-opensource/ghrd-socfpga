@@ -71,7 +71,7 @@ add_component_param "intel_agilex_5_soc agilex_hps
                      JTAG_Enable 0
                      CTI_Enable 0
                      DMA_PeriphID 0
-                     DMA_Enable No
+                     DMA_Enable {No No No No No No No No}
                      F2H_IRQ_Enable 1
                      HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      H2F_Width $h2f_width

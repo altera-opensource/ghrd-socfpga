@@ -172,9 +172,10 @@ set hps_mdio0_q1_en 1
 set hps_emac0_rgmii_en 1
 set hps_sdmmc4b_q3_en 1
 set hps_gpio1_en 1
-set hps_gpio1_list "3 4 13"
+set hps_gpio1_list "3 4 12 13"
 set hps_jtag_en 1
-set hps_sdmmc_pupd_q4_en 1
+# Disable sdmmd_pupd and enable LED gpio pin by default 
+# set hps_sdmmc_pupd_q4_en 1
 set hps_cm_q 4
 set hps_cm_io 3
 set hps_trace_q34_en 1
