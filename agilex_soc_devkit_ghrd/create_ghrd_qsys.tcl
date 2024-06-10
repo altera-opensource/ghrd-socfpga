@@ -146,10 +146,13 @@ set_component_param "ocm memorySize 65536"
 set_component_param "ocm idWidth 6"
 set_component_param "user_rst_clkgate_0 outputType {Reset Interface}"
 } else {
-set_component_param "ocm memorySize $ocm_memsize"
-set_component_param "ocm idWidth 5"
+    set_component_param "ocm memorySize $ocm_memsize"
+    if {$board == "DK-SI-AGF014E" && $hps_etile_1588_en ==1 } {
+        set_component_param "ocm idWidth 6"
+    } else {
+        set_component_param "ocm idWidth 5"
+    }
 }
-
 
 # if {$ocm_memsize <= 262144} {
 set addr_width [expr { log($ocm_memsize) / log(2)} ]
