@@ -18,7 +18,7 @@
 		add_component_param     "emif_hps_ph2 emif_hps
 							   IP_FILE_PATH ip/$qsys_name/${qsys_name}_emif_hps_ph2_0.ip"
         
-		add_component emif_hps_noc ip/qsys_top/qsys_top_emif_hps_noc.ip intel_noc_clock_ctrl emif_hps_noc 2.0.0
+		add_component emif_hps_noc ip/qsys_top/qsys_top_emif_hps_noc.ip intel_noc_clock_ctrl emif_hps_noc
 
         if {$hps_emif_type == "ddr5"} {
            load_component emif_hps
