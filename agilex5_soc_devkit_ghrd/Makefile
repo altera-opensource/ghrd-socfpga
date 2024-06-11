@@ -556,7 +556,7 @@ AR_FILE := $(AR_DIR)/$(basename $(firstword $(wildcard *.qpf)))_$(AR_TIMESTAMP).
 SOFTWARE_DIR := software
 #custom_ip $(INTEL_CUSTOM_IP_DIR) ip/*/*.ip
 AR_REGEX += \
-	Makefile *.txt ds5 software custom_ip README.md license.txt \
+	Makefile *.txt ds5 software custom_ip scripts build build.module fpga_rgmii_subsys ip README.md license.txt \
 	altera_avalon* *.sdc *.v *.sv *.vhd *.qsys *.tcl *.terp *.stp *.mk board hps_subsys jtag_subsys peripheral_subsys\
 	*.hex *.sed quartus.ini output_files/*.sof output_files/*.rbf output_files/*.pmsf output_files/*handoff* *.sopcinfo */*.sopcinfo *.jdi \
 	hps_isw_handoff handoff.bin */*.svd */synthesis/*.svd */synth/*.svd *.dts *.dtb *.xml \
