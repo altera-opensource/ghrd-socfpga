@@ -55,7 +55,6 @@ set_false_path -from [get_ports {fpga_button_pio[1]}] -to *
 set_false_path -from [get_ports {fpga_button_pio[2]}] -to *
 set_false_path -from [get_ports {fpga_button_pio[3]}] -to *
 @@}
-@@}
 @@if {$fpga_dipsw_pio_width > 0} {
 set_false_path -from [get_ports {fpga_dipsw_pio[0]}] -to *
 set_false_path -from [get_ports {fpga_dipsw_pio[1]}] -to *
@@ -71,6 +70,7 @@ set_false_path -from * -to [get_ports {fpga_led_pio[0]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[1]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[2]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[3]}]
+@@}
 @@}
 @@}
 
