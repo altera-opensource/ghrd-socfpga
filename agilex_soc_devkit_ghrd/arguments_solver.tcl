@@ -934,7 +934,7 @@ set fpga_peripheral_en 0
 }
 
 # for cct_adapter
-if {$hps_etile_1588_en == 1 || $fpga_pcie == 1 || ($h2f_f2h_loopback_cct_en == 1 && $h2f_f2h_loopback_en == 1)} {
+if {$hps_etile_1588_en == 1 || $fpga_pcie == 1 || ($h2f_f2h_loopback_cct_en == 1 && $h2f_f2h_loopback_en == 1) || $f2h_width > 0} {
     set cct_en 1
     set cct_control_interface 0
 } else {
