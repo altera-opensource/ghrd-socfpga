@@ -16,7 +16,7 @@ add_component_param "intel_agilex_hps agilex_hps
                      IP_FILE_PATH ip/$qsys_name/agilex_hps.ip 
                      MPU_EVENTS_Enable 0
                      STM_Enable $hps_stm_en
-                     HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}                     
+                     HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      S2F_Width $s2f_width
                      LWH2F_Enable $lwh2f_width
                      EMIF_CONDUIT_Enable $hps_emif_en
@@ -37,7 +37,14 @@ set_component_param "agilex_hps FP_F2S_Width $f2s_width"
 } else {
 set_component_param "agilex_hps F2S_Width $f2s_width"
 }
-# }	
+
+# board type 1: old device eg. FM87, FM86, FM61 which use f2h_axi naming
+# board type 2: later device eg. FP82 which use f2h_ace naming
+if {$board == "devkit_fp82"} {
+   set board_type 2
+} else {
+   set board_type 1
+}
 
 #                     EMIF_DDR_WIDTH $hps_emif_width
 
@@ -403,21 +410,39 @@ if {$hps_emif_en == 1} {
 # --------------- Connections and connection parameters ------------------#
 
 if {$f2h_width > 0} {
-   if {$hps_etile_1588_en == 1} {
-      connect "etile_25gbe_1588.dma_clkout agilex_hps.f2h_axi_clock"
-      connect "etile_25gbe_1588.dma_clkout_reset agilex_hps.f2h_axi_reset"
-   } elseif {$fpga_pcie == 1} {
-      connect "pcie_0.pcie_p0_app_clk agilex_hps.f2h_axi_clock"
-   } elseif {$f2h_clk_source == 1} {
-      if {$h2f_user1_clk_en == 0} {
-         error "Error: H2F_USER1_CLK_EN is not enabled. F2H CLK source error. "
+   if {$board_type == 1 || $cct_en == 0 } {
+      if {$hps_etile_1588_en == 1} {
+         connect "etile_25gbe_1588.dma_clkout agilex_hps.f2h_axi_clock"
+         connect "etile_25gbe_1588.dma_clkout_reset agilex_hps.f2h_axi_reset"
+      } elseif {$fpga_pcie == 1} {
+         connect "pcie_0.pcie_p0_app_clk agilex_hps.f2h_axi_clock"
+      } elseif {$f2h_clk_source == 1} {
+         if {$h2f_user1_clk_en == 0} {
+            error "Error: H2F_USER1_CLK_EN is not enabled. F2H CLK source error. "
+         }
+         connect "agilex_hps.h2f_user1_clock agilex_hps.f2h_axi_clock"
+      } else {
+         connect "clk_100.out_clk agilex_hps.f2h_axi_clock"
       }
-      connect "agilex_hps.h2f_user1_clock agilex_hps.f2h_axi_clock"
-   } else {
-      connect "clk_100.out_clk agilex_hps.f2h_axi_clock"
-   }
 
-   connect "rst_in.out_reset agilex_hps.f2h_axi_reset"
+      connect "rst_in.out_reset agilex_hps.f2h_axi_reset"
+   } else {
+      if {$hps_etile_1588_en == 1} {
+         connect "etile_25gbe_1588.dma_clkout agilex_hps.f2h_ace_clock"
+         connect "etile_25gbe_1588.dma_clkout_reset agilex_hps.f2h_ace_reset"
+      } elseif {$fpga_pcie == 1} {
+         connect "pcie_0.pcie_p0_app_clk agilex_hps.f2h_ace_clock"
+      } elseif {$f2h_clk_source == 1} {
+         if {$h2f_user1_clk_en == 0} {
+            error "Error: H2F_USER1_CLK_EN is not enabled. F2H CLK source error. "
+         }
+         connect "agilex_hps.h2f_user1_clock agilex_hps.f2h_ace_clock"
+      } else {
+         connect "clk_100.out_clk agilex_hps.f2h_ace_clock"
+      }
+
+      connect "rst_in.out_reset agilex_hps.f2h_ace_reset"
+   }
 }
 
 if {$h2f_width > 0} {
@@ -527,7 +552,11 @@ if {$lwh2f_width > 0} {
    }
    
    if {$lwh2f_f2h_loopback_en && $lwh2f_addr_width >= $f2h_addr_width} {
-      connect_map "agilex_hps.h2f_lw_axi_master agilex_hps.f2h_axi_slave 0x0"
+      if {$board_type == 1 || $cct_en == 0} {
+         connect_map "agilex_hps.h2f_lw_axi_master agilex_hps.f2h_axi_slave 0x0"
+      } else {
+         connect_map "agilex_hps.h2f_lw_axi_master agilex_hps.f2h_ace_slave 0x0"
+      }
    } 
    
    if {$jtag_ocm_en == 1} {
@@ -716,8 +745,12 @@ if {$cct_en == 1} {
 #          pcie_nreset_status_merge.out_reset agilex_hps.h2f_lw_axi_reset"
 
    if {$f2h_width > 0} {
-#      connect  "pcie_nreset_status_merge.out_reset agilex_hps.f2h_axi_reset"
-      connect_map "intel_cache_coherency_translator_0.m0   agilex_hps.f2h_axi_slave    0x0000"
+      if {$board_type == 1 || $cct_en == 0} {
+   #      connect  "pcie_nreset_status_merge.out_reset agilex_hps.f2h_axi_reset"
+         connect_map "intel_cache_coherency_translator_0.m0   agilex_hps.f2h_axi_slave    0x0000"
+      } else {
+         connect_map "intel_cache_coherency_translator_0.m0   agilex_hps.f2h_ace_slave    0x0000"
+      }
    }
 }
 
