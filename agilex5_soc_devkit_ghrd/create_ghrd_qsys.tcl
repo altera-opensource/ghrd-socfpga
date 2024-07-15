@@ -73,11 +73,14 @@ add_component_param "intel_onchip_memory ocm
                     interfaceType 1
                     idWidth 10
                     "
+
+if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 add_component_param "intel_srcss_gts gts_inst
                      IP_FILE_PATH ip/$qsys_name/gts_inst.ip
                      SRC_RS_DISABLE 1
                      NUM_BANKS_SHORELINE 1
                      "
+}
 
 if {$clk_gate_en == 1} {
 add_component_param "stratix10_clkctrl clkctrl_0
@@ -308,8 +311,8 @@ export rst_in in_reset reset
 export user_rst_clkgate_0 ninit_done ninit_done
 export subsys_hps hps_io hps_io
 export subsys_hps h2f_reset h2f_reset
-export gts_inst o_pma_cu_clk o_pma_cu_clk
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
+export gts_inst o_pma_cu_clk o_pma_cu_clk
 export subsys_hps usb31_io usb31_io
 export subsys_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk
 export subsys_hps usb31_phy_refclk_p usb31_phy_refclk_p
