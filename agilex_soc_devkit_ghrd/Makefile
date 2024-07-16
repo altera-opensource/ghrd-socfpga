@@ -174,7 +174,7 @@ DAUGHTER_CARD ?= devkit_dc_oobe
 endif
 
 # Enable SGMII (HPS EMAC + TSE PHY)
-HPS_ENABLE_SGMII ?= 1
+HPS_ENABLE_SGMII ?= 0
 # Enable ETILE 1588v2 PTP
 ENABLE_ETILE_1588 ?= 0
 #Option for Etile 10G or 25G
