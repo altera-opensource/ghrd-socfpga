@@ -89,6 +89,52 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 MPU_clk_periph_div {4:Div4}
 					 Rst_sdm_wd_config $reset_sdm_watchdog_cfg
                      "
+if {$device == "A5ED065BB32AE6SR0" || $device == "A5ED065BB32AE5SR0"} {
+   set_component_param "agilex_hps
+                        MPLL_Override true
+                        MPLL_VCO_Override_mhz 3200.0
+                        MPLL_C0_Override_mhz 800.0
+                        MPLL_C1_Override_mhz 800.0
+                        MPLL_C2_Override_mhz 533.33
+                        MPLL_C3_Override_mhz 400.0
+                        PPLL_Override true
+                        PPLL_VCO_Override_mhz 3000.0
+                        PPLL_C0_Override_mhz 600.0
+                        PPLL_C1_Override_mhz 600.0
+                        PPLL_C2_Override_mhz 24.0
+                        PPLL_C3_Override_mhz 500.0
+                        MPU_clk_override true
+                        MPU_clk_src_override 2
+                        MPU_clk_freq_override_mhz 533.33
+                        MPU_core01_src_override 1
+                        MPU_core01_freq_override_mhz 800.0
+                        MPU_core2_freq_override_mhz 800.0
+                        MPU_core3_freq_override_mhz 800.0
+                        "
+} elseif {$device == "A5ED065BB32AE4SR0"} {
+   set_component_param "agilex_hps
+                        MPLL_Override true
+                        MPLL_VCO_Override_mhz 2800.0
+                        MPLL_C0_Override_mhz 1400.0
+                        MPLL_C1_Override_mhz 700.0
+                        MPLL_C2_Override_mhz 933.33
+                        MPLL_C3_Override_mhz 400.0
+                        PPLL_Override true
+                        PPLL_VCO_Override_mhz 2500.0
+                        PPLL_C0_Override_mhz 1250.0
+                        PPLL_C1_Override_mhz 500.0
+                        PPLL_C2_Override_mhz 25.0
+                        PPLL_C3_Override_mhz 500.0
+                        MPU_clk_override true
+                        MPU_clk_src_override 2
+                        MPU_clk_freq_override_mhz 933.33
+                        MPU_core01_src_override 4
+                        MPU_core01_freq_override_mhz 1250.0
+                        MPU_core2_freq_override_mhz 1400.0
+                        MPU_core3_freq_override_mhz 1400.0
+                        "
+}
+
 if {$f2sdram_width > 0} {
 reload_ip_catalog
 add_component_param "f2sdram_adapter f2sdram_adapter
