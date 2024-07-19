@@ -478,6 +478,7 @@ wire         fpga_reset_n_debounced_wire;
 reg          fpga_reset_n_debounced;
 wire         src_reset_n;
 wire         system_reset_n;
+wire         system_reset_sync;
 @@if {$fpga_pcie == 1} {
 wire         pcie_npor_npor;
 wire [4:0]   pcie_a10_hip_status_ltssmstate;
@@ -502,6 +503,15 @@ assign system_reset_n = src_reset_n & ~h2f_reset & ~ninit_done;
 @@} else {
 assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~ninit_done;
 @@}
+
+altera_reset_synchronizer #(
+    .ASYNC_RESET (1),
+    .DEPTH       (2)
+) sys_rst_inst (
+    .reset_in  (~system_reset_n),
+    .clk       (system_clk_100),
+    .reset_out (system_reset_sync)
+);
 
 @@if {$fpga_i2c_en == 1} {
 wire fpga_i2c_scl_oe;
@@ -654,7 +664,7 @@ wire emac${x}_mdi_i, emac${x}_mdo_oe, emac${x}_mdo_o;
 assign emac${x}_mdio  = emac${x}_mdo_oe ? emac${x}_mdo_o : 1'bz;
 assign emac${x}_mdi_i = emac${x}_mdio;
 
-assign emac${x}_phy_rst_n = system_reset_n;
+assign emac${x}_phy_rst_n = ~system_reset_sync;
 @@}
 
 assign mge_led_pio[2:0] = {emac1_led_panel_link, emac1_led_link, emac1_led_an};
@@ -732,7 +742,7 @@ assign mux_io_1v8_20 = ~gp_output[1];
 // Qsys Top module
 ${qsys_name} soc_inst (
 .src_prb_rst_sources_source             (src_reset_n),
-.reset_reset_n                          (system_reset_n), 
+.reset_reset_n                          (~system_reset_sync), 
 @@if {$board == "pe" || ($h2f_user_clk_en == 1 && $hps_en == 1)} {
 .h2f_user_clk_clk                       (h2f_user_clk_clk), 
 @@}
@@ -1281,7 +1291,7 @@ alt_mge_rd #(
    .refclk_10g             (mge_refclk_10g),
    
    // Reset
-   .reset                  (~system_reset_n),
+   .reset                  (system_reset_sync),
    .tx_digitalreset        (),
    .rx_digitalreset        (),
    .rx_digitalreset_stat   (),
@@ -1395,7 +1405,7 @@ end
 // Debounce logic to clean out glitches within 1ms
 debounce debounce_inst (
 .clk          (system_clk_100_internal),
-.reset_n      (system_reset_n),  
+.reset_n      (~system_reset_sync),  
 .data_in      (fpga_button_pio),
 .data_out     (fpga_debounced_buttons)
 );
@@ -1406,8 +1416,8 @@ defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
 @@}
 
 @@if {$fpga_peripheral_en ==1} {
-always @(posedge system_clk_100_internal or negedge system_reset_n) begin
-  if (~system_reset_n)
+always @(posedge system_clk_100_internal or posedge system_reset_sync) begin
+  if (system_reset_sync)
     heartbeat_count <= 23'd0;
   else
     heartbeat_count <= heartbeat_count + 23'd1;

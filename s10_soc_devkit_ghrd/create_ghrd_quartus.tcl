@@ -42,7 +42,7 @@ if {$board == "klamath"} {
     global pin_assignment_table_klamath
 }
 
-set hdlfiles "custom_ip/debounce/debounce.v,custom_ip/edge_detect/altera_edge_detector.v"
+set hdlfiles "custom_ip/debounce/debounce.v,custom_ip/edge_detect/altera_edge_detector.v,custom_ip/reset_sync/altera_reset_synchronizer.v"
 
 if {$freeze_ack_dly_enable == 1 && $pr_enable == 1} {
 set hdlfiles "${hdlfiles},custom_ip/ack_delay_logic/ack_delay_logic.sv"
