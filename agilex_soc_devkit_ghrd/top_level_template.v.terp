@@ -426,6 +426,7 @@ reg          fpga_reset_n_debounced;
 wire         src_reset_n;
 @@}
 wire         system_reset_n;
+wire         system_reset_sync;
 @@if {$fpga_emif_en == 1} {
 wire         emif_usr_reset_n;
 wire         fpga_emif_status_local_cal_success;
@@ -455,6 +456,16 @@ assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~h2f_reset & ~nin
 @@} else {
 assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~ninit_done;
 @@}
+
+altera_reset_synchronizer #(
+    .ASYNC_RESET (1),
+    .DEPTH       (2)
+) sys_rst_inst (
+    .reset_in  (~system_reset_n),
+    .clk       (system_clk_100),
+    .reset_out (system_reset_sync)
+);
+
 
 @@  if {$h2f_user0_clk_en  == 1} {
 assign system_clk_100   = h2f_user_clk_clk;
@@ -597,7 +608,7 @@ assign emac${m}_sgmii_debug_status_pio   = {emac${m}_lvds_tx_pll_locked_export,
 assign emac${m}_mdio = emac${m}_mdio_gmii_mdo_o_e ? emac${m}_mdio_gmii_mdo_o : 1'bz;
 assign emac${m}_mdio_gmii_mdi_i = emac${m}_mdio;
 
-assign emac${m}_phy_rst_n = system_reset_n;
+assign emac${m}_phy_rst_n = ~system_reset_sync;
 @@}
 @@}
 
@@ -1101,7 +1112,7 @@ ${qsys_name} soc_inst (
 .uibpll_refclk_clk                          (uibpll_refclk_clk),
 .hbm_only_reset_reset            (~hbm_only_reset_reset)  
 @@} else {
-.reset_reset_n                          (system_reset_n)
+.reset_reset_n                          (~system_reset_sync)
 @@}
 );  
 
@@ -1131,7 +1142,7 @@ end
 // Debounce logic to clean out glitches within 1ms
 debounce debounce_inst (
 .clk          (system_clk_100_internal),
-.reset_n      (system_reset_n),  
+.reset_n      (~system_reset_sync),  
 .data_in      (fpga_button_pio),
 .data_out     (fpga_debounced_buttons)
 );
@@ -1142,8 +1153,8 @@ defparam debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
 @@}
 
 @@  if {$fpga_led_pio_width > 0} {
-always @(posedge system_clk_100_internal or negedge system_reset_n) begin
-  if (~system_reset_n)
+always @(posedge system_clk_100_internal or posedge system_reset_sync) begin
+  if (system_reset_sync)
     heartbeat_count <= 23'd0;
   else
     heartbeat_count <= heartbeat_count + 23'd1;
@@ -1173,7 +1184,7 @@ ack_delay_logic stop_ack_delay_logic_${m}_inst (
 
 @@if {$fpga_sgpio_en == 1} {
 sgpio_slave sgpio_slave_inst(
-  .i_rstn     (system_reset_n  ),
+  .i_rstn     (~system_reset_sync  ),
   .i_clk      (fpga_sgpio_clk  ),
   .i_sync     (fpga_sgpio_sync ),
   .i_mosi     (fpga_sgpi       ),
