@@ -80,7 +80,6 @@ add_component_param "intel_agilex_5_soc agilex_hps
 					 f2sdram_address_width $f2sdram_addr_width
 					 f2s_data_width $f2s_data_width
 					 f2s_address_width $f2s_address_width
-					 f2s_mode axi4
                      LWH2F_Width $lwh2f_width
 					 LWH2F_Address_Width $lwh2f_addr_width
                      EMIF_AXI_Enable $hps_emif_en
