@@ -18,8 +18,8 @@
 #       - DK-MODULAR: Agilex5 Modular Devkit
 #
 #   DEVICE:
-#       - A5ED065BB32AE5SR0: 5s FPGA OPN# [default]
-#       - A5ED065BB32AE6SR0: 6s
+#       - A5ED065BB32AE5SR0: 5s FPGA OPN#
+#       - A5ED065BB32AE6SR0: 6s FPGA OPN# [default]
 #
 #   INITIALIZATION_FIRST:
 #       - hps: HPS initialization first [default]

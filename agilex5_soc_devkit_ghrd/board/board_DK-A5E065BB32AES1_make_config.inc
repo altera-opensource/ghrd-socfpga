@@ -11,7 +11,7 @@
 ################################################
 
 #SM
-DEVICE ?= A5ED065BB32AE5SR0
+DEVICE ?= A5ED065BB32AE6SR0
 
 #HPS EMIF Reference Clock
 HPS_EMIF_REF_CLK_FREQ_MHZ ?= "33.333"
