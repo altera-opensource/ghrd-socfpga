@@ -57,7 +57,11 @@ foreach hdlfile $hdlfilelist {
     set_global_assignment -name VERILOG_FILE $hdlfile
 }
 
+if {$sub_fpga_rgmii_en == 1} { 
 set_global_assignment -name IP_SEARCH_PATHS "intel_custom_ip/**/*;custom_ip/**/*"
+set_global_assignment -name IP_FILE custom_ip/iopll/iopll_comp.ip
+set_instance_assignment -name GLOBAL_SIGNAL ON -to fpga_rgmii_rx_clk -entity ghrd_agilex5_top
+}
 
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 

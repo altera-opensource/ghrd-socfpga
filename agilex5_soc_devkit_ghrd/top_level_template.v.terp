@@ -465,6 +465,7 @@ wire                   system_reset;
 wire                   emac1_mdi;
 wire                   emac1_mdo;
 wire                   emac1_mdoe;
+wire                   fpga_rgmii_rx_clk_comp;
 
 assign emac1_mdio = emac1_mdoe? emac1_mdo : 1'bz;
 assign emac1_mdi  = emac1_mdio;
@@ -668,7 +669,7 @@ ${qsys_name} soc_inst (
 @@}
 @@}
 @@if {$sub_fpga_rgmii_en == 1} {
-.phy_rgmii_rgmii_rx_clk                    (fpga_rgmii_rx_clk),
+.phy_rgmii_rgmii_rx_clk                    (fpga_rgmii_rx_clk_comp),
 .phy_rgmii_rgmii_rxd                       (fpga_rgmii_rxd),  
 .phy_rgmii_rgmii_rx_ctl                    (fpga_rgmii_rx_ctl),
 .phy_rgmii_rgmii_tx_clk                    (fpga_rgmii_tx_clk),
@@ -995,6 +996,18 @@ ${qsys_name} soc_inst (
 
 .reset_reset_n                             (~system_reset)
 ); 
+
+
+@@if {$sub_fpga_rgmii_en == 1} {
+// Introduce an IOPLL with compensation mode which used to counteract delays introduced by the core clock, effectively cancel out the delay. The refclk should be the rgmii_rx_clk driven from PHY and ouput clock into GPIO and core. 
+iopll_comp iopll_compensate (
+.refclk      (fpga_rgmii_rx_clk),     //  refclk.clk,    The reference clock source that drives the I/O PLL.
+.locked      (),                      //  locked.export, The IOPLL IP core drives this port high when the PLL acquires lock. The port remains high as long as the I/O PLL is locked. The I/O PLL asserts the locked port when the phases and frequencies of the reference clock and feedback clock are the same or within the lock circuit tolerance. When the difference between the two clock signals exceeds the lock circuit tolerance, the I/O PLL loses lock.
+.rst         (system_reset),       //   reset.reset,  The asynchronous reset port for the output clocks. Drive this port high to reset all output clocks to the value of 0.
+.outclk_0    (fpga_rgmii_rx_clk_comp) // outclk0.clk,    Output clock Channel 0 from I/O PLL. 
+);
+@@}
+
 
 @@if {$sub_peri_en == 1} {
 @@ if {$fpga_button_pio_width != 0} {  

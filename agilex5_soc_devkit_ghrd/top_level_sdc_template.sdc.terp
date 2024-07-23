@@ -19,6 +19,62 @@ create_clock -name EMIF_REF_CLOCK -period ${hps_emif_ref_clk_freq_mhz}MHz [get_p
 @@
 @@## This is required as the HPS SDC is not working for hps_user_clk constraints. HSDES: 1507301642
 @@#create_clock -name hps_user_clk -period 2.5 [get_pins {soc_inst|agilex_hps|intel_agilex_hps_inst|fpga_interfaces|hps_inst|s2f_module|s2f_user_clk1_hio}]
+@@
+@@if {$sub_fpga_rgmii_en == 1} {
+# center-aligned input clk
+create_clock -name FPGA_RGMII_RXCLK -period 125MHz [get_ports fpga_rgmii_rx_clk]
+remove_clock iopll_compensate|iopll_0_refclk
+create_clock -name FPGA_RGMII_RXCLK_VIRTUAL -period 125MHz
+create_generated_clock -name iopll_compensate|iopll_0_refclk -divide_by 1 -master_clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL]  [get_ports {fpga_rgmii_rx_clk}]
+
+
+###############################
+#####   Set Input delay   #####
+###############################
+# 3665.84 / (6000 mil per 1ns) = 0.61ns
+set clk_trace_min 0.61
+set clk_trace_max 0.61
+
+# rxctl = 3650.59 / (6000 mil per 1ns) = 0.608ns
+# rxd0 = 3677.57 / (6000 mil per 1ns) = 0.61ns
+# rxd1 = 3723.49 / (6000 mil per 1ns) = 0.62ns
+# rxd2 = 4231.29 / (6000 mil per 1ns) = 0.71ns
+# rxd3 = 3706.5 / (6000 mil per 1ns) = 0.62ns
+set rxctl_trace_min 0.608
+set rxctl_trace_max 0.608
+set rxd0_trace_min 0.61
+set rxd0_trace_max 0.61
+set rxd1_trace_min 0.62
+set rxd1_trace_max 0.62
+set rxd2_trace_min 0.71
+set rxd2_trace_max 0.71
+set rxd3_trace_min 0.62
+set rxd3_trace_max 0.62
+
+set ext_tco_min 0.3
+set ext_tco_max 0.6
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxctl_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rx_ctl]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxctl_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rx_ctl]
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxd0_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[0]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxd0_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[0]]
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxd1_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[1]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxd1_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[1]]
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxd2_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[2]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxd2_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[2]]
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxd3_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[3]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxd3_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[3]]
+
+set half_period 4.0
+set_max_delay -from [get_ports fpga_rgmii_rx_ctl] [expr \$half_period/2.0]
+set_min_delay -from [get_ports fpga_rgmii_rx_ctl] [expr 0-\$half_period/2.0]
+set_max_delay -from [get_ports fpga_rgmii_rxd[*]]  [expr \$half_period/2.0]
+set_min_delay -from [get_ports fpga_rgmii_rxd[*]] [expr 0-\$half_period/2.0]
+@@}
 
 set_false_path -from [get_ports {fpga_reset_n}]
 @@#set_input_delay -clock MAIN_CLOCK 1 [get_ports {fpga_reset_n[0]}]

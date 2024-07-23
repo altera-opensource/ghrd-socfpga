@@ -1,0 +1,56 @@
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_TOOL_NAME "QsysPrimePro"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_TOOL_VERSION "24.1"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_TOOL_ENV "QsysPrimePro"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_TOOL_VENDOR_NAME "Intel Corporation"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_TOP_LEVEL_COMPONENT_NAME "altera_iopll"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name PRE_COMPILED_MODULE "ON"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name OCS_IP_FILE "/nfs/site/disks/swuser_work_tanjessi/hsd/case/sm7_tsnConfig2_case_/patchValidation/qkit241ovrlayDdioDly_ghrd242iopllTopSdc/agilex5_soc_devkit_ghrd/custom_ip/iopll/iopll_comp.ip"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name OCS_IP_TYPE "altera_iopll"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name OCS_IP_VERSION "19.3.1"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name OCS_IP_HASH "sftvcwy"
+set_global_assignment -library "iopll_comp" -name SOPCINFO_FILE [file join $::quartus(qip_path) "iopll_comp.sopcinfo"]
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name SLD_INFO "QSYS_NAME iopll_comp HAS_SOPCINFO 1 GENERATION_ID 0"
+set_global_assignment -library "iopll_comp" -name MISC_FILE [file join $::quartus(qip_path) "iopll_comp.cmp"]
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_TARGETED_DEVICE_FAMILY "Agilex 5"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_TARGETED_PART_TRAIT "DEVICE_SPEEDGRADE::6"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_TARGETED_PART_TRAIT "part.DEVICE_IOBANK_REVISION::IO96B"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_GENERATED_DEVICE_FAMILY "{Agilex 5}"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_QSYS_MODE "STANDALONE"
+set_global_assignment -name SYNTHESIS_ONLY_QIP ON
+set_global_assignment -library "iopll_comp" -name MISC_FILE [file join $::quartus(qip_path) "../iopll_comp.ip"]
+
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_NAME "aW9wbGxfY29tcF9hbHRlcmFfaW9wbGxfMTkzMV9zZnR2Y3d5"
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_DISPLAY_NAME "SU9QTEwgSW50ZWwgRlBHQSBJUA=="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_REPORT_HIERARCHY "Off"
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_INTERNAL "Off"
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_AUTHOR "SW50ZWwgQ29ycG9yYXRpb24="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_VERSION "MTkuMy4x"
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_DESCRIPTION "SW50ZWwgRlBHQSBQaGFzZS1Mb2NrZWQgTG9vcCAoSU9QTEwgSW50ZWwgRlBHQSBJUCkgY29yZSBhbGxvd3MgeW91IHRvIGNvbmZpZ3VyZSB0aGUgc2V0dGluZ3Mgb2YgdGhlICBJL08gUExMLg=="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_GROUP "QmFzaWMgRnVuY3Rpb25zL0Nsb2NrczsgUExMcyBhbmQgUmVzZXRzL1BMTA=="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_DOCUMENTATION_LINK "aHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQvd3d3L3VzL2VuL2RvY3MvcHJvZ3JhbW1hYmxlLzY4MzI4NS8="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_DOCUMENTATION_LINK "aHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQvd3d3L3VzL2VuL2RvY3MvcHJvZ3JhbW1hYmxlLzY4MzI4NS8="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_DOCUMENTATION_LINK "aHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQvd3d3L3VzL2VuL2RvY3MvcHJvZ3JhbW1hYmxlLzY4MzE5NS8yMC0zL2NvcmUtOTU3NTEuaHRtbA=="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_DOCUMENTATION_LINK "aHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQvd3d3L3VzL2VuL2RvY3MvcHJvZ3JhbW1hYmxlLzY4Mzc2MS8="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_DOCUMENTATION_LINK "aHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQvd3d3L3VzL2VuL2RvY3MvcHJvZ3JhbW1hYmxlLzc2OTAwMS8="
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_COMPONENT_DOCUMENTATION_LINK "aHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQvd3d3L3VzL2VuL2RvY3MvcHJvZ3JhbW1hYmxlLzY4MzE2Ni8="
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_COMPONENT_NAME "aW9wbGxfY29tcA=="
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_COMPONENT_DISPLAY_NAME "c3lzdGVt"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_COMPONENT_REPORT_HIERARCHY "On"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_COMPONENT_INTERNAL "Off"
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_COMPONENT_AUTHOR "SW50ZWwgQ29ycG9yYXRpb24="
+set_global_assignment -entity "iopll_comp" -library "iopll_comp" -name IP_COMPONENT_VERSION "MS4w"
+
+set_instance_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name PLL_REFCLK_INPUT_TYPE NOT_BALANCED -to "*tennm_ph2_iopll"
+
+set_global_assignment -library "altera_iopll_1931" -name VERILOG_FILE [file join $::quartus(qip_path) "altera_iopll_1931/synth/iopll_comp_altera_iopll_1931_sftvcwy.v"]
+set_instance_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name TCL_ENTITY_FILE [file join $::quartus(qip_path) "altera_iopll_1931/synth/iopll_comp_altera_iopll_1931_sftvcwy_all_ip_params.tcl"]
+set_instance_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name TCL_ENTITY_FILE [file join $::quartus(qip_path) "altera_iopll_1931/synth/iopll_comp_altera_iopll_1931_sftvcwy_parameters.tcl"]
+set_instance_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name SDC_ENTITY_FILE [file join $::quartus(qip_path) "altera_iopll_1931/synth/iopll_comp_altera_iopll_1931_sftvcwy.sdc"] -no_sdc_promotion  -no_auto_inst_discovery  -read_during_post_syn_and_post_fit_timing_analysis 
+set_instance_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name TCL_ENTITY_FILE [file join $::quartus(qip_path) "altera_iopll_1931/synth/iopll_comp_altera_iopll_1931_sftvcwy_pin_map.tcl"]
+set_global_assignment -library "iopll_comp" -name VERILOG_FILE [file join $::quartus(qip_path) "synth/iopll_comp.v"]
+
+
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_TOOL_NAME "altera_iopll"
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_TOOL_VERSION "19.3.1"
+set_global_assignment -entity "iopll_comp_altera_iopll_1931_sftvcwy" -library "altera_iopll_1931" -name IP_TOOL_ENV "QsysPrimePro"
+
