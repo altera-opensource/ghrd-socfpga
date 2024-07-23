@@ -606,8 +606,8 @@ ${qsys_name} soc_inst (
 @@}
 @@if {$hps_emif_en == 1} {
 @@if {$hps_emif_type == "ddr4"} {
-.emif_hps_emif_mem_0_mem_ck_t              (emif_hps_emif_mem_0_mem_ck_t),
-.emif_hps_emif_mem_0_mem_ck_c              (emif_hps_emif_mem_0_mem_ck_c),
+.emif_hps_emif_mem_ck_0_mem_ck_t           (emif_hps_emif_mem_0_mem_ck_t),
+.emif_hps_emif_mem_ck_0_mem_ck_c           (emif_hps_emif_mem_0_mem_ck_c),
 .emif_hps_emif_mem_0_mem_a                 (emif_hps_emif_mem_0_mem_a),
 .emif_hps_emif_mem_0_mem_act_n             (emif_hps_emif_mem_0_mem_act_n),
 .emif_hps_emif_mem_0_mem_ba                (emif_hps_emif_mem_0_mem_ba),
@@ -615,7 +615,7 @@ ${qsys_name} soc_inst (
 .emif_hps_emif_mem_0_mem_cke               (emif_hps_emif_mem_0_mem_cke),
 .emif_hps_emif_mem_0_mem_cs_n              (emif_hps_emif_mem_0_mem_cs_n),
 .emif_hps_emif_mem_0_mem_odt               (emif_hps_emif_mem_0_mem_odt),
-.emif_hps_emif_mem_0_mem_reset_n           (emif_hps_emif_mem_0_mem_reset_n),
+.emif_hps_emif_mem_reset_n_mem_reset_n     (emif_hps_emif_mem_0_mem_reset_n),
 .emif_hps_emif_mem_0_mem_par               (emif_hps_emif_mem_0_mem_par),
 .emif_hps_emif_mem_0_mem_alert_n           (emif_hps_emif_mem_0_mem_alert_n),
 .emif_hps_emif_mem_0_mem_dqs_t             (emif_hps_emif_mem_0_mem_dqs_t),

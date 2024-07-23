@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT-0
 #
 
-package require -exact qsys 23.4
+package require -exact qsys 24.3
 
 
 # 

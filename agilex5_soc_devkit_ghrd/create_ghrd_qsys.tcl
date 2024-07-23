@@ -73,7 +73,7 @@ add_component_param "intel_onchip_memory ocm
                     interfaceType 1
                     idWidth 10
                     "
-
+					
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 add_component_param "intel_srcss_gts gts_inst
                      IP_FILE_PATH ip/$qsys_name/gts_inst.ip
@@ -340,6 +340,9 @@ if {$hps_emif_en == 1} {
 export subsys_hps emif_hps_emif_mem_0 emif_hps_emif_mem_0
 export subsys_hps emif_hps_emif_oct_0 emif_hps_emif_oct_0
 export subsys_hps emif_hps_emif_ref_clk_0 emif_hps_emif_ref_clk_0
+export subsys_hps emif_hps_emif_mem_ck_0 emif_hps_emif_mem_ck_0
+export subsys_hps emif_hps_emif_mem_reset_n emif_hps_emif_mem_reset_n
+
 if {($hps_emif_channel == 2) && ($emif_topology == 2)} {
 export subsys_hps emif_hps_emif_mem_1 emif_hps_emif_mem_1
 export subsys_hps emif_hps_emif_oct_1 emif_hps_emif_oct_1

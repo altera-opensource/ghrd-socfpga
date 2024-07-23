@@ -51,76 +51,93 @@ if {$hps_emif_mem_part == "custom"} {
     add_component_param     "emif_hps_ph2 emif_hps
                              IP_FILE_PATH ip/$qsys_name/emif_hps.ip"
 } else {
-    add_component_param     "emif_hps_ph2 emif_hps
-                             IP_FILE_PATH ip/$qsys_name/emif_hps.ip"
-  							   
-    if {$hps_emif_type == "ddr4"} {    
-        load_component emif_hps
-        #apply_component_preset  "DDR4-3200U CL18 Component 1CS 16Gb (1Gb x16)"
-        #apply_component_preset  "DDR4-3200AA CL22 Component 1CS 8Gb (512Mb x16)"
-        #save_component
-      
-        set_component_param     "emif_hps
-		                        MEM_TECHNOLOGY_AUTO_BOOL             false
-                                MEM_TECHNOLOGY                       MEM_TECHNOLOGY_DDR4
-								HPS_EMIF_CONFIG_AUTO_BOOL            false
-                                HPS_EMIF_CONFIG                      HPS_EMIF_1x32
-								MEM_FORMAT                           MEM_FORMAT_DISCRETE
-								MEM_TOPOLOGY                         MEM_TOPOLOGY_FLYBY
-								PHY_AC_PLACEMENT_AUTO_BOOL           false
-								PHY_AC_PLACEMENT                     PHY_AC_PLACEMENT_BOT
-								MEM_DEVICE_DQ_WIDTH                  16
-								MEM_COMPS_PER_RANK                   2
-								PHY_REFCLK_FREQ_MHZ_AUTO_BOOL		 false
-								PHY_MEMCLK_FREQ_MHZ_AUTO_BOOL		 false
-								PHY_MEMCLK_FREQ_MHZ 				 $hps_emif_mem_clk_freq_mhz
-								PHY_REFCLK_FREQ_MHZ 				 $hps_emif_ref_clk_freq_mhz
+    add_component_param     "emif_io96b_hps emif_hps
+                             IP_FILE_PATH ip/$qsys_name/emif_io96b_hps.ip"
+	load_component emif_hps
+	set_component_param     "emif_hps
+		                     EMIF_PROTOCOL             				DDR4_COMP
+                             EMIF_TOPOLOGY                       	1x32
+							"
+    if {$hps_emif_type == "ddr4"} {  
+		load_component emif_hps
+		
+		set_component_sub_module_parameter_value emif_0_ddr4comp JEDEC_OVERRIDE_TABLE_PARAM_NAME {MEM_TRAS_NS NOVAL NOVAL NOVAL MEM_TCCD_L_NS MEM_TCCD_S_NS MEM_TRRD_L_NS MEM_TFAW_NS MEM_TWTR_L_NS MEM_TWTR_S_NS MEM_TMRD_NS MEM_TCKSRE_NS MEM_TCKSRX_NS MEM_TCKE_NS MEM_TMPRR_NS MEM_TDSH_NS MEM_TDSS_NS MEM_TIH_NS MEM_TIS_NS MEM_TQSH_NS MEM_TWLH_NS MEM_TWLS_NS MEM_TRFC_DLR_NS MEM_TRRD_DLR_NS MEM_TFAW_DLR_NS MEM_TCCD_DLR_NS MEM_TXP_NS MEM_TXS_DLL_NS MEM_TCPDED_NS MEM_TMOD_NS MEM_TZQCS_NS}
+		
+		# set_component_sub_module_parameter_value emif_0_ddr4comp JEDEC_OVERRIDE_TABLE_PARAM_VALUE {35 5 4 6 35 6 2 8 8 8 4 1 0.18 0.18 140000 115000 0.4 0.13 0.13 190 4 20 5 5 597 4 24 128}
+		
+		load_system_inside_package
+		load_component emif_0_ddr4comp    
+        set_component_param     "emif_0_ddr4comp
+		                        MEM_DIE_DQ_WIDTH					8
+								MEM_DIE_DENSITY_GBITS				16
+								MEM_SPEEDBIN 						1600L
+								PHY_REFCLK_FREQ_MHZ_AUTOSET_EN		0
+								PHY_REFCLK_FREQ_MHZ					$hps_emif_ref_clk_freq_mhz.0
+								MEM_TRAS_NS                         35.0
+								MEM_TCCD_L_NS                       5.0
+								MEM_TCCD_S_NS                       4.0
+								MEM_TRRD_L_NS                       6.0
+								MEM_TFAW_NS                         35.0
+								MEM_TWTR_L_NS                       6.0
+								MEM_TWTR_S_NS                       2.0
+								MEM_TMRD_NS                         8.0
+								MEM_TCKSRE_NS                       8.0
+								MEM_TCKSRX_NS                       8.0
+								MEM_TCKE_NS                         4.0
+								MEM_TMPRR_NS                        1.0
+								MEM_TDSH_NS                         0.18
+								MEM_TDSS_NS                         0.18
+								MEM_TIH_NS                          140000.0
+								MEM_TIS_NS                          115000.0
+								MEM_TQSH_NS                         0.4
+								MEM_TWLH_NS                         0.13
+								MEM_TWLS_NS                         0.13
+								MEM_TRFC_DLR_NS                     190.0
+								MEM_TRRD_DLR_NS                     4.0
+								MEM_TFAW_DLR_NS                     20.0
+								MEM_TCCD_DLR_NS                     5.0
+								MEM_TXP_NS                          5.0
+								MEM_TXS_DLL_NS                      597.0
+								MEM_TCPDED_NS                       4.0
+								MEM_TMOD_NS                         24.0
+								MEM_TZQCS_NS                        128.0
+											
 								"
-        
-		if {$hps_emif_ecc_en == 1} {
-			set_component_param     "emif_hps
-									CTRL_ECC_MODE_AUTO_BOOL				 0
-									CTRL_ECC_MODE                        CTRL_ECC_MODE_SIDE_BAND
-									"
-			set_component_param "emif_hps USER_EXTRA_PARAMETERS BYTE_SWIZZLE_CH0=0,X,X,X,1,2,3,ECC;PIN_SWIZZLE_CH0_DQS0=0,2,6,4,1,3,5,7;PIN_SWIZZLE_CH0_DQS1=12,15,8,11,14,10,13,9;PIN_SWIZZLE_CH0_DQS2=20,16,18,22,23,17,19,21;PIN_SWIZZLE_CH0_DQS3=26,30,28,24,25,27,31,29;PIN_SWIZZLE_CH0_ECC=2,6,0,4,5,3,7,1; "
-		} else {
-			set_component_param     "emif_hps
-									CTRL_ECC_MODE                        CTRL_ECC_MODE_DISABLED
-									"
-			set_component_param "emif_hps USER_EXTRA_PARAMETERS BYTE_SWIZZLE_CH0=0,X,X,X,1,2,3,X;PIN_SWIZZLE_CH0_DQS0=0,2,6,4,1,3,5,7;PIN_SWIZZLE_CH0_DQS1=12,15,8,11,14,10,13,9;PIN_SWIZZLE_CH0_DQS2=20,16,18,22,23,17,19,21;PIN_SWIZZLE_CH0_DQS3=26,30,28,24,25,27,31,29; "
-		}
-		if {$hps_emif_mem_clk_freq_mhz == 800.0} {
-			set_component_param     "emif_hps
-									MEM_PRESET_FILE_EN   		True
-									MEM_PRESET_ID_AUTO_BOOL   	False
-									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1600L_800MHz_CL12_alloff_component_1CS_DDP_32Gb_2Gx16.qprs
-									MEM_PRESET_ID   			DDR4-1600L_800MHz_CL12_alloff_component_1CS_DDP_32Gb_2Gx16
-									"			
-		}
-		if {$hps_emif_mem_clk_freq_mhz == 933.0} {
-			set_component_param     "emif_hps
-									MEM_PRESET_FILE_EN   		True
-									MEM_PRESET_ID_AUTO_BOOL   	False
-									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-1866M_933MHz_CL13_alloff_component_1CS_DDP_32Gb_2Gx16.qprs
-									MEM_PRESET_ID   			DDR4-1866M_933MHz_CL13_alloff_component_1CS_DDP_32Gb_2Gx16
-									"
-		}
-		if {$hps_emif_mem_clk_freq_mhz == 1066.0} {
-			set_component_param     "emif_hps
-									MEM_PRESET_FILE_EN   		True
-									MEM_PRESET_ID_AUTO_BOOL   	False
-									MEM_PRESET_FILE_QPRS   		${prjroot}/board/preset_files/ddr4/DDR4-2133R_1066MHz_CL16_alloff_component_1CS_DDP_32Gb_2Gx16.qprs
-									MEM_PRESET_ID   			DDR4-2133R_1066MHz_CL16_alloff_component_1CS_DDP_32Gb_2Gx16
+
+	if {$hps_emif_ecc_en == 1} {
+			set_component_param     "emif_0_ddr4comp
+									MEM_CHANNEL_ECC_DQ_WIDTH			8
+									PHY_SWIZZLE_MAP						BYTE_SWIZZLE_CH0=2,X,X,X,3,0,1,ECC;PIN_SWIZZLE_CH0_DQS0=7,6,5,4,3,2,1,0;PIN_SWIZZLE_CH0_DQS1=15,8,14,9,13,10,12,11;PIN_SWIZZLE_CH0_DQS2=23,22,21,20,16,17,18,19;PIN_SWIZZLE_CH0_DQS3=31,30,29,28,27,26,25,24;PIN_SWIZZLE_CH0_ECC=0,7,6,5,4,1,2,3;
 									"
 			
+		} else {
+			set_component_param     "emif_0_ddr4comp
+									MEM_CHANNEL_ECC_DQ_WIDTH			0
+									PHY_SWIZZLE_MAP						BYTE_SWIZZLE_CH0=3,X,X,X,0,2,1,X;PIN_SWIZZLE_CH0_DQS0=7,1,2,3,4,5,6,0;PIN_SWIZZLE_CH0_DQS1=15,14,13,12,11,10,9,8;PIN_SWIZZLE_CH0_DQS2=20,21,22,23,16,17,18,19;PIN_SWIZZLE_CH0_DQS3=31,24,25,26,27,28,29,30;
+									"
 		}
+		load_component emif_0_ddr4comp  
+		
+		save_component
+		save_system_inside_package
+		save_component		   
+
 	}
 
         # ------ Connections --------------------------------- #
-        connect "${cpu_instance}.io96b0_ch0_axi emif_hps.s0_axi4"
+		if {($hps_emif_channel == 1)} {
+        connect "${cpu_instance}.io96b0_to_hps emif_hps.io96b0_to_hps"
+		
+		# } elseif {($hps_emif_channel == 2) && ($emif_topology == 2)} {
+		
+		# } elseif {(($hps_emif_channel == 2) && ($emif_topology == 3)) || (($hps_emif_channel == 2) && ($emif_topology == 4))} {
+		
+		}
 
         # ------ Ports export -------------------------------- #
-        export emif_hps emif_mem_0         emif_hps_emif_mem_0 
-        export emif_hps emif_oct_0         emif_hps_emif_oct_0
-        export emif_hps emif_ref_clk_0     emif_hps_emif_ref_clk_0
+        export emif_hps mem_0        		emif_hps_emif_mem_0 
+		export emif_hps mem_ck_0         	emif_hps_emif_mem_ck_0
+        export emif_hps oct_0         		emif_hps_emif_oct_0
+		export emif_hps mem_reset_n         emif_hps_emif_mem_reset_n
+        export emif_hps ref_clk     		emif_hps_emif_ref_clk_0
 }
