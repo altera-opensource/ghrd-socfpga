@@ -60,10 +60,8 @@ if {$hps_emif_mem_part == "custom"} {
 							"
     if {$hps_emif_type == "ddr4"} {  
 		load_component emif_hps
-		
-		set_component_sub_module_parameter_value emif_0_ddr4comp JEDEC_OVERRIDE_TABLE_PARAM_NAME {MEM_TRAS_NS NOVAL NOVAL NOVAL MEM_TCCD_L_NS MEM_TCCD_S_NS MEM_TRRD_L_NS MEM_TFAW_NS MEM_TWTR_L_NS MEM_TWTR_S_NS MEM_TMRD_NS MEM_TCKSRE_NS MEM_TCKSRX_NS MEM_TCKE_NS MEM_TMPRR_NS MEM_TDSH_NS MEM_TDSS_NS MEM_TIH_NS MEM_TIS_NS MEM_TQSH_NS MEM_TWLH_NS MEM_TWLS_NS MEM_TRFC_DLR_NS MEM_TRRD_DLR_NS MEM_TFAW_DLR_NS MEM_TCCD_DLR_NS MEM_TXP_NS MEM_TXS_DLL_NS MEM_TCPDED_NS MEM_TMOD_NS MEM_TZQCS_NS}
-		
-		# set_component_sub_module_parameter_value emif_0_ddr4comp JEDEC_OVERRIDE_TABLE_PARAM_VALUE {35 5 4 6 35 6 2 8 8 8 4 1 0.18 0.18 140000 115000 0.4 0.13 0.13 190 4 20 5 5 597 4 24 128}
+		if {$hps_emif_mem_clk_freq_mhz == 800} {
+		set_component_sub_module_parameter_value emif_0_ddr4comp JEDEC_OVERRIDE_TABLE_PARAM_NAME {MEM_TRAS_NS MEM_TCCD_L_NS MEM_TCCD_S_NS MEM_TRRD_L_NS MEM_TFAW_NS MEM_TWTR_L_NS MEM_TWTR_S_NS MEM_TMRD_NS MEM_TCKSRE_NS MEM_TCKSRX_NS MEM_TCKE_NS MEM_TMPRR_NS MEM_TDSH_NS MEM_TDSS_NS MEM_TIH_NS MEM_TIS_NS MEM_TQSH_NS MEM_TWLH_NS MEM_TWLS_NS MEM_TRFC_DLR_NS MEM_TRRD_DLR_NS MEM_TFAW_DLR_NS MEM_TCCD_DLR_NS MEM_TXP_NS MEM_TXS_DLL_NS MEM_TCPDED_NS MEM_TMOD_NS MEM_TZQCS_NS}
 		
 		load_system_inside_package
 		load_component emif_0_ddr4comp    
@@ -71,6 +69,8 @@ if {$hps_emif_mem_part == "custom"} {
 		                        MEM_DIE_DQ_WIDTH					8
 								MEM_DIE_DENSITY_GBITS				16
 								MEM_SPEEDBIN 						1600L
+								MEM_OPERATING_FREQ_MHZ_AUTOSET_EN	0
+								MEM_OPERATING_FREQ_MHZ				$hps_emif_mem_clk_freq_mhz
 								PHY_REFCLK_FREQ_MHZ_AUTOSET_EN		0
 								PHY_REFCLK_FREQ_MHZ					$hps_emif_ref_clk_freq_mhz.0
 								MEM_TRAS_NS                         35.0
@@ -103,7 +103,47 @@ if {$hps_emif_mem_part == "custom"} {
 								MEM_TZQCS_NS                        128.0
 											
 								"
-
+	}
+	
+	if {$hps_emif_mem_clk_freq_mhz == 933.333} {
+	set_component_sub_module_parameter_value emif_0_ddr4comp JEDEC_OVERRIDE_TABLE_PARAM_NAME {MEM_TCKESR_CYC MEM_TMRD_NS MEM_TWTR_S_NS MEM_TCKSRE_NS MEM_TCKSRX_NS MEM_TCKE_NS MEM_TMPRR_NS MEM_TDSH_NS MEM_TDSS_NS MEM_TQSH_NS MEM_TWLH_NS MEM_TWLS_NS MEM_TRFC_DLR_NS MEM_TRRD_DLR_NS MEM_TFAW_DLR_NS MEM_TCCD_DLR_NS MEM_TXP_NS MEM_TXS_DLL_NS MEM_TCPDED_NS MEM_TMOD_NS MEM_TZQCS_NS}
+	
+		load_system_inside_package
+		load_component emif_0_ddr4comp    
+        set_component_param     "emif_0_ddr4comp
+		                        MEM_DIE_DQ_WIDTH					8
+								MEM_DIE_DENSITY_GBITS				16
+								MEM_SPEEDBIN 						1866M
+								MEM_OPERATING_FREQ_MHZ_AUTOSET_EN	0
+								MEM_OPERATING_FREQ_MHZ				$hps_emif_mem_clk_freq_mhz
+								PHY_REFCLK_FREQ_MHZ_AUTOSET_EN		0
+								PHY_REFCLK_ADVANCED_SELECT_EN		1
+								PHY_REFCLK_FREQ_MHZ					$hps_emif_ref_clk_freq_mhz
+								MEM_TCKESR_CYC                      6.0
+								MEM_TMRD_NS                         8.0
+								MEM_TWTR_S_NS                       3.216
+								MEM_TCKSRE_NS                       10.72
+								MEM_TCKSRX_NS                       10.72
+								MEM_TCKE_NS                         5.36
+								MEM_TMPRR_NS                        1.0
+								MEM_TDSH_NS                         0.18
+								MEM_TDSS_NS                         0.18
+								MEM_TQSH_NS                         0.4
+								MEM_TWLH_NS                         0.13
+								MEM_TWLS_NS                         0.13
+								MEM_TRFC_DLR_NS                     190.0
+								MEM_TRRD_DLR_NS                     4.0
+								MEM_TFAW_DLR_NS                     17.152
+								MEM_TCCD_DLR_NS                     4.288
+								MEM_TXP_NS                          6.432
+								MEM_TXS_DLL_NS                      597.0
+								MEM_TCPDED_NS                       4.0
+								MEM_TMOD_NS                         24.0
+								MEM_TZQCS_NS                        128.0
+											
+								"
+	}
+									
 	if {$hps_emif_ecc_en == 1} {
 			set_component_param     "emif_0_ddr4comp
 									MEM_CHANNEL_ECC_DQ_WIDTH			8

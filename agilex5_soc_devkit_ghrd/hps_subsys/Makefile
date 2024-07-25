@@ -37,14 +37,11 @@
 #
 #   HPS_EMIF_MEM_CLK_FREQ_MHZ:
 #       - 800: 800Mhz [default]
-#       - 933: 933Mhz
-#       - 1066: 1066Mhz
-#       - 1200: 1200Mhz
+#       - 933.333: 933.333Mhz
 #
 #   HPS_EMIF_REF_CLK_FREQ_MHZ:
 #       - 100: 100Mhz [default]
-#       - 116.625: 116.625Mhz
-#       - 133.25: 133.25MHz
+#       - 116.6666: 116.6666Mhz
 #
 #   HPS_EMIF_ECC_EN :
 #       - 0: disable [default]
