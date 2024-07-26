@@ -32,7 +32,7 @@ set fpga_led_pio_pin_list {
 BM59
 BH59
 BH62
-BP62
+BK59
 }
 
 set fpga_led_pio_iostandard "1.1 V"
