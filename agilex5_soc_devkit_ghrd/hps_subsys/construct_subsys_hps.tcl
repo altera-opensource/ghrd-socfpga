@@ -181,12 +181,12 @@ if {$hps_emif_en == 1} {
     }
 }
 
-load_component agilex_hps
-for {set i 0} {$i < 48} {incr i} {
-set_component_parameter_value IO_INPUT_DELAY${i} $input_dly_chain_io48(${i})
-set_component_parameter_value IO_OUTPUT_DELAY${i} $output_dly_chain_io48(${i})
-}
-save_component
+#load_component agilex_hps
+#for {set i 0} {$i < 48} {incr i} {
+#set_component_parameter_value IO_INPUT_DELAY${i} $input_dly_chain_io48(${i})
+#set_component_parameter_value IO_OUTPUT_DELAY${i} $output_dly_chain_io48(${i})
+#}
+#save_component
 
 #MPU_CLK_VCCL 1
 
