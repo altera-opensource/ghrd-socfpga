@@ -70,3 +70,18 @@ The GHRD is built with Makefile. Here are the supported Make Targets:
 4) Compile Quartus Project and generate the configuration file
    - $ make sof or 
    - $ make all
+
+## Recommendations for HPS_EMIF_MEM_CLK_FREQ_MHZ and HPS_EMIF_REF_CLK_FREQ_MHZ
+Users are recommended to select the following frequency [Mhz]:
+1) for 6s device (A5ED065BB32AE6SR0):
+  a) HPS_EMIF_MEM_CLK_FREQ_MHZ=800
+  b) HPS_EMIF_REF_CLK_FREQ_MHZ=100
+2) for 5s device (A5ED065BB32AE5SR0):
+  a) HPS_EMIF_MEM_CLK_FREQ_MHZ=933.333
+  b) HPS_EMIF_REF_CLK_FREQ_MHZ=116.6666
+If other values are needed by the design:
+1) Execute Build Step 1 and 2.
+2) Launch Platform Designer GUI:
+    - $make qsys_edit
+3) Navigate to subsys_hps -> emif_hps -> Dive Into Packaged Subsystem...
+4) Select the desired Memory Operating Frequency and Reference Clock Frequency from the drop down list.
