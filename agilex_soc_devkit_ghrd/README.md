@@ -27,6 +27,7 @@ This repository hosts build scripts for AGILEX GHRD.
 
 ## Tested Platform for the GHRD Make flow
 * Red Hat Enterprise Linux Server release 6.10
+* SUSE Linux Enterprise Server 12 SP5
 
 ## Available Make Target:
 The GHRD is built with Makefile. Here are the supported Make Targets:

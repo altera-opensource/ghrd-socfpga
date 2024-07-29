@@ -18,6 +18,7 @@ This reference design demonstrating the following system integration between Har
 ## This repository hosts build scripts for all GHRD. Build scripts are organized according to the Intel SoC FPGA Family:
 ### GHRD for Intel Quartus Prime Pro Edition
 *  agilex_soc_devkit_ghrd
+*  agilex5_soc_devkit_ghrd
 *  s10_soc_devkit_ghrd
 *  a10_soc_devkit_ghrd_pro
 
