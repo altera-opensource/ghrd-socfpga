@@ -124,12 +124,18 @@ if {$hps_emif_mem_part == "custom"} {
 											
 								"
 	}
-									
+	if {$hps_emif_ecc_en == 1} {
+			set_component_param     "emif_0_ddr4comp
+									MEM_CHANNEL_ECC_DQ_WIDTH			8
+									PHY_SWIZZLE_MAP						BYTE_SWIZZLE_CH0=2,X,X,X,3,0,1,ECC;PIN_SWIZZLE_CH0_DQS0=7,6,5,4,3,2,1,0;PIN_SWIZZLE_CH0_DQS1=15,8,14,9,13,10,12,11;PIN_SWIZZLE_CH0_DQS2=23,22,21,20,16,17,18,19;PIN_SWIZZLE_CH0_DQS3=31,30,29,28,27,26,25,24;PIN_SWIZZLE_CH0_ECC=0,7,6,5,4,1,2,3;
+									"
+	} else {											
 		set_component_param     "emif_0_ddr4comp
 								MEM_CHANNEL_ECC_DQ_WIDTH			0
 								PHY_SWIZZLE_MAP						BYTE_SWIZZLE_CH0=0,X,X,X,1,2,3,X;PIN_SWIZZLE_CH0_DQS3=26,30,28,24,25,27,29,31;PIN_SWIZZLE_CH0_DQS2=16,20,22,18,23,21,19,17;PIN_SWIZZLE_CH0_DQS1=14,11,12,8,10,9,13,15;PIN_SWIZZLE_CH0_DQS0=2,0,6,4,7,5,3,1;
-									"
-		}
+								"
+	}								
+	}
 		load_component emif_0_ddr4comp  
 		
 		save_component
