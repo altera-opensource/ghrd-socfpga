@@ -33,8 +33,8 @@ foreach io_quadrant $io48_pinmux_assignment {
         set output_dly_chain_io48($count) 21
         set input_dly_chain_io48($count) -1
         } elseif [string match [lindex $io48_input_pin 6] $io_pin] {
-        set output_dly_chain_io48($count) 21
-        set input_dly_chain_io48($count) -1
+        set output_dly_chain_io48($count) -1
+        set input_dly_chain_io48($count) 21
         } elseif [string match [lindex $io48_bidirect_pin 3] $io_pin] {
         set output_dly_chain_io48($count) -1
         set input_dly_chain_io48($count) -1
