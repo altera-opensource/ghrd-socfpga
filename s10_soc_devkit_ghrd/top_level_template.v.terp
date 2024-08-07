@@ -718,6 +718,9 @@ assign stm_hw_events    = 43'b0;
 wire [31:0] gp_output;
 wire [31:0] gp_input;
 wire [13:0] pcie_link_status;
+wire [5:0] pcie_pipe_sim_ltssmstate;	//qis warning: actual bit length 1 differs from formal bit length 6
+
+assign gp_input = 32'h0;		//qis warning: does not have a driver
 @@}
 
 @@if {$board == "devkit" || $board == "atso12" || $board == "ashfield" || $board == "klamath" || $hps_peri_irq_loopback_en == 1} {

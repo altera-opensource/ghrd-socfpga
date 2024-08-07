@@ -716,5 +716,23 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to fpga_led_pio[${y}]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to fpga_button_pio[${y}]
 }
 }
-    
+
+if {$hps_mge_en == 1} {
+for {set x 1} {$x<=$sgmii_count} {incr x} {
+set_instance_assignment -name CURRENT_STRENGTH_NEW 2MA -to emac${x}_mdio
+set_instance_assignment -name SLEW_RATE 1 -to emac${x}_mdio
+set_instance_assignment -name CURRENT_STRENGTH_NEW 2MA -to emac${x}_mdc
+set_instance_assignment -name SLEW_RATE 1 -to emac${x}_mdc
+set_instance_assignment -name CURRENT_STRENGTH_NEW 2MA -to emac${x}_phy_irq
+set_instance_assignment -name SLEW_RATE 1 -to emac${x}_phy_irq
+set_instance_assignment -name CURRENT_STRENGTH_NEW 2MA -to emac${x}_phy_rst_n
+set_instance_assignment -name SLEW_RATE 1 -to emac${x}_phy_rst_n
+}
+}
+
+if {$fpga_pcie == 1} {
+set_instance_assignment -name CURRENT_STRENGTH_NEW 2MA -to mux_io_1v8_20
+set_instance_assignment -name SLEW_RATE 1 -to mux_io_1v8_20
+}
+
 project_close

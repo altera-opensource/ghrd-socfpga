@@ -166,3 +166,18 @@ set fo [open "./${top_name}.sv" "w"]
 puts $fo $content
 close $fo
 
+##-------------------------##
+# TOP SDC WRAPPER
+##-------------------------##
+# path to the TERP template
+set template_path "top_level_sdc_template.sdc.terp" 
+# file handle for template
+set template_fh [open $template_path] 
+# template contents
+set template   [read $template_fh] 
+# we are done with the file so we should close it
+close $template_fh 
+set content [altera_terp $template param]
+set fo [open "./ghrd_timing.sdc" "w"] 
+puts $fo $content
+close $fo
