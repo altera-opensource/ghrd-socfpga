@@ -92,27 +92,12 @@ add_component_param "stratix10_clkctrl clkctrl_0
                     "
 }
 
-if {$f2s_address_width > 32} {
-    if {$cct_en == 1} {
-    add_component_param "intel_cache_coherency_translator intel_cache_coherency_translator_0
-                    IP_FILE_PATH ip/$qsys_name/intel_cache_coherency_translator_0.ip
-                    CONTROL_INTERFACE $cct_control_interface
-                    ADDR_WIDTH $f2s_address_width
-                    AXM_ID_WIDTH 5
-                    AXS_ID_WIDTH 5
-                    ARDOMAIN_OVERRIDE 0
-                    ARBAR_OVERRIDE 0
-                    ARSNOOP_OVERRIDE 0
-                    ARCACHE_OVERRIDE 2
-                    AWDOMAIN_OVERRIDE 0
-                    AWBAR_OVERRIDE 0
-                    AWSNOOP_OVERRIDE 0
-                    AWCACHE_OVERRIDE 2
-                    AxUSER_OVERRIDE 0xE0
-                    AxPROT_OVERRIDE 1
-                    DATA_WIDTH $f2s_data_width
+if {$f2s_address_width > 0} {
+  reload_ip_catalog
+  add_component_param "altera_ace5lite_cache_coherency_translator altera_ace5lite_cache_coherency_translator_0
+                    IP_FILE_PATH ip/$qsys_name/altera_ace5lite_cache_coherency_translator_0.ip 
+                    F2H_ADDRESS_WIDTH  $f2s_address_width
                     "
-	}
 }
 
 if {$sub_fpga_rgmii_en == 1} {
@@ -151,38 +136,32 @@ connect_map "     subsys_debug.hps_f2sdram_master              ext_hps_f2sdram_m
 connect_map "     ext_hps_f2sdram_master.expanded_master       subsys_hps.f2sdram_adapter_axi4_sub 0x0000 "
 }
 
-													     
-if { $f2s_data_width > 0 } {												 
-connect_map "     subsys_debug.hps_m_master            subsys_hps.fpga2hps 0x0000 "
-
-}												 
-}													 
-														 
-if {$cct_en == 1} {	                                     
-	connect "	  clk_100.out_clk                        intel_cache_coherency_translator_0.clock
-			      rst_in.out_reset                       intel_cache_coherency_translator_0.reset
-		"                                                
-													     
-    if {$cct_control_interface == 2} {                   
-        connect " clk_100.out_clk                        intel_cache_coherency_translator_0.csr_clock
-                  rst_in.out_reset                       intel_cache_coherency_translator_0.csr_reset
-                "
-    }
-
-    if {$f2s_address_width >32} {
-        connect_map "subsys_debug.hps_m_master           ext_hps_f2sdram_master.windowed_slave            0x0"
-        connect_map "ext_hps_f2sdram_master.expanded_master    intel_cache_coherency_translator_0.s0      0x0"
-    } else {                                             
-        connect_map "subsys_debug.hps_m_master           intel_cache_coherency_translator_0.s0      0x0"
-    }
-	
-	connect_map "intel_cache_coherency_translator_0.m0   subsys_hps.fpga2hps 0x0000 "
-	connect_map "subsys_hps.lwhps2fpga                   intel_cache_coherency_translator_0.csr "
-	connect_map "subsys_debug.fpga_m_master              intel_cache_coherency_translator_0.csr 0x10200 "
 }
+
 
 # --------------- Connections and connection parameters ------------------#
 
+# cct is required to convert axi4 to ace5-lite when f2s bridge is enabled.
+if {$f2s_address_width > 0} {
+  connect "   clk_100.out_clk                        altera_ace5lite_cache_coherency_translator_0.clock
+              rst_in.out_reset                       altera_ace5lite_cache_coherency_translator_0.reset
+          "
+
+  # work around. currently only subsys_debug.hps_m_master shall communicate though f2h.
+  if {$sub_debug_en == 1} {
+    if {$f2s_address_width >32} {
+        # should add another master to access address > 32 bits?
+        connect_map "subsys_debug.hps_m_master                 ext_hps_f2sdram_master.windowed_slave                0x0"
+        connect_map "ext_hps_f2sdram_master.expanded_master    altera_ace5lite_cache_coherency_translator_0.s0      0x0"
+    } else {
+        connect_map "subsys_debug.hps_m_master                 altera_ace5lite_cache_coherency_translator_0.s0      0x0"
+    }
+  } else {
+    export altera_ace5lite_cache_coherency_translator_0 s0 s0
+  }
+
+  connect_map "altera_ace5lite_cache_coherency_translator_0.m0 subsys_hps.fpga2hps 0x0000"
+}
 
 connect "clk_100.out_clk   ocm.clk1
          rst_in.out_reset  ocm.reset1 

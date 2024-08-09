@@ -733,13 +733,7 @@ set user0_clk_src_select 1
 set fpga_peripheral_en 0
 }
 
-# for cct_adapter
-if {$f2s_address_width > 32 && $f2sdram_width > 0} {
-    set cct_en 1
-    set cct_control_interface 2
-} else {
-    set cct_en 0
-}
+# cct_adapter shall be enabled automatically when $f2s_address_width>0.
 
 source $prjroot/hps_subsys/agilex_hps_pinmux_solver.tcl
 source $prjroot/hps_subsys/agilex_hps_parameter_solver.tcl
