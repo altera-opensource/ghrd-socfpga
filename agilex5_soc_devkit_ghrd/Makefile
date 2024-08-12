@@ -391,6 +391,12 @@ QUARTUS_TCL_ARGS += pwr_boot_core_sel $(PWR_BOOT_CORE_SEL)
 QSYS_TCL_CMDS += set pwr_boot_core_sel $(PWR_BOOT_CORE_SEL);
 endif
 
+ifneq ($(HPS_F2H_IRQ_EN),)
+QUARTUS_TCL_ARGS += hps_f2h_irq_en $(HPS_F2H_IRQ_EN)
+QSYS_TCL_CMDS += set hps_f2h_irq_en $(HPS_F2H_IRQ_EN);
+endif
+
+
 # EMIF Topology settings, applies only if HPS-EMIF(EMIF_AXI_Enable) is enabled. Set this according to your ddr settings.
 #--------------------------------------------
 #  HPS IP                       EMIF IP      

@@ -157,7 +157,7 @@ set param(h2f_uart1_irq_en)             $h2f_uart1_irq_en
 set param(h2f_usb0_irq_en)              $h2f_usb0_irq_en
 set param(h2f_usb1_irq_en)              $h2f_usb1_irq_en
 set param(hps_peri_irq_loopback_en)     $hps_peri_irq_loopback_en
-set param(hps_f2s_irq_en)               $hps_f2s_irq_en
+set param(hps_f2h_irq_en)               $hps_f2h_irq_en
 set param(board)                        $board
 set param(sub_fpga_rgmii_en)            $sub_fpga_rgmii_en
 set param(reset_watchdog_en)            $reset_watchdog_en

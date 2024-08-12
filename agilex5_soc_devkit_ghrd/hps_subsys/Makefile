@@ -127,6 +127,10 @@
 #       - 0: Core0 [default]
 #       - 1: Core2 
 #
+#   HPS_F2H_IRQ_EN:
+#       - 0: disable
+#       - 1: enable [default]
+#
 ##demo:
 ##  hps_other_var0 :
 ##      - val00: val00_description [default]

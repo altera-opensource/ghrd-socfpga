@@ -72,7 +72,7 @@ add_component_param "intel_agilex_5_soc agilex_hps
                      CTI_Enable 0
                      DMA_PeriphID 0
                      DMA_Enable {No No No No No No No No}
-                     F2H_IRQ_Enable 1
+                     F2H_IRQ_Enable $hps_f2h_irq_en
                      HPS_IO_Enable {$io48_q1_assignment $io48_q2_assignment $io48_q3_assignment $io48_q4_assignment}
                      H2F_Width $h2f_width
 					 H2F_Address_Width $h2f_addr_width
@@ -675,7 +675,12 @@ connect "f2sdram_adapter.axi4_man agilex_hps.f2sdram
 
 # --------------------    Exported Interfaces     -----------------------#
 export agilex_hps h2f_reset h2f_reset
-export agilex_hps fpga2hps_interrupt f2h_irq_in
+
+if {$hps_f2h_irq_en == 1} {
+export agilex_hps fpga2hps_interrupt_irq0 f2h_irq0_in
+export agilex_hps fpga2hps_interrupt_irq1 f2h_irq1_in
+}
+
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
 export agilex_hps usb31_io usb31_io
 export agilex_hps usb31_phy_pma_cpu_clk usb31_phy_pma_cpu_clk

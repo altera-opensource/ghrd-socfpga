@@ -63,7 +63,7 @@ add_component_param "altera_avalon_pio button_pio
                     captureEdge 1
                     direction Input
                     edgeType FALLING
-                    generateIRQ 1
+                    generateIRQ $hps_f2h_irq_en
                     irqType EDGE
                     width $fpga_button_pio_width
                     "
@@ -76,7 +76,7 @@ add_component_param "altera_avalon_pio dipsw_pio
                     captureEdge 1
                     direction Input
                     edgeType FALLING
-                    generateIRQ 1
+                    generateIRQ $hps_f2h_irq_en
                     irqType EDGE
                     width $fpga_dipsw_pio_width
                     "
@@ -183,11 +183,15 @@ export ssgdma_0 h2d0 ssgdma_h2d0
 
 if {$fpga_button_pio_width >0} {
 export button_pio external_connection button_pio_external_connection
+if {$hps_f2h_irq_en == 1} {
 export button_pio irq button_pio_irq
+}
 }
 if {$fpga_dipsw_pio_width >0} {
 export dipsw_pio external_connection dipsw_pio_external_connection
+if {$hps_f2h_irq_en == 1} {
 export dipsw_pio irq dipsw_pio_irq
+}
 }
 #export ILC irq ILC_irq
 if {$fpga_led_pio_width >0} {

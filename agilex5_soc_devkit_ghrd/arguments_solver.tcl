@@ -83,7 +83,7 @@
 # ocm_clk_source                    : 0 (System_100MHz), 1 (user1_clk_src_select)
 # secure_f2h_axi_slave              : 0 (non-secure), 1(secure)
 # hps_peri_irq_loopback_en          : 1 or 0
-# hps_f2s_irq_en                    : 1 or 0
+# hps_f2h_irq_en                    : 1 or 0
 # daughter_card                     : Daughter card selection, either "none"
 # cross_trigger_en                  : 1 or 0
 # hps_stm_en                        : 1 or 0
@@ -614,12 +614,6 @@ if { ![ info exists hps_peri_irq_loopback_en ] } {
  set hps_peri_irq_loopback_en $HPS_PERI_IRQ_LOOPBACK_EN
 } else {
  puts "-- Accepted parameter \$hps_peri_irq_loopback_en = $hps_peri_irq_loopback_en"
-}
-
-if { ![ info exists hps_f2s_irq_en ] } {
- set hps_f2s_irq_en $HPS_F2S_IRQ_EN
-} else {
- puts "-- Accepted parameter \$hps_f2s_irq_en = $hps_f2s_irq_en"
 }
 
 if { ![ info exists daughter_card ] } {

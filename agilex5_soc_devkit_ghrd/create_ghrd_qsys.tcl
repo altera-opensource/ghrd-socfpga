@@ -248,23 +248,25 @@ if {$h2f_width > 0} {
 }
 
 if {$sub_peri_en == 1} {
-   if {$lwh2f_width > 0} {
+    if {$lwh2f_width > 0} {
      connect_map "subsys_hps.lwhps2fpga subsys_periph.pb_cpu_0_s0 0x0"
-     
-     connect "subsys_hps.f2h_irq_in subsys_periph.button_pio_irq"
-     set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.button_pio_irq irqNumber {0}
-     connect "subsys_hps.f2h_irq_in subsys_periph.dipsw_pio_irq"
-     set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.dipsw_pio_irq irqNumber {1}
-     
-	 if {$fpga_data_mover_en == 1} {	
-	 connect "subsys_hps.f2h_irq_in subsys_periph.ssgdma_interrupt"
-     set_connection_parameter_value subsys_hps.f2h_irq_in/subsys_periph.ssgdma_interrupt irqNumber {2}
-     }
-   }
-   if {$fpga_data_mover_en == 1} {	
-   connect_map "subsys_periph.ssgdma_host ext_hps_f2sdram_master.windowed_slave 0x0"
-   connect_map "subsys_periph.ssgdma_h2d0 ext_hps_f2sdram_master.windowed_slave 0x0"
-   }
+
+      if {$hps_f2h_irq_en == 1} {
+        connect "subsys_hps.f2h_irq0_in subsys_periph.button_pio_irq"
+        set_connection_parameter_value subsys_hps.f2h_irq0_in/subsys_periph.button_pio_irq irqNumber {0}
+        connect "subsys_hps.f2h_irq0_in subsys_periph.dipsw_pio_irq"
+        set_connection_parameter_value subsys_hps.f2h_irq0_in/subsys_periph.dipsw_pio_irq irqNumber {1}
+      
+	      if {$fpga_data_mover_en == 1} {	
+	        connect "subsys_hps.f2h_irq0_in subsys_periph.ssgdma_interrupt"
+          set_connection_parameter_value subsys_hps.f2h_irq0_in/subsys_periph.ssgdma_interrupt irqNumber {2}
+        }
+      }
+    }
+    if {$fpga_data_mover_en == 1} {	
+      connect_map "subsys_periph.ssgdma_host ext_hps_f2sdram_master.windowed_slave 0x0"
+      connect_map "subsys_periph.ssgdma_h2d0 ext_hps_f2sdram_master.windowed_slave 0x0"
+    }
 }
 
 if {$hps_usb0_en == 1 | $hps_usb1_en == 1} {
@@ -350,6 +352,10 @@ export subsys_fpga_rgmii phy_rgmii phy_rgmii
 export subsys_hps emac_timestamp_clk emac_timestamp_clk
 export subsys_hps emac_ptp_clk emac_ptp_clk
 export subsys_hps emac1_mdio emac1_mdio
+}
+
+if {($hps_f2h_irq_en == 1) && ($sub_hps_en == 1)} {
+export subsys_hps f2h_irq1_in f2h_irq1_in
 }
 
 # interconnect requirements

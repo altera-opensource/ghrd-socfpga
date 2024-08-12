@@ -529,9 +529,8 @@ assign                 fpga_led_pio = {heartbeat_led,fpga_led_internal};
 
 
 @@if {$sub_hps_en == 1} {
-@@  if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
-// Todo no longer needed
-//wire [31:0]            f2h_irq1_irq;
+@@  if {$hps_f2h_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+wire [31:0]            f2h_irq1_irq;
 @@}
 @@if {$hps_usb0_en == 1 || $hps_usb1_en == 1} { 
 wire                   o_pma_cpu_clk;
@@ -562,9 +561,8 @@ assign                 stm_hw_events    = 44'b0;
 @@  }
 @@}
 
-@@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
-// Todo no longer needed
-//assign                 f2h_irq1_irq    = {32'b0};
+@@if {$hps_f2h_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+assign                 f2h_irq1_irq    = {32'b0};
 @@}
 @@}
 
@@ -978,9 +976,8 @@ ${qsys_name} soc_inst (
 .hps_io_hps_io_cm_pll2                     (hps_pll2_clk),
 .hps_io_hps_io_cm_pll3                     (hps_pll3_clk),
 @@}
-@@if {$hps_f2s_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
-// Todo nolonger export to top 
-//.f2h_irq1_irq                              (f2h_irq1_irq),
+@@if {$hps_f2h_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+.f2h_irq1_in_irq                              (f2h_irq1_irq),
 @@}
 @@if {$ftrace_en == 1} {
 .ext_trace_f2h_clk_in_clk_ctl              (1'b1),     // use HPS internal debug trace clock to drive TRACE interface
