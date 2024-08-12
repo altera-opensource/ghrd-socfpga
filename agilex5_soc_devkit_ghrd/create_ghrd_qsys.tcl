@@ -92,7 +92,7 @@ add_component_param "stratix10_clkctrl clkctrl_0
                     "
 }
 
-if {$f2s_address_width > 0} {
+if {$f2s_data_width > 0} {
   reload_ip_catalog
   add_component_param "altera_ace5lite_cache_coherency_translator altera_ace5lite_cache_coherency_translator_0
                     IP_FILE_PATH ip/$qsys_name/altera_ace5lite_cache_coherency_translator_0.ip 
@@ -142,7 +142,7 @@ connect_map "     ext_hps_f2sdram_master.expanded_master       subsys_hps.f2sdra
 # --------------- Connections and connection parameters ------------------#
 
 # cct is required to convert axi4 to ace5-lite when f2s bridge is enabled.
-if {$f2s_address_width > 0} {
+if {$f2s_data_width > 0} {
   connect "   clk_100.out_clk                        altera_ace5lite_cache_coherency_translator_0.clock
               rst_in.out_reset                       altera_ace5lite_cache_coherency_translator_0.reset
           "
