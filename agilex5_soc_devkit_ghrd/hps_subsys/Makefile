@@ -69,8 +69,8 @@
 #       - 2: Trigger Remote Update
 #
 #   F2S_DATA_WIDTH :
-#       - 0: disable [default]
-#       - 256: 256-bit
+#       - 0: disable
+#       - 256: 256-bit [default]
 #
 #   F2S_ADDRESS_WIDTH :
 #       - 20: 20-bit 1MB minimum
