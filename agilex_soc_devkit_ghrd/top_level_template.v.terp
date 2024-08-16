@@ -468,6 +468,14 @@ altera_reset_synchronizer #(
     .reset_out (system_reset_sync)
 );
 
+altera_reset_synchronizer #(
+    .ASYNC_RESET (1),
+    .DEPTH       (2)
+) sys_rst_sgpio_inst (
+    .reset_in  (~system_reset_sync),
+    .clk       (fpga_sgpio_clk),
+    .reset_out (system_reset_sync_sgpio)
+);
 
 @@  if {$h2f_user0_clk_en  == 1} {
 assign system_clk_100   = h2f_user_clk_clk;
@@ -1186,7 +1194,7 @@ ack_delay_logic stop_ack_delay_logic_${m}_inst (
 
 @@if {$fpga_sgpio_en == 1} {
 sgpio_slave sgpio_slave_inst(
-  .i_rstn     (~system_reset_sync  ),
+  .i_rstn     (~system_reset_sync_sgpio  ),
   .i_clk      (fpga_sgpio_clk  ),
   .i_sync     (fpga_sgpio_sync ),
   .i_mosi     (fpga_sgpi       ),
