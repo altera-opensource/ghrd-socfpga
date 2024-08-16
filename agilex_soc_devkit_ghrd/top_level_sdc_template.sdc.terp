@@ -48,6 +48,7 @@ set_false_path -from [get_ports {fpga_button_pio[1]}] -to *
 set_false_path -from [get_ports {fpga_sgpi}] -to *
 set_false_path -from [get_ports {fpga_sgpio_sync}] -to *
 set_false_path -from * -to [get_ports {fpga_sgpo}]
+set_output_delay -clock SGPIO_CLOCK 1 [get_ports fpga_sgpo]
 @@} else {
 @@if {$fpga_button_pio_width > 0} {
 set_false_path -from [get_ports {fpga_button_pio[0]}] -to *
@@ -88,5 +89,3 @@ set_false_path -from [get_ports {emac${m}_phy_irq}] -to *
 # False Path between debounced and reset synchronizer
 set_false_path -from fpga_reset_n_debounced -to {soc_inst|rst_controller_*|altera_reset_synchronizer_int_chain[1]}
 @@}
-
-set_output_delay -clock SGPIO_CLOCK 1 [get_ports fpga_sgpo]
