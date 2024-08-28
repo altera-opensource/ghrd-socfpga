@@ -15,8 +15,6 @@ source ./arguments_solver.tcl
 source ./utils.tcl
 set sub_sys subsys_niosv
 
-package require -exact qsys 19.1
-
 create_system $sub_sys
 
 set_project_property DEVICE_FAMILY $device_family

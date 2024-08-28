@@ -14,8 +14,6 @@
 source ./arguments_solver.tcl
 source ./utils.tcl
 
-package require -exact qsys 19.1
-
 reload_ip_catalog
 
 set subsys_name subsys_etile_25gbe_1588_ctrl

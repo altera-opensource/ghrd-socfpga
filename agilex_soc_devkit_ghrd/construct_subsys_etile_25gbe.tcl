@@ -14,8 +14,6 @@
 source ./arguments_solver.tcl
 source ./utils.tcl
 
-package require -exact qsys 19.1
-
 reload_ip_catalog
 source ./construct_subsys_etile_25gbe_rx_dma.tcl
 source ./construct_subsys_etile_25gbe_tx_dma.tcl

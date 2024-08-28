@@ -755,20 +755,20 @@ ${qsys_name} soc_inst (
 .emif_hps_oct_oct_rzqin                 (emif_hps_oct_oct_rzqin), 
 @@}
 @@if {$hps_emif_type == "ddr5"} {
-.emif_hps_noc_pll_lock_o_pll_lock_o     (emif_hps_noc_pll_lock_o_pll_lock_o),   
-.emif_hps_mem_mem_ck_c                  (emif_hps_mem_mem_ck_c),   
-.emif_hps_mem_mem_ck_t                  (emif_hps_mem_mem_ck_t),  
-.emif_hps_mem_mem_ca                    (emif_hps_mem_mem_ca),       
-.emif_hps_mem_mem_cs_n                  (emif_hps_mem_mem_cs_n),    
-.emif_hps_mem_mem_reset_n               (emif_hps_mem_mem_reset_n),
-.emif_hps_mem_mem_dm_n                  (emif_hps_mem_mem_dm_n), 
-.emif_hps_mem_mem_alert_n               (emif_hps_mem_mem_alert_n),    
-.emif_hps_oct_oct_rzqin                 (emif_hps_oct_oct_rzqin),
+.emif_hps_noc_pll_lock_o_pll_lock_o     (emif_hps_noc_pll_lock_o_pll_lock_o),
 .emif_hps_noc_refclk_clk                (emif_hps_noc_refclk_clk),
-.emif_hps_ref_clk_clk                   (emif_hps_ref_clk_clk),
-.emif_hps_mem_mem_dq                    (emif_hps_mem_mem_dq),       
-.emif_hps_mem_mem_dqs_c                 (emif_hps_mem_mem_dqs_c), 
-.emif_hps_mem_mem_dqs_t                 (emif_hps_mem_mem_dqs_t), 
+.emif_hps_emif_mem_ck_0_mem_ck_c        (emif_hps_mem_mem_ck_c),   
+.emif_hps_emif_mem_ck_0_mem_ck_t        (emif_hps_mem_mem_ck_t),  
+.emif_hps_emif_mem_0_mem_ca             (emif_hps_mem_mem_ca),       
+.emif_hps_emif_mem_0_mem_cs_n           (emif_hps_mem_mem_cs_n),    
+.emif_hps_emif_mem_reset_n_mem_reset_n               (emif_hps_mem_mem_reset_n),
+.emif_hps_emif_mem_0_mem_dm_n                  (emif_hps_mem_mem_dm_n), 
+.emif_hps_emif_mem_0_mem_alert_n               (emif_hps_mem_mem_alert_n),    
+.emif_hps_emif_oct_0_oct_rzqin                 (emif_hps_oct_oct_rzqin),
+.emif_hps_emif_ref_clk_0_clk                   (emif_hps_ref_clk_clk),
+.emif_hps_emif_mem_0_mem_dq                    (emif_hps_mem_mem_dq),       
+.emif_hps_emif_mem_0_mem_dqs_c                 (emif_hps_mem_mem_dqs_c), 
+.emif_hps_emif_mem_0_mem_dqs_t                 (emif_hps_mem_mem_dqs_t), 
 @@}
 @@}
 @@if {$hps_jtag_en == 1} {

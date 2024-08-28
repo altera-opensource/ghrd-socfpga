@@ -15,8 +15,6 @@ source ./arguments_solver.tcl
 source ./utils.tcl
 set sub_qsys_jtag subsys_jtg_mst
 
-package require -exact qsys 19.1
-
 create_system $sub_qsys_jtag
 
 set_project_property DEVICE_FAMILY $device_family

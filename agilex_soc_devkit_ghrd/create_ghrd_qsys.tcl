@@ -30,7 +30,7 @@ source ./utils.tcl
 # puts "SYSID  : [format %8.8x $variant_id]"
 set SYSID "0xACD5CAFE"
 
-package require -exact qsys 19.1
+package require -exact qsys 24.3
 
 if {$fpga_peripheral_en == 1} {
 source ./construct_subsys_peripheral.tcl

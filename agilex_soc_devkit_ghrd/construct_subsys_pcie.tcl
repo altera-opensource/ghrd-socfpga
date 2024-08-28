@@ -22,8 +22,6 @@ if { ![ info exists sub_qsys_pcie ] } {
 
 set pcie_inst "pcie_agilex"
 
-package require -exact qsys 19.1
-
 create_system $sub_qsys_pcie
 
 set_project_property DEVICE_FAMILY $device_family

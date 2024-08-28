@@ -232,10 +232,13 @@ source ./pin_assign_agilex_emif.tcl
 if {$board == "devkit_fp82"} {
 	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|emif_hps_noc|emif_hps_noc|pll_inst -entity $top_name
 	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|emif_hps_noc|emif_hps_noc|ssm_inst -entity $top_name
-	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif|tniu_0|target_0.target_inst_0 -entity $top_name
+
+	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|emif_hps|emif_io96b_hps_inst|emif_0_ddr5comp|emif_0_ddr5comp|t0.tniu_0|tniu_0|target_0.target_inst_0 -entity $top_name
+    #set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif|tniu_0|target_0.target_inst_0 -entity $top_name
+
 	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -entity $top_name
-	set_instance_assignment -name NOC_CONNECTION ON -from soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif|tniu_0|target_0.target_inst_0 -entity $top_name
-	set_instance_assignment -name NOC_TARGET_BASE_ADDRESS 0 -from soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -to soc_inst|emif_hps|emif_hps_ph2_inst|emif|tniu_0|target_0.target_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_CONNECTION ON -from soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -to soc_inst|emif_hps|emif_io96b_hps_inst|emif_0_ddr5comp|emif_0_ddr5comp|t0.tniu_0|tniu_0|target_0.target_inst_0 -entity $top_name
+	set_instance_assignment -name NOC_TARGET_BASE_ADDRESS 0 -from soc_inst|agilex_hps|intel_agilex_hps_inst|iniu_0|initiator_inst_0 -to soc_inst|emif_hps|emif_io96b_hps_inst|emif_0_ddr5comp|emif_0_ddr5comp|t0.tniu_0|tniu_0|target_0.target_inst_0 -entity $top_name
 if {$hbm_en == 1} {
 	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|noc_initiator_with_wstrb|intel_noc_initiator_inst|iniu_0|initiator_inst_0 -entity $top_name
 	set_instance_assignment -name NOC_GROUP NOC_GROUP_0 -to soc_inst|hbm|noc_initiator_with_wstrb|intel_noc_initiator_inst|iniu_1|initiator_inst_0 -entity $top_name

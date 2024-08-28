@@ -14,8 +14,6 @@
 source ./arguments_solver.tcl
 source ./utils.tcl
 
-package require -exact qsys 19.1
-
 set subsys_name subsys_etile_tod
 create_system $subsys_name
 

@@ -15,8 +15,6 @@ source ./arguments_solver.tcl
 source ./utils.tcl
 set subsys_name subsys_etile_25gbe_rx_dma
 
-package require -exact qsys 19.1
-
 create_system $subsys_name
 
 set_project_property DEVICE_FAMILY $device_family

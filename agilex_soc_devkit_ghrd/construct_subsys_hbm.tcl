@@ -14,8 +14,6 @@
 source ./arguments_solver.tcl
 source ./utils.tcl
 set sub_qsys_hbm subsys_hbm
-  
-package require -exact qsys 19.1
 
 create_system $sub_qsys_hbm
 

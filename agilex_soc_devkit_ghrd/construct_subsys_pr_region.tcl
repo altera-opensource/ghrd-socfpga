@@ -15,7 +15,7 @@
 source ./arguments_solver.tcl
 source ./utils.tcl
 
-package require -exact qsys 19.1
+package require -exact qsys 24.3
 
 if {$pr_region_id_switch == 1} {
 set index 1

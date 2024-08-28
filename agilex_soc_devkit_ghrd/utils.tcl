@@ -135,6 +135,39 @@ proc set_component_param {args} {
     }
 }
 
+# --- Procedure to modify only component instance packaged subsystem parameters --- #
+# Component instance must be already instantiated into qsys system before this procedure is called 
+# <arg> means to have <given instance name><given packaged subsystem module name> followed by <parameter> <value> pairs
+# <arg> must be even.
+proc set_component_sub_param {args} {
+    set length [llength $args]
+    # Retrieve fresh argument from sourcing TCL to get all elements
+    if {[llength $args] == 1} {set arguments [lindex $args 0]}
+
+    set instance_name [lindex $arguments 0]
+    puts "Instance Name: $instance_name"
+    set length [llength $arguments]
+
+    if {$length%2 == 0} {
+        # Retrieve the 1st arg as instance name
+        set arguments_sub [lreplace $arguments 0 0]
+        set sub_instance_name [lindex $arguments_sub 0]
+        puts "Sub Instance Name: $sub_instance_name"
+
+        load_component $instance_name
+        load_system_inside_package
+
+        # populate the rest of the args to set submodule parameter.
+        set_component_param $arguments_sub
+
+		save_system_inside_package
+        save_component
+    } else {
+        puts "\[Error: Instance: $instance_name\]Inserted sub parameter->value pair has ODD arguments, please verify correntness."
+        exit -1
+    }
+}
+
 # --- Procedure to add instance together with parameterization --- #
 # <arg> means to have <component name> <given instance name> followed by <parameter> <value> pairs
 proc add_instance_param {args} {
