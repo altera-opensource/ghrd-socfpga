@@ -264,6 +264,11 @@ set_instance_assignment -name CORE_ONLY_PLACE_REGION ON -to soc_inst|pr_region_$
 }
 }
 
+if {$pr_enable == 1} {
+# Temporary until PR is merged into combine GHRD
+set_global_assignment -name STRATIX_JTAG_USER_CODE 3
+set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
+} else {
 if {$board == "devkit" && $daughter_card == "devkit_dc_oobe"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 4
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
@@ -273,6 +278,7 @@ set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } elseif {$board == "devkit" && $daughter_card == "devkit_dc_emmc"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 2
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
+}
 }
 
 # fpga pin assignments
