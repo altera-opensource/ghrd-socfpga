@@ -120,8 +120,8 @@ set hps_usb1_en 1
 #temporary turn off sdmmc for first compilation succeed
 set hps_sdmmc4b_q3_en 1
 set hps_gpio1_en 1
-set hps_gpio1_list "3"
-set hps_sdmmc_wp_q3_en 1
+set hps_gpio1_list "3 4"
+#set hps_sdmmc_wp_q3_en 1
 set hps_jtag_en 1
 set hps_emac2_rgmii_en 1
 
