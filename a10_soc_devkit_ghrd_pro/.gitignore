@@ -1,0 +1,16 @@
+dni/
+output_files/
+qdb/
+tmp-clearbox/
+
+intel_custom_ip/
+ip/
+hps_isw_handoff/
+qsys_top/
+
+ghrd_10as066n2.qpf
+ghrd_10as066n2.qsf
+ghrd_a10_top.v
+qsys_generate_qsys
+qsys_top.qsys
+qsys_top.qsys.legacy

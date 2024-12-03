@@ -19,9 +19,8 @@
 #      - devkit_dc_nand: HPS Daugther Card with NAND 
 #      - devkit_dc_emmc: HPS Daughter Card with eMMC
 #      - debug2: HPS Daughter Card with debug2
-#      - tsn_aic0 : HPS Daughter Card with TSN Config 1
+##      - tsn_aic0 : HPS Daughter Card with TSN Config 1
 #      - mod_som : Modular Devkit SOM Card
-
 #
 #   HPS_EMIF_EN :
 #       - 0: disable
@@ -30,18 +29,20 @@
 #   HPS_EMIF_TOPOLOGY:
 #       - 0: 1x16           
 #       - 1: 1x32 [default] 
-#       - 2: 2x16 bit - single IO96B
-#       - 3: 2x16 bit - dual IO96B (Not supported)
-#       - 4: 2x32 bit (Not supported)
-#       - 5: 4x16 bit (Not supported)
+##       - 2: 2x16 bit - single IO96B
+##       - 3: 2x16 bit - dual IO96B (Not supported)
+##       - 4: 2x32 bit (Not supported)
+##       - 5: 4x16 bit (Not supported)
 #
 #   HPS_EMIF_MEM_CLK_FREQ_MHZ:
 #       - 800: 800Mhz [default]
 #       - 933.333: 933.333Mhz
+##      - 1066.667: 1066.667Mhz
 #
 #   HPS_EMIF_REF_CLK_FREQ_MHZ:
 #       - 100: 100Mhz [default]
 #       - 116.6666: 116.6666Mhz
+##       - 133.3333: 133.3333Mhz
 #
 #   HPS_EMIF_ECC_EN :
 #       - 0: disable [default]

@@ -59,9 +59,12 @@ foreach hdlfile $hdlfilelist {
 
 set_global_assignment -name IP_SEARCH_PATHS "intel_custom_ip/**/*;custom_ip/**/*"
 
-if {$sub_fpga_rgmii_en == 1} { 
-set_global_assignment -name IP_FILE custom_ip/iopll/iopll_comp.ip
-set_instance_assignment -name GLOBAL_SIGNAL ON -to fpga_rgmii_rx_clk -entity ghrd_agilex5_top
+if {$sub_fpga_rgmii_en == 1} {
+set_instance_assignment -name INPUT_DELAY_CHAIN 63 -to fpga_rgmii_rx_ctl
+set_instance_assignment -name INPUT_DELAY_CHAIN 63 -to fpga_rgmii_rxd[0]
+set_instance_assignment -name INPUT_DELAY_CHAIN 63 -to fpga_rgmii_rxd[1]
+set_instance_assignment -name INPUT_DELAY_CHAIN 63 -to fpga_rgmii_rxd[2]
+set_instance_assignment -name INPUT_DELAY_CHAIN 63 -to fpga_rgmii_rxd[3]
 }
 
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
@@ -75,7 +78,7 @@ set_global_assignment -name HPS_DAP_NO_CERTIFICATE on
 set_global_assignment -name ENABLE_INTERMEDIATE_SNAPSHOTS ON
 
 # enabling signaltap
-if {$cross_trigger_en == 1} { 
+if {$cross_trigger_en == 1} {
 set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE cti_tapping.stp
 set_global_assignment -name SIGNALTAP_FILE cti_tapping.stp
@@ -111,8 +114,12 @@ set_global_assignment -name HPS_DAP_SPLIT_MODE DISABLED
 config_pwrmgt
 
 if {$daughter_card == "devkit_dc_oobe" || $daughter_card == "mod_som" } {
-set_global_assignment -name STRATIX_JTAG_USER_CODE 4
-set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
+  if {$sub_fpga_rgmii_en == 1} {
+    set_global_assignment -name STRATIX_JTAG_USER_CODE "A"
+  } else {
+    set_global_assignment -name STRATIX_JTAG_USER_CODE 4
+  }
+  set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
 } elseif {$daughter_card == "devkit_dc_nand"} {
 set_global_assignment -name STRATIX_JTAG_USER_CODE 1
 set_global_assignment -name USE_CHECKSUM_AS_USERCODE OFF
@@ -175,7 +182,7 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_osc_clk
 
 if {$hps_emif_en} {
    if {$board  == "DK-A5E065BB32AES1" || $board  == "cvr" || $board == "lbm" || $board == "bbr" || $board == "MK-A5E065BB32AES1"} {
-   
+
    set ranks r1
    set width $hps_emif_width
    set ecc   $hps_emif_ecc_en
@@ -183,9 +190,9 @@ if {$hps_emif_en} {
    if {$ecc} {
       incr width 8
    }
-    
+
    if {$board == "lbm" } {
-    # Hard coded to ch1 for PO. 
+    # Hard coded to ch1 for PO.
     # TODO : Parameterize based on channel selection.
 	if { ( $hps_emif_width == 32 ) && ( $hps_emif_channel == 1 ) } {
 	set key   x32_r1_1ch
@@ -205,7 +212,7 @@ if {$hps_emif_en} {
    # Search for key in the first line
    set key_line [lindex $pin_matrix 0]
    set idx [lsearch $key_line $key]
-   
+
    if {$idx < 0} {
       error "Could not locate configuration $key for EMIF generation"
    }
@@ -241,8 +248,8 @@ if {$hps_io_off == 0} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_jtag_tck
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_jtag_tms
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_jtag_tdo
-set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_jtag_tdi 
-set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to hps_jtag_tdo 
+set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_jtag_tdi
+set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to hps_jtag_tdo
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_jtag_tck
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_jtag_tms
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_jtag_tdi
@@ -251,7 +258,7 @@ if {$hps_sdmmc4b_q1_en == 1 || $hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pupd_q4
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_sdmmc_CMD
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_sdmmc_CCLK
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_sdmmc_CMD
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_sdmmc_CCLK 
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_sdmmc_CCLK
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_sdmmc_CMD
 if {$hps_sdmmc8b_q1_alt_en == 1 || $hps_sdmmc_pwr_q4_en == 1} {
 set sdmmc_bits 8
@@ -260,9 +267,9 @@ set sdmmc_bits 4
 }
 for {set i 0} {$i < $sdmmc_bits} {incr i} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_sdmmc_D${i}
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_sdmmc_D${i} 
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_sdmmc_D${i}
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_sdmmc_D${i}
-} 
+}
 }
 if {$hps_usb0_en == 1 || $hps_usb1_en == 1} {
 set usb ""
@@ -411,7 +418,7 @@ lappend i2c 1
 }
 foreach i2c_en $i2c {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_i2c${i2c_en}_SDA
-set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_i2c${i2c_en}_SCL  
+set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_i2c${i2c_en}_SCL
 set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to hps_i2c${i2c_en}_SDA
 set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to hps_i2c${i2c_en}_SCL
 set_instance_assignment -name AUTO_OPEN_DRAIN_PINS ON -to hps_i2c${i2c_en}_SDA
@@ -433,7 +440,7 @@ lappend i2c_emac 2
 }
 foreach i2c_emac_en $i2c_emac {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_i2c_emac${i2c_emac_en}_SDA
-set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_i2c_emac${i2c_emac_en}_SCL  
+set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_i2c_emac${i2c_emac_en}_SCL
 set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to hps_i2c_emac${i2c_emac_en}_SDA
 set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to hps_i2c_emac${i2c_emac_en}_SCL
 set_instance_assignment -name AUTO_OPEN_DRAIN_PINS ON -to hps_i2c_emac${i2c_emac_en}_SDA
@@ -444,18 +451,18 @@ set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to hps_i2c_emac${i2c_ema
 }
 if {$hps_nand_q12_en == 1 || $hps_nand_q34_en == 1 || $hps_nand_16b_en == 1} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_WE_N
-set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_RE_N 
+set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_RE_N
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_WP_N
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_CLE
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_ALE
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_RB
-set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_CE_N 
+set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_CE_N
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_WE_N
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_RE_N
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_WP_N 
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_WP_N
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_CLE
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_ALE
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_CE_N  
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_CE_N
 if {$hps_nand_16b_en == 1} {
 set nand_bits 16
 } else {
@@ -464,7 +471,7 @@ set nand_bits 8
 for {set k 0} {$k < $nand_bits} {incr k} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_nand_ADQ${k}
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_nand_ADQ${k}
-} 
+}
 }
 if {$hps_trace_q12_en == 1 || $hps_trace_q34_en == 1} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_trace_CLK
@@ -481,7 +488,7 @@ set trace_bits 4
 for {set k 0} {$k < $trace_bits} {incr k} {
 set_instance_assignment -name IO_STANDARD "1.8 V" -to hps_trace_D${k}
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to hps_trace_D${k}
-} 
+}
 }
 if {$hps_gpio0_en == 1 || $hps_gpio1_en == 1} {
 if {$hps_gpio0_en == 1} {
@@ -499,7 +506,13 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW 2MA -to hps_gpio1_io${io_num}
 }
 }
 }
-  
+
 set_global_assignment -name SDC_FILE ghrd_timing.sdc
+
+# Promote timing failures to errors
+set_global_assignment -name PROMOTE_WARNING_TO_ERROR 332148
+
+# Promote pins without location assignments to errors
+set_global_assignment -name PROMOTE_WARNING_TO_ERROR 12677 -disable
 
 project_close

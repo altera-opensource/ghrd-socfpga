@@ -30,7 +30,7 @@
 
 module ${top_name} (
 //Additional refclk_bti to preserve Etile XCVR
-@@if {$board == "devkit_fm86" | $board == "DK-SI-AGF014E" | $board == "DK-DEV-AGF014E"} {
+@@if {$board == "devkit_fm86" | $board == "DK-SI-AGF014E"} {
 input    wire          refclk_bti,
 @@} elseif {$board == "devkit_fm87" && $hps_etile_1588_en == 1} {
 input    wire          refclk_bti,
@@ -139,15 +139,15 @@ output   wire     					emif_hps_mem_mem_ck_t,
 output   wire [12:0]   				emif_hps_mem_mem_ca,
 output   wire     					emif_hps_mem_mem_cs_n,
 output   wire     					emif_hps_mem_mem_reset_n,
-output   wire [3:0]    				emif_hps_mem_mem_dm_n,
+output   wire [$hps_ddr_dm_w-1:0]	emif_hps_mem_mem_dm_n,
 input    wire     					emif_hps_mem_mem_alert_n,
 input    wire          				emif_hps_oct_oct_rzqin,
 input    wire          				emif_hps_noc_refclk_clk,
 output	 wire		   				emif_hps_noc_pll_lock_o_pll_lock_o,
 input    wire          				emif_hps_ref_clk_clk,
 inout    wire [$hps_ddr_w-1:0]   	emif_hps_mem_mem_dq,
-inout	 wire [3:0]	   				emif_hps_mem_mem_dqs_c,
-inout	 wire [3:0]	   				emif_hps_mem_mem_dqs_t,
+inout	 wire [$hps_ddr_dqs_w-1:0]	emif_hps_mem_mem_dqs_c,
+inout	 wire [$hps_ddr_dqs_w-1:0]	emif_hps_mem_mem_dqs_t,
 @@}
 @@}
 @@if {$hps_jtag_en == 1} {
@@ -424,9 +424,7 @@ wire         ninit_done;
 @@}
 wire         fpga_reset_n_debounced_wire;
 reg          fpga_reset_n_debounced;
-@@if {$jtag_ocm_en == 1} {
 wire         src_reset_n;
-@@}
 wire         system_reset_n;
 wire         system_reset_sync;
 @@if {$fpga_emif_en == 1} {
@@ -450,13 +448,13 @@ wire         niosv_issp_reset;
 assign system_reset_n = ~h2f_reset & ~ninit_done;
 @@} else {
 @@if {$hbm_en == 1} {
-assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~h2f_reset;
+assign system_reset_n = fpga_reset_n & src_reset_n & ~h2f_reset;
 @@} else {
-assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~h2f_reset & ~ninit_done;
+assign system_reset_n = fpga_reset_n & src_reset_n & ~h2f_reset & ~ninit_done;
 @@}
 @@}
 @@} else {
-assign system_reset_n = fpga_reset_n_debounced & src_reset_n & ~ninit_done;
+assign system_reset_n = fpga_reset_n & src_reset_n & ~ninit_done;
 @@}
 
 altera_reset_synchronizer #(
@@ -468,14 +466,16 @@ altera_reset_synchronizer #(
     .reset_out (system_reset_sync)
 );
 
+@@if {$fpga_sgpio_en == 1} {
 altera_reset_synchronizer #(
     .ASYNC_RESET (1),
     .DEPTH       (2)
 ) sys_rst_sgpio_inst (
-    .reset_in  (~system_reset_sync),
+    .reset_in  (~system_reset_n),
     .clk       (fpga_sgpio_clk),
     .reset_out (system_reset_sync_sgpio)
 );
+@@}
 
 @@  if {$h2f_user0_clk_en  == 1} {
 assign system_clk_100   = h2f_user_clk_clk;
@@ -1126,27 +1126,6 @@ ${qsys_name} soc_inst (
 @@}
 );  
 
-@@if {$hbm_en == 0} {
-// debounce fpga_reset_n
-debounce fpga_reset_n_debounce_inst (
-.clk          (system_clk_100_internal),
-.reset_n      (~ninit_done),
-.data_in      (fpga_reset_n),
-.data_out     (fpga_reset_n_debounced_wire)
-);
-defparam fpga_reset_n_debounce_inst.WIDTH = 1;
-defparam fpga_reset_n_debounce_inst.POLARITY = "LOW";
-defparam fpga_reset_n_debounce_inst.TIMEOUT = 10000;               // at 100Mhz this is a debounce time of 1ms
-defparam fpga_reset_n_debounce_inst.TIMEOUT_WIDTH = 32;            // ceil(log2(TIMEOUT))
-
-always @ (posedge system_clk_100_internal or posedge ninit_done)
-begin
-    if (ninit_done == 1'b1)
-        fpga_reset_n_debounced <= 1'b0;
-    else
-        fpga_reset_n_debounced <= fpga_reset_n_debounced_wire;  
-end
-@@}
 @@if {$fpga_peripheral_en == 1} {
 @@ if {$fpga_button_pio_width != 0} {  
 // Debounce logic to clean out glitches within 1ms

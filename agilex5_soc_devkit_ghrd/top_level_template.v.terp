@@ -197,8 +197,12 @@ output   wire          usb31_phy_tx_serial_n_o_tx_serial_n,
 output   wire          usb31_phy_tx_serial_p_o_tx_serial_p,
 @@} elseif {$hps_usb0_en == 1 || $hps_usb1_en == 1} {
 input    wire          usb31_io_vbus_det,                  
-input    wire          usb31_io_flt_bar,                   
+input    wire          usb31_io_flt_bar,  
+@@if {$daughter_card == "devkit_dc_oobe" || $daughter_card == "mod_som" } {                 
+output   wire 		   usb31_io_usb_ctrl,
+@@} else {
 output   wire [1:0]    usb31_io_usb_ctrl,
+@@}
 input    wire          usb31_io_usb31_id,                  
 input    wire          usb31_phy_refclk_p_clk,             
 //input    wire          usb31_phy_refclk_p_clk(n),             
@@ -461,11 +465,16 @@ wire                   ninit_done;
 wire                   fpga_reset_n_debounced_wire;
 reg                    fpga_reset_n_debounced;
 wire                   system_reset;
+
+@@if {$daughter_card == "devkit_dc_oobe" || $daughter_card == "mod_som"} {
+wire [1:0]			usb31_io_usb_ctrl_int;			
+assign usb31_io_usb_ctrl = usb31_io_usb_ctrl_int[1];
+@@}
+
 @@if {$sub_fpga_rgmii_en == 1} {
 wire                   emac1_mdi;
 wire                   emac1_mdo;
 wire                   emac1_mdoe;
-wire                   fpga_rgmii_rx_clk_comp;
 
 assign emac1_mdio = emac1_mdoe? emac1_mdo : 1'bz;
 assign emac1_mdi  = emac1_mdio;
@@ -497,6 +506,7 @@ assign                combined_reset_n = fpga_reset_n & ~h2f_reset
 @@}
 & ~ninit_done;
 
+@@if {$sub_peri_en == 1} {
 altera_reset_synchronizer #(
     .ASYNC_RESET (1),
     .DEPTH       (2)
@@ -505,7 +515,7 @@ altera_reset_synchronizer #(
     .clk       (system_clk_100),
     .reset_out (system_reset)
 );
-             
+@@}            
 @@}
 @@  if {$user0_clk_src_select  == 1} {
 assign                 system_clk_100   = user0_clk_src_clk;
@@ -530,7 +540,11 @@ assign                 fpga_led_pio = {heartbeat_led,fpga_led_internal};
 
 @@if {$sub_hps_en == 1} {
 @@  if {$hps_f2h_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+@@   if {$hps_usb1_en == 1} {
+wire [30:0]            f2h_irq1_irq;
+@@} else {
 wire [31:0]            f2h_irq1_irq;
+@@}
 @@}
 @@if {$hps_usb0_en == 1 || $hps_usb1_en == 1} { 
 wire                   o_pma_cpu_clk;
@@ -562,7 +576,11 @@ assign                 stm_hw_events    = 44'b0;
 @@}
 
 @@if {$hps_f2h_irq_en == 1 || $hps_peri_irq_loopback_en == 1} {
+@@  if {$hps_usb1_en == 1} {
+assign                 f2h_irq1_irq    = {31'b0};
+@@} else {
 assign                 f2h_irq1_irq    = {32'b0};
+@@}
 @@}
 @@}
 
@@ -667,7 +685,7 @@ ${qsys_name} soc_inst (
 @@}
 @@}
 @@if {$sub_fpga_rgmii_en == 1} {
-.phy_rgmii_rgmii_rx_clk                    (fpga_rgmii_rx_clk_comp),
+.phy_rgmii_rgmii_rx_clk                    (fpga_rgmii_rx_clk),
 .phy_rgmii_rgmii_rxd                       (fpga_rgmii_rxd),  
 .phy_rgmii_rgmii_rx_ctl                    (fpga_rgmii_rx_ctl),
 .phy_rgmii_rgmii_tx_clk                    (fpga_rgmii_tx_clk),
@@ -904,8 +922,12 @@ ${qsys_name} soc_inst (
 .usb31_phy_pma_cpu_clk_clk                 (o_pma_cpu_clk),
 @@} elseif {$hps_usb0_en == 1 || $hps_usb1_en == 1} {
 .usb31_io_vbus_det                         (usb31_io_vbus_det), 
-.usb31_io_flt_bar                          (usb31_io_flt_bar),                   
+.usb31_io_flt_bar                          (usb31_io_flt_bar), 
+@@if {$daughter_card == "devkit_dc_oobe" || $daughter_card == "mod_som"} {
+.usb31_io_usb_ctrl                         (usb31_io_usb_ctrl_int),
+@@} else {      
 .usb31_io_usb_ctrl                         (usb31_io_usb_ctrl),
+@@}
 .usb31_io_usb31_id                         (usb31_io_usb31_id),                  
 .usb31_phy_refclk_p_clk                    (usb31_phy_refclk_p_clk),             
 //.usb31_phy_refclk_n_clk                    (usb31_phy_refclk_p_clk(n)),             
@@ -991,19 +1013,10 @@ ${qsys_name} soc_inst (
 
 .h2f_reset_reset                           (h2f_reset),
 
-.reset_reset_n                             (~system_reset)
+.reset_reset_n                             (combined_reset_n)
 ); 
 
 
-@@if {$sub_fpga_rgmii_en == 1} {
-// Introduce an IOPLL with compensation mode which used to counteract delays introduced by the core clock, effectively cancel out the delay. The refclk should be the rgmii_rx_clk driven from PHY and ouput clock into GPIO and core. 
-iopll_comp iopll_compensate (
-.refclk      (fpga_rgmii_rx_clk),     //  refclk.clk,    The reference clock source that drives the I/O PLL.
-.locked      (),                      //  locked.export, The IOPLL IP core drives this port high when the PLL acquires lock. The port remains high as long as the I/O PLL is locked. The I/O PLL asserts the locked port when the phases and frequencies of the reference clock and feedback clock are the same or within the lock circuit tolerance. When the difference between the two clock signals exceeds the lock circuit tolerance, the I/O PLL loses lock.
-.rst         (system_reset),       //   reset.reset,  The asynchronous reset port for the output clocks. Drive this port high to reset all output clocks to the value of 0.
-.outclk_0    (fpga_rgmii_rx_clk_comp) // outclk0.clk,    Output clock Channel 0 from I/O PLL. 
-);
-@@}
 
 
 @@if {$sub_peri_en == 1} {

@@ -17,9 +17,9 @@ set isPCIE_pins_available 1
 set isETILE_pins_available 1
 
 ## Set IO Widths
-set fpga_led_pio_width 4
-set fpga_dipsw_pio_width 4
-set fpga_button_pio_width 4
+set fpga_led_pio_width 1
+set fpga_dipsw_pio_width 2
+set fpga_button_pio_width 1
 
 #devkit uses the DDR4 HiLo based on x16 components. By JEDEC spec, DDR4 x16 components doesn't requires emif_hps_mem_mem_bg[1]
 set hps_emif_bank_gp_default_width 1

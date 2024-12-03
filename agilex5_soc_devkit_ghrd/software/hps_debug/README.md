@@ -1,44 +1,27 @@
 # HPS Content Wipe Program
 
-The HPS content wipe program is a small program that is invoked by SDM when there is a security breach event detected or during a cold reset. The intention of this program is to clear HPS content, especially in cache. This memory might contain sensitive data.
+The HPS content wipe program is a small program that is invoked by SDM when there is a security breach event detected or during a cold reset. The intention of this program is to clear HPS content, especially in cache. This memory might contain sensitive data. Besides that, this programm also creates a wait loop for the arm debugger to kick in.
 
 ## How to build
-User can build the HPS wipe with two different compilers, which are GCC and ARMCLANG
+User can build the HPS wipe by running the build.sh.
+The script will automatically download the ARM Toolchain and compile hps_wipe.ihex.
 
-### GCC compiler 
-> $make COMPILER=GCC 
+> cd software/hps debug\
+> ./build.sh
 
-User can specify the CROSS_COMPILE option, since in linaro version 9, the binary name of the compiler changed.
-> $make COMPILER=GCC  CROSS_COMPILE=aarch64-linux-gnu-
-> $make COMPILER=GCC  CROSS_COMPILE=aarch64-none-linux-gnu-
-
-### ARMCLANG Compiler
-> $make COMPILER=ARMCLANG
+## Compile manually
+If user already have the ARM Toolchain installed, the version can be specified with the CROSS_COMPILE option.
+### version 7
+> $make CROSS_COMPILE=aarch64-linux-gnu-
+### version 9
+> $make CROSS_COMPILE=aarch64-none-linux-gnu-
 
 ## To clean
-> $make clean COMPILER=GCC
-> $make clean COMPILER=ARMCLANG
+> $make clean CROSS_COMPILE=aarch64-linux-gnu-\
+> $make clean CROSS_COMPILE=aarch64-none-linux-gnu-
 
-
-## Prerequisite
-### Compile with GCC
-Please download GCC compiler from
-https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/aarch64-linux-gnu/
-
-### Compile with ARMCLANG
-Please download ARM Development Studio from
-https://www.arm.com/
-
-### For Windows user
-Please download MSYS2 from
-https://www.msys2.org/
-
-### Export Environment
-Please export the installation path of the bin folder for the compilers
-Examples:
-
-GCC
-> export PATH=$PATH:/c/gcc-linaro-7.5.0-2019.12-i686-mingw32_aarch64-linux-gnu/gcc/bin
-
-ARMCLANG
-> export PATH=$PATH:/c/Program\ Files/Arm/Development\ Studio\ 2021.0/sw/ARMCompiler6.16/bin
+## Build from project dir: agilex5_soc_devkit_ghrd
+If ARM Toolchain is included in PATH, the Makefile will detect that, build and inject the hps_wipe.ihex to the sof automatically.\
+\
+If Toolchain PATH is included and user would like to inject this programm after compiling the sof with quartus GUI, the following can be called at agilex5_soc_devkit_ghrd folder:
+> $make debug_sof

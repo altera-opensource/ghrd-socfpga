@@ -247,40 +247,40 @@ QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)
 QSYS_TCL_CMDS += set daughter_card $(DAUGHTER_CARD);
 endif
 
-ifeq ($(BOARD_TYPE),pe)
+#ifeq ($(BOARD_TYPE),pe)
 
-QUARTUS_TCL_ARGS += h2f_f2h_loopback_en 1
-QSYS_TCL_CMDS += set h2f_f2h_loopback_en 1;
-QUARTUS_TCL_ARGS += hps_peri_irq_loopback_en 1 
-QSYS_TCL_CMDS += set hps_peri_irq_loopback_en 1;
-QUARTUS_TCL_ARGS += fpga_peripheral_en 0 
-QSYS_TCL_CMDS += set fpga_peripheral_en 0;
+#QUARTUS_TCL_ARGS += h2f_f2h_loopback_en 1
+#QSYS_TCL_CMDS += set h2f_f2h_loopback_en 1;
+#QUARTUS_TCL_ARGS += hps_peri_irq_loopback_en 1 
+#QSYS_TCL_CMDS += set hps_peri_irq_loopback_en 1;
+#QUARTUS_TCL_ARGS += fpga_peripheral_en 0 
+#QSYS_TCL_CMDS += set fpga_peripheral_en 0;
 
-QUARTUS_TCL_ARGS += f2sdram0_width 3
-QSYS_TCL_CMDS += set f2sdram0_width 3;
-QUARTUS_TCL_ARGS += f2sdram1_width 3
-QSYS_TCL_CMDS += set f2sdram1_width 3;
-QUARTUS_TCL_ARGS += f2sdram2_width 3
-QSYS_TCL_CMDS += set f2sdram2_width 3;
-QUARTUS_TCL_ARGS += hps_emif_en 1
-QSYS_TCL_CMDS += set hps_emif_en 1;
+#QUARTUS_TCL_ARGS += f2sdram0_width 3
+#QSYS_TCL_CMDS += set f2sdram0_width 3;
+#QUARTUS_TCL_ARGS += f2sdram1_width 3
+#QSYS_TCL_CMDS += set f2sdram1_width 3;
+#QUARTUS_TCL_ARGS += f2sdram2_width 3
+#QSYS_TCL_CMDS += set f2sdram2_width 3;
+#QUARTUS_TCL_ARGS += hps_emif_en 1
+#QSYS_TCL_CMDS += set hps_emif_en 1;
 
-QUARTUS_TCL_ARGS += h2f_width 64 
-QSYS_TCL_CMDS += set h2f_width 64;
-QUARTUS_TCL_ARGS += f2h_width 64 
-QSYS_TCL_CMDS += set f2h_width 64;
-QUARTUS_TCL_ARGS += h2f_user_clk_en 1
-QSYS_TCL_CMDS += set h2f_user_clk_en 1;
-else
+#QUARTUS_TCL_ARGS += h2f_width 64 
+#QSYS_TCL_CMDS += set h2f_width 64;
+#QUARTUS_TCL_ARGS += f2h_width 64 
+#QSYS_TCL_CMDS += set f2h_width 64;
+#QUARTUS_TCL_ARGS += h2f_user_clk_en 1
+#QSYS_TCL_CMDS += set h2f_user_clk_en 1;
+#else
 
-QUARTUS_TCL_ARGS += h2f_f2h_loopback_en 0
-QSYS_TCL_CMDS += set h2f_f2h_loopback_en 0;
-QUARTUS_TCL_ARGS += hps_peri_irq_loopback_en 0 
-QSYS_TCL_CMDS += set hps_peri_irq_loopback_en 0;
-QUARTUS_TCL_ARGS += hps_emif_en 1 
-QSYS_TCL_CMDS += set hps_emif_en 1;
+#QUARTUS_TCL_ARGS += h2f_f2h_loopback_en 0
+#QSYS_TCL_CMDS += set h2f_f2h_loopback_en 0;
+#QUARTUS_TCL_ARGS += hps_peri_irq_loopback_en 0 
+#QSYS_TCL_CMDS += set hps_peri_irq_loopback_en 0;
+#QUARTUS_TCL_ARGS += hps_emif_en 1 
+#QSYS_TCL_CMDS += set hps_emif_en 1;
 
-endif
+#endif
 
 
 #

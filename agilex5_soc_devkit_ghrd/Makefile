@@ -140,8 +140,10 @@ ifneq ($(shell $(WHICH) armclang 2>/dev/null),)
 HAVE_C_COMPILER := 1
 else ifneq ($(shell $(WHICH) aarch64-none-linux-gnu-gcc 2>/dev/null),)
 HAVE_C_COMPILER := 1
+CROSS_COMPILE ?= "aarch64-none-linux-gnu-"
 else ifneq ($(shell $(WHICH) aarch64-linux-gnu-gcc 2>/dev/null),)
 HAVE_C_COMPILER := 1
+CROSS_COMPILE ?= "aarch64-linux-gnu-"
 endif
 
 ifeq ($(HAVE_QUARTUS),1)
@@ -679,7 +681,9 @@ endif
 
 $(QUARTUS_STAMP): $(QUARTUS_DEPS)
 	quartus_stp $(QUARTUS_BASE) -c $(QUARTUS_BASE_REVISION)
-	quartus_sh --flow compile $(QUARTUS_QPF) -c $(QUARTUS_BASE_REVISION)
+	quartus_sh --flow compile $(QUARTUS_QPF) -c $(QUARTUS_BASE_REVISION) -end fitter_place
+	quartus_cdb $(QUARTUS_BASE_REVISION) --back_annotate --pin
+	quartus_sh --flow compile $(QUARTUS_QPF) -c $(QUARTUS_BASE_REVISION) -resume
 	$(stamp_target)
 
 HELP_TARGETS += quartus_edit
@@ -711,10 +715,14 @@ endif
 QUARTUS_BASE_QDB := base_static.qdb
 SCRUB_CLEAN_FILES += $(QUARTUS_BASE_QDB)
 
-SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_wipe.s software/hps_debug/Makefile software/hps_debug/Makefile_ARMCLANG.inc software/hps_debug/Makefile_GCC.inc software/hps_debug/scatter.scat
+SPL_DEBUG_GEN_HEX_DEPS += software/hps_debug/hps_wipe.s software/hps_debug/Makefile
 
 software/hps_debug/hps_wipe.ihex: $(SPL_DEBUG_GEN_HEX_DEPS)
-	$(MAKE) -C software/hps_debug
+ifneq ($(HAVE_C_COMPILER),1)
+	$(error ERROR: No compiler to build hps_wipe.s)
+else
+	$(MAKE) -C software/hps_debug CROSS_COMPILE=${CROSS_COMPILE}
+endif
 
 $(QUARTUS_SOF_WITH_HPS_DEBUG): $(QUARTUS_SOF) software/hps_debug/hps_wipe.ihex
 	@$(MKDIR) $(@D)
@@ -725,6 +733,15 @@ $(QUARTUS_PR_RBF): %.rbf: %.pmsf
 
 ifeq ($(HAVE_QUARTUS),1)
 SCRUB_CLEAN_FILES += $(QUARTUS_SOF) $(QUARTUS_SOF_WITH_HPS) $(QUARTUS_SOF_WITH_HPS_DEBUG) $(QUARTUS_RBF) $(QUARTUS_JIC) $(QUARTUS_OUTPUT_DIR)
+endif
+
+.PHONY: debug_sof
+debug_sof: software/hps_debug/hps_wipe.ihex
+ifneq ("$(wildcard $(QUARTUS_OUTPUT_DIR)/$(QUARTUS_BASE)*.sof)", "")
+	$(info Generating debug version of $(QUARTUS_BASE).sof as $(QUARTUS_BASE)_hps_debug.sof)
+	quartus_pfg -c -o hps_path=software/hps_debug/hps_wipe.ihex $(QUARTUS_SOF) $(QUARTUS_SOF_WITH_HPS_DEBUG)
+else
+	$(error ERROR: Please run "make sof" to create $(QUARTUS_SOF))
 endif
 
 ################################################
@@ -926,5 +943,6 @@ help:
 	@$(ECHO) "    config            - Retrives all variables in Makefile(s) and displays their value."
 	@$(ECHO) "    generate_from_tcl - Generate qsys from tcl scripts"
 	@$(ECHO) "    sof               - Generate sof based upon the generated qsys files"
+	@$(ECHO) "    debug_sof         - Generate debug version sof to boot with arm debugger"
 	@$(ECHO) "    all               - Merge of generate_from_tcl and sof"
 	@$(ECHO) "    clean             - Cleareance of interim generated compilation files"

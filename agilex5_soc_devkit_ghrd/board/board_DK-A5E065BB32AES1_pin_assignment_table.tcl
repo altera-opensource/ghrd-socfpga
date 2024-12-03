@@ -230,10 +230,10 @@ dict set pin_assignment_table usb31_io_usb31_id io_standard "3.3-V LVCMOS"
 dict set pin_assignment_table usb31_io_usb31_id direction input
 dict set pin_assignment_table usb31_io_usb31_id width_in_bits 1
 
-dict set pin_assignment_table usb31_io_usb_ctrl[1] location $usb31_io_usb_ctrl
-dict set pin_assignment_table usb31_io_usb_ctrl[1] io_standard "3.3-V LVCMOS"
-dict set pin_assignment_table usb31_io_usb_ctrl[1] direction output
-dict set pin_assignment_table usb31_io_usb_ctrl[1] width_in_bits 1
+dict set pin_assignment_table usb31_io_usb_ctrl location $usb31_io_usb_ctrl
+dict set pin_assignment_table usb31_io_usb_ctrl io_standard "3.3-V LVCMOS"
+dict set pin_assignment_table usb31_io_usb_ctrl direction output
+dict set pin_assignment_table usb31_io_usb_ctrl width_in_bits 1
 
 dict set pin_assignment_table usb31_phy_refclk_p_clk location $usb31_phy_refclk_p_clk
 dict set pin_assignment_table usb31_phy_refclk_p_clk io_standard "Current Mode Logic (CML)"

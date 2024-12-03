@@ -28,13 +28,7 @@ set fpga_reset_n_pin_list "BU28"
 set fpga_reset_n_iostandard "3.3-V LVCMOS"
 
 ## Peripheral IOs
-set fpga_led_pio_pin_list {
-CF12
-}
-# BM59
-# BH59
-# BH62
-# BP62
+set fpga_led_pio_pin_list "CF12"
 set fpga_led_pio_iostandard "3.3-V LVCMOS"
 # set fpga_led_pio_slewrate "0"
 
@@ -42,14 +36,11 @@ set fpga_dipsw_pio_pin_list {
 BU22
 CH12
 }
-# BW19
-# BH28
+
 set fpga_dipsw_pio_iostandard "3.3-V LVCMOS"
 set fpga_dipsw_pio_weakpullup "ON"
 
-set fpga_button_pio_pin_list {
-BW19
-}
+set fpga_button_pio_pin_list "BW19"
 set fpga_button_pio_iostandard "3.3-V LVCMOS"
 
 ## PCIE Related IOs
@@ -224,10 +215,10 @@ dict set pin_assignment_table usb31_io_usb31_id io_standard "3.3-V LVCMOS"
 dict set pin_assignment_table usb31_io_usb31_id direction input
 dict set pin_assignment_table usb31_io_usb31_id width_in_bits 1
 
-dict set pin_assignment_table usb31_io_usb_ctrl[1] location $usb31_io_usb_ctrl
-dict set pin_assignment_table usb31_io_usb_ctrl[1] io_standard "3.3-V LVCMOS"
-dict set pin_assignment_table usb31_io_usb_ctrl[1] direction output
-dict set pin_assignment_table usb31_io_usb_ctrl[1] width_in_bits 1
+dict set pin_assignment_table usb31_io_usb_ctrl location $usb31_io_usb_ctrl
+dict set pin_assignment_table usb31_io_usb_ctrl io_standard "3.3-V LVCMOS"
+dict set pin_assignment_table usb31_io_usb_ctrl direction output
+dict set pin_assignment_table usb31_io_usb_ctrl width_in_bits 1
 
 dict set pin_assignment_table usb31_phy_refclk_p_clk location $usb31_phy_refclk_p_clk
 dict set pin_assignment_table usb31_phy_refclk_p_clk io_standard "Current Mode Logic (CML)"

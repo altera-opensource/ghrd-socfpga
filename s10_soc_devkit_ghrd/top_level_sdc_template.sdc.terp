@@ -54,11 +54,11 @@ set_max_skew -to [get_ports "emac2_mdio"] 2
 @@if {$hps_mge_en == 1} {
 @@ for {set x 1} {$x<=$sgmii_count} {incr x} {
 set_false_path -from * -to [ get_ports emac${x}_phy_rst_n ]
-set_output_delay -clock MAIN_CLOCK 5 [ get_ports emac${x}_phy_rst_n ]
+set_output_delay -clock MAIN_CLOCK 5 [ get_ports emac${x}_phy_rst_n ] -add_delay
 @@}
 @@}
 
-set_output_delay -clock MAIN_CLOCK 5 [get_ports {fpga_led_pio[3]}]
+set_output_delay -clock MAIN_CLOCK 5 [get_ports {fpga_led_pio[3]}] -add_delay
 
 set_false_path -from [get_ports {fpga_reset_n[0]}] -to *
 

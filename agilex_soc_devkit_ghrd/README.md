@@ -70,7 +70,6 @@ Here are the list of custom settings support in Makefile.
    - File: ./Makefile
    - `BOARD_TYPE`          : Board Type
      - "DK-SI-AGF014E" -> F-Series SoC Devkit (Default), 
-     - "DK-DEV-AGF014E" -> F-Series FPGA Devkit, 
      - "DK-DEV-AGM039FES" -> M-Series HBM2e Devkit, 
      - "DK-SI-AGI027FB" -> I-Series Transceiver-SoC Devkit,
      - "DK-DEV-AGF027F1ES" -> F-Series FPGA (Two F-Tiles) Devkit
@@ -101,11 +100,6 @@ Here are the list of custom settings support in Makefile.
        - 1 (Default), 0
      - `ENABLE_ETILE_1588`  : Etile 1588v2 PTP Enablement
        - 1, 0 (Default)
-
-   - board "DK-DEV-AGF014E" (F-Series FPGA Devkit)
-     - File: ./board/board_DK-DEV-AGF014E_make_config.inc
-     - `QUARTUS_DEVICE`      : Device OPN
-       - AGFB014R24A2E2V (Default)
 
    - board "DK-DEV-AGM039FES" (M-Series HBM2e Devkit)
      - File: ./board/board_devkit_fp82_make_config.inc

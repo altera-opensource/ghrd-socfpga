@@ -18,13 +18,7 @@ puts "\[GHRD:info\] Directory name: $foldername"
 puts "\[GHRD:info\] \$prjroot = ${prjroot} "
 source ${prjroot}/arguments_solver.tcl
 source ${prjroot}/utils.tcl
-
-if {$board == "cvr"} {
-	    source $prjroot/board/board_cvr_config.tcl
-	} else {
-	    source $prjroot/board/board_DK-A5E065BB32AES1_config.tcl
-	}
-
+source $prjroot/board/board_$board\_config.tcl
 set subsys_name $foldername
 
 package require -exact qsys 19.1
@@ -83,11 +77,17 @@ add_component_param "altera_avalon_pio dipsw_pio
 }
 
 if {$fpga_led_pio_width >0} {
-set led_resetValue [expr {2^$fpga_led_pio_width -1 }]
+if {$board != "MK-A5E065BB32AES1"} {
+set led_width [expr {$fpga_led_pio_width -1}]
+} else {
+set led_width $fpga_led_pio_width
+}
+set led_resetValue [expr {pow(2,$led_width) -1 }]
+
 add_component_param "altera_avalon_pio led_pio 
                     IP_FILE_PATH ip/$subsys_name/led_pio.ip 
                     direction InOut
-                    width [expr {$fpga_led_pio_width -1}]
+                    width $led_width
                     resetValue $led_resetValue
 "
 }

@@ -76,7 +76,7 @@ endif
 ################################################
 
 
-################################################
+################### Start of Design Settings ####################################################
 #
 # Design Settings
 #  If you change and design settings, you need 
@@ -95,7 +95,7 @@ INTEL_CUSTOM_IP_LINK = "https://releases.rocketboards.org/release/intel_custom_i
 
 ####
 # User Settings
-# Valid BOARD_TYPE: devkit, pcie_devkit
+# Valid BOARD_TYPE: devkit, pcie_devkit, devkit_fp82, devkit_fm87, devkit_fm86
 BOARD_TYPE ?= DK-SI-AGF014E
 
 #Loading board configuration
@@ -140,8 +140,8 @@ ENABLE_PARTIAL_RECONFIGURATION ?= 0
 # Enable JOP for remote debug: 0, 1
 ENABLE_JOP ?= 0
 
-# Enable NiosV subsystem
-ENABLE_NIOSV_SUBSYS ?= 1
+# Enable NIOSV Subsystem
+ENABLE_NIOSV_SUBSYS ?= 0
 
 ####
 # Default Assignment (Do not modify)
@@ -157,7 +157,7 @@ QUARTUS_DEVICE_FAMILY := Agilex
 #QUARTUS_DEVICE ?= AGIB027R29A1E2VR0
 
 #FM61 (devkit, mUDV1, mUDV2, char)
-QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
+#QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
 #QUARTUS_DEVICE ?= AGFB014R24A2E2VR1
 #QUARTUS_DEVICE ?= AGFB014R24B2E2V
 
@@ -166,20 +166,76 @@ QUARTUS_DEVICE ?= AGFB014R24A3E3VR0
 
 # Board Power Management. Support board devkit is supported: linear, enpirion
 BOARD_PWRMGT ?= enpirion
+
 # Publicly Available DC: devkit_dc_oobe, devkit_dc_nand, devkit_dc_emmc
 ifeq ($(BOARD_TYPE), pcie_devkit)
 DAUGHTER_CARD = pcie_devkit
-else
-DAUGHTER_CARD ?= devkit_dc_oobe
 endif
+
+DAUGHTER_CARD ?= devkit_dc_oobe
+
+# Enable ETILE 1588v2 PTP
+ENABLE_ETILE_1588 ?= 0
+
+# Enable for Etile 10Gbe or 25Gbe PTP Subsystem
+HPS_ETILE_1588_25GBE_EN ?= 0
+HPS_ETILE_1588_10GBE_EN ?= 0
+
+# Enable Signal Tap
+ENABLE_SIGNALTAP_CROSS_TRIGGER := 0
+
+# Enable PCIe
+ENABLE_PCIE ?= 0
+PCIE_GEN ?= 4
+PCIE_COUNT ?= 4
+
+# Quartus Partial Reconfiguration
+ENABLE_PARTIAL_RECONFIGURATION_TESTING ?= 0
 
 # Enable SGMII (HPS EMAC + TSE PHY)
 HPS_ENABLE_SGMII ?= 0
-# Enable ETILE 1588v2 PTP
-ENABLE_ETILE_1588 ?= 0
-#Option for Etile 10G or 25G
-HPS_ETILE_1588_25GBE_EN ?= 0
-HPS_ETILE_1588_10GBE_EN ?= 0
+
+# Enable SGMII (HPS EMAC + TSE PHY)
+HPS_SGMII_EMAC1_EN ?= 1
+HPS_SGMII_EMAC2_EN ?= 0
+
+# Option to enable/disable HPS_F2S_IRQ 
+HPS_F2S_IRQ_EN ?= 1
+
+# Option to enable/disable HPS_STM
+HPS_STM_EN ?= 1
+
+#  Option to enable/disable SGPIO
+FPGA_SGPIO_EN ?= 0
+
+# Board Config Scheme
+CONFIG_SCHEME ?= ACTIVE\ SERIAL\ X4
+
+# Option to enable/disable HBM subsystem
+HBM_EN ?= 0
+
+# Default value for OCM_DATAWIDTH
+OCM_DATAWIDTH ?= 128
+
+# Default value for HPS_EMIF_RATE
+HPS_EMIF_RATE ?= RATE_QUARTER
+
+###########################################################################################
+
+ifneq ($(OCM_DATAWIDTH),)
+QUARTUS_TCL_ARGS += ocm_datawidth $(OCM_DATAWIDTH)
+QSYS_TCL_CMDS += set ocm_datawidth $(OCM_DATAWIDTH);
+endif
+
+ifneq ($(HBM_EN),)
+QUARTUS_TCL_ARGS += hbm_en $(HBM_EN)
+QSYS_TCL_CMDS += set hbm_en $(HBM_EN);
+endif
+
+ifneq ($(CONFIG_SCHEME),)
+QUARTUS_TCL_ARGS += config_scheme $(CONFIG_SCHEME)
+QSYS_TCL_CMDS += set config_scheme $(CONFIG_SCHEME);
+endif
 
 ifneq ($(QUARTUS_DEVICE_FAMILY),)
 QUARTUS_TCL_ARGS += devicefamily $(QUARTUS_DEVICE_FAMILY)
@@ -258,8 +314,6 @@ QUARTUS_TCL_ARGS += h2f_f2h_loopback_en $(LOOPBACK_EN)
 QSYS_TCL_CMDS += set h2f_f2h_loopback_en $(LOOPBACK_EN);
 endif
 
-
-
 ifneq ($(BOARD_REV),)
 QUARTUS_TCL_ARGS += board_rev $(BOARD_REV)
 QSYS_TCL_CMDS += set board_rev $(BOARD_REV);
@@ -270,7 +324,6 @@ ifneq ($(BOOTS_FIRST),)
 QUARTUS_TCL_ARGS += sys_initialization $(BOOTS_FIRST)
 QSYS_TCL_CMDS += set sys_initialization $(BOOTS_FIRST);
 endif
-
 
 ifeq ($(HPS_JTAG_MODE),separate)
 QUARTUS_TCL_ARGS += hps_dap_mode 1
@@ -294,30 +347,23 @@ ifeq ($(WATCHDOG_RST_ACTION),remote_update)
 QSYS_TCL_CMDS += set watchdog_rst_act 2;
 endif
 
-ENABLE_SIGNALTAP_CROSS_TRIGGER := 0
 ifeq ($(ENABLE_SIGNALTAP_CROSS_TRIGGER),1)
 QUARTUS_TCL_ARGS += cross_trigger_en 1
 QSYS_TCL_CMDS += set cross_trigger_en 1;
 endif
-####
-# Enable PCIe
-ENABLE_PCIE ?= 0
+
 ifeq ($(HPS_EMIF_EN),0)
 OCM_MEMSIZE := 8388608
 else
 OCM_MEMSIZE := 262144
 endif
-PCIE_GEN ?= 4
-PCIE_COUNT ?= 4
+
 ifeq ($(ENABLE_PCIE),1)
 QUARTUS_TCL_ARGS += fpga_pcie 1 pcie_f2h 1 pcie_hptxs 1 pcie_gen $(PCIE_GEN) pcie_count $(PCIE_COUNT) ocm_memsize $(OCM_MEMSIZE) f2h_width 128
 QSYS_TCL_CMDS += set fpga_pcie 1; set pcie_f2h 1; set pcie_hptxs 1; set pcie_gen $(PCIE_GEN); set pcie_count $(PCIE_COUNT); set ocm_memsize $(OCM_MEMSIZE); set f2h_width 128; 
 endif
 
-####
-# Quartus Partial Reconfiguration
-ENABLE_PARTIAL_RECONFIGURATION_TESTING ?= 0
-
+###
 ifeq ($(ENABLE_PARTIAL_RECONFIGURATION),1)
 ifneq ($(shell echo $(QUARTUS_DEVICE) | grep -E "AGFB014R24A.*VR0"),)
 $(warning WARNING: Partial Reconfiguraion is not supported on FM6 REVA. ENABLE_PARTIAL_RECONFIGURATION force to 0)
@@ -335,10 +381,6 @@ endif # ENABLE_PARTIAL_RECONFIGURATION == 1
 #### 
 
 ####
-# Enable SGMII (HPS EMAC + TSE PHY)
-HPS_SGMII_EMAC1_EN ?= 1
-HPS_SGMII_EMAC2_EN ?= 0
-
 ifeq ($(HPS_ENABLE_SGMII),1)
 ifneq ($(shell echo $(QUARTUS_DEVICE) | grep -E "AGFB014R24A.*VR0"),)
 $(warning WARNING: HPS SGMII is not supported on FM6 REVA. HPS_ENABLE_SGMII force to 0)
@@ -352,48 +394,31 @@ QSYS_TCL_CMDS += set hps_sgmii_emac1_en $(HPS_SGMII_EMAC1_EN); set hps_sgmii_ema
 endif
 #### 
 
-####
-# Enable JOP
-ENABLE_JOP ?= 0
 ifeq ($(ENABLE_JOP),1)
 QUARTUS_TCL_ARGS += jop_en 1 
 QSYS_TCL_CMDS += set jop_en 1;  
 endif
-####
 
-####
-# Enable NIOSV Subsystem
-ENABLE_NIOSV_SUBSYS ?= 0
 ifeq ($(ENABLE_NIOSV_SUBSYS),0)
 QUARTUS_TCL_ARGS += niosv_subsys_en 0 
 QSYS_TCL_CMDS += set niosv_subsys_en 0;  
 endif
-####
 
-####
 # Enable Etile 1588v2 PTP Subsystem
-ENABLE_ETILE_1588 ?= 0
 ifeq ($(ENABLE_ETILE_1588),1)
 QUARTUS_TCL_ARGS += hps_etile_1588_en 1
 QSYS_TCL_CMDS += set hps_etile_1588_en 1;
 endif
-####
 
-# Enable Etile 1588v2 25Gbe PTP Subsystem
-HPS_ETILE_1588_25GBE_EN ?= 0
 ifeq ($(HPS_ETILE_1588_25GBE_EN),1)
 QUARTUS_TCL_ARGS += hps_etile_1588_25gbe_en 1
 QSYS_TCL_CMDS += set hps_etile_1588_25gbe_en 1;
 endif
-####
 
-# Enable Etile 1588v2 10Gbe PTP Subsystem
-HPS_ETILE_1588_10GBE_EN ?= 0
 ifeq ($(HPS_ETILE_1588_10GBE_EN),1)
 QUARTUS_TCL_ARGS += hps_etile_1588_10gbe_en 1
 QSYS_TCL_CMDS += set hps_etile_1588_10gbe_en 1;
 endif
-####
 
 ifneq ($(DAUGHTER_CARD),)
 QUARTUS_TCL_ARGS += daughter_card $(DAUGHTER_CARD)
@@ -420,7 +445,7 @@ QSYS_TCL_CMDS += set f2h_width 128; set h2f_width 128; set h2f_f2h_loopback_cct_
 endif
 
 #
-# End of Design Settings
+############ End of Design Settings ################################################
 #
 
 

@@ -253,9 +253,9 @@ if {$sub_peri_en == 1} {
 
       if {$hps_f2h_irq_en == 1} {
         connect "subsys_hps.f2h_irq0_in subsys_periph.button_pio_irq"
-        set_connection_parameter_value subsys_hps.f2h_irq0_in/subsys_periph.button_pio_irq irqNumber {0}
+        set_connection_parameter_value subsys_hps.f2h_irq0_in/subsys_periph.button_pio_irq irqNumber {1}
         connect "subsys_hps.f2h_irq0_in subsys_periph.dipsw_pio_irq"
-        set_connection_parameter_value subsys_hps.f2h_irq0_in/subsys_periph.dipsw_pio_irq irqNumber {1}
+        set_connection_parameter_value subsys_hps.f2h_irq0_in/subsys_periph.dipsw_pio_irq irqNumber {0}
       
 	      if {$fpga_data_mover_en == 1} {	
 	        connect "subsys_hps.f2h_irq0_in subsys_periph.ssgdma_interrupt"

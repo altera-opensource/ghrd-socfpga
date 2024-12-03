@@ -9,52 +9,41 @@
 #
 ################################################
 
-#COMPILER ?= GCC
-#COMPILER ?= ARMCLANG
-
-WHICH = which
-
-#Check GCC Version
-GCCVERSION_7 := $(shell $(WHICH) aarch64-linux-gnu-gcc  2>/dev/null)
-GCCVERSION_9 := $(shell $(WHICH) aarch64-none-linux-gnu-gcc 2>/dev/null)
- 
-ifneq ($(GCCVERSION_9),)
-    CROSS_COMPILE ?= "aarch64-none-linux-gnu-"
-else ifneq ($(GCCVERSION_7),)
-    CROSS_COMPILE ?= "aarch64-linux-gnu-"
-else
-    CROSS_COMPILE = "NOT_FOUND"
+# Environment check
+ifeq ($(CROSS_COMPILE),)
+$(error CORSS_COMPILE not defined)
 endif
 
-ifndef COMPILER
-    #If no COMPILER defined Try GCC First, then try ARMCLANG
-    
-    ifneq ($(CROSS_COMPILE), "NOT_FOUND")
-        include Makefile_GCC.inc
-    else ifneq ($(shell $(WHICH) armclang 2>/dev/null),)
-        include Makefile_ARMCLANG.inc
-    else
-        $(error "ERROR :: GCC or ARMCLANG Compiler not found, please install either one of the compiler to continue")
-    endif
+CC:= $(CROSS_COMPILE)as
+OBJCOPY := $(CROSS_COMPILE)objcopy
+OBJDUMP := $(CROSS_COMPILE)objdump
 
-else ifeq ("$(COMPILER)","GCC")  
+SRC := hps_wipe.s
+ENTRY_POINT:=0x0
 
-    ifneq ($(CROSS_COMPILE), "NOT_FOUND")
-        include Makefile_GCC.inc
-    else
-        $(error "ERROR :: COMPILER=GCC is chosen, please install gcc compiler to continue or try COMPILER=ARMCC")
-    endif
+IHEX := $(patsubst %.s,%.ihex,$(SRC))
+ELF  := $(patsubst %.s,%.elf,$(SRC))
+BIN  := $(patsubst %.s,%.bin,$(SRC))
+OBJDUMP_FILE = $(patsubst %.s,%.objdump,$(SRC))
 
-else ifeq ("$(COMPILER)","ARMCLANG")
-    
-    ifneq ("$(shell $(WHICH) armclang 2>/dev/null)", "")
-        include Makefile_ARMCLANG.inc
-    else
-        $(error "ERROR :: COMPILER=ARMCLANG is chosen, please install arm compiler to continue or try COMPILER=GCC")
-    endif
+OBJ_FLAG := -I binary -O ihex --change-address $(ENTRY_POINT)
 
-else
+RM := rm -rf
 
-    $(error "ERROR :: Invalid Compiler option, choose only GCC or ARMCLANG")
+.PHONY: all
+all: $(ELF) $(BIN) $(IHEX) $(OBJDUMP_FILE)
 
-endif
+clean:
+	$(RM) $(ELF) $(IHEX) $(BIN) $(OBJDUMP_FILE)
+
+$(ELF): $(SRC)
+	$(CC) $(SRC) -o $@
+
+$(BIN): $(ELF)
+	$(OBJCOPY) -O binary $< $@
+
+$(IHEX): $(BIN)
+	$(OBJCOPY) $(OBJ_FLAG) $< $@
+
+$(OBJDUMP_FILE): $(ELF)
+	$(OBJDUMP) --disassemble $< > $@

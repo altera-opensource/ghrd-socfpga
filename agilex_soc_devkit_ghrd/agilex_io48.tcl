@@ -77,20 +77,6 @@ set hps_mdio2_q3_en 1
 set hps_gpio1_en 1
 set hps_gpio1_list "0 1 4 5 10 11"
 
-} elseif {$daughter_card == "DK-DEV-AGF014E"} {
-set hps_sdmmc4b_q4_en 1
-set hps_i2c1_q3_en 1
-set hps_emac0_rgmii_en 1
-set hps_uart0_q3_en 1
-set hps_gpio0_en 1
-set hps_gpio0_list "11"
-set hps_gpio1_en 1
-set hps_gpio1_list "0"
-set hps_mdio0_q4_en 1
-set hps_jtag_en 1
-set hps_cm_q 4
-set hps_cm_io 7
-
 } elseif {$daughter_card == "hps_dc8"} {
 set hps_usb0_en 1
 set hps_usb1_en 1

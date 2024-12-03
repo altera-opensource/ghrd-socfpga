@@ -1,0 +1,5 @@
+/gcc-arm/
+hps_wipe.bin
+hps_wipe.elf
+hps_wipe.ihex
+hps_wipe.objdump

@@ -230,6 +230,7 @@ set hps_emac2_rgmii_en 1
 set hps_cm_q 4
 set hps_cm_io 7
 set hps_uart0_q3_en 1
+set hps_uart0_fc_en 1
 set hps_usb0_en 1
 set hps_usb1_en 1
 set hps_gpio1_en 1

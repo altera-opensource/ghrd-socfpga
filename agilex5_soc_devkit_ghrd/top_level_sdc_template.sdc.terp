@@ -21,12 +21,9 @@ create_clock -name EMIF_REF_CLOCK -period ${hps_emif_ref_clk_freq_mhz}MHz [get_p
 @@#create_clock -name hps_user_clk -period 2.5 [get_pins {soc_inst|agilex_hps|intel_agilex_hps_inst|fpga_interfaces|hps_inst|s2f_module|s2f_user_clk1_hio}]
 @@
 @@if {$sub_fpga_rgmii_en == 1} {
-# center-aligned input clk
+# edge-aligned input clk. There is no Ext PHY added delay in clock path
 create_clock -name FPGA_RGMII_RXCLK -period 125MHz [get_ports fpga_rgmii_rx_clk]
-remove_clock iopll_compensate|iopll_0_refclk
-create_clock -name FPGA_RGMII_RXCLK_VIRTUAL -period 125MHz
-create_generated_clock -name iopll_compensate|iopll_0_refclk -divide_by 1 -master_clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL]  [get_ports {fpga_rgmii_rx_clk}]
-
+create_clock -name FPGA_RGMII_RXCLK_VIR -period 125MHz
 
 ###############################
 #####   Set Input delay   #####
@@ -54,26 +51,44 @@ set rxd3_trace_max 0.62
 set ext_tco_min 0.3
 set ext_tco_max 0.6
 
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxctl_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rx_ctl]
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxctl_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rx_ctl]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxctl_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rx_ctl]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxctl_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rx_ctl]
 
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxd0_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[0]]
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxd0_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[0]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxctl_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rx_ctl] -clock_fall -add_delay
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxctl_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rx_ctl] -clock_fall -add_delay
 
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxd1_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[1]]
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxd1_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[1]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxd0_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[0]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxd0_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[0]]
 
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxd2_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[2]]
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxd2_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[2]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxd0_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[0]] -clock_fall -add_delay
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxd0_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[0]] -clock_fall -add_delay
 
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -max [expr {\$rxd3_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[3]]
-set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIRTUAL] -min [expr {\$rxd3_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[3]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxd1_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[1]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxd1_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[1]]
 
-set half_period 4.0
-set_max_delay -from [get_ports fpga_rgmii_rx_ctl] [expr \$half_period/2.0]
-set_min_delay -from [get_ports fpga_rgmii_rx_ctl] [expr 0-\$half_period/2.0]
-set_max_delay -from [get_ports fpga_rgmii_rxd[*]]  [expr \$half_period/2.0]
-set_min_delay -from [get_ports fpga_rgmii_rxd[*]] [expr 0-\$half_period/2.0]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxd1_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[1]] -clock_fall -add_delay
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxd1_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[1]] -clock_fall -add_delay
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxd2_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[2]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxd2_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[2]]
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxd2_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[2]] -clock_fall -add_delay
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxd2_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[2]] -clock_fall -add_delay
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxd3_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[3]]
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxd3_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[3]]
+
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -max [expr {\$rxd3_trace_max - \$clk_trace_min + \$ext_tco_max}] [get_ports fpga_rgmii_rxd[3]] -clock_fall -add_delay
+set_input_delay -clock [get_clocks FPGA_RGMII_RXCLK_VIR]  -source_latency_included -min [expr {\$rxd3_trace_min - \$clk_trace_max + \$ext_tco_min}] [get_ports fpga_rgmii_rxd[3]] -clock_fall -add_delay 
+
+## To make sure to consider the immediate posedge at destination 
+set_multicycle_path 0 -setup -end -rise_from [get_clocks FPGA_RGMII_RXCLK_VIR] -rise_to [get_clocks FPGA_RGMII_RXCLK]
+set_multicycle_path 0 -setup -end -fall_from [get_clocks FPGA_RGMII_RXCLK_VIR] -fall_to [get_clocks FPGA_RGMII_RXCLK]
+
+set_false_path -fall_from [get_clocks FPGA_RGMII_RXCLK_VIR] -rise_to [get_clocks FPGA_RGMII_RXCLK] -setup
+set_false_path -rise_from [get_clocks FPGA_RGMII_RXCLK_VIR] -fall_to [get_clocks FPGA_RGMII_RXCLK] -setup
+set_false_path -fall_from [get_clocks FPGA_RGMII_RXCLK_VIR] -fall_to [get_clocks FPGA_RGMII_RXCLK] -hold
+set_false_path -rise_from [get_clocks FPGA_RGMII_RXCLK_VIR] -rise_to [get_clocks FPGA_RGMII_RXCLK] -hold
 @@}
 
 set_false_path -from [get_ports {fpga_reset_n}]
@@ -84,6 +99,7 @@ source ./jtag.sdc
 
 @@if {$sub_peri_en == 1} {
 # FPGA IO port constraints
+@@if {$board != "MK-A5E065BB32AES1"} {
 @@if {$fpga_button_pio_width > 0} {
 set_false_path -from [get_ports {fpga_button_pio[0]}] -to *
 set_false_path -from [get_ports {fpga_button_pio[1]}] -to *
@@ -107,18 +123,17 @@ set_false_path -from * -to [get_ports {fpga_led_pio[2]}]
 set_false_path -from * -to [get_ports {fpga_led_pio[3]}]
 set_output_delay -clock MAIN_CLOCK 5 [get_ports {fpga_led_pio[3]}] 
 @@}
+@@} else {
+# MDK board FPGA IO port constraints
+@@if {$fpga_button_pio_width > 0} {
+set_false_path -from [get_ports {fpga_button_pio[0]}] -to *
 @@}
- 
-@@if {$sub_fpga_rgmii_en == 1} {
-create_generated_clock -name emac0_phy_txclk_o_hio_from_i2_5 -master_clock [get_clocks 2_5m_3mux1] -source [get_pins {soc_inst|subsys_hps|agilex_hps|intel_agilex_5_soc_inst|sm_hps|sundancemesa_hps_inst|emac1_phy_txclk_i}] [get_pins {soc_inst|subsys_hps|agilex_hps|intel_agilex_5_soc_inst|sm_hps|sundancemesa_hps_inst|emac1_phy_txclk_o_hio}] -add
-create_generated_clock -name emac0_phy_txclk_o_hio_from_i25  -master_clock [get_clocks 25m_3mux1]  -source [get_pins {soc_inst|subsys_hps|agilex_hps|intel_agilex_5_soc_inst|sm_hps|sundancemesa_hps_inst|emac1_phy_txclk_i}] [get_pins {soc_inst|subsys_hps|agilex_hps|intel_agilex_5_soc_inst|sm_hps|sundancemesa_hps_inst|emac1_phy_txclk_o_hio}] -add
-set_clock_groups -logically_exclusive -group emac0_phy_txclk_o_hio_from_i2_5 -group emac0_phy_txclk_o_hio_from_i25 -group emac0_phy_txclk_o_hio_from_i125
-set_clock_groups -logically_exclusive -group [ get_clocks emac0_phy_txclk_o_hio_from_i125 ] -group [ get_clocks 250m_3mux1] -group [ get_clocks 25m_3mux1] -group [ get_clocks 2_5m_3mux1]
-set_clock_groups -logically_exclusive -group [ get_clocks emac0_phy_txclk_o_hio_from_i25 ] -group [ get_clocks 250m_3mux1] -group [ get_clocks 2_5m_3mux1] -group [ get_clocks 25m_3mux1]
-set_clock_groups -logically_exclusive -group [ get_clocks emac0_phy_txclk_o_hio_from_i2_5 ] -group [ get_clocks 250m_3mux1] -group [ get_clocks 25m_3mux1] -group [ get_clocks 2_5m_3mux1]
-set_false_path -from * -to [get_keepers -no_duplicates {soc_inst|subsys_fpga_rgmii|intel_gmii_to_rgmii_converter_0|intel_gmii_to_rgmii_converter_inst|u_intel_gmii_to_rgmii_adapter_core|u_rx_clk_reset_even_sync|din_sync_2}]
-set_false_path -from * -to [get_keepers -no_duplicates {soc_inst|subsys_fpga_rgmii|intel_gmii_to_rgmii_converter_0|intel_gmii_to_rgmii_converter_inst|u_intel_gmii_to_rgmii_adapter_core|u_rx_clk_reset_even_sync|din_sync_1}]
-
-#set_false_path -from [get_keepers -no_duplicates {soc_inst|subsys_fpga_rgmii|intel_gmii_to_rgmii_converter_0|intel_gmii_to_rgmii_converter_inst|rst_controller|alt_rst_sync_uq1|altera_reset_synchronizer_int_chain_out}] -to [get_keepers -no_duplicates {soc_inst|subsys_fpga_rgmii|intel_gmii_to_rgmii_converter_0|intel_gmii_to_rgmii_converter_inst|u_intel_gmii_to_rgmii_adapter_core|u_rx_clk_reset_even_sync|din_sync_2}]
-#set_false_path -from [get_keepers -no_duplicates {soc_inst|subsys_fpga_rgmii|intel_gmii_to_rgmii_converter_0|intel_gmii_to_rgmii_converter_inst|rst_controller|alt_rst_sync_uq1|altera_reset_synchronizer_int_chain_out}] -to [get_keepers -no_duplicates {soc_inst|subsys_fpga_rgmii|intel_gmii_to_rgmii_converter_0|intel_gmii_to_rgmii_converter_inst|u_intel_gmii_to_rgmii_adapter_core|u_rx_clk_reset_even_sync|din_sync_1}]
+@@if {$fpga_dipsw_pio_width > 0} {
+set_false_path -from [get_ports {fpga_dipsw_pio[0]}] -to *
+@@}
+@@if {$fpga_led_pio_width > 0} {
+set_false_path -from [get_ports {fpga_dipsw_pio[1]}] -to *
+set_false_path -from * -to [get_ports {fpga_led_pio[0]}]
+@@}
+@@} 
 @@}
